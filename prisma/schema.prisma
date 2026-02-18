@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+enum ApplicationStatus {
+  NEW
+  IN_REVIEW
+  NEED_INFO
+  CONTACTED
+  APPROVED
+  REJECTED
+}
+
+enum ApplicationTopic {
+  LEASING
+  FUEL
+  VEHICLE
+  CAREER
+  OTHER
+}
+
+model Application {
+  id         String            @id @default(cuid())
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+
+  locale     String
+  sourcePath String?
+
+  fullName   String
+  phone      String?
+  email      String?
+  city       String?
+  message    String?
+
+  consent    Boolean
+  calculator Json?
+
+  topic      ApplicationTopic  @default(LEASING)
+  status     ApplicationStatus @default(NEW)
+  archived   Boolean           @default(false)
+  adminNote  String?
+}
+
+enum VehicleAvailability {
+  IN_TRANSIT
+  ON_SITE
+  SOLD
+}
+
+model Vehicle {
+  id            String              @id @default(cuid())
+  createdAt     DateTime            @default(now())
+  updatedAt     DateTime            @updatedAt
+
+  availability  VehicleAvailability @default(IN_TRANSIT)
+
+  title         String
+  make          String?
+  model         String?
+  year          Int?
+  mileageKm     Int?
+  fuel          String?
+  transmission  String?
+
+  priceCzk      Int?
+  description   String?
+  imageUrl      String?
+
+  vinLast6      String?
+}
+

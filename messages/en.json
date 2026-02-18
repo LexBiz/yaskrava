@@ -1,0 +1,301 @@
+{
+  "Brand": {
+    "name": "YASKRAVA"
+  },
+  "Nav": {
+    "about": "About",
+    "services": "Services",
+    "fleet": "Vehicles",
+    "fuel": "Fuel",
+    "career": "Careers",
+    "legal": "Legal",
+    "calculator": "Leasing calculator",
+    "apply": "Apply"
+  },
+  "Home": {
+    "heroTitle": "Yaskrava — smart savings for drivers in one app",
+    "heroSubtitle": "Fuel cashback, discounts on car services, financing and useful services — right in your phone.",
+    "ctaPrimary": "Get access to the app",
+    "ctaSecondary": "Fuel cashback",
+    "sectionsTitle": "What’s inside",
+    "cards": {
+      "learnMore": "Learn more",
+      "getAccess": "Get access",
+      "fuelTitle": "Fuel — cashback on every fill-up",
+      "fuelText": "Refuel at partner networks and get cashback to your in-app balance (CZK).",
+      "autoTitle": "Car services — care & parts with discounts",
+      "autoText": "Detailing, parts and accessories with partner discounts and clear conditions.",
+      "financeTitle": "Car financing",
+      "financeText": "Solutions for new and used cars + history checks (CarVertical discount).",
+      "insuranceTitle": "Insurance",
+      "insuranceText": "All insurance options in one place — simple and fast.",
+      "otherTitle": "Other services",
+      "otherText": "OSVČ registration, accounting, legal help, telecom offers and more.",
+      "walletTitle": "Account & balance",
+      "walletText": "Balance in CZK, top-ups, savings, favorites and notifications."
+    },
+    "howTitle": "How it works",
+    "step1Title": "Get access",
+    "step1Text": "Send a request — we’ll help you activate the app and partner offers.",
+    "step2Title": "Use partner offers",
+    "step2Text": "Fuel, services, checks — the app guides you with instructions when needed (e.g. Shell).",
+    "step3Title": "Save and track",
+    "step3Text": "Cashback and discounts are tracked in one place with a clear CZK balance.",
+    "ctaStripTitle": "Start saving today",
+    "ctaStripSub": "Fuel cashback and discounts — one app, one balance."
+  },
+  "Common": {
+    "learnMore": "Learn more",
+    "contact": "Contact",
+    "send": "Send",
+    "required": "Required",
+    "partnersTitle": "Partners"
+  },
+  "Footer": {
+    "disclaimer": "Legal templates are provided for informational purposes and must be reviewed by a qualified Czech lawyer.",
+    "copyright": "© {year} YASKRAVA"
+  },
+  "About": {
+    "title": "About YASKRAVA",
+    "subtitle": "A technology platform that brings driver savings into one mobile app.",
+    "missionTitle": "Who we are",
+    "missionText": "Yaskrava is an ecosystem for drivers: fuel cashback, discounts on car services, financing and useful services — with a clear CZK balance and simple navigation.",
+    "principlesTitle": "Our mission",
+    "principles": [
+      "Make everyday driving costs more affordable and manageable",
+      "Unify partners in one convenient system",
+      "Give users control over spending with a transparent balance",
+      "Build a clear and easy digital service"
+    ],
+    "cards": {
+      "speedTitle": "All in one app",
+      "speedText": "Fuel, services, financing and more — one login, one place.",
+      "transparencyTitle": "Transparent balance",
+      "transparencyText": "Cashback and savings are tracked with a clear CZK balance.",
+      "complianceTitle": "Trusted partners",
+      "complianceText": "Partner offers with clear terms. We keep expanding the ecosystem."
+    }
+  },
+  "Services": {
+    "title": "Services",
+    "subtitle": "Fuel cashback, car services, financing and useful services — in one coherent ecosystem.",
+    "ctaCalculator": "Open calculator",
+    "ctaApply": "Send application",
+    "ctaFuel": "Open fuel partners",
+    "partnersTitle": "Partners & offers",
+    "partners": {
+      "bossDetailing": "Detailing discount −10%.",
+      "autoKelly": "Up to 60% discount on car products.",
+      "carVertical": "−20% discount on vehicle history checks.",
+      "shell": "Fueling via the app + built-in instruction “How Shell works”.",
+      "orlen": "Cashback up to 2.40 CZK per liter.",
+      "vodafone": "Telecom offers — coming soon."
+    },
+    "partnersDisclaimer": "Offers depend on partner conditions and may change. Final terms are shown in the app.",
+    "cards": {
+      "leasingTitle": "Leasing & financing",
+      "leasingText": "Personal and business leasing with clear monthly payments, down payment options and document checklist.",
+      "vehiclesTitle": "Vehicles in transit / on site",
+      "vehiclesText": "We keep a curated list of cars that are already on the площадка and those that are on the way.",
+      "fuelTitle": "Fuel discounts program",
+      "fuelText": "Discounted fuel with reporting options — convenient for both individuals and fleets.",
+      "supportTitle": "Support & onboarding",
+      "supportText": "We guide you through documents, approvals and handover — step by step."
+    }
+  },
+  "Fleet": {
+    "title": "Vehicles",
+    "subtitle": "Cars that are already on site — and cars that are on the way to the площадка.",
+    "inTransitTitle": "In transit",
+    "inTransitText": "Reserved or being delivered. Details and timelines are provided on request.",
+    "onSiteTitle": "On site",
+    "onSiteText": "Available for review and the next steps in the leasing flow.",
+    "placeholder": "New vehicles will appear here soon.",
+    "detailsOnRequest": "Details on request",
+    "status": "Status",
+    "statusInTransit": "In transit",
+    "statusOnSite": "On site"
+  },
+  "Fuel": {
+    "title": "Fuel — cashback in the app",
+    "subtitle": "Refuel at partner networks and get cashback to your CZK balance.",
+    "cta": "Get access",
+    "partnersTitle": "Partners",
+    "shell": {
+      "badge": "Pay in app",
+      "text": "Refuel via the app. Includes a built-in instruction “How Shell works”.",
+      "howTitle": "How Shell works",
+      "how": [
+        "Open the app and select Shell.",
+        "Follow the fueling flow and pay in the app.",
+        "Cashback is credited to your CZK balance."
+      ]
+    },
+    "orlen": {
+      "badge": "Up to 2.40 CZK/L",
+      "text": "Cashback up to 2.40 CZK per liter (depends on conditions).",
+      "fuel": ["Petrol", "Diesel"]
+    },
+    "omv": {
+      "badge": "Coming soon",
+      "text": "OMV integration is coming soon."
+    },
+    "disclaimer": "Cashback rates and partner conditions may change. Final terms are shown in the app."
+  },
+  "Career": {
+    "title": "Careers",
+    "subtitle": "We build a fast, compliant leasing experience. Join us.",
+    "cta": "Apply",
+    "roles": {
+      "salesTitle": "Sales / Client manager",
+      "salesText": "Own the client journey: requirements → offer → documents → handover.",
+      "opsTitle": "Operations / Fleet coordinator",
+      "opsText": "Vehicles in transit and on-site, timelines, checklists and quality control."
+    },
+    "processTitle": "Hiring process",
+    "process": [
+      "Short intro call",
+      "Practical case / task",
+      "Offer and onboarding"
+    ]
+  },
+  "Legal": {
+    "title": "Legal documents",
+    "subtitle": "Policies and confirmations required for operating and collecting applications in the Czech Republic.",
+    "privacyTitle": "Privacy policy (GDPR)",
+    "privacyText": "How we process personal data from forms and applications.",
+    "termsTitle": "Terms of use",
+    "termsText": "Website terms and the scope of provided information and services.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Cookie usage and preference management.",
+    "imprintTitle": "Company details",
+    "imprintText": "Company identification data and contact information."
+  },
+  "LegalDocs": {
+    "templateDisclaimer": "This is a starter template. Replace placeholders and have the text reviewed by a qualified Czech lawyer.",
+    "sections": {
+      "controller": "Controller",
+      "purposes": "Purposes of processing",
+      "rights": "Your rights",
+      "scope": "Scope",
+      "services": "Services",
+      "liability": "Liability",
+      "cookies": "Cookies",
+      "preferences": "Preferences",
+      "company": "Company"
+    },
+    "privacyTitle": "Privacy Policy",
+    "privacySubtitle": "GDPR information and personal data processing terms.",
+    "privacy": {
+      "controller": "Controller: YASKRAVA (fill legal name, address, IČO/DIČ, contact email).",
+      "purpose0": "Responding to applications and requests.",
+      "purpose1": "Preparing offers and leasing assessment.",
+      "purpose2": "Compliance, fraud prevention and record keeping (as applicable).",
+      "rights": "You may request access, rectification, deletion, restriction, portability, or object to processing. You can also lodge a complaint with the Czech DPA (ÚOOÚ)."
+    },
+    "termsTitle": "Terms of Use",
+    "termsSubtitle": "Website terms and general information rules.",
+    "terms": {
+      "scope": "These terms govern the use of the website and the information provided on it.",
+      "services": "We provide information and a request flow. Final leasing terms depend on assessment and partner conditions.",
+      "liability": "We are not liable for third-party services and reserve the right to update content."
+    },
+    "cookiesTitle": "Cookies Policy",
+    "cookiesSubtitle": "Information about cookies and preference options.",
+    "cookies": {
+      "what": "We use cookies to keep the site functional and to improve user experience.",
+      "preferences": "You can control cookies through your browser settings. Optional analytics should only be enabled with consent (when implemented)."
+    },
+    "imprintTitle": "Company details",
+    "imprintSubtitle": "Identification and contact information.",
+    "imprint": {
+      "companyName": "Company name: YASKRAVA (fill legal name).",
+      "address": "Registered address: (fill).",
+      "icoDic": "IČO / DIČ: (fill).",
+      "contact": "Contact: (fill email/phone)."
+    }
+  },
+  "Calculator": {
+    "title": "Leasing calculator",
+    "subtitle": "Estimate monthly payment and total cost with clear assumptions.",
+    "comingSoon": "Calculator is being built now. Next step: premium UI + saving a snapshot into your application."
+  },
+  "Apply": {
+    "title": "Application",
+    "subtitle": "Send a request and we’ll respond with next steps and a document checklist.",
+    "comingSoon": "Application form is being built now (with GDPR consent + CRM storage)."
+  },
+  "CalculatorUI": {
+    "inputsTitle": "Parameters",
+    "price": "Vehicle price",
+    "downPaymentPct": "Down payment",
+    "termMonths": "Term",
+    "apr": "APR",
+    "residualPct": "Residual value",
+    "monthlyFees": "Monthly fees (insurance/service)",
+    "disclaimer": "Preliminary estimate. Final terms depend on assessment and partner conditions.",
+    "monthlyLease": "Lease payment",
+    "monthlyTotal": "Monthly total",
+    "downPayment": "Down payment",
+    "residual": "Residual (balloon)",
+    "principalLabel": "Principal",
+    "interestLabel": "Interest",
+    "feesTotal": "Fees (total)",
+    "totalPaid": "Total cost",
+    "copy": "Copy",
+    "copied": "Copied",
+    "sendWithCalc": "Apply with this"
+  },
+  "ApplyForm": {
+    "title": "Send an application",
+    "subtitle": "Leave your contact details. We’ll respond with next steps and required documents.",
+    "calcAttached": "Calculation attached",
+    "calcTip": "We’ll use these assumptions as a starting point.",
+    "fullName": "Full name",
+    "fullNamePh": "John Doe",
+    "topic": "Topic",
+    "topicLeasing": "Leasing",
+    "topicVehicle": "Vehicle inquiry",
+    "topicFuel": "Fuel program",
+    "topicCareer": "Career",
+    "topicOther": "Other",
+    "phone": "Phone",
+    "email": "Email",
+    "city": "City",
+    "cityPh": "Prague",
+    "message": "Message",
+    "messagePh": "What vehicle / budget / timeline?",
+    "consentPrefix": "I agree with the",
+    "privacyLink": "Privacy Policy",
+    "send": "Send",
+    "gdprHint": "We store your data only to process your request (GDPR).",
+    "successTitle": "Sent",
+    "successText": "Thanks. We’ll contact you soon.",
+    "errorGeneric": "Could not send the form. Please try again.",
+    "errorNetwork": "Network error. Please try again."
+  },
+  "QuickEstimate": {
+    "title": "Quick estimate",
+    "priceLabel": "Vehicle price",
+    "monthlyLabel": "Monthly from",
+    "assumptions": "20% down · 48 months · 10% APR",
+    "cta": "Get full calculation"
+  },
+  "AppTeaser": {
+    "eyebrow": "Mobile app",
+    "title": "Everything for drivers — in one place",
+    "subtitle": "Fuel cashback, partner discounts, financing and useful services with a clear CZK balance.",
+    "bullets": [
+      "Fuel: Shell, ORLEN, OMV (soon)",
+      "Car services and parts discounts",
+      "Financing: new & used cars",
+      "Insurance in one section",
+      "Wallet: balance, savings, favorites, notifications"
+    ],
+    "soon": "soon",
+    "ctaPrimary": "Get access",
+    "ctaSecondary": "See services",
+    "note": "We don’t publish fake download links. Leave a request and we’ll send the correct access steps."
+  }
+}
+

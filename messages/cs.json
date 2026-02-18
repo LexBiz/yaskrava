@@ -1,0 +1,301 @@
+{
+  "Brand": {
+    "name": "YASKRAVA"
+  },
+  "Nav": {
+    "about": "O nás",
+    "services": "Služby",
+    "fleet": "Vozidla",
+    "fuel": "Palivo",
+    "career": "Kariéra",
+    "legal": "Právní",
+    "calculator": "Kalkulačka leasingu",
+    "apply": "Žádost"
+  },
+  "Home": {
+    "heroTitle": "Yaskrava — výhodné řešení pro řidiče v jedné aplikaci",
+    "heroSubtitle": "Cashback na palivo, slevy na auto‑služby, financování a užitečné služby — přímo v telefonu.",
+    "ctaPrimary": "Získat přístup k aplikaci",
+    "ctaSecondary": "Cashback na palivo",
+    "sectionsTitle": "Co v aplikaci najdete",
+    "cards": {
+      "learnMore": "Zjistit více",
+      "getAccess": "Získat přístup",
+      "fuelTitle": "Palivo — cashback při každém tankování",
+      "fuelText": "Tankujte u partnerů a cashback se připíše na váš zůstatek v aplikaci (CZK).",
+      "autoTitle": "Auto služby — péče a díly se slevou",
+      "autoText": "Detailing, díly a příslušenství s partnerskými slevami a jasnými podmínkami.",
+      "financeTitle": "Financování auta",
+      "financeText": "Řešení pro nové i ojeté vozy + prověření historie (sleva CarVertical).",
+      "insuranceTitle": "Pojištění",
+      "insuranceText": "Všechny varianty pojištění na jednom místě — rychle a jednoduše.",
+      "otherTitle": "Další služby",
+      "otherText": "Registrace OSVČ, účetnictví, právní pomoc, telco nabídky a další.",
+      "walletTitle": "Účet a zůstatek",
+      "walletText": "Zůstatek v CZK, dobíjení, úspory, oblíbené nabídky a notifikace."
+    },
+    "howTitle": "Jak to funguje",
+    "step1Title": "Získejte přístup",
+    "step1Text": "Pošlete žádost — pomůžeme aktivovat aplikaci i partnerské nabídky.",
+    "step2Title": "Používejte nabídky",
+    "step2Text": "Palivo, služby, prověření — aplikace vás provede i instrukcí (např. Shell).",
+    "step3Title": "Šetřete a mějte přehled",
+    "step3Text": "Cashback i slevy máte na jednom místě s jasným zůstatkem v CZK.",
+    "ctaStripTitle": "Začněte šetřit ještě dnes",
+    "ctaStripSub": "Cashback na palivo a slevy — jedna aplikace, jeden zůstatek."
+  },
+  "Common": {
+    "learnMore": "Zjistit více",
+    "contact": "Kontakt",
+    "send": "Odeslat",
+    "required": "Povinné",
+    "partnersTitle": "Partneři"
+  },
+  "Footer": {
+    "disclaimer": "Právní texty jsou šablony pro informaci a musí je zkontrolovat kvalifikovaný právník v ČR.",
+    "copyright": "© {year} YASKRAVA"
+  },
+  "About": {
+    "title": "O YASKRAVA",
+    "subtitle": "Technologická platforma, která přináší úspory pro řidiče do jedné aplikace.",
+    "missionTitle": "Kdo jsme",
+    "missionText": "Yaskrava je ekosystém pro řidiče: cashback na palivo, slevy na auto‑služby, financování a užitečné služby — s přehledným zůstatkem v CZK.",
+    "principlesTitle": "Naše mise",
+    "principles": [
+      "Zjednodušit přístup ke slevám a cashbacku",
+      "Spojit partnery do jedné pohodlné platformy",
+      "Dát uživateli kontrolu nad výdaji díky transparentnímu zůstatku",
+      "Vytvořit srozumitelnou a uživatelsky přívětivou službu"
+    ],
+    "cards": {
+      "speedTitle": "Vše v jedné aplikaci",
+      "speedText": "Palivo, služby, financování a další — jeden účet, jedno místo.",
+      "transparencyTitle": "Transparentní zůstatek",
+      "transparencyText": "Cashback a úspory sledujete s přehledným zůstatkem v CZK.",
+      "complianceTitle": "Ověření partneři",
+      "complianceText": "Partnerské nabídky s jasnými podmínkami. Ekosystém postupně rozšiřujeme."
+    }
+  },
+  "Services": {
+    "title": "Služby",
+    "subtitle": "Cashback na palivo, auto‑služby, financování a užitečné služby — jako jeden ekosystém.",
+    "ctaCalculator": "Otevřít kalkulačku",
+    "ctaApply": "Odeslat žádost",
+    "ctaFuel": "Otevřít partnery paliva",
+    "partnersTitle": "Partneři a nabídky",
+    "partners": {
+      "bossDetailing": "Sleva −10% na detailing.",
+      "autoKelly": "Sleva až 60% na auto‑produkty.",
+      "carVertical": "Sleva −20% na prověření historie vozidla.",
+      "shell": "Tankování přes aplikaci + návod „Jak funguje Shell“. ",
+      "orlen": "Cashback až 2,40 CZK za litr.",
+      "vodafone": "Telekom nabídky — brzy."
+    },
+    "partnersDisclaimer": "Nabídky se mohou měnit dle podmínek partnerů. Konečné podmínky jsou v aplikaci.",
+    "cards": {
+      "leasingTitle": "Leasing & financování",
+      "leasingText": "Osobní i firemní leasing s jasnou měsíční splátkou, akontací a seznamem dokumentů.",
+      "vehiclesTitle": "Vozidla na cestě / na ploše",
+      "vehiclesText": "Kurátorovaný seznam aut, která jsou už na ploše, i těch, která jsou na cestě.",
+      "fuelTitle": "Program slev na palivo",
+      "fuelText": "Slevy na palivo a možnost reportingu — pro jednotlivce i flotily.",
+      "supportTitle": "Podpora & onboarding",
+      "supportText": "Provedeme vás dokumenty, schválením i předáním — krok za krokem."
+    }
+  },
+  "Fleet": {
+    "title": "Vozidla",
+    "subtitle": "Auta, která jsou už na ploše — i auta, která míří na plochu.",
+    "inTransitTitle": "Na cestě",
+    "inTransitText": "Rezervováno nebo ve přepravě. Detaily a termíny sdělíme na vyžádání.",
+    "onSiteTitle": "Na ploše",
+    "onSiteText": "K dispozici k prohlídce a dalším krokům v leasingu.",
+    "placeholder": "Nová vozidla se zde brzy objeví.",
+    "detailsOnRequest": "Detaily na vyžádání",
+    "status": "Stav",
+    "statusInTransit": "Na cestě",
+    "statusOnSite": "Na ploše"
+  },
+  "Fuel": {
+    "title": "Palivo — cashback v aplikaci",
+    "subtitle": "Tankujte u partnerů a cashback se připíše na zůstatek v CZK.",
+    "cta": "Získat přístup",
+    "partnersTitle": "Partneři",
+    "shell": {
+      "badge": "Platba v aplikaci",
+      "text": "Tankování přes aplikaci. Součástí je návod „Jak funguje Shell“. ",
+      "howTitle": "Jak funguje Shell",
+      "how": [
+        "Otevřete aplikaci a vyberte Shell.",
+        "Postupujte podle flow tankování a zaplaťte v aplikaci.",
+        "Cashback se připíše na váš zůstatek v CZK."
+      ]
+    },
+    "orlen": {
+      "badge": "Až 2,40 CZK/L",
+      "text": "Cashback až 2,40 CZK za litr (dle podmínek).",
+      "fuel": ["Benzín", "Diesel"]
+    },
+    "omv": {
+      "badge": "Brzy",
+      "text": "Integrace OMV bude brzy."
+    },
+    "disclaimer": "Výše cashbacku a podmínky partnerů se mohou měnit. Konečné podmínky jsou uvedeny v aplikaci."
+  },
+  "Career": {
+    "title": "Kariéra",
+    "subtitle": "Budujeme rychlý a compliant leasingový zážitek. Přidejte se.",
+    "cta": "Přihlásit se",
+    "roles": {
+      "salesTitle": "Sales / Client manager",
+      "salesText": "Zodpovědnost za cestu klienta: požadavky → nabídka → dokumenty → předání.",
+      "opsTitle": "Operations / Fleet coordinator",
+      "opsText": "Auta na cestě i na ploše, termíny, checklisty a kontrola kvality."
+    },
+    "processTitle": "Průběh náboru",
+    "process": [
+      "Krátký úvodní call",
+      "Praktický case / úkol",
+      "Nabídka a onboarding"
+    ]
+  },
+  "Legal": {
+    "title": "Právní dokumenty",
+    "subtitle": "Politiky a potvrzení pro provoz a sběr žádostí v České republice.",
+    "privacyTitle": "Zásady ochrany osobních údajů (GDPR)",
+    "privacyText": "Jak zpracováváme osobní údaje z formulářů a žádostí.",
+    "termsTitle": "Podmínky používání",
+    "termsText": "Podmínky webu a rozsah poskytovaných informací a služeb.",
+    "cookiesTitle": "Cookies",
+    "cookiesText": "Používání cookies a správa preferencí.",
+    "imprintTitle": "Identifikace společnosti",
+    "imprintText": "Identifikační údaje firmy a kontakt."
+  },
+  "LegalDocs": {
+    "templateDisclaimer": "Toto je výchozí šablona. Doplňte údaje a nechte text zkontrolovat kvalifikovaným právníkem v ČR.",
+    "sections": {
+      "controller": "Správce",
+      "purposes": "Účely zpracování",
+      "rights": "Vaše práva",
+      "scope": "Rozsah",
+      "services": "Služby",
+      "liability": "Odpovědnost",
+      "cookies": "Cookies",
+      "preferences": "Preference",
+      "company": "Společnost"
+    },
+    "privacyTitle": "Zásady ochrany osobních údajů",
+    "privacySubtitle": "Informace dle GDPR a podmínky zpracování osobních údajů.",
+    "privacy": {
+      "controller": "Správce: YASKRAVA (doplňte právní název, adresu, IČO/DIČ, e‑mail).",
+      "purpose0": "Reakce na žádosti a poptávky.",
+      "purpose1": "Příprava nabídky a posouzení leasingu.",
+      "purpose2": "Soulad, prevence podvodů a evidence (dle potřeby).",
+      "rights": "Můžete žádat o přístup, opravu, výmaz, omezení, přenositelnost nebo vznést námitku. Také můžete podat stížnost u ÚOOÚ."
+    },
+    "termsTitle": "Podmínky používání",
+    "termsSubtitle": "Podmínky webu a pravidla pro informace.",
+    "terms": {
+      "scope": "Tyto podmínky upravují používání webu a informace poskytované na něm.",
+      "services": "Poskytujeme informace a proces žádosti. Konečné leasingové podmínky závisí na posouzení a partnerech.",
+      "liability": "Neodpovídáme za služby třetích stran a obsah můžeme průběžně aktualizovat."
+    },
+    "cookiesTitle": "Cookies",
+    "cookiesSubtitle": "Informace o cookies a možnostech nastavení.",
+    "cookies": {
+      "what": "Používáme cookies pro funkčnost webu a zlepšení uživatelského zážitku.",
+      "preferences": "Cookies můžete ovládat v nastavení prohlížeče. Volitelnou analytiku zapneme až po souhlasu (až bude implementováno)."
+    },
+    "imprintTitle": "Identifikace společnosti",
+    "imprintSubtitle": "Identifikační a kontaktní údaje.",
+    "imprint": {
+      "companyName": "Název: YASKRAVA (doplňte právní název).",
+      "address": "Sídlo: (doplňte).",
+      "icoDic": "IČO / DIČ: (doplňte).",
+      "contact": "Kontakt: (doplňte e‑mail/telefon)."
+    }
+  },
+  "Calculator": {
+    "title": "Kalkulačka leasingu",
+    "subtitle": "Odhad měsíční splátky a celkových nákladů s jasnými předpoklady.",
+    "comingSoon": "Kalkulačku právě stavíme. Další krok: prémiové UI + uložení parametrů do žádosti."
+  },
+  "Apply": {
+    "title": "Žádost",
+    "subtitle": "Pošlete poptávku a vrátíme se s dalšími kroky a seznamem dokumentů.",
+    "comingSoon": "Formulář žádosti právě stavíme (GDPR souhlas + ukládání do CRM)."
+  },
+  "CalculatorUI": {
+    "inputsTitle": "Parametry",
+    "price": "Cena vozidla",
+    "downPaymentPct": "Akontace",
+    "termMonths": "Doba",
+    "apr": "APR",
+    "residualPct": "Zůstatková hodnota",
+    "monthlyFees": "Měsíční poplatky (pojištění/servis)",
+    "disclaimer": "Předběžný odhad. Konečné podmínky závisí na posouzení a partnerech.",
+    "monthlyLease": "Splátka (leasing)",
+    "monthlyTotal": "Měsíčně celkem",
+    "downPayment": "Akontace",
+    "residual": "Zůstatek (balón)",
+    "principalLabel": "Jistina",
+    "interestLabel": "Úrok",
+    "feesTotal": "Poplatky (celkem)",
+    "totalPaid": "Celkové náklady",
+    "copy": "Kopírovat",
+    "copied": "Zkopírováno",
+    "sendWithCalc": "Žádost s výpočtem"
+  },
+  "ApplyForm": {
+    "title": "Odeslat žádost",
+    "subtitle": "Zanechte kontakt. Ozveme se s dalšími kroky a potřebnými dokumenty.",
+    "calcAttached": "Výpočet přiložen",
+    "calcTip": "Použijeme tyto parametry jako výchozí.",
+    "fullName": "Jméno a příjmení",
+    "fullNamePh": "Jan Novák",
+    "topic": "Téma",
+    "topicLeasing": "Leasing",
+    "topicVehicle": "Dotaz na vozidlo",
+    "topicFuel": "Program paliva",
+    "topicCareer": "Kariéra",
+    "topicOther": "Jiné",
+    "phone": "Telefon",
+    "email": "E‑mail",
+    "city": "Město",
+    "cityPh": "Praha",
+    "message": "Zpráva",
+    "messagePh": "Jaké auto / rozpočet / termín?",
+    "consentPrefix": "Souhlasím se",
+    "privacyLink": "Zásadami ochrany osobních údajů",
+    "send": "Odeslat",
+    "gdprHint": "Vaše údaje ukládáme pouze pro vyřízení žádosti (GDPR).",
+    "successTitle": "Odesláno",
+    "successText": "Děkujeme. Brzy vás kontaktujeme.",
+    "errorGeneric": "Formulář se nepodařilo odeslat. Zkuste to prosím znovu.",
+    "errorNetwork": "Chyba sítě. Zkuste to prosím znovu."
+  },
+  "QuickEstimate": {
+    "title": "Rychlý odhad",
+    "priceLabel": "Cena vozidla",
+    "monthlyLabel": "Měsíčně od",
+    "assumptions": "20% akontace · 48 měsíců · 10% APR",
+    "cta": "Přesný výpočet"
+  },
+  "AppTeaser": {
+    "eyebrow": "Mobilní aplikace",
+    "title": "Vše pro řidiče — na jednom místě",
+    "subtitle": "Cashback na palivo, partnerské slevy, financování a užitečné služby s přehledným zůstatkem v CZK.",
+    "bullets": [
+      "Palivo: Shell, ORLEN, OMV (brzy)",
+      "Slevy na auto‑služby a díly",
+      "Financování: nové i ojeté vozy",
+      "Pojištění v jednom přehledu",
+      "Peněženka: zůstatek, úspory, oblíbené, notifikace"
+    ],
+    "soon": "brzy",
+    "ctaPrimary": "Získat přístup",
+    "ctaSecondary": "Zobrazit služby",
+    "note": "Nedáváme sem falešné odkazy ke stažení. Nechte žádost a pošleme správné kroky k přístupu."
+  }
+}
+

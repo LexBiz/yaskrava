@@ -1,15 +1,12 @@
 "use client";
 
-import { ArrowRight } from "lucide-react";
-import { useTranslations } from "next-intl";
-import { useMemo, useState } from "react";
+import {ArrowRight} from "lucide-react";
+import {useTranslations} from "next-intl";
+import {useMemo, useState} from "react";
 
-import { Link } from "@/i18n/navigation";
-
-/* ── Math ──────────────────────────────────────────── */
+import {Link} from "@/i18n/navigation";
 
 function estimate(price: number): number {
-  // 20% down, 48 months, 10% APR, 20% residual
   const down     = price * 0.2;
   const residual = price * 0.2;
   const P        = price - down;
@@ -22,8 +19,6 @@ function estimate(price: number): number {
 const CZK = new Intl.NumberFormat("cs-CZ", {
   style: "currency", currency: "CZK", maximumFractionDigits: 0,
 });
-
-/* ── Component ─────────────────────────────────────── */
 
 export function QuickEstimate() {
   const t = useTranslations("QuickEstimate");
@@ -38,26 +33,34 @@ export function QuickEstimate() {
     <div
       className="rounded-2xl p-6 sm:p-8 flex flex-col gap-6"
       style={{
-        background: "linear-gradient(150deg, rgba(8,217,110,0.09) 0%, rgba(8,217,110,0.02) 45%, rgba(255,255,255,0.02) 100%)",
-        border: "1.5px solid rgba(8,217,110,0.22)",
-        boxShadow: "inset 0 1px 0 rgba(8,217,110,0.14), 0 0 70px -22px rgba(8,217,110,0.28)",
+        background: "linear-gradient(150deg, rgba(255,121,24,0.10) 0%, rgba(255,90,42,0.04) 50%, rgba(255,255,255,0.02) 100%)",
+        border: "1.5px solid rgba(255,121,24,0.26)",
+        boxShadow:
+          "inset 0 1px 0 rgba(255,121,24,0.16)," +
+          "0 0 70px -22px rgba(255,121,24,0.32)," +
+          "0 32px 80px -32px rgba(0,0,0,0.80)",
       }}
     >
       {/* Header */}
       <div>
         <span className="yask-badge">{t("title")}</span>
-        <p className="mt-3 text-sm font-semibold" style={{ color: "var(--text-3)" }}>
+        <p className="mt-3 text-sm font-semibold" style={{color: "var(--text-3)"}}>
           {t("assumptions")}
         </p>
       </div>
 
       {/* Slider */}
       <div>
-        <div className="flex items-center justify-between mb-2">
-          <span className="text-[10px] font-extrabold uppercase tracking-[0.14em]" style={{ color: "var(--text-3)" }}>
+        <div className="flex items-center justify-between mb-3">
+          <span
+            className="text-[10px] font-bold uppercase tracking-[0.14em]"
+            style={{color: "var(--text-3)"}}
+          >
             {t("priceLabel")}
           </span>
-          <span className="text-base font-black text-white tabular-nums">{CZK.format(price)}</span>
+          <span className="text-base font-black text-white tabular-nums">
+            {CZK.format(price)}
+          </span>
         </div>
         <input
           type="range"
@@ -67,22 +70,35 @@ export function QuickEstimate() {
           step={25_000}
           value={price}
           onChange={e => setPrice(Number(e.target.value))}
-          style={{ "--sp": `${pct}%` } as React.CSSProperties}
+          style={{"--sp": `${pct}%`} as React.CSSProperties}
         />
       </div>
 
       {/* Result */}
       <div
         className="rounded-xl p-5 text-center"
-        style={{ background: "rgba(0,0,0,0.35)", border: "1px solid rgba(8,217,110,0.15)" }}
+        style={{
+          background: "rgba(0,0,0,0.40)",
+          border: "1px solid rgba(255,121,24,0.18)",
+          boxShadow: "0 0 40px -16px rgba(255,121,24,0.20)",
+        }}
       >
-        <p className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(8,217,110,0.7)" }}>
+        <p
+          className="text-[11px] font-bold uppercase tracking-[0.14em]"
+          style={{color: "rgba(255,121,24,0.75)"}}
+        >
           {t("monthlyLabel")}
         </p>
         <p
           key={Math.round(monthly / 500)}
-          className="amount-pop text-gradient-accent font-black leading-none tabular-nums mt-2"
-          style={{ fontSize: "clamp(2.2rem,5vw,3.2rem)" }}
+          className="amount-pop font-black leading-none tabular-nums mt-2"
+          style={{
+            fontSize: "clamp(2.2rem,5vw,3.2rem)",
+            background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)",
+            WebkitBackgroundClip: "text",
+            WebkitTextFillColor: "transparent",
+            backgroundClip: "text",
+          }}
         >
           {CZK.format(monthly)}
         </p>
@@ -91,11 +107,14 @@ export function QuickEstimate() {
       {/* CTA */}
       <Link
         href="/calculator"
-        className="flex items-center justify-between w-full h-12 px-5 rounded-xl bg-[var(--color-accent)] text-black text-sm font-extrabold hover:brightness-95 transition-all"
-        style={{ boxShadow: "0 0 28px -8px rgba(8,217,110,0.55)" }}
+        className="flex items-center justify-between w-full h-12 px-5 rounded-xl text-white text-sm font-bold hover:brightness-105 transition-all"
+        style={{
+          background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)",
+          boxShadow: "0 4px 28px -8px rgba(255,121,24,0.55)",
+        }}
       >
         {t("cta")}
-        <ArrowRight size={16} />
+        <ArrowRight size={16}/>
       </Link>
     </div>
   );

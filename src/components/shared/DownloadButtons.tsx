@@ -1,7 +1,9 @@
 /* Server Component — no event handlers needed */
 
-const APP_STORE_URL  = process.env.NEXT_PUBLIC_APP_STORE_URL  || "/apply";
-const PLAY_STORE_URL = process.env.NEXT_PUBLIC_PLAY_STORE_URL || "/apply";
+import {getCurrentDealer} from "@/lib/tenant";
+
+const DEFAULT_APP_STORE_URL = process.env.NEXT_PUBLIC_APP_STORE_URL || "/apply";
+const DEFAULT_PLAY_STORE_URL = process.env.NEXT_PUBLIC_PLAY_STORE_URL || "/apply";
 
 function AppleLogo() {
   return (
@@ -25,17 +27,30 @@ function PlayLogo() {
 interface Props {
   layout?: "row" | "col";
   className?: string;
+  appStoreUrl?: string | null;
+  playStoreUrl?: string | null;
 }
 
-export function DownloadButtons({ layout = "row", className = "" }: Props) {
+export async function DownloadButtons({
+  layout = "row",
+  className = "",
+  appStoreUrl,
+  playStoreUrl,
+}: Props) {
+  const dealer = await getCurrentDealer();
+  const resolvedAppStoreUrl =
+    appStoreUrl || dealer?.appStoreUrl || DEFAULT_APP_STORE_URL;
+  const resolvedPlayStoreUrl =
+    playStoreUrl || dealer?.playStoreUrl || DEFAULT_PLAY_STORE_URL;
+
   return (
     <div
       className={`flex gap-3 ${layout === "col" ? "flex-col" : "flex-col xs:flex-row sm:flex-row flex-wrap"} ${className}`}
     >
       <a
-        href={APP_STORE_URL}
-        target={APP_STORE_URL.startsWith("http") ? "_blank" : undefined}
-        rel={APP_STORE_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+        href={resolvedAppStoreUrl}
+        target={resolvedAppStoreUrl.startsWith("http") ? "_blank" : undefined}
+        rel={resolvedAppStoreUrl.startsWith("http") ? "noopener noreferrer" : undefined}
         className="store-btn w-full sm:w-auto"
       >
         <AppleLogo />
@@ -50,9 +65,9 @@ export function DownloadButtons({ layout = "row", className = "" }: Props) {
       </a>
 
       <a
-        href={PLAY_STORE_URL}
-        target={PLAY_STORE_URL.startsWith("http") ? "_blank" : undefined}
-        rel={PLAY_STORE_URL.startsWith("http") ? "noopener noreferrer" : undefined}
+        href={resolvedPlayStoreUrl}
+        target={resolvedPlayStoreUrl.startsWith("http") ? "_blank" : undefined}
+        rel={resolvedPlayStoreUrl.startsWith("http") ? "noopener noreferrer" : undefined}
         className="store-btn w-full sm:w-auto"
       >
         <PlayLogo />

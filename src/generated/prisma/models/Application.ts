@@ -28,8 +28,16 @@ export type ApplicationMinAggregateOutputType = {
   id: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  submittedAt: Date | null
+  contactedAt: Date | null
+  decisionAt: Date | null
+  deletedAt: Date | null
   locale: string | null
+  sourceDomain: string | null
   sourcePath: string | null
+  utmSource: string | null
+  utmMedium: string | null
+  utmCampaign: string | null
   fullName: string | null
   phone: string | null
   email: string | null
@@ -38,16 +46,30 @@ export type ApplicationMinAggregateOutputType = {
   consent: boolean | null
   topic: $Enums.ApplicationTopic | null
   status: $Enums.ApplicationStatus | null
+  financingStatus: $Enums.FinancingStatus | null
   archived: boolean | null
   adminNote: string | null
+  dealerNote: string | null
+  dealerId: string | null
+  vehicleId: string | null
+  assignedDealerUserId: string | null
+  assignedYaskravaUserId: string | null
 }
 
 export type ApplicationMaxAggregateOutputType = {
   id: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  submittedAt: Date | null
+  contactedAt: Date | null
+  decisionAt: Date | null
+  deletedAt: Date | null
   locale: string | null
+  sourceDomain: string | null
   sourcePath: string | null
+  utmSource: string | null
+  utmMedium: string | null
+  utmCampaign: string | null
   fullName: string | null
   phone: string | null
   email: string | null
@@ -56,16 +78,30 @@ export type ApplicationMaxAggregateOutputType = {
   consent: boolean | null
   topic: $Enums.ApplicationTopic | null
   status: $Enums.ApplicationStatus | null
+  financingStatus: $Enums.FinancingStatus | null
   archived: boolean | null
   adminNote: string | null
+  dealerNote: string | null
+  dealerId: string | null
+  vehicleId: string | null
+  assignedDealerUserId: string | null
+  assignedYaskravaUserId: string | null
 }
 
 export type ApplicationCountAggregateOutputType = {
   id: number
   createdAt: number
   updatedAt: number
+  submittedAt: number
+  contactedAt: number
+  decisionAt: number
+  deletedAt: number
   locale: number
+  sourceDomain: number
   sourcePath: number
+  utmSource: number
+  utmMedium: number
+  utmCampaign: number
   fullName: number
   phone: number
   email: number
@@ -75,8 +111,14 @@ export type ApplicationCountAggregateOutputType = {
   calculator: number
   topic: number
   status: number
+  financingStatus: number
   archived: number
   adminNote: number
+  dealerNote: number
+  dealerId: number
+  vehicleId: number
+  assignedDealerUserId: number
+  assignedYaskravaUserId: number
   _all: number
 }
 
@@ -85,8 +127,16 @@ export type ApplicationMinAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  submittedAt?: true
+  contactedAt?: true
+  decisionAt?: true
+  deletedAt?: true
   locale?: true
+  sourceDomain?: true
   sourcePath?: true
+  utmSource?: true
+  utmMedium?: true
+  utmCampaign?: true
   fullName?: true
   phone?: true
   email?: true
@@ -95,16 +145,30 @@ export type ApplicationMinAggregateInputType = {
   consent?: true
   topic?: true
   status?: true
+  financingStatus?: true
   archived?: true
   adminNote?: true
+  dealerNote?: true
+  dealerId?: true
+  vehicleId?: true
+  assignedDealerUserId?: true
+  assignedYaskravaUserId?: true
 }
 
 export type ApplicationMaxAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  submittedAt?: true
+  contactedAt?: true
+  decisionAt?: true
+  deletedAt?: true
   locale?: true
+  sourceDomain?: true
   sourcePath?: true
+  utmSource?: true
+  utmMedium?: true
+  utmCampaign?: true
   fullName?: true
   phone?: true
   email?: true
@@ -113,16 +177,30 @@ export type ApplicationMaxAggregateInputType = {
   consent?: true
   topic?: true
   status?: true
+  financingStatus?: true
   archived?: true
   adminNote?: true
+  dealerNote?: true
+  dealerId?: true
+  vehicleId?: true
+  assignedDealerUserId?: true
+  assignedYaskravaUserId?: true
 }
 
 export type ApplicationCountAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  submittedAt?: true
+  contactedAt?: true
+  decisionAt?: true
+  deletedAt?: true
   locale?: true
+  sourceDomain?: true
   sourcePath?: true
+  utmSource?: true
+  utmMedium?: true
+  utmCampaign?: true
   fullName?: true
   phone?: true
   email?: true
@@ -132,8 +210,14 @@ export type ApplicationCountAggregateInputType = {
   calculator?: true
   topic?: true
   status?: true
+  financingStatus?: true
   archived?: true
   adminNote?: true
+  dealerNote?: true
+  dealerId?: true
+  vehicleId?: true
+  assignedDealerUserId?: true
+  assignedYaskravaUserId?: true
   _all?: true
 }
 
@@ -213,8 +297,16 @@ export type ApplicationGroupByOutputType = {
   id: string
   createdAt: Date
   updatedAt: Date
+  submittedAt: Date
+  contactedAt: Date | null
+  decisionAt: Date | null
+  deletedAt: Date | null
   locale: string
+  sourceDomain: string
   sourcePath: string | null
+  utmSource: string | null
+  utmMedium: string | null
+  utmCampaign: string | null
   fullName: string
   phone: string | null
   email: string | null
@@ -224,8 +316,14 @@ export type ApplicationGroupByOutputType = {
   calculator: runtime.JsonValue | null
   topic: $Enums.ApplicationTopic
   status: $Enums.ApplicationStatus
+  financingStatus: $Enums.FinancingStatus
   archived: boolean
   adminNote: string | null
+  dealerNote: string | null
+  dealerId: string
+  vehicleId: string | null
+  assignedDealerUserId: string | null
+  assignedYaskravaUserId: string | null
   _count: ApplicationCountAggregateOutputType | null
   _min: ApplicationMinAggregateOutputType | null
   _max: ApplicationMaxAggregateOutputType | null
@@ -253,8 +351,16 @@ export type ApplicationWhereInput = {
   id?: Prisma.StringFilter<"Application"> | string
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  submittedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  contactedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
   locale?: Prisma.StringFilter<"Application"> | string
+  sourceDomain?: Prisma.StringFilter<"Application"> | string
   sourcePath?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmSource?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmMedium?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmCampaign?: Prisma.StringNullableFilter<"Application"> | string | null
   fullName?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringNullableFilter<"Application"> | string | null
   email?: Prisma.StringNullableFilter<"Application"> | string | null
@@ -264,16 +370,36 @@ export type ApplicationWhereInput = {
   calculator?: Prisma.JsonNullableFilter<"Application">
   topic?: Prisma.EnumApplicationTopicFilter<"Application"> | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFilter<"Application"> | $Enums.FinancingStatus
   archived?: Prisma.BoolFilter<"Application"> | boolean
   adminNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerId?: Prisma.StringFilter<"Application"> | string
+  vehicleId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedDealerUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedYaskravaUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
+  vehicle?: Prisma.XOR<Prisma.VehicleNullableScalarRelationFilter, Prisma.VehicleWhereInput> | null
+  assignedDealerUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
+  assignedYaskravaUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
+  financingCase?: Prisma.XOR<Prisma.FinancingCaseNullableScalarRelationFilter, Prisma.FinancingCaseWhereInput> | null
+  auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
 export type ApplicationOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  submittedAt?: Prisma.SortOrder
+  contactedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  decisionAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   locale?: Prisma.SortOrder
+  sourceDomain?: Prisma.SortOrder
   sourcePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmMedium?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmCampaign?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -283,8 +409,20 @@ export type ApplicationOrderByWithRelationInput = {
   calculator?: Prisma.SortOrderInput | Prisma.SortOrder
   topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financingStatus?: Prisma.SortOrder
   archived?: Prisma.SortOrder
   adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  vehicleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  assignedDealerUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  assignedYaskravaUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealer?: Prisma.DealerOrderByWithRelationInput
+  vehicle?: Prisma.VehicleOrderByWithRelationInput
+  assignedDealerUser?: Prisma.AdminUserOrderByWithRelationInput
+  assignedYaskravaUser?: Prisma.AdminUserOrderByWithRelationInput
+  financingCase?: Prisma.FinancingCaseOrderByWithRelationInput
+  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
 }
 
 export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
@@ -294,8 +432,16 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   NOT?: Prisma.ApplicationWhereInput | Prisma.ApplicationWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  submittedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  contactedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
   locale?: Prisma.StringFilter<"Application"> | string
+  sourceDomain?: Prisma.StringFilter<"Application"> | string
   sourcePath?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmSource?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmMedium?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmCampaign?: Prisma.StringNullableFilter<"Application"> | string | null
   fullName?: Prisma.StringFilter<"Application"> | string
   phone?: Prisma.StringNullableFilter<"Application"> | string | null
   email?: Prisma.StringNullableFilter<"Application"> | string | null
@@ -305,16 +451,36 @@ export type ApplicationWhereUniqueInput = Prisma.AtLeast<{
   calculator?: Prisma.JsonNullableFilter<"Application">
   topic?: Prisma.EnumApplicationTopicFilter<"Application"> | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFilter<"Application"> | $Enums.FinancingStatus
   archived?: Prisma.BoolFilter<"Application"> | boolean
   adminNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerId?: Prisma.StringFilter<"Application"> | string
+  vehicleId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedDealerUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedYaskravaUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
+  vehicle?: Prisma.XOR<Prisma.VehicleNullableScalarRelationFilter, Prisma.VehicleWhereInput> | null
+  assignedDealerUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
+  assignedYaskravaUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
+  financingCase?: Prisma.XOR<Prisma.FinancingCaseNullableScalarRelationFilter, Prisma.FinancingCaseWhereInput> | null
+  auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id">
 
 export type ApplicationOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  submittedAt?: Prisma.SortOrder
+  contactedAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  decisionAt?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   locale?: Prisma.SortOrder
+  sourceDomain?: Prisma.SortOrder
   sourcePath?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmSource?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmMedium?: Prisma.SortOrderInput | Prisma.SortOrder
+  utmCampaign?: Prisma.SortOrderInput | Prisma.SortOrder
   fullName?: Prisma.SortOrder
   phone?: Prisma.SortOrderInput | Prisma.SortOrder
   email?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -324,8 +490,14 @@ export type ApplicationOrderByWithAggregationInput = {
   calculator?: Prisma.SortOrderInput | Prisma.SortOrder
   topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financingStatus?: Prisma.SortOrder
   archived?: Prisma.SortOrder
   adminNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerNote?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  vehicleId?: Prisma.SortOrderInput | Prisma.SortOrder
+  assignedDealerUserId?: Prisma.SortOrderInput | Prisma.SortOrder
+  assignedYaskravaUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.ApplicationCountOrderByAggregateInput
   _max?: Prisma.ApplicationMaxOrderByAggregateInput
   _min?: Prisma.ApplicationMinOrderByAggregateInput
@@ -338,8 +510,16 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Application"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
+  submittedAt?: Prisma.DateTimeWithAggregatesFilter<"Application"> | Date | string
+  contactedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Application"> | Date | string | null
+  decisionAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Application"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Application"> | Date | string | null
   locale?: Prisma.StringWithAggregatesFilter<"Application"> | string
+  sourceDomain?: Prisma.StringWithAggregatesFilter<"Application"> | string
   sourcePath?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  utmSource?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  utmMedium?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  utmCampaign?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
   fullName?: Prisma.StringWithAggregatesFilter<"Application"> | string
   phone?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
   email?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
@@ -349,16 +529,30 @@ export type ApplicationScalarWhereWithAggregatesInput = {
   calculator?: Prisma.JsonNullableWithAggregatesFilter<"Application">
   topic?: Prisma.EnumApplicationTopicWithAggregatesFilter<"Application"> | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusWithAggregatesFilter<"Application"> | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusWithAggregatesFilter<"Application"> | $Enums.FinancingStatus
   archived?: Prisma.BoolWithAggregatesFilter<"Application"> | boolean
   adminNote?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  dealerNote?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  dealerId?: Prisma.StringWithAggregatesFilter<"Application"> | string
+  vehicleId?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  assignedDealerUserId?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
+  assignedYaskravaUserId?: Prisma.StringNullableWithAggregatesFilter<"Application"> | string | null
 }
 
 export type ApplicationCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
   locale: string
+  sourceDomain: string
   sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
   fullName: string
   phone?: string | null
   email?: string | null
@@ -368,16 +562,32 @@ export type ApplicationCreateInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: $Enums.ApplicationTopic
   status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
   archived?: boolean
   adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
 }
 
 export type ApplicationUncheckedCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
   locale: string
+  sourceDomain: string
   sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
   fullName: string
   phone?: string | null
   email?: string | null
@@ -387,16 +597,32 @@ export type ApplicationUncheckedCreateInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: $Enums.ApplicationTopic
   status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
   archived?: boolean
   adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
 }
 
 export type ApplicationUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
   sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -406,16 +632,32 @@ export type ApplicationUpdateInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
   archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
 }
 
 export type ApplicationUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
   sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -425,16 +667,32 @@ export type ApplicationUncheckedUpdateInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
   archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
 }
 
 export type ApplicationCreateManyInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
   locale: string
+  sourceDomain: string
   sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
   fullName: string
   phone?: string | null
   email?: string | null
@@ -444,16 +702,30 @@ export type ApplicationCreateManyInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: $Enums.ApplicationTopic
   status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
   archived?: boolean
   adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
 }
 
 export type ApplicationUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
   sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -463,16 +735,26 @@ export type ApplicationUpdateManyMutationInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
   archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type ApplicationUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
   sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   fullName?: Prisma.StringFieldUpdateOperationsInput | string
   phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -482,16 +764,40 @@ export type ApplicationUncheckedUpdateManyInput = {
   calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
   status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
   archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
   adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ApplicationListRelationFilter = {
+  every?: Prisma.ApplicationWhereInput
+  some?: Prisma.ApplicationWhereInput
+  none?: Prisma.ApplicationWhereInput
+}
+
+export type ApplicationOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type ApplicationCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  submittedAt?: Prisma.SortOrder
+  contactedAt?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  sourceDomain?: Prisma.SortOrder
   sourcePath?: Prisma.SortOrder
+  utmSource?: Prisma.SortOrder
+  utmMedium?: Prisma.SortOrder
+  utmCampaign?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -501,16 +807,30 @@ export type ApplicationCountOrderByAggregateInput = {
   calculator?: Prisma.SortOrder
   topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financingStatus?: Prisma.SortOrder
   archived?: Prisma.SortOrder
   adminNote?: Prisma.SortOrder
+  dealerNote?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  vehicleId?: Prisma.SortOrder
+  assignedDealerUserId?: Prisma.SortOrder
+  assignedYaskravaUserId?: Prisma.SortOrder
 }
 
 export type ApplicationMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  submittedAt?: Prisma.SortOrder
+  contactedAt?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  sourceDomain?: Prisma.SortOrder
   sourcePath?: Prisma.SortOrder
+  utmSource?: Prisma.SortOrder
+  utmMedium?: Prisma.SortOrder
+  utmCampaign?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -519,16 +839,30 @@ export type ApplicationMaxOrderByAggregateInput = {
   consent?: Prisma.SortOrder
   topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financingStatus?: Prisma.SortOrder
   archived?: Prisma.SortOrder
   adminNote?: Prisma.SortOrder
+  dealerNote?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  vehicleId?: Prisma.SortOrder
+  assignedDealerUserId?: Prisma.SortOrder
+  assignedYaskravaUserId?: Prisma.SortOrder
 }
 
 export type ApplicationMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  submittedAt?: Prisma.SortOrder
+  contactedAt?: Prisma.SortOrder
+  decisionAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   locale?: Prisma.SortOrder
+  sourceDomain?: Prisma.SortOrder
   sourcePath?: Prisma.SortOrder
+  utmSource?: Prisma.SortOrder
+  utmMedium?: Prisma.SortOrder
+  utmCampaign?: Prisma.SortOrder
   fullName?: Prisma.SortOrder
   phone?: Prisma.SortOrder
   email?: Prisma.SortOrder
@@ -537,24 +871,154 @@ export type ApplicationMinOrderByAggregateInput = {
   consent?: Prisma.SortOrder
   topic?: Prisma.SortOrder
   status?: Prisma.SortOrder
+  financingStatus?: Prisma.SortOrder
   archived?: Prisma.SortOrder
   adminNote?: Prisma.SortOrder
+  dealerNote?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  vehicleId?: Prisma.SortOrder
+  assignedDealerUserId?: Prisma.SortOrder
+  assignedYaskravaUserId?: Prisma.SortOrder
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type ApplicationScalarRelationFilter = {
+  is?: Prisma.ApplicationWhereInput
+  isNot?: Prisma.ApplicationWhereInput
 }
 
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
+export type ApplicationNullableScalarRelationFilter = {
+  is?: Prisma.ApplicationWhereInput | null
+  isNot?: Prisma.ApplicationWhereInput | null
 }
 
-export type NullableStringFieldUpdateOperationsInput = {
-  set?: string | null
+export type ApplicationCreateNestedManyWithoutDealerInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput> | Prisma.ApplicationCreateWithoutDealerInput[] | Prisma.ApplicationUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutDealerInput | Prisma.ApplicationCreateOrConnectWithoutDealerInput[]
+  createMany?: Prisma.ApplicationCreateManyDealerInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
+export type ApplicationUncheckedCreateNestedManyWithoutDealerInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput> | Prisma.ApplicationCreateWithoutDealerInput[] | Prisma.ApplicationUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutDealerInput | Prisma.ApplicationCreateOrConnectWithoutDealerInput[]
+  createMany?: Prisma.ApplicationCreateManyDealerInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUpdateManyWithoutDealerNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput> | Prisma.ApplicationCreateWithoutDealerInput[] | Prisma.ApplicationUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutDealerInput | Prisma.ApplicationCreateOrConnectWithoutDealerInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutDealerInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutDealerInput[]
+  createMany?: Prisma.ApplicationCreateManyDealerInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutDealerInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutDealerInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutDealerInput | Prisma.ApplicationUpdateManyWithWhereWithoutDealerInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationUncheckedUpdateManyWithoutDealerNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput> | Prisma.ApplicationCreateWithoutDealerInput[] | Prisma.ApplicationUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutDealerInput | Prisma.ApplicationCreateOrConnectWithoutDealerInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutDealerInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutDealerInput[]
+  createMany?: Prisma.ApplicationCreateManyDealerInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutDealerInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutDealerInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutDealerInput | Prisma.ApplicationUpdateManyWithWhereWithoutDealerInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationCreateNestedManyWithoutAssignedDealerUserInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput> | Prisma.ApplicationCreateWithoutAssignedDealerUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedDealerUserInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationCreateNestedManyWithoutAssignedYaskravaUserInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput> | Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedYaskravaUserInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUncheckedCreateNestedManyWithoutAssignedDealerUserInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput> | Prisma.ApplicationCreateWithoutAssignedDealerUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedDealerUserInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUncheckedCreateNestedManyWithoutAssignedYaskravaUserInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput> | Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedYaskravaUserInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUpdateManyWithoutAssignedDealerUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput> | Prisma.ApplicationCreateWithoutAssignedDealerUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedDealerUserInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedDealerUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedDealerUserInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedDealerUserInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedDealerUserInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAssignedDealerUserInput | Prisma.ApplicationUpdateManyWithWhereWithoutAssignedDealerUserInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationUpdateManyWithoutAssignedYaskravaUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput> | Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedYaskravaUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedYaskravaUserInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedYaskravaUserInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpdateManyWithWhereWithoutAssignedYaskravaUserInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationUncheckedUpdateManyWithoutAssignedDealerUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput> | Prisma.ApplicationCreateWithoutAssignedDealerUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedDealerUserInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedDealerUserInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedDealerUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedDealerUserInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedDealerUserInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedDealerUserInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAssignedDealerUserInput | Prisma.ApplicationUpdateManyWithWhereWithoutAssignedDealerUserInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationUncheckedUpdateManyWithoutAssignedYaskravaUserNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput> | Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput[] | Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput | Prisma.ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutAssignedYaskravaUserInput[]
+  createMany?: Prisma.ApplicationCreateManyAssignedYaskravaUserInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutAssignedYaskravaUserInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutAssignedYaskravaUserInput | Prisma.ApplicationUpdateManyWithWhereWithoutAssignedYaskravaUserInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type EnumApplicationTopicFieldUpdateOperationsInput = {
@@ -565,14 +1029,1371 @@ export type EnumApplicationStatusFieldUpdateOperationsInput = {
   set?: $Enums.ApplicationStatus
 }
 
+export type EnumFinancingStatusFieldUpdateOperationsInput = {
+  set?: $Enums.FinancingStatus
+}
+
+export type ApplicationCreateNestedManyWithoutVehicleInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput> | Prisma.ApplicationCreateWithoutVehicleInput[] | Prisma.ApplicationUncheckedCreateWithoutVehicleInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutVehicleInput | Prisma.ApplicationCreateOrConnectWithoutVehicleInput[]
+  createMany?: Prisma.ApplicationCreateManyVehicleInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUncheckedCreateNestedManyWithoutVehicleInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput> | Prisma.ApplicationCreateWithoutVehicleInput[] | Prisma.ApplicationUncheckedCreateWithoutVehicleInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutVehicleInput | Prisma.ApplicationCreateOrConnectWithoutVehicleInput[]
+  createMany?: Prisma.ApplicationCreateManyVehicleInputEnvelope
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+}
+
+export type ApplicationUpdateManyWithoutVehicleNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput> | Prisma.ApplicationCreateWithoutVehicleInput[] | Prisma.ApplicationUncheckedCreateWithoutVehicleInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutVehicleInput | Prisma.ApplicationCreateOrConnectWithoutVehicleInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutVehicleInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutVehicleInput[]
+  createMany?: Prisma.ApplicationCreateManyVehicleInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutVehicleInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutVehicleInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutVehicleInput | Prisma.ApplicationUpdateManyWithWhereWithoutVehicleInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationUncheckedUpdateManyWithoutVehicleNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput> | Prisma.ApplicationCreateWithoutVehicleInput[] | Prisma.ApplicationUncheckedCreateWithoutVehicleInput[]
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutVehicleInput | Prisma.ApplicationCreateOrConnectWithoutVehicleInput[]
+  upsert?: Prisma.ApplicationUpsertWithWhereUniqueWithoutVehicleInput | Prisma.ApplicationUpsertWithWhereUniqueWithoutVehicleInput[]
+  createMany?: Prisma.ApplicationCreateManyVehicleInputEnvelope
+  set?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  disconnect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  delete?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  connect?: Prisma.ApplicationWhereUniqueInput | Prisma.ApplicationWhereUniqueInput[]
+  update?: Prisma.ApplicationUpdateWithWhereUniqueWithoutVehicleInput | Prisma.ApplicationUpdateWithWhereUniqueWithoutVehicleInput[]
+  updateMany?: Prisma.ApplicationUpdateManyWithWhereWithoutVehicleInput | Prisma.ApplicationUpdateManyWithWhereWithoutVehicleInput[]
+  deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+}
+
+export type ApplicationCreateNestedOneWithoutFinancingCaseInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedCreateWithoutFinancingCaseInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutFinancingCaseInput
+  connect?: Prisma.ApplicationWhereUniqueInput
+}
+
+export type ApplicationUpdateOneRequiredWithoutFinancingCaseNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedCreateWithoutFinancingCaseInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutFinancingCaseInput
+  upsert?: Prisma.ApplicationUpsertWithoutFinancingCaseInput
+  connect?: Prisma.ApplicationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApplicationUpdateToOneWithWhereWithoutFinancingCaseInput, Prisma.ApplicationUpdateWithoutFinancingCaseInput>, Prisma.ApplicationUncheckedUpdateWithoutFinancingCaseInput>
+}
+
+export type ApplicationCreateNestedOneWithoutAuditLogsInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAuditLogsInput, Prisma.ApplicationUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAuditLogsInput
+  connect?: Prisma.ApplicationWhereUniqueInput
+}
+
+export type ApplicationUpdateOneWithoutAuditLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.ApplicationCreateWithoutAuditLogsInput, Prisma.ApplicationUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.ApplicationCreateOrConnectWithoutAuditLogsInput
+  upsert?: Prisma.ApplicationUpsertWithoutAuditLogsInput
+  disconnect?: Prisma.ApplicationWhereInput | boolean
+  delete?: Prisma.ApplicationWhereInput | boolean
+  connect?: Prisma.ApplicationWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.ApplicationUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.ApplicationUpdateWithoutAuditLogsInput>, Prisma.ApplicationUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type ApplicationCreateWithoutDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutDealerInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput>
+}
+
+export type ApplicationCreateManyDealerInputEnvelope = {
+  data: Prisma.ApplicationCreateManyDealerInput | Prisma.ApplicationCreateManyDealerInput[]
+  skipDuplicates?: boolean
+}
+
+export type ApplicationUpsertWithWhereUniqueWithoutDealerInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutDealerInput, Prisma.ApplicationUncheckedUpdateWithoutDealerInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutDealerInput, Prisma.ApplicationUncheckedCreateWithoutDealerInput>
+}
+
+export type ApplicationUpdateWithWhereUniqueWithoutDealerInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutDealerInput, Prisma.ApplicationUncheckedUpdateWithoutDealerInput>
+}
+
+export type ApplicationUpdateManyWithWhereWithoutDealerInput = {
+  where: Prisma.ApplicationScalarWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutDealerInput>
+}
+
+export type ApplicationScalarWhereInput = {
+  AND?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+  OR?: Prisma.ApplicationScalarWhereInput[]
+  NOT?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
+  id?: Prisma.StringFilter<"Application"> | string
+  createdAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  submittedAt?: Prisma.DateTimeFilter<"Application"> | Date | string
+  contactedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  decisionAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Application"> | Date | string | null
+  locale?: Prisma.StringFilter<"Application"> | string
+  sourceDomain?: Prisma.StringFilter<"Application"> | string
+  sourcePath?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmSource?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmMedium?: Prisma.StringNullableFilter<"Application"> | string | null
+  utmCampaign?: Prisma.StringNullableFilter<"Application"> | string | null
+  fullName?: Prisma.StringFilter<"Application"> | string
+  phone?: Prisma.StringNullableFilter<"Application"> | string | null
+  email?: Prisma.StringNullableFilter<"Application"> | string | null
+  city?: Prisma.StringNullableFilter<"Application"> | string | null
+  message?: Prisma.StringNullableFilter<"Application"> | string | null
+  consent?: Prisma.BoolFilter<"Application"> | boolean
+  calculator?: Prisma.JsonNullableFilter<"Application">
+  topic?: Prisma.EnumApplicationTopicFilter<"Application"> | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFilter<"Application"> | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFilter<"Application"> | $Enums.FinancingStatus
+  archived?: Prisma.BoolFilter<"Application"> | boolean
+  adminNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerNote?: Prisma.StringNullableFilter<"Application"> | string | null
+  dealerId?: Prisma.StringFilter<"Application"> | string
+  vehicleId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedDealerUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+  assignedYaskravaUserId?: Prisma.StringNullableFilter<"Application"> | string | null
+}
+
+export type ApplicationCreateWithoutAssignedDealerUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutAssignedDealerUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedYaskravaUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutAssignedDealerUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput>
+}
+
+export type ApplicationCreateManyAssignedDealerUserInputEnvelope = {
+  data: Prisma.ApplicationCreateManyAssignedDealerUserInput | Prisma.ApplicationCreateManyAssignedDealerUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type ApplicationCreateWithoutAssignedYaskravaUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutAssignedYaskravaUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput>
+}
+
+export type ApplicationCreateManyAssignedYaskravaUserInputEnvelope = {
+  data: Prisma.ApplicationCreateManyAssignedYaskravaUserInput | Prisma.ApplicationCreateManyAssignedYaskravaUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type ApplicationUpsertWithWhereUniqueWithoutAssignedDealerUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedUpdateWithoutAssignedDealerUserInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedDealerUserInput>
+}
+
+export type ApplicationUpdateWithWhereUniqueWithoutAssignedDealerUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutAssignedDealerUserInput, Prisma.ApplicationUncheckedUpdateWithoutAssignedDealerUserInput>
+}
+
+export type ApplicationUpdateManyWithWhereWithoutAssignedDealerUserInput = {
+  where: Prisma.ApplicationScalarWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutAssignedDealerUserInput>
+}
+
+export type ApplicationUpsertWithWhereUniqueWithoutAssignedYaskravaUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedUpdateWithoutAssignedYaskravaUserInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedCreateWithoutAssignedYaskravaUserInput>
+}
+
+export type ApplicationUpdateWithWhereUniqueWithoutAssignedYaskravaUserInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutAssignedYaskravaUserInput, Prisma.ApplicationUncheckedUpdateWithoutAssignedYaskravaUserInput>
+}
+
+export type ApplicationUpdateManyWithWhereWithoutAssignedYaskravaUserInput = {
+  where: Prisma.ApplicationScalarWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutAssignedYaskravaUserInput>
+}
+
+export type ApplicationCreateWithoutVehicleInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutVehicleInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutVehicleInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput>
+}
+
+export type ApplicationCreateManyVehicleInputEnvelope = {
+  data: Prisma.ApplicationCreateManyVehicleInput | Prisma.ApplicationCreateManyVehicleInput[]
+  skipDuplicates?: boolean
+}
+
+export type ApplicationUpsertWithWhereUniqueWithoutVehicleInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutVehicleInput, Prisma.ApplicationUncheckedUpdateWithoutVehicleInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutVehicleInput, Prisma.ApplicationUncheckedCreateWithoutVehicleInput>
+}
+
+export type ApplicationUpdateWithWhereUniqueWithoutVehicleInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutVehicleInput, Prisma.ApplicationUncheckedUpdateWithoutVehicleInput>
+}
+
+export type ApplicationUpdateManyWithWhereWithoutVehicleInput = {
+  where: Prisma.ApplicationScalarWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateManyMutationInput, Prisma.ApplicationUncheckedUpdateManyWithoutVehicleInput>
+}
+
+export type ApplicationCreateWithoutFinancingCaseInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutFinancingCaseInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutFinancingCaseInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedCreateWithoutFinancingCaseInput>
+}
+
+export type ApplicationUpsertWithoutFinancingCaseInput = {
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedUpdateWithoutFinancingCaseInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedCreateWithoutFinancingCaseInput>
+  where?: Prisma.ApplicationWhereInput
+}
+
+export type ApplicationUpdateToOneWithWhereWithoutFinancingCaseInput = {
+  where?: Prisma.ApplicationWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutFinancingCaseInput, Prisma.ApplicationUncheckedUpdateWithoutFinancingCaseInput>
+}
+
+export type ApplicationUpdateWithoutFinancingCaseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutFinancingCaseInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationCreateWithoutAuditLogsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutApplicationsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutApplicationsInput
+  assignedDealerUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedDealerApplicationsInput
+  assignedYaskravaUser?: Prisma.AdminUserCreateNestedOneWithoutAssignedYaskravaApplicationsInput
+  financingCase?: Prisma.FinancingCaseCreateNestedOneWithoutApplicationInput
+}
+
+export type ApplicationUncheckedCreateWithoutAuditLogsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+  financingCase?: Prisma.FinancingCaseUncheckedCreateNestedOneWithoutApplicationInput
+}
+
+export type ApplicationCreateOrConnectWithoutAuditLogsInput = {
+  where: Prisma.ApplicationWhereUniqueInput
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAuditLogsInput, Prisma.ApplicationUncheckedCreateWithoutAuditLogsInput>
+}
+
+export type ApplicationUpsertWithoutAuditLogsInput = {
+  update: Prisma.XOR<Prisma.ApplicationUpdateWithoutAuditLogsInput, Prisma.ApplicationUncheckedUpdateWithoutAuditLogsInput>
+  create: Prisma.XOR<Prisma.ApplicationCreateWithoutAuditLogsInput, Prisma.ApplicationUncheckedCreateWithoutAuditLogsInput>
+  where?: Prisma.ApplicationWhereInput
+}
+
+export type ApplicationUpdateToOneWithWhereWithoutAuditLogsInput = {
+  where?: Prisma.ApplicationWhereInput
+  data: Prisma.XOR<Prisma.ApplicationUpdateWithoutAuditLogsInput, Prisma.ApplicationUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type ApplicationUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+}
+
+export type ApplicationCreateManyDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+}
+
+export type ApplicationUpdateWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateManyWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ApplicationCreateManyAssignedDealerUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedYaskravaUserId?: string | null
+}
+
+export type ApplicationCreateManyAssignedYaskravaUserInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  vehicleId?: string | null
+  assignedDealerUserId?: string | null
+}
+
+export type ApplicationUpdateWithoutAssignedDealerUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutAssignedDealerUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateManyWithoutAssignedDealerUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ApplicationUpdateWithoutAssignedYaskravaUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutAssignedYaskravaUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateManyWithoutAssignedYaskravaUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type ApplicationCreateManyVehicleInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  submittedAt?: Date | string
+  contactedAt?: Date | string | null
+  decisionAt?: Date | string | null
+  deletedAt?: Date | string | null
+  locale: string
+  sourceDomain: string
+  sourcePath?: string | null
+  utmSource?: string | null
+  utmMedium?: string | null
+  utmCampaign?: string | null
+  fullName: string
+  phone?: string | null
+  email?: string | null
+  city?: string | null
+  message?: string | null
+  consent: boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: $Enums.ApplicationTopic
+  status?: $Enums.ApplicationStatus
+  financingStatus?: $Enums.FinancingStatus
+  archived?: boolean
+  adminNote?: string | null
+  dealerNote?: string | null
+  dealerId: string
+  assignedDealerUserId?: string | null
+  assignedYaskravaUserId?: string | null
+}
+
+export type ApplicationUpdateWithoutVehicleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutApplicationsNestedInput
+  assignedDealerUser?: Prisma.AdminUserUpdateOneWithoutAssignedDealerApplicationsNestedInput
+  assignedYaskravaUser?: Prisma.AdminUserUpdateOneWithoutAssignedYaskravaApplicationsNestedInput
+  financingCase?: Prisma.FinancingCaseUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateWithoutVehicleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  financingCase?: Prisma.FinancingCaseUncheckedUpdateOneWithoutApplicationNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutApplicationNestedInput
+}
+
+export type ApplicationUncheckedUpdateManyWithoutVehicleInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  submittedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  contactedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  decisionAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  locale?: Prisma.StringFieldUpdateOperationsInput | string
+  sourceDomain?: Prisma.StringFieldUpdateOperationsInput | string
+  sourcePath?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmSource?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmMedium?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  utmCampaign?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  fullName?: Prisma.StringFieldUpdateOperationsInput | string
+  phone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  email?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  consent?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  calculator?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  topic?: Prisma.EnumApplicationTopicFieldUpdateOperationsInput | $Enums.ApplicationTopic
+  status?: Prisma.EnumApplicationStatusFieldUpdateOperationsInput | $Enums.ApplicationStatus
+  financingStatus?: Prisma.EnumFinancingStatusFieldUpdateOperationsInput | $Enums.FinancingStatus
+  archived?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  adminNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerNote?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  assignedDealerUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  assignedYaskravaUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type ApplicationCountOutputType
+ */
+
+export type ApplicationCountOutputType = {
+  auditLogs: number
+}
+
+export type ApplicationCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  auditLogs?: boolean | ApplicationCountOutputTypeCountAuditLogsArgs
+}
+
+/**
+ * ApplicationCountOutputType without action
+ */
+export type ApplicationCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the ApplicationCountOutputType
+   */
+  select?: Prisma.ApplicationCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * ApplicationCountOutputType without action
+ */
+export type ApplicationCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
 
 
 export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  submittedAt?: boolean
+  contactedAt?: boolean
+  decisionAt?: boolean
+  deletedAt?: boolean
   locale?: boolean
+  sourceDomain?: boolean
   sourcePath?: boolean
+  utmSource?: boolean
+  utmMedium?: boolean
+  utmCampaign?: boolean
   fullName?: boolean
   phone?: boolean
   email?: boolean
@@ -582,16 +2403,37 @@ export type ApplicationSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   calculator?: boolean
   topic?: boolean
   status?: boolean
+  financingStatus?: boolean
   archived?: boolean
   adminNote?: boolean
+  dealerNote?: boolean
+  dealerId?: boolean
+  vehicleId?: boolean
+  assignedDealerUserId?: boolean
+  assignedYaskravaUserId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
+  financingCase?: boolean | Prisma.Application$financingCaseArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.Application$auditLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.ApplicationCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  submittedAt?: boolean
+  contactedAt?: boolean
+  decisionAt?: boolean
+  deletedAt?: boolean
   locale?: boolean
+  sourceDomain?: boolean
   sourcePath?: boolean
+  utmSource?: boolean
+  utmMedium?: boolean
+  utmCampaign?: boolean
   fullName?: boolean
   phone?: boolean
   email?: boolean
@@ -601,16 +2443,34 @@ export type ApplicationSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   calculator?: boolean
   topic?: boolean
   status?: boolean
+  financingStatus?: boolean
   archived?: boolean
   adminNote?: boolean
+  dealerNote?: boolean
+  dealerId?: boolean
+  vehicleId?: boolean
+  assignedDealerUserId?: boolean
+  assignedYaskravaUserId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  submittedAt?: boolean
+  contactedAt?: boolean
+  decisionAt?: boolean
+  deletedAt?: boolean
   locale?: boolean
+  sourceDomain?: boolean
   sourcePath?: boolean
+  utmSource?: boolean
+  utmMedium?: boolean
+  utmCampaign?: boolean
   fullName?: boolean
   phone?: boolean
   email?: boolean
@@ -620,16 +2480,34 @@ export type ApplicationSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   calculator?: boolean
   topic?: boolean
   status?: boolean
+  financingStatus?: boolean
   archived?: boolean
   adminNote?: boolean
+  dealerNote?: boolean
+  dealerId?: boolean
+  vehicleId?: boolean
+  assignedDealerUserId?: boolean
+  assignedYaskravaUserId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
 }, ExtArgs["result"]["application"]>
 
 export type ApplicationSelectScalar = {
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  submittedAt?: boolean
+  contactedAt?: boolean
+  decisionAt?: boolean
+  deletedAt?: boolean
   locale?: boolean
+  sourceDomain?: boolean
   sourcePath?: boolean
+  utmSource?: boolean
+  utmMedium?: boolean
+  utmCampaign?: boolean
   fullName?: boolean
   phone?: boolean
   email?: boolean
@@ -639,21 +2517,63 @@ export type ApplicationSelectScalar = {
   calculator?: boolean
   topic?: boolean
   status?: boolean
+  financingStatus?: boolean
   archived?: boolean
   adminNote?: boolean
+  dealerNote?: boolean
+  dealerId?: boolean
+  vehicleId?: boolean
+  assignedDealerUserId?: boolean
+  assignedYaskravaUserId?: boolean
 }
 
-export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "locale" | "sourcePath" | "fullName" | "phone" | "email" | "city" | "message" | "consent" | "calculator" | "topic" | "status" | "archived" | "adminNote", ExtArgs["result"]["application"]>
+export type ApplicationOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "submittedAt" | "contactedAt" | "decisionAt" | "deletedAt" | "locale" | "sourceDomain" | "sourcePath" | "utmSource" | "utmMedium" | "utmCampaign" | "fullName" | "phone" | "email" | "city" | "message" | "consent" | "calculator" | "topic" | "status" | "financingStatus" | "archived" | "adminNote" | "dealerNote" | "dealerId" | "vehicleId" | "assignedDealerUserId" | "assignedYaskravaUserId", ExtArgs["result"]["application"]>
+export type ApplicationInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
+  financingCase?: boolean | Prisma.Application$financingCaseArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.Application$auditLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.ApplicationCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type ApplicationIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
+}
+export type ApplicationIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  vehicle?: boolean | Prisma.Application$vehicleArgs<ExtArgs>
+  assignedDealerUser?: boolean | Prisma.Application$assignedDealerUserArgs<ExtArgs>
+  assignedYaskravaUser?: boolean | Prisma.Application$assignedYaskravaUserArgs<ExtArgs>
+}
 
 export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Application"
-  objects: {}
+  objects: {
+    dealer: Prisma.$DealerPayload<ExtArgs>
+    vehicle: Prisma.$VehiclePayload<ExtArgs> | null
+    assignedDealerUser: Prisma.$AdminUserPayload<ExtArgs> | null
+    assignedYaskravaUser: Prisma.$AdminUserPayload<ExtArgs> | null
+    financingCase: Prisma.$FinancingCasePayload<ExtArgs> | null
+    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     createdAt: Date
     updatedAt: Date
+    submittedAt: Date
+    contactedAt: Date | null
+    decisionAt: Date | null
+    deletedAt: Date | null
     locale: string
+    sourceDomain: string
     sourcePath: string | null
+    utmSource: string | null
+    utmMedium: string | null
+    utmCampaign: string | null
     fullName: string
     phone: string | null
     email: string | null
@@ -663,8 +2583,14 @@ export type $ApplicationPayload<ExtArgs extends runtime.Types.Extensions.Interna
     calculator: runtime.JsonValue | null
     topic: $Enums.ApplicationTopic
     status: $Enums.ApplicationStatus
+    financingStatus: $Enums.FinancingStatus
     archived: boolean
     adminNote: string | null
+    dealerNote: string | null
+    dealerId: string
+    vehicleId: string | null
+    assignedDealerUserId: string | null
+    assignedYaskravaUserId: string | null
   }, ExtArgs["result"]["application"]>
   composites: {}
 }
@@ -1059,6 +2985,12 @@ readonly fields: ApplicationFieldRefs;
  */
 export interface Prisma__ApplicationClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  dealer<T extends Prisma.DealerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DealerDefaultArgs<ExtArgs>>): Prisma.Prisma__DealerClient<runtime.Types.Result.GetResult<Prisma.$DealerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  vehicle<T extends Prisma.Application$vehicleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$vehicleArgs<ExtArgs>>): Prisma.Prisma__VehicleClient<runtime.Types.Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  assignedDealerUser<T extends Prisma.Application$assignedDealerUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$assignedDealerUserArgs<ExtArgs>>): Prisma.Prisma__AdminUserClient<runtime.Types.Result.GetResult<Prisma.$AdminUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  assignedYaskravaUser<T extends Prisma.Application$assignedYaskravaUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$assignedYaskravaUserArgs<ExtArgs>>): Prisma.Prisma__AdminUserClient<runtime.Types.Result.GetResult<Prisma.$AdminUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  financingCase<T extends Prisma.Application$financingCaseArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$financingCaseArgs<ExtArgs>>): Prisma.Prisma__FinancingCaseClient<runtime.Types.Result.GetResult<Prisma.$FinancingCasePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  auditLogs<T extends Prisma.Application$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Application$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1091,8 +3023,16 @@ export interface ApplicationFieldRefs {
   readonly id: Prisma.FieldRef<"Application", 'String'>
   readonly createdAt: Prisma.FieldRef<"Application", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Application", 'DateTime'>
+  readonly submittedAt: Prisma.FieldRef<"Application", 'DateTime'>
+  readonly contactedAt: Prisma.FieldRef<"Application", 'DateTime'>
+  readonly decisionAt: Prisma.FieldRef<"Application", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Application", 'DateTime'>
   readonly locale: Prisma.FieldRef<"Application", 'String'>
+  readonly sourceDomain: Prisma.FieldRef<"Application", 'String'>
   readonly sourcePath: Prisma.FieldRef<"Application", 'String'>
+  readonly utmSource: Prisma.FieldRef<"Application", 'String'>
+  readonly utmMedium: Prisma.FieldRef<"Application", 'String'>
+  readonly utmCampaign: Prisma.FieldRef<"Application", 'String'>
   readonly fullName: Prisma.FieldRef<"Application", 'String'>
   readonly phone: Prisma.FieldRef<"Application", 'String'>
   readonly email: Prisma.FieldRef<"Application", 'String'>
@@ -1102,8 +3042,14 @@ export interface ApplicationFieldRefs {
   readonly calculator: Prisma.FieldRef<"Application", 'Json'>
   readonly topic: Prisma.FieldRef<"Application", 'ApplicationTopic'>
   readonly status: Prisma.FieldRef<"Application", 'ApplicationStatus'>
+  readonly financingStatus: Prisma.FieldRef<"Application", 'FinancingStatus'>
   readonly archived: Prisma.FieldRef<"Application", 'Boolean'>
   readonly adminNote: Prisma.FieldRef<"Application", 'String'>
+  readonly dealerNote: Prisma.FieldRef<"Application", 'String'>
+  readonly dealerId: Prisma.FieldRef<"Application", 'String'>
+  readonly vehicleId: Prisma.FieldRef<"Application", 'String'>
+  readonly assignedDealerUserId: Prisma.FieldRef<"Application", 'String'>
+  readonly assignedYaskravaUserId: Prisma.FieldRef<"Application", 'String'>
 }
     
 
@@ -1120,6 +3066,10 @@ export type ApplicationFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.I
    * Omit specific fields from the Application
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
   /**
    * Filter, which Application to fetch.
    */
@@ -1139,6 +3089,10 @@ export type ApplicationFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Exten
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  /**
    * Filter, which Application to fetch.
    */
   where: Prisma.ApplicationWhereUniqueInput
@@ -1156,6 +3110,10 @@ export type ApplicationFindFirstArgs<ExtArgs extends runtime.Types.Extensions.In
    * Omit specific fields from the Application
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
   /**
    * Filter, which Application to fetch.
    */
@@ -1205,6 +3163,10 @@ export type ApplicationFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extens
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  /**
    * Filter, which Application to fetch.
    */
   where?: Prisma.ApplicationWhereInput
@@ -1253,6 +3215,10 @@ export type ApplicationFindManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  /**
    * Filter, which Applications to fetch.
    */
   where?: Prisma.ApplicationWhereInput
@@ -1296,6 +3262,10 @@ export type ApplicationCreateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  /**
    * The data needed to create a Application.
    */
   data: Prisma.XOR<Prisma.ApplicationCreateInput, Prisma.ApplicationUncheckedCreateInput>
@@ -1309,6 +3279,7 @@ export type ApplicationCreateManyArgs<ExtArgs extends runtime.Types.Extensions.I
    * The data used to create many Applications.
    */
   data: Prisma.ApplicationCreateManyInput | Prisma.ApplicationCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1327,6 +3298,11 @@ export type ApplicationCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * The data used to create many Applications.
    */
   data: Prisma.ApplicationCreateManyInput | Prisma.ApplicationCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1341,6 +3317,10 @@ export type ApplicationUpdateArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Application
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
   /**
    * The data needed to update a Application.
    */
@@ -1393,6 +3373,10 @@ export type ApplicationUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Ext
    * Limit how many Applications to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1407,6 +3391,10 @@ export type ApplicationUpsertArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Application
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
   /**
    * The filter to search for the Application to update in case it exists.
    */
@@ -1434,6 +3422,10 @@ export type ApplicationDeleteArgs<ExtArgs extends runtime.Types.Extensions.Inter
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  /**
    * Filter which Application to delete.
    */
   where: Prisma.ApplicationWhereUniqueInput
@@ -1454,6 +3446,106 @@ export type ApplicationDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.I
 }
 
 /**
+ * Application.vehicle
+ */
+export type Application$vehicleArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Vehicle
+   */
+  select?: Prisma.VehicleSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Vehicle
+   */
+  omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  where?: Prisma.VehicleWhereInput
+}
+
+/**
+ * Application.assignedDealerUser
+ */
+export type Application$assignedDealerUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdminUser
+   */
+  select?: Prisma.AdminUserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdminUser
+   */
+  omit?: Prisma.AdminUserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminUserInclude<ExtArgs> | null
+  where?: Prisma.AdminUserWhereInput
+}
+
+/**
+ * Application.assignedYaskravaUser
+ */
+export type Application$assignedYaskravaUserArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AdminUser
+   */
+  select?: Prisma.AdminUserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AdminUser
+   */
+  omit?: Prisma.AdminUserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AdminUserInclude<ExtArgs> | null
+  where?: Prisma.AdminUserWhereInput
+}
+
+/**
+ * Application.financingCase
+ */
+export type Application$financingCaseArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the FinancingCase
+   */
+  select?: Prisma.FinancingCaseSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the FinancingCase
+   */
+  omit?: Prisma.FinancingCaseOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.FinancingCaseInclude<ExtArgs> | null
+  where?: Prisma.FinancingCaseWhereInput
+}
+
+/**
+ * Application.auditLogs
+ */
+export type Application$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
  * Application without action
  */
 export type ApplicationDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1465,4 +3557,8 @@ export type ApplicationDefaultArgs<ExtArgs extends runtime.Types.Extensions.Inte
    * Omit specific fields from the Application
    */
   omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
 }

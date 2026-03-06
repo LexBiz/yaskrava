@@ -104,8 +104,8 @@ function BreakdownBar({
       {/* Bar */}
       <div className="flex h-2 rounded-full overflow-hidden gap-[2px]">
         <div className="bar-seg rounded-l-full" style={{ width: seg(down),      background: "rgba(255,255,255,0.22)" }} />
-        <div className="bar-seg"               style={{ width: seg(principal), background: "rgba(6,193,103,0.35)" }} />
-        <div className="bar-seg"               style={{ width: seg(interest),  background: "#06C167" }} />
+        <div className="bar-seg"               style={{ width: seg(principal), background: "rgba(255,121,24,0.35)" }} />
+        <div className="bar-seg"               style={{ width: seg(interest),  background: "#FF7918" }} />
         {fees > 0 && (
           <div className="bar-seg rounded-r-full" style={{ width: seg(fees), background: "rgba(255,255,255,0.10)" }} />
         )}
@@ -117,8 +117,8 @@ function BreakdownBar({
         style={{ color: "var(--text-3)" }}
       >
         <Leg color="rgba(255,255,255,0.22)" label={labels.down} />
-        <Leg color="rgba(6,193,103,0.35)"   label={labels.principal} />
-        <Leg color="#06C167"                 label={labels.interest} />
+        <Leg color="rgba(255,121,24,0.35)"   label={labels.principal} />
+        <Leg color="#FF7918"                 label={labels.interest} />
         {fees > 0 && <Leg color="rgba(255,255,255,0.10)" label={labels.fees} />}
       </div>
     </div>
@@ -313,7 +313,7 @@ export function LeasingCalculator() {
         <div>
           <p
             className="text-[10px] font-bold uppercase tracking-[0.16em] mb-4"
-            style={{ color: "rgba(6,193,103,0.65)" }}
+            style={{ color: "rgba(255,121,24,0.75)" }}
           >
             {t("monthlyTotal")}
           </p>
@@ -376,8 +376,8 @@ export function LeasingCalculator() {
           <button
             type="button"
             onClick={handleApply}
-            className="flex-1 h-12 flex items-center justify-center gap-2 rounded-xl bg-[var(--color-accent)] text-black text-sm font-extrabold hover:brightness-95 transition-all"
-            style={{ boxShadow: "0 0 30px -8px rgba(6,193,103,0.5)" }}
+            className="flex-1 h-12 flex items-center justify-center gap-2 rounded-xl text-white text-sm font-extrabold hover:brightness-105 transition-all"
+            style={{background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)", boxShadow: "0 4px 28px -8px rgba(255,121,24,0.55)"}}
           >
             {t("sendWithCalc")}
             <ArrowRight size={15} />

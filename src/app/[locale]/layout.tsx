@@ -1,27 +1,39 @@
 import type {Metadata} from "next";
+import type {CSSProperties} from "react";
 import {notFound} from "next/navigation";
-import {Geist, Geist_Mono} from "next/font/google";
+import {Questrial} from "next/font/google";
 import {hasLocale, NextIntlClientProvider} from "next-intl";
 import {getMessages, setRequestLocale} from "next-intl/server";
 
 import {routing} from "@/i18n/routing";
+import {getCurrentDealer} from "@/lib/tenant";
 
 import "../globals.css";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+const questrial = Questrial({
+  weight: "400",
   subsets: ["latin"],
+  variable: "--font-questrial",
+  display: "swap",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+export const dynamic = "force-dynamic";
 
-export const metadata: Metadata = {
-  title: "YASKRAVA",
-  description: "Leasing & vehicle services in the Czech Republic.",
-};
+export async function generateMetadata(): Promise<Metadata> {
+  const dealer = await getCurrentDealer();
+  const name = dealer?.websiteTitle || dealer?.name || "Yaskrava";
+
+  return {
+    title: {
+      default: name,
+      template: `%s — ${name}`,
+    },
+    description: `${name} — вигідні рішення для водіїв: паливо, авто-послуги, фінансування та лізинг в одному застосунку.`,
+    icons: {
+      icon: "/symbol.svg",
+    },
+  };
+}
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
@@ -34,19 +46,28 @@ type Props = {
 
 export default async function LocaleLayout({children, params}: Props) {
   const {locale} = await params;
+  const dealer = await getCurrentDealer();
 
   if (!hasLocale(routing.locales, locale)) {
     notFound();
   }
 
-  // Enable static rendering for next-intl usage in Server Components
   setRequestLocale(locale);
 
   const messages = await getMessages();
 
   return (
-    <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+    <html lang={locale} className={questrial.variable}>
+      <body
+        className="antialiased"
+        style={
+          dealer
+            ? ({
+                ["--color-accent" as string]: dealer.accentColor,
+              } as CSSProperties)
+            : undefined
+        }
+      >
         <NextIntlClientProvider messages={messages}>
           {children}
         </NextIntlClientProvider>
@@ -54,4 +75,3 @@ export default async function LocaleLayout({children, params}: Props) {
     </html>
   );
 }
-

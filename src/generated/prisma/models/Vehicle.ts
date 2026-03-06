@@ -42,7 +42,13 @@ export type VehicleMinAggregateOutputType = {
   id: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
   availability: $Enums.VehicleAvailability | null
+  published: boolean | null
+  featured: boolean | null
+  leasingEligible: boolean | null
+  slug: string | null
+  stockNumber: string | null
   title: string | null
   make: string | null
   model: string | null
@@ -54,13 +60,20 @@ export type VehicleMinAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   vinLast6: string | null
+  dealerId: string | null
 }
 
 export type VehicleMaxAggregateOutputType = {
   id: string | null
   createdAt: Date | null
   updatedAt: Date | null
+  deletedAt: Date | null
   availability: $Enums.VehicleAvailability | null
+  published: boolean | null
+  featured: boolean | null
+  leasingEligible: boolean | null
+  slug: string | null
+  stockNumber: string | null
   title: string | null
   make: string | null
   model: string | null
@@ -72,13 +85,20 @@ export type VehicleMaxAggregateOutputType = {
   description: string | null
   imageUrl: string | null
   vinLast6: string | null
+  dealerId: string | null
 }
 
 export type VehicleCountAggregateOutputType = {
   id: number
   createdAt: number
   updatedAt: number
+  deletedAt: number
   availability: number
+  published: number
+  featured: number
+  leasingEligible: number
+  slug: number
+  stockNumber: number
   title: number
   make: number
   model: number
@@ -90,6 +110,7 @@ export type VehicleCountAggregateOutputType = {
   description: number
   imageUrl: number
   vinLast6: number
+  dealerId: number
   _all: number
 }
 
@@ -110,7 +131,13 @@ export type VehicleMinAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   availability?: true
+  published?: true
+  featured?: true
+  leasingEligible?: true
+  slug?: true
+  stockNumber?: true
   title?: true
   make?: true
   model?: true
@@ -122,13 +149,20 @@ export type VehicleMinAggregateInputType = {
   description?: true
   imageUrl?: true
   vinLast6?: true
+  dealerId?: true
 }
 
 export type VehicleMaxAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   availability?: true
+  published?: true
+  featured?: true
+  leasingEligible?: true
+  slug?: true
+  stockNumber?: true
   title?: true
   make?: true
   model?: true
@@ -140,13 +174,20 @@ export type VehicleMaxAggregateInputType = {
   description?: true
   imageUrl?: true
   vinLast6?: true
+  dealerId?: true
 }
 
 export type VehicleCountAggregateInputType = {
   id?: true
   createdAt?: true
   updatedAt?: true
+  deletedAt?: true
   availability?: true
+  published?: true
+  featured?: true
+  leasingEligible?: true
+  slug?: true
+  stockNumber?: true
   title?: true
   make?: true
   model?: true
@@ -158,6 +199,7 @@ export type VehicleCountAggregateInputType = {
   description?: true
   imageUrl?: true
   vinLast6?: true
+  dealerId?: true
   _all?: true
 }
 
@@ -251,7 +293,13 @@ export type VehicleGroupByOutputType = {
   id: string
   createdAt: Date
   updatedAt: Date
+  deletedAt: Date | null
   availability: $Enums.VehicleAvailability
+  published: boolean
+  featured: boolean
+  leasingEligible: boolean
+  slug: string
+  stockNumber: string | null
   title: string
   make: string | null
   model: string | null
@@ -263,6 +311,7 @@ export type VehicleGroupByOutputType = {
   description: string | null
   imageUrl: string | null
   vinLast6: string | null
+  dealerId: string
   _count: VehicleCountAggregateOutputType | null
   _avg: VehicleAvgAggregateOutputType | null
   _sum: VehicleSumAggregateOutputType | null
@@ -292,7 +341,13 @@ export type VehicleWhereInput = {
   id?: Prisma.StringFilter<"Vehicle"> | string
   createdAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Vehicle"> | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFilter<"Vehicle"> | $Enums.VehicleAvailability
+  published?: Prisma.BoolFilter<"Vehicle"> | boolean
+  featured?: Prisma.BoolFilter<"Vehicle"> | boolean
+  leasingEligible?: Prisma.BoolFilter<"Vehicle"> | boolean
+  slug?: Prisma.StringFilter<"Vehicle"> | string
+  stockNumber?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   title?: Prisma.StringFilter<"Vehicle"> | string
   make?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   model?: Prisma.StringNullableFilter<"Vehicle"> | string | null
@@ -304,13 +359,24 @@ export type VehicleWhereInput = {
   description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  dealerId?: Prisma.StringFilter<"Vehicle"> | string
+  dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
+  images?: Prisma.VehicleImageListRelationFilter
+  applications?: Prisma.ApplicationListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
 }
 
 export type VehicleOrderByWithRelationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   availability?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  leasingEligible?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  stockNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   make?: Prisma.SortOrderInput | Prisma.SortOrder
   model?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -322,16 +388,28 @@ export type VehicleOrderByWithRelationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vinLast6?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
+  dealer?: Prisma.DealerOrderByWithRelationInput
+  images?: Prisma.VehicleImageOrderByRelationAggregateInput
+  applications?: Prisma.ApplicationOrderByRelationAggregateInput
+  auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
 }
 
 export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   id?: string
+  dealerId_slug?: Prisma.VehicleDealerIdSlugCompoundUniqueInput
   AND?: Prisma.VehicleWhereInput | Prisma.VehicleWhereInput[]
   OR?: Prisma.VehicleWhereInput[]
   NOT?: Prisma.VehicleWhereInput | Prisma.VehicleWhereInput[]
   createdAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Vehicle"> | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFilter<"Vehicle"> | $Enums.VehicleAvailability
+  published?: Prisma.BoolFilter<"Vehicle"> | boolean
+  featured?: Prisma.BoolFilter<"Vehicle"> | boolean
+  leasingEligible?: Prisma.BoolFilter<"Vehicle"> | boolean
+  slug?: Prisma.StringFilter<"Vehicle"> | string
+  stockNumber?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   title?: Prisma.StringFilter<"Vehicle"> | string
   make?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   model?: Prisma.StringNullableFilter<"Vehicle"> | string | null
@@ -343,13 +421,24 @@ export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
-}, "id">
+  dealerId?: Prisma.StringFilter<"Vehicle"> | string
+  dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
+  images?: Prisma.VehicleImageListRelationFilter
+  applications?: Prisma.ApplicationListRelationFilter
+  auditLogs?: Prisma.AuditLogListRelationFilter
+}, "id" | "dealerId_slug">
 
 export type VehicleOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   availability?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  leasingEligible?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  stockNumber?: Prisma.SortOrderInput | Prisma.SortOrder
   title?: Prisma.SortOrder
   make?: Prisma.SortOrderInput | Prisma.SortOrder
   model?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -361,6 +450,7 @@ export type VehicleOrderByWithAggregationInput = {
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vinLast6?: Prisma.SortOrderInput | Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
   _count?: Prisma.VehicleCountOrderByAggregateInput
   _avg?: Prisma.VehicleAvgOrderByAggregateInput
   _max?: Prisma.VehicleMaxOrderByAggregateInput
@@ -375,7 +465,13 @@ export type VehicleScalarWhereWithAggregatesInput = {
   id?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Vehicle"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Vehicle"> | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityWithAggregatesFilter<"Vehicle"> | $Enums.VehicleAvailability
+  published?: Prisma.BoolWithAggregatesFilter<"Vehicle"> | boolean
+  featured?: Prisma.BoolWithAggregatesFilter<"Vehicle"> | boolean
+  leasingEligible?: Prisma.BoolWithAggregatesFilter<"Vehicle"> | boolean
+  slug?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
+  stockNumber?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   title?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
   make?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   model?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
@@ -387,13 +483,20 @@ export type VehicleScalarWhereWithAggregatesInput = {
   description?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+  dealerId?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
 }
 
 export type VehicleCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
   title: string
   make?: string | null
   model?: string | null
@@ -405,13 +508,23 @@ export type VehicleCreateInput = {
   description?: string | null
   imageUrl?: string | null
   vinLast6?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
+  images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUncheckedCreateInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
   title: string
   make?: string | null
   model?: string | null
@@ -423,13 +536,23 @@ export type VehicleUncheckedCreateInput = {
   description?: string | null
   imageUrl?: string | null
   vinLast6?: string | null
+  dealerId: string
+  images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutVehicleInput
 }
 
 export type VehicleUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -441,13 +564,23 @@ export type VehicleUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
+  images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleUncheckedUpdateInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -459,13 +592,23 @@ export type VehicleUncheckedUpdateInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutVehicleNestedInput
 }
 
 export type VehicleCreateManyInput = {
   id?: string
   createdAt?: Date | string
   updatedAt?: Date | string
+  deletedAt?: Date | string | null
   availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
   title: string
   make?: string | null
   model?: string | null
@@ -477,13 +620,20 @@ export type VehicleCreateManyInput = {
   description?: string | null
   imageUrl?: string | null
   vinLast6?: string | null
+  dealerId: string
 }
 
 export type VehicleUpdateManyMutationInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -501,7 +651,13 @@ export type VehicleUncheckedUpdateManyInput = {
   id?: Prisma.StringFieldUpdateOperationsInput | string
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   title?: Prisma.StringFieldUpdateOperationsInput | string
   make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -513,13 +669,40 @@ export type VehicleUncheckedUpdateManyInput = {
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+}
+
+export type VehicleListRelationFilter = {
+  every?: Prisma.VehicleWhereInput
+  some?: Prisma.VehicleWhereInput
+  none?: Prisma.VehicleWhereInput
+}
+
+export type VehicleOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
+}
+
+export type VehicleNullableScalarRelationFilter = {
+  is?: Prisma.VehicleWhereInput | null
+  isNot?: Prisma.VehicleWhereInput | null
+}
+
+export type VehicleDealerIdSlugCompoundUniqueInput = {
+  dealerId: string
+  slug: string
 }
 
 export type VehicleCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   availability?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  leasingEligible?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  stockNumber?: Prisma.SortOrder
   title?: Prisma.SortOrder
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
@@ -531,6 +714,7 @@ export type VehicleCountOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
 }
 
 export type VehicleAvgOrderByAggregateInput = {
@@ -543,7 +727,13 @@ export type VehicleMaxOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   availability?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  leasingEligible?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  stockNumber?: Prisma.SortOrder
   title?: Prisma.SortOrder
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
@@ -555,13 +745,20 @@ export type VehicleMaxOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
 }
 
 export type VehicleMinOrderByAggregateInput = {
   id?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
   availability?: Prisma.SortOrder
+  published?: Prisma.SortOrder
+  featured?: Prisma.SortOrder
+  leasingEligible?: Prisma.SortOrder
+  slug?: Prisma.SortOrder
+  stockNumber?: Prisma.SortOrder
   title?: Prisma.SortOrder
   make?: Prisma.SortOrder
   model?: Prisma.SortOrder
@@ -573,12 +770,76 @@ export type VehicleMinOrderByAggregateInput = {
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
+  dealerId?: Prisma.SortOrder
 }
 
 export type VehicleSumOrderByAggregateInput = {
   year?: Prisma.SortOrder
   mileageKm?: Prisma.SortOrder
   priceCzk?: Prisma.SortOrder
+}
+
+export type VehicleScalarRelationFilter = {
+  is?: Prisma.VehicleWhereInput
+  isNot?: Prisma.VehicleWhereInput
+}
+
+export type VehicleCreateNestedManyWithoutDealerInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput> | Prisma.VehicleCreateWithoutDealerInput[] | Prisma.VehicleUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutDealerInput | Prisma.VehicleCreateOrConnectWithoutDealerInput[]
+  createMany?: Prisma.VehicleCreateManyDealerInputEnvelope
+  connect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+}
+
+export type VehicleUncheckedCreateNestedManyWithoutDealerInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput> | Prisma.VehicleCreateWithoutDealerInput[] | Prisma.VehicleUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutDealerInput | Prisma.VehicleCreateOrConnectWithoutDealerInput[]
+  createMany?: Prisma.VehicleCreateManyDealerInputEnvelope
+  connect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+}
+
+export type VehicleUpdateManyWithoutDealerNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput> | Prisma.VehicleCreateWithoutDealerInput[] | Prisma.VehicleUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutDealerInput | Prisma.VehicleCreateOrConnectWithoutDealerInput[]
+  upsert?: Prisma.VehicleUpsertWithWhereUniqueWithoutDealerInput | Prisma.VehicleUpsertWithWhereUniqueWithoutDealerInput[]
+  createMany?: Prisma.VehicleCreateManyDealerInputEnvelope
+  set?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  disconnect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  delete?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  connect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  update?: Prisma.VehicleUpdateWithWhereUniqueWithoutDealerInput | Prisma.VehicleUpdateWithWhereUniqueWithoutDealerInput[]
+  updateMany?: Prisma.VehicleUpdateManyWithWhereWithoutDealerInput | Prisma.VehicleUpdateManyWithWhereWithoutDealerInput[]
+  deleteMany?: Prisma.VehicleScalarWhereInput | Prisma.VehicleScalarWhereInput[]
+}
+
+export type VehicleUncheckedUpdateManyWithoutDealerNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput> | Prisma.VehicleCreateWithoutDealerInput[] | Prisma.VehicleUncheckedCreateWithoutDealerInput[]
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutDealerInput | Prisma.VehicleCreateOrConnectWithoutDealerInput[]
+  upsert?: Prisma.VehicleUpsertWithWhereUniqueWithoutDealerInput | Prisma.VehicleUpsertWithWhereUniqueWithoutDealerInput[]
+  createMany?: Prisma.VehicleCreateManyDealerInputEnvelope
+  set?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  disconnect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  delete?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  connect?: Prisma.VehicleWhereUniqueInput | Prisma.VehicleWhereUniqueInput[]
+  update?: Prisma.VehicleUpdateWithWhereUniqueWithoutDealerInput | Prisma.VehicleUpdateWithWhereUniqueWithoutDealerInput[]
+  updateMany?: Prisma.VehicleUpdateManyWithWhereWithoutDealerInput | Prisma.VehicleUpdateManyWithWhereWithoutDealerInput[]
+  deleteMany?: Prisma.VehicleScalarWhereInput | Prisma.VehicleScalarWhereInput[]
+}
+
+export type VehicleCreateNestedOneWithoutApplicationsInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutApplicationsInput, Prisma.VehicleUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutApplicationsInput
+  connect?: Prisma.VehicleWhereUniqueInput
+}
+
+export type VehicleUpdateOneWithoutApplicationsNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutApplicationsInput, Prisma.VehicleUncheckedCreateWithoutApplicationsInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutApplicationsInput
+  upsert?: Prisma.VehicleUpsertWithoutApplicationsInput
+  disconnect?: Prisma.VehicleWhereInput | boolean
+  delete?: Prisma.VehicleWhereInput | boolean
+  connect?: Prisma.VehicleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehicleUpdateToOneWithWhereWithoutApplicationsInput, Prisma.VehicleUpdateWithoutApplicationsInput>, Prisma.VehicleUncheckedUpdateWithoutApplicationsInput>
 }
 
 export type EnumVehicleAvailabilityFieldUpdateOperationsInput = {
@@ -593,13 +854,678 @@ export type NullableIntFieldUpdateOperationsInput = {
   divide?: number
 }
 
+export type VehicleCreateNestedOneWithoutImagesInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutImagesInput, Prisma.VehicleUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutImagesInput
+  connect?: Prisma.VehicleWhereUniqueInput
+}
+
+export type VehicleUpdateOneRequiredWithoutImagesNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutImagesInput, Prisma.VehicleUncheckedCreateWithoutImagesInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutImagesInput
+  upsert?: Prisma.VehicleUpsertWithoutImagesInput
+  connect?: Prisma.VehicleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehicleUpdateToOneWithWhereWithoutImagesInput, Prisma.VehicleUpdateWithoutImagesInput>, Prisma.VehicleUncheckedUpdateWithoutImagesInput>
+}
+
+export type VehicleCreateNestedOneWithoutAuditLogsInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutAuditLogsInput, Prisma.VehicleUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutAuditLogsInput
+  connect?: Prisma.VehicleWhereUniqueInput
+}
+
+export type VehicleUpdateOneWithoutAuditLogsNestedInput = {
+  create?: Prisma.XOR<Prisma.VehicleCreateWithoutAuditLogsInput, Prisma.VehicleUncheckedCreateWithoutAuditLogsInput>
+  connectOrCreate?: Prisma.VehicleCreateOrConnectWithoutAuditLogsInput
+  upsert?: Prisma.VehicleUpsertWithoutAuditLogsInput
+  disconnect?: Prisma.VehicleWhereInput | boolean
+  delete?: Prisma.VehicleWhereInput | boolean
+  connect?: Prisma.VehicleWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.VehicleUpdateToOneWithWhereWithoutAuditLogsInput, Prisma.VehicleUpdateWithoutAuditLogsInput>, Prisma.VehicleUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type VehicleCreateWithoutDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleUncheckedCreateWithoutDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleCreateOrConnectWithoutDealerInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput>
+}
+
+export type VehicleCreateManyDealerInputEnvelope = {
+  data: Prisma.VehicleCreateManyDealerInput | Prisma.VehicleCreateManyDealerInput[]
+  skipDuplicates?: boolean
+}
+
+export type VehicleUpsertWithWhereUniqueWithoutDealerInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  update: Prisma.XOR<Prisma.VehicleUpdateWithoutDealerInput, Prisma.VehicleUncheckedUpdateWithoutDealerInput>
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutDealerInput, Prisma.VehicleUncheckedCreateWithoutDealerInput>
+}
+
+export type VehicleUpdateWithWhereUniqueWithoutDealerInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  data: Prisma.XOR<Prisma.VehicleUpdateWithoutDealerInput, Prisma.VehicleUncheckedUpdateWithoutDealerInput>
+}
+
+export type VehicleUpdateManyWithWhereWithoutDealerInput = {
+  where: Prisma.VehicleScalarWhereInput
+  data: Prisma.XOR<Prisma.VehicleUpdateManyMutationInput, Prisma.VehicleUncheckedUpdateManyWithoutDealerInput>
+}
+
+export type VehicleScalarWhereInput = {
+  AND?: Prisma.VehicleScalarWhereInput | Prisma.VehicleScalarWhereInput[]
+  OR?: Prisma.VehicleScalarWhereInput[]
+  NOT?: Prisma.VehicleScalarWhereInput | Prisma.VehicleScalarWhereInput[]
+  id?: Prisma.StringFilter<"Vehicle"> | string
+  createdAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Vehicle"> | Date | string
+  deletedAt?: Prisma.DateTimeNullableFilter<"Vehicle"> | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFilter<"Vehicle"> | $Enums.VehicleAvailability
+  published?: Prisma.BoolFilter<"Vehicle"> | boolean
+  featured?: Prisma.BoolFilter<"Vehicle"> | boolean
+  leasingEligible?: Prisma.BoolFilter<"Vehicle"> | boolean
+  slug?: Prisma.StringFilter<"Vehicle"> | string
+  stockNumber?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  title?: Prisma.StringFilter<"Vehicle"> | string
+  make?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  model?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  year?: Prisma.IntNullableFilter<"Vehicle"> | number | null
+  mileageKm?: Prisma.IntNullableFilter<"Vehicle"> | number | null
+  fuel?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  transmission?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  priceCzk?: Prisma.IntNullableFilter<"Vehicle"> | number | null
+  description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  dealerId?: Prisma.StringFilter<"Vehicle"> | string
+}
+
+export type VehicleCreateWithoutApplicationsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
+  images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleUncheckedCreateWithoutApplicationsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealerId: string
+  images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleCreateOrConnectWithoutApplicationsInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutApplicationsInput, Prisma.VehicleUncheckedCreateWithoutApplicationsInput>
+}
+
+export type VehicleUpsertWithoutApplicationsInput = {
+  update: Prisma.XOR<Prisma.VehicleUpdateWithoutApplicationsInput, Prisma.VehicleUncheckedUpdateWithoutApplicationsInput>
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutApplicationsInput, Prisma.VehicleUncheckedCreateWithoutApplicationsInput>
+  where?: Prisma.VehicleWhereInput
+}
+
+export type VehicleUpdateToOneWithWhereWithoutApplicationsInput = {
+  where?: Prisma.VehicleWhereInput
+  data: Prisma.XOR<Prisma.VehicleUpdateWithoutApplicationsInput, Prisma.VehicleUncheckedUpdateWithoutApplicationsInput>
+}
+
+export type VehicleUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
+  images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleUncheckedUpdateWithoutApplicationsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleCreateWithoutImagesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleUncheckedCreateWithoutImagesInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealerId: string
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleCreateOrConnectWithoutImagesInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutImagesInput, Prisma.VehicleUncheckedCreateWithoutImagesInput>
+}
+
+export type VehicleUpsertWithoutImagesInput = {
+  update: Prisma.XOR<Prisma.VehicleUpdateWithoutImagesInput, Prisma.VehicleUncheckedUpdateWithoutImagesInput>
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutImagesInput, Prisma.VehicleUncheckedCreateWithoutImagesInput>
+  where?: Prisma.VehicleWhereInput
+}
+
+export type VehicleUpdateToOneWithWhereWithoutImagesInput = {
+  where?: Prisma.VehicleWhereInput
+  data: Prisma.XOR<Prisma.VehicleUpdateWithoutImagesInput, Prisma.VehicleUncheckedUpdateWithoutImagesInput>
+}
+
+export type VehicleUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleUncheckedUpdateWithoutImagesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleCreateWithoutAuditLogsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
+  images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleUncheckedCreateWithoutAuditLogsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+  dealerId: string
+  images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
+}
+
+export type VehicleCreateOrConnectWithoutAuditLogsInput = {
+  where: Prisma.VehicleWhereUniqueInput
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutAuditLogsInput, Prisma.VehicleUncheckedCreateWithoutAuditLogsInput>
+}
+
+export type VehicleUpsertWithoutAuditLogsInput = {
+  update: Prisma.XOR<Prisma.VehicleUpdateWithoutAuditLogsInput, Prisma.VehicleUncheckedUpdateWithoutAuditLogsInput>
+  create: Prisma.XOR<Prisma.VehicleCreateWithoutAuditLogsInput, Prisma.VehicleUncheckedCreateWithoutAuditLogsInput>
+  where?: Prisma.VehicleWhereInput
+}
+
+export type VehicleUpdateToOneWithWhereWithoutAuditLogsInput = {
+  where?: Prisma.VehicleWhereInput
+  data: Prisma.XOR<Prisma.VehicleUpdateWithoutAuditLogsInput, Prisma.VehicleUncheckedUpdateWithoutAuditLogsInput>
+}
+
+export type VehicleUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
+  images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleUncheckedUpdateWithoutAuditLogsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.StringFieldUpdateOperationsInput | string
+  images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleCreateManyDealerInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  deletedAt?: Date | string | null
+  availability?: $Enums.VehicleAvailability
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug: string
+  stockNumber?: string | null
+  title: string
+  make?: string | null
+  model?: string | null
+  year?: number | null
+  mileageKm?: number | null
+  fuel?: string | null
+  transmission?: string | null
+  priceCzk?: number | null
+  description?: string | null
+  imageUrl?: string | null
+  vinLast6?: string | null
+}
+
+export type VehicleUpdateWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleUncheckedUpdateWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutVehicleNestedInput
+}
+
+export type VehicleUncheckedUpdateManyWithoutDealerInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  availability?: Prisma.EnumVehicleAvailabilityFieldUpdateOperationsInput | $Enums.VehicleAvailability
+  published?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  featured?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  leasingEligible?: Prisma.BoolFieldUpdateOperationsInput | boolean
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  stockNumber?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  title?: Prisma.StringFieldUpdateOperationsInput | string
+  make?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  model?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  year?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  mileageKm?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  fuel?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  transmission?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+
+/**
+ * Count Type VehicleCountOutputType
+ */
+
+export type VehicleCountOutputType = {
+  images: number
+  applications: number
+  auditLogs: number
+}
+
+export type VehicleCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  images?: boolean | VehicleCountOutputTypeCountImagesArgs
+  applications?: boolean | VehicleCountOutputTypeCountApplicationsArgs
+  auditLogs?: boolean | VehicleCountOutputTypeCountAuditLogsArgs
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VehicleCountOutputType
+   */
+  select?: Prisma.VehicleCountOutputTypeSelect<ExtArgs> | null
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeCountImagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.VehicleImageWhereInput
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.ApplicationWhereInput
+}
+
+/**
+ * VehicleCountOutputType without action
+ */
+export type VehicleCountOutputTypeCountAuditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.AuditLogWhereInput
+}
 
 
 export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   availability?: boolean
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug?: boolean
+  stockNumber?: boolean
   title?: boolean
   make?: boolean
   model?: boolean
@@ -611,13 +1537,25 @@ export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   description?: boolean
   imageUrl?: boolean
   vinLast6?: boolean
+  dealerId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  images?: boolean | Prisma.Vehicle$imagesArgs<ExtArgs>
+  applications?: boolean | Prisma.Vehicle$applicationsArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.Vehicle$auditLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   availability?: boolean
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug?: boolean
+  stockNumber?: boolean
   title?: boolean
   make?: boolean
   model?: boolean
@@ -629,13 +1567,21 @@ export type VehicleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   imageUrl?: boolean
   vinLast6?: boolean
+  dealerId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   availability?: boolean
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug?: boolean
+  stockNumber?: boolean
   title?: boolean
   make?: boolean
   model?: boolean
@@ -647,13 +1593,21 @@ export type VehicleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   description?: boolean
   imageUrl?: boolean
   vinLast6?: boolean
+  dealerId?: boolean
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["vehicle"]>
 
 export type VehicleSelectScalar = {
   id?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  deletedAt?: boolean
   availability?: boolean
+  published?: boolean
+  featured?: boolean
+  leasingEligible?: boolean
+  slug?: boolean
+  stockNumber?: boolean
   title?: boolean
   make?: boolean
   model?: boolean
@@ -665,18 +1619,43 @@ export type VehicleSelectScalar = {
   description?: boolean
   imageUrl?: boolean
   vinLast6?: boolean
+  dealerId?: boolean
 }
 
-export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "availability" | "title" | "make" | "model" | "year" | "mileageKm" | "fuel" | "transmission" | "priceCzk" | "description" | "imageUrl" | "vinLast6", ExtArgs["result"]["vehicle"]>
+export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "deletedAt" | "availability" | "published" | "featured" | "leasingEligible" | "slug" | "stockNumber" | "title" | "make" | "model" | "year" | "mileageKm" | "fuel" | "transmission" | "priceCzk" | "description" | "imageUrl" | "vinLast6" | "dealerId", ExtArgs["result"]["vehicle"]>
+export type VehicleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+  images?: boolean | Prisma.Vehicle$imagesArgs<ExtArgs>
+  applications?: boolean | Prisma.Vehicle$applicationsArgs<ExtArgs>
+  auditLogs?: boolean | Prisma.Vehicle$auditLogsArgs<ExtArgs>
+  _count?: boolean | Prisma.VehicleCountOutputTypeDefaultArgs<ExtArgs>
+}
+export type VehicleIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+}
+export type VehicleIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
+}
 
 export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Vehicle"
-  objects: {}
+  objects: {
+    dealer: Prisma.$DealerPayload<ExtArgs>
+    images: Prisma.$VehicleImagePayload<ExtArgs>[]
+    applications: Prisma.$ApplicationPayload<ExtArgs>[]
+    auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
+  }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
     createdAt: Date
     updatedAt: Date
+    deletedAt: Date | null
     availability: $Enums.VehicleAvailability
+    published: boolean
+    featured: boolean
+    leasingEligible: boolean
+    slug: string
+    stockNumber: string | null
     title: string
     make: string | null
     model: string | null
@@ -688,6 +1667,7 @@ export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     description: string | null
     imageUrl: string | null
     vinLast6: string | null
+    dealerId: string
   }, ExtArgs["result"]["vehicle"]>
   composites: {}
 }
@@ -1082,6 +2062,10 @@ readonly fields: VehicleFieldRefs;
  */
 export interface Prisma__VehicleClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  dealer<T extends Prisma.DealerDefaultArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.DealerDefaultArgs<ExtArgs>>): Prisma.Prisma__DealerClient<runtime.Types.Result.GetResult<Prisma.$DealerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+  images<T extends Prisma.Vehicle$imagesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicle$imagesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehicleImagePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  applications<T extends Prisma.Vehicle$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicle$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  auditLogs<T extends Prisma.Vehicle$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Vehicle$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -1114,7 +2098,13 @@ export interface VehicleFieldRefs {
   readonly id: Prisma.FieldRef<"Vehicle", 'String'>
   readonly createdAt: Prisma.FieldRef<"Vehicle", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Vehicle", 'DateTime'>
+  readonly deletedAt: Prisma.FieldRef<"Vehicle", 'DateTime'>
   readonly availability: Prisma.FieldRef<"Vehicle", 'VehicleAvailability'>
+  readonly published: Prisma.FieldRef<"Vehicle", 'Boolean'>
+  readonly featured: Prisma.FieldRef<"Vehicle", 'Boolean'>
+  readonly leasingEligible: Prisma.FieldRef<"Vehicle", 'Boolean'>
+  readonly slug: Prisma.FieldRef<"Vehicle", 'String'>
+  readonly stockNumber: Prisma.FieldRef<"Vehicle", 'String'>
   readonly title: Prisma.FieldRef<"Vehicle", 'String'>
   readonly make: Prisma.FieldRef<"Vehicle", 'String'>
   readonly model: Prisma.FieldRef<"Vehicle", 'String'>
@@ -1126,6 +2116,7 @@ export interface VehicleFieldRefs {
   readonly description: Prisma.FieldRef<"Vehicle", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Vehicle", 'String'>
   readonly vinLast6: Prisma.FieldRef<"Vehicle", 'String'>
+  readonly dealerId: Prisma.FieldRef<"Vehicle", 'String'>
 }
     
 
@@ -1142,6 +2133,10 @@ export type VehicleFindUniqueArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * Omit specific fields from the Vehicle
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
   /**
    * Filter, which Vehicle to fetch.
    */
@@ -1161,6 +2156,10 @@ export type VehicleFindUniqueOrThrowArgs<ExtArgs extends runtime.Types.Extension
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  /**
    * Filter, which Vehicle to fetch.
    */
   where: Prisma.VehicleWhereUniqueInput
@@ -1178,6 +2177,10 @@ export type VehicleFindFirstArgs<ExtArgs extends runtime.Types.Extensions.Intern
    * Omit specific fields from the Vehicle
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
   /**
    * Filter, which Vehicle to fetch.
    */
@@ -1227,6 +2230,10 @@ export type VehicleFindFirstOrThrowArgs<ExtArgs extends runtime.Types.Extensions
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  /**
    * Filter, which Vehicle to fetch.
    */
   where?: Prisma.VehicleWhereInput
@@ -1275,6 +2282,10 @@ export type VehicleFindManyArgs<ExtArgs extends runtime.Types.Extensions.Interna
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  /**
    * Filter, which Vehicles to fetch.
    */
   where?: Prisma.VehicleWhereInput
@@ -1318,6 +2329,10 @@ export type VehicleCreateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  /**
    * The data needed to create a Vehicle.
    */
   data: Prisma.XOR<Prisma.VehicleCreateInput, Prisma.VehicleUncheckedCreateInput>
@@ -1331,6 +2346,7 @@ export type VehicleCreateManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
    * The data used to create many Vehicles.
    */
   data: Prisma.VehicleCreateManyInput | Prisma.VehicleCreateManyInput[]
+  skipDuplicates?: boolean
 }
 
 /**
@@ -1349,6 +2365,11 @@ export type VehicleCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * The data used to create many Vehicles.
    */
   data: Prisma.VehicleCreateManyInput | Prisma.VehicleCreateManyInput[]
+  skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1363,6 +2384,10 @@ export type VehicleUpdateArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Vehicle
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
   /**
    * The data needed to update a Vehicle.
    */
@@ -1415,6 +2440,10 @@ export type VehicleUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Extensi
    * Limit how many Vehicles to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1429,6 +2458,10 @@ export type VehicleUpsertArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    * Omit specific fields from the Vehicle
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
   /**
    * The filter to search for the Vehicle to update in case it exists.
    */
@@ -1456,6 +2489,10 @@ export type VehicleDeleteArgs<ExtArgs extends runtime.Types.Extensions.InternalA
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
   /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
+  /**
    * Filter which Vehicle to delete.
    */
   where: Prisma.VehicleWhereUniqueInput
@@ -1476,6 +2513,78 @@ export type VehicleDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Inter
 }
 
 /**
+ * Vehicle.images
+ */
+export type Vehicle$imagesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the VehicleImage
+   */
+  select?: Prisma.VehicleImageSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the VehicleImage
+   */
+  omit?: Prisma.VehicleImageOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleImageInclude<ExtArgs> | null
+  where?: Prisma.VehicleImageWhereInput
+  orderBy?: Prisma.VehicleImageOrderByWithRelationInput | Prisma.VehicleImageOrderByWithRelationInput[]
+  cursor?: Prisma.VehicleImageWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.VehicleImageScalarFieldEnum | Prisma.VehicleImageScalarFieldEnum[]
+}
+
+/**
+ * Vehicle.applications
+ */
+export type Vehicle$applicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the Application
+   */
+  select?: Prisma.ApplicationSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the Application
+   */
+  omit?: Prisma.ApplicationOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.ApplicationInclude<ExtArgs> | null
+  where?: Prisma.ApplicationWhereInput
+  orderBy?: Prisma.ApplicationOrderByWithRelationInput | Prisma.ApplicationOrderByWithRelationInput[]
+  cursor?: Prisma.ApplicationWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
+}
+
+/**
+ * Vehicle.auditLogs
+ */
+export type Vehicle$auditLogsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the AuditLog
+   */
+  select?: Prisma.AuditLogSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the AuditLog
+   */
+  omit?: Prisma.AuditLogOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.AuditLogInclude<ExtArgs> | null
+  where?: Prisma.AuditLogWhereInput
+  orderBy?: Prisma.AuditLogOrderByWithRelationInput | Prisma.AuditLogOrderByWithRelationInput[]
+  cursor?: Prisma.AuditLogWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.AuditLogScalarFieldEnum | Prisma.AuditLogScalarFieldEnum[]
+}
+
+/**
  * Vehicle without action
  */
 export type VehicleDefaultArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1487,4 +2596,8 @@ export type VehicleDefaultArgs<ExtArgs extends runtime.Types.Extensions.Internal
    * Omit specific fields from the Vehicle
    */
   omit?: Prisma.VehicleOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.VehicleInclude<ExtArgs> | null
 }

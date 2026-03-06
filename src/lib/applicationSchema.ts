@@ -17,12 +17,16 @@ export const applicationCreateSchema = z
   .object({
     locale: z.string().min(2).max(10),
     sourcePath: z.string().max(200).optional(),
+    utmSource: z.string().max(120).optional(),
+    utmMedium: z.string().max(120).optional(),
+    utmCampaign: z.string().max(120).optional(),
 
     fullName: z.string().min(2).max(120),
     phone: z.string().min(5).max(40).optional(),
     email: z.string().email().max(200).optional(),
     city: z.string().max(120).optional(),
     message: z.string().max(5000).optional(),
+    vehicleId: z.string().cuid().optional(),
 
     topic: z
       .enum(["LEASING", "FUEL", "VEHICLE", "CAREER", "OTHER"])

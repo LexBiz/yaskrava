@@ -21,6 +21,19 @@ export const ApplicationStatus = {
 export type ApplicationStatus = (typeof ApplicationStatus)[keyof typeof ApplicationStatus]
 
 
+export const FinancingStatus = {
+  NEW: 'NEW',
+  QUALIFYING: 'QUALIFYING',
+  DOCUMENTS_PENDING: 'DOCUMENTS_PENDING',
+  SUBMITTED: 'SUBMITTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED',
+  FUNDED: 'FUNDED'
+} as const
+
+export type FinancingStatus = (typeof FinancingStatus)[keyof typeof FinancingStatus]
+
+
 export const ApplicationTopic = {
   LEASING: 'LEASING',
   FUEL: 'FUEL',
@@ -30,6 +43,66 @@ export const ApplicationTopic = {
 } as const
 
 export type ApplicationTopic = (typeof ApplicationTopic)[keyof typeof ApplicationTopic]
+
+
+export const DealerStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  SUSPENDED: 'SUSPENDED'
+} as const
+
+export type DealerStatus = (typeof DealerStatus)[keyof typeof DealerStatus]
+
+
+export const DomainStatus = {
+  ACTIVE: 'ACTIVE',
+  DISABLED: 'DISABLED'
+} as const
+
+export type DomainStatus = (typeof DomainStatus)[keyof typeof DomainStatus]
+
+
+export const PlatformRole = {
+  SUPER_ADMIN: 'SUPER_ADMIN',
+  YASKRAVA_MANAGER: 'YASKRAVA_MANAGER'
+} as const
+
+export type PlatformRole = (typeof PlatformRole)[keyof typeof PlatformRole]
+
+
+export const DealerMembershipRole = {
+  DEALER_OWNER: 'DEALER_OWNER',
+  DEALER_MANAGER: 'DEALER_MANAGER',
+  DEALER_SALES: 'DEALER_SALES'
+} as const
+
+export type DealerMembershipRole = (typeof DealerMembershipRole)[keyof typeof DealerMembershipRole]
+
+
+export const AuditActorType = {
+  SYSTEM: 'SYSTEM',
+  USER: 'USER'
+} as const
+
+export type AuditActorType = (typeof AuditActorType)[keyof typeof AuditActorType]
+
+
+export const AuditAction = {
+  USER_LOGIN: 'USER_LOGIN',
+  USER_LOGOUT: 'USER_LOGOUT',
+  DEALER_PROVISIONED: 'DEALER_PROVISIONED',
+  APPLICATION_CREATED: 'APPLICATION_CREATED',
+  APPLICATION_STATUS_UPDATED: 'APPLICATION_STATUS_UPDATED',
+  FINANCING_STATUS_UPDATED: 'FINANCING_STATUS_UPDATED',
+  APPLICATION_ARCHIVED: 'APPLICATION_ARCHIVED',
+  APPLICATION_NOTE_UPDATED: 'APPLICATION_NOTE_UPDATED',
+  APPLICATION_SOFT_DELETED: 'APPLICATION_SOFT_DELETED',
+  VEHICLE_CREATED: 'VEHICLE_CREATED',
+  VEHICLE_UPDATED: 'VEHICLE_UPDATED',
+  VEHICLE_ARCHIVED: 'VEHICLE_ARCHIVED'
+} as const
+
+export type AuditAction = (typeof AuditAction)[keyof typeof AuditAction]
 
 
 export const VehicleAvailability = {

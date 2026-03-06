@@ -9,6 +9,10 @@ import type {CalculatorSnapshot} from "@/lib/applicationSchema";
 
 type Topic = "LEASING" | "FUEL" | "VEHICLE" | "CAREER" | "OTHER";
 
+type Props = {
+  vehicleId?: string;
+};
+
 function safeParseCalc(raw: string | null): CalculatorSnapshot | null {
   if (!raw) return null;
   try {
@@ -20,7 +24,7 @@ function safeParseCalc(raw: string | null): CalculatorSnapshot | null {
   }
 }
 
-export function ApplicationForm() {
+export function ApplicationForm({vehicleId}: Props) {
   const t = useTranslations("ApplyForm");
   const locale = useLocale();
 
@@ -57,12 +61,16 @@ export function ApplicationForm() {
         body: JSON.stringify({
           locale,
           sourcePath: window.location.pathname,
+          utmSource: new URLSearchParams(window.location.search).get("utm_source") || undefined,
+          utmMedium: new URLSearchParams(window.location.search).get("utm_medium") || undefined,
+          utmCampaign: new URLSearchParams(window.location.search).get("utm_campaign") || undefined,
           topic,
           fullName,
           phone: phone.trim() || undefined,
           email: email.trim() || undefined,
           city: city.trim() || undefined,
           message: message.trim() || undefined,
+          vehicleId,
           consent: consent ? true : false,
           calculator: calc ?? undefined,
         }),

@@ -5,6 +5,7 @@ import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {Container} from "@/components/site/Container";
 import {PageHero} from "@/components/site/PageHero";
 import {prisma} from "@/lib/prisma";
+import {getCurrentDealerOrThrow} from "@/lib/tenant";
 
 export const dynamic = "force-dynamic";
 
@@ -180,19 +181,38 @@ function VehicleCard({
 
 export default async function FleetPage() {
   const t = await getTranslations("Fleet");
+  const dealer = await getCurrentDealerOrThrow();
 
-  const [dbInTransit, dbOnSite] = await Promise.all([
-    prisma.vehicle.findMany({
-      where: {availability: "IN_TRANSIT"},
-      orderBy: {createdAt: "desc"},
-      take: 6,
-    }),
-    prisma.vehicle.findMany({
-      where: {availability: "ON_SITE"},
-      orderBy: {createdAt: "desc"},
-      take: 6,
-    }),
-  ]);
+  let dbInTransit: VehicleCardData[] = [];
+  let dbOnSite: VehicleCardData[] = [];
+
+  try {
+    [dbInTransit, dbOnSite] = await Promise.all([
+      prisma.vehicle.findMany({
+        where: {
+          dealerId: dealer.id,
+          deletedAt: null,
+          published: true,
+          availability: "IN_TRANSIT",
+        },
+        orderBy: {createdAt: "desc"},
+        take: 6,
+      }),
+      prisma.vehicle.findMany({
+        where: {
+          dealerId: dealer.id,
+          deletedAt: null,
+          published: true,
+          availability: "ON_SITE",
+        },
+        orderBy: {createdAt: "desc"},
+        take: 6,
+      }),
+    ]);
+  } catch {
+    dbInTransit = [];
+    dbOnSite = [];
+  }
 
   const inTransit = dbInTransit.length
     ? dbInTransit
@@ -204,7 +224,10 @@ export default async function FleetPage() {
   return (
     <div>
       <PageHero title={t("title")} subtitle={t("subtitle")}>
-        <DownloadButtons />
+        <DownloadButtons
+          appStoreUrl={dealer.appStoreUrl}
+          playStoreUrl={dealer.playStoreUrl}
+        />
       </PageHero>
 
       <section className="bg-black py-14 sm:py-20">

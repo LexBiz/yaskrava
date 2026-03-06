@@ -8,6 +8,14 @@
  *
  * 🟢 You can import this file directly.
  */
+export type * from './models/Dealer'
+export type * from './models/DealerDomain'
+export type * from './models/AdminUser'
+export type * from './models/DealerMembership'
+export type * from './models/UserSession'
 export type * from './models/Application'
 export type * from './models/Vehicle'
+export type * from './models/VehicleImage'
+export type * from './models/FinancingCase'
+export type * from './models/AuditLog'
 export type * from './commonInputTypes'

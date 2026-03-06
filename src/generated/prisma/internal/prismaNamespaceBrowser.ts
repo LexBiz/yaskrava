@@ -51,8 +51,16 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  Dealer: 'Dealer',
+  DealerDomain: 'DealerDomain',
+  AdminUser: 'AdminUser',
+  DealerMembership: 'DealerMembership',
+  UserSession: 'UserSession',
   Application: 'Application',
-  Vehicle: 'Vehicle'
+  Vehicle: 'Vehicle',
+  VehicleImage: 'VehicleImage',
+  FinancingCase: 'FinancingCase',
+  AuditLog: 'AuditLog'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -62,18 +70,106 @@ export type ModelName = (typeof ModelName)[keyof typeof ModelName]
  */
 
 export const TransactionIsolationLevel = runtime.makeStrictEnum({
+  ReadUncommitted: 'ReadUncommitted',
+  ReadCommitted: 'ReadCommitted',
+  RepeatableRead: 'RepeatableRead',
   Serializable: 'Serializable'
 } as const)
 
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const DealerScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  slug: 'slug',
+  name: 'name',
+  legalName: 'legalName',
+  status: 'status',
+  defaultLocale: 'defaultLocale',
+  accentColor: 'accentColor',
+  brandPrimary: 'brandPrimary',
+  brandSecondary: 'brandSecondary',
+  supportEmail: 'supportEmail',
+  supportPhone: 'supportPhone',
+  city: 'city',
+  country: 'country',
+  websiteTitle: 'websiteTitle',
+  footerDisclaimer: 'footerDisclaimer',
+  appStoreUrl: 'appStoreUrl',
+  playStoreUrl: 'playStoreUrl'
+} as const
+
+export type DealerScalarFieldEnum = (typeof DealerScalarFieldEnum)[keyof typeof DealerScalarFieldEnum]
+
+
+export const DealerDomainScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  hostname: 'hostname',
+  isPrimary: 'isPrimary',
+  status: 'status',
+  dealerId: 'dealerId'
+} as const
+
+export type DealerDomainScalarFieldEnum = (typeof DealerDomainScalarFieldEnum)[keyof typeof DealerDomainScalarFieldEnum]
+
+
+export const AdminUserScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  email: 'email',
+  passwordHash: 'passwordHash',
+  firstName: 'firstName',
+  lastName: 'lastName',
+  isActive: 'isActive',
+  platformRole: 'platformRole'
+} as const
+
+export type AdminUserScalarFieldEnum = (typeof AdminUserScalarFieldEnum)[keyof typeof AdminUserScalarFieldEnum]
+
+
+export const DealerMembershipScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  role: 'role',
+  isActive: 'isActive',
+  userId: 'userId',
+  dealerId: 'dealerId'
+} as const
+
+export type DealerMembershipScalarFieldEnum = (typeof DealerMembershipScalarFieldEnum)[keyof typeof DealerMembershipScalarFieldEnum]
+
+
+export const UserSessionScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  expiresAt: 'expiresAt',
+  tokenHash: 'tokenHash',
+  userId: 'userId'
+} as const
+
+export type UserSessionScalarFieldEnum = (typeof UserSessionScalarFieldEnum)[keyof typeof UserSessionScalarFieldEnum]
+
+
 export const ApplicationScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  submittedAt: 'submittedAt',
+  contactedAt: 'contactedAt',
+  decisionAt: 'decisionAt',
+  deletedAt: 'deletedAt',
   locale: 'locale',
+  sourceDomain: 'sourceDomain',
   sourcePath: 'sourcePath',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
   fullName: 'fullName',
   phone: 'phone',
   email: 'email',
@@ -83,8 +179,14 @@ export const ApplicationScalarFieldEnum = {
   calculator: 'calculator',
   topic: 'topic',
   status: 'status',
+  financingStatus: 'financingStatus',
   archived: 'archived',
-  adminNote: 'adminNote'
+  adminNote: 'adminNote',
+  dealerNote: 'dealerNote',
+  dealerId: 'dealerId',
+  vehicleId: 'vehicleId',
+  assignedDealerUserId: 'assignedDealerUserId',
+  assignedYaskravaUserId: 'assignedYaskravaUserId'
 } as const
 
 export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
@@ -94,7 +196,13 @@ export const VehicleScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
   availability: 'availability',
+  published: 'published',
+  featured: 'featured',
+  leasingEligible: 'leasingEligible',
+  slug: 'slug',
+  stockNumber: 'stockNumber',
   title: 'title',
   make: 'make',
   model: 'model',
@@ -105,10 +213,57 @@ export const VehicleScalarFieldEnum = {
   priceCzk: 'priceCzk',
   description: 'description',
   imageUrl: 'imageUrl',
-  vinLast6: 'vinLast6'
+  vinLast6: 'vinLast6',
+  dealerId: 'dealerId'
 } as const
 
 export type VehicleScalarFieldEnum = (typeof VehicleScalarFieldEnum)[keyof typeof VehicleScalarFieldEnum]
+
+
+export const VehicleImageScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  vehicleId: 'vehicleId',
+  url: 'url',
+  alt: 'alt',
+  sortOrder: 'sortOrder'
+} as const
+
+export type VehicleImageScalarFieldEnum = (typeof VehicleImageScalarFieldEnum)[keyof typeof VehicleImageScalarFieldEnum]
+
+
+export const FinancingCaseScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  status: 'status',
+  lenderName: 'lenderName',
+  requestedAmountCzk: 'requestedAmountCzk',
+  approvedAmountCzk: 'approvedAmountCzk',
+  monthlyPaymentCzk: 'monthlyPaymentCzk',
+  decisionNote: 'decisionNote',
+  applicationId: 'applicationId',
+  assignedYaskravaUserId: 'assignedYaskravaUserId'
+} as const
+
+export type FinancingCaseScalarFieldEnum = (typeof FinancingCaseScalarFieldEnum)[keyof typeof FinancingCaseScalarFieldEnum]
+
+
+export const AuditLogScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  action: 'action',
+  actorType: 'actorType',
+  message: 'message',
+  targetId: 'targetId',
+  metadata: 'metadata',
+  actorUserId: 'actorUserId',
+  dealerId: 'dealerId',
+  applicationId: 'applicationId',
+  vehicleId: 'vehicleId'
+} as const
+
+export type AuditLogScalarFieldEnum = (typeof AuditLogScalarFieldEnum)[keyof typeof AuditLogScalarFieldEnum]
 
 
 export const SortOrder = {
@@ -127,15 +282,6 @@ export const NullableJsonNullValueInput = {
 export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
-export const JsonNullValueFilter = {
-  DbNull: DbNull,
-  JsonNull: JsonNull,
-  AnyNull: AnyNull
-} as const
-
-export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
-
-
 export const QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
@@ -150,4 +296,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

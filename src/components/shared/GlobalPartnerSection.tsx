@@ -14,7 +14,7 @@ export function GlobalPartnerSection() {
   }
 
   return (
-    <section className="py-12 sm:py-14" style={{background: "var(--color-bg)", borderTop: "1px solid var(--border)"}}>
+    <section className="py-12 sm:py-14" style={{background: "var(--surface-1)", borderTop: "1px solid var(--border)"}}>
       <div className="mx-auto max-w-7xl px-6 sm:px-10">
         <div className="flex items-center gap-3 mb-6">
           <div className="section-accent-line" />

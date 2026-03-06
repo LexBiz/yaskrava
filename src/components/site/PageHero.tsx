@@ -17,19 +17,20 @@ export function PageHero({eyebrow, title, subtitle, children, className}: Props)
         background: "var(--color-bg)",
         borderColor: "var(--border)",
         backgroundImage:
-          "radial-gradient(ellipse 55% 65% at -5% -10%, rgba(255,121,24,0.08) 0%, transparent 65%)",
+          "radial-gradient(ellipse 60% 70% at -8% -12%, rgba(254,147,2,0.09) 0%, transparent 60%)," +
+          "radial-gradient(ellipse 35% 45% at 100% 100%, rgba(255,90,42,0.05) 0%, transparent 55%)",
       }}
     >
-      {/* Grid overlay */}
+      {/* Warm grid overlay */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px)," +
-            "linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+            "linear-gradient(rgba(255,200,120,1) 1px, transparent 1px)," +
+            "linear-gradient(90deg, rgba(255,200,120,1) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
-          opacity: 0.020,
-          maskImage: "radial-gradient(ellipse 70% 80% at 0% 0%, black 0%, transparent 80%)",
+          opacity: 0.017,
+          maskImage: "radial-gradient(ellipse 65% 75% at 0% 0%, black 0%, transparent 80%)",
         }}
       />
 
@@ -38,13 +39,14 @@ export function PageHero({eyebrow, title, subtitle, children, className}: Props)
           <span className="yask-badge mb-5 inline-block">{eyebrow}</span>
         )}
 
+        {/* Accent line */}
         <div className="section-accent-line mb-5" />
 
         <h1
-          className="font-black tracking-tight leading-[1.05] max-w-3xl"
+          className="font-black tracking-[-0.02em] leading-[1.05] max-w-3xl"
           style={{
-            fontSize: "clamp(2.2rem, 4.5vw, 4rem)",
-            background: "linear-gradient(175deg, #ffffff 10%, rgba(255,255,255,0.55) 100%)",
+            fontSize: "clamp(2.2rem, 4.4vw, 4rem)",
+            background: "linear-gradient(175deg, #FFFFFF 5%, rgba(255,235,200,0.58) 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
@@ -55,7 +57,7 @@ export function PageHero({eyebrow, title, subtitle, children, className}: Props)
 
         {subtitle && (
           <p
-            className="mt-5 text-base sm:text-lg leading-relaxed max-w-2xl font-medium"
+            className="mt-5 text-base sm:text-[17px] leading-relaxed max-w-2xl font-medium"
             style={{color: "var(--text-2)"}}
           >
             {subtitle}

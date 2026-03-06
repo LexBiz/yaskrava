@@ -6,81 +6,57 @@ import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PartnerGrid} from "@/components/shared/PartnerGrid";
 import {Link} from "@/i18n/navigation";
 
+/* ─ helpers ──────────────────────────────── */
+function Divider() { return <div className="glow-line" />; }
+
 function SectionLabel({children}: {children: React.ReactNode}) {
   return (
     <div className="flex items-center gap-3 mb-8 sm:mb-10">
       <div className="section-accent-line" />
-      <p className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{color: "var(--text-3)"}}>
+      <p className="text-[11px] font-bold uppercase tracking-[0.17em]" style={{color: "var(--text-3)"}}>
         {children}
       </p>
     </div>
   );
 }
 
-function Divider() {
-  return <div className="glow-line" />;
-}
-
+/* ─ Feature cards config ─────────────────── */
 const FEATURES = [
   {
-    n: "01",
-    icon: Flame,
-    tk: "cards.fuelTitle",
-    tx: "cards.fuelText",
-    href: "/fuel",
-    accent: "#FE9302",
-    bg: "rgba(254,147,2,0.10)",
-    border: "rgba(254,147,2,0.22)",
+    n: "01", icon: Flame,
+    tk: "cards.fuelTitle", tx: "cards.fuelText", href: "/fuel",
+    accent: "#FE9302", glow: "rgba(254,147,2,0.18)",
+    border: "rgba(254,147,2,0.22)", bg: "rgba(254,147,2,0.09)",
   },
   {
-    n: "02",
-    icon: Wrench,
-    tk: "cards.autoTitle",
-    tx: "cards.autoText",
-    href: "/services",
-    accent: "#FF7918",
-    bg: "rgba(255,121,24,0.10)",
-    border: "rgba(255,121,24,0.22)",
+    n: "02", icon: Wrench,
+    tk: "cards.autoTitle", tx: "cards.autoText", href: "/services",
+    accent: "#FF7918", glow: "rgba(255,121,24,0.16)",
+    border: "rgba(255,121,24,0.20)", bg: "rgba(255,121,24,0.08)",
   },
   {
-    n: "03",
-    icon: CreditCard,
-    tk: "cards.financeTitle",
-    tx: "cards.financeText",
-    href: "/calculator",
-    accent: "#FF5A2A",
-    bg: "rgba(255,90,42,0.10)",
-    border: "rgba(255,90,42,0.22)",
+    n: "03", icon: CreditCard,
+    tk: "cards.financeTitle", tx: "cards.financeText", href: "/calculator",
+    accent: "#FF5A2A", glow: "rgba(255,90,42,0.16)",
+    border: "rgba(255,90,42,0.20)", bg: "rgba(255,90,42,0.08)",
   },
   {
-    n: "04",
-    icon: Shield,
-    tk: "cards.insuranceTitle",
-    tx: "cards.insuranceText",
-    href: "/services",
-    accent: "#FE9302",
-    bg: "rgba(254,147,2,0.08)",
-    border: "rgba(254,147,2,0.18)",
+    n: "04", icon: Shield,
+    tk: "cards.insuranceTitle", tx: "cards.insuranceText", href: "/services",
+    accent: "#FFB040", glow: "rgba(255,176,64,0.14)",
+    border: "rgba(255,176,64,0.18)", bg: "rgba(255,176,64,0.07)",
   },
   {
-    n: "05",
-    icon: Car,
-    tk: "cards.otherTitle",
-    tx: "cards.otherText",
-    href: "/services",
-    accent: "#FF7918",
-    bg: "rgba(255,121,24,0.08)",
-    border: "rgba(255,121,24,0.18)",
+    n: "05", icon: Car,
+    tk: "cards.otherTitle", tx: "cards.otherText", href: "/services",
+    accent: "#FF7918", glow: "rgba(255,121,24,0.14)",
+    border: "rgba(255,121,24,0.18)", bg: "rgba(255,121,24,0.07)",
   },
   {
-    n: "06",
-    icon: Wallet,
-    tk: "cards.walletTitle",
-    tx: "cards.walletText",
-    href: "/apply",
-    accent: "#FF5A2A",
-    bg: "rgba(255,90,42,0.08)",
-    border: "rgba(255,90,42,0.18)",
+    n: "06", icon: Wallet,
+    tk: "cards.walletTitle", tx: "cards.walletText", href: "/apply",
+    accent: "#FE9302", glow: "rgba(254,147,2,0.14)",
+    border: "rgba(254,147,2,0.18)", bg: "rgba(254,147,2,0.07)",
   },
 ] as const;
 
@@ -95,39 +71,37 @@ export default function HomePage() {
         style={{
           background: "var(--color-bg)",
           backgroundImage:
-            "radial-gradient(ellipse 65% 60% at 5% -5%, rgba(255,121,24,0.09) 0%, transparent 62%)," +
-            "radial-gradient(ellipse 50% 40% at 95% 95%, rgba(255,90,42,0.06) 0%, transparent 55%)",
+            "radial-gradient(ellipse 70% 65% at -10% -15%, rgba(254,147,2,0.11) 0%, transparent 58%)," +
+            "radial-gradient(ellipse 50% 45% at 105% 100%, rgba(255,90,42,0.08) 0%, transparent 55%)," +
+            "radial-gradient(ellipse 30% 40% at 65% -10%, rgba(255,121,24,0.05) 0%, transparent 50%)",
         }}
       >
-        {/* Grid overlay */}
+        {/* Warm grid overlay */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px)," +
-              "linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,200,120,1) 1px, transparent 1px)," +
+              "linear-gradient(90deg, rgba(255,200,120,1) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
-            opacity: 0.018,
-            maskImage: "radial-gradient(ellipse 80% 80% at 50% 30%, black 20%, transparent 100%)",
+            opacity: 0.016,
+            maskImage: "radial-gradient(ellipse 80% 80% at 30% 30%, black 10%, transparent 100%)",
           }}
         />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-          <div className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_440px] lg:py-24 xl:py-28">
+          <div className="grid items-center gap-10 py-14 sm:py-20 lg:grid-cols-[1fr_460px] lg:py-24 xl:py-28">
 
-            {/* Left */}
-            <div className="max-w-xl">
-              {/* Eyebrow badge */}
-              <div className="yask-badge">
-                Praha · Czech Republic
-              </div>
+            <div className="max-w-[560px]">
+              {/* Amber eyebrow badge */}
+              <div className="yask-badge">Praha · Czech Republic</div>
 
               {/* Headline */}
               <h1
-                className="mt-5 font-black tracking-tight leading-[1.04]"
+                className="mt-5 font-black tracking-[-0.02em] leading-[1.04]"
                 style={{
-                  fontSize: "clamp(2.6rem, 5.5vw, 5.6rem)",
-                  background: "linear-gradient(175deg, #ffffff 15%, rgba(255,255,255,0.55) 100%)",
+                  fontSize: "clamp(2.4rem, 5.2vw, 5.2rem)",
+                  background: "linear-gradient(175deg, #FFFFFF 0%, rgba(255,235,200,0.58) 100%)",
                   WebkitBackgroundClip: "text",
                   WebkitTextFillColor: "transparent",
                   backgroundClip: "text",
@@ -135,6 +109,12 @@ export default function HomePage() {
               >
                 {t("heroTitle")}
               </h1>
+
+              {/* Orange accent underline */}
+              <div
+                className="mt-4 h-[3px] w-16 rounded-full"
+                style={{background: "linear-gradient(90deg, #FE9302, #FF5A2A)", boxShadow: "0 0 18px rgba(255,121,24,0.60)"}}
+              />
 
               {/* Subheadline */}
               <p
@@ -149,26 +129,50 @@ export default function HomePage() {
                 <DownloadButtons />
               </div>
 
-              {/* Secondary links */}
+              {/* Secondary pills */}
               <div className="mt-4 flex flex-wrap gap-2">
                 <Link
                   href="/fuel"
-                  className="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-semibold transition-colors hover:bg-white/[0.05]"
-                  style={{border: "1px solid rgba(255,255,255,0.14)", color: "var(--text-2)"}}
+                  className="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-semibold transition-all hover:bg-white/[0.05]"
+                  style={{border: "1px solid rgba(255,190,100,0.16)", color: "var(--text-2)"}}
                 >
                   ⛽ {t("ctaSecondary")}
                 </Link>
                 <Link
                   href="/calculator"
-                  className="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-semibold transition-colors hover:bg-white/[0.05]"
-                  style={{border: "1px solid rgba(255,255,255,0.14)", color: "var(--text-2)"}}
+                  className="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-semibold transition-all hover:bg-white/[0.05]"
+                  style={{border: "1px solid rgba(255,190,100,0.16)", color: "var(--text-2)"}}
                 >
                   Калькулятор <ArrowRight size={13}/>
                 </Link>
               </div>
+
+              {/* Trust stats row */}
+              <div className="mt-8 flex gap-6 flex-wrap">
+                {[
+                  {num: "3+", label: "Partners"},
+                  {num: "CZK", label: "Balance"},
+                  {num: "60%", label: "Discount max"},
+                ].map(s => (
+                  <div key={s.label}>
+                    <div
+                      className="text-xl font-black"
+                      style={{
+                        background: "linear-gradient(135deg, #FE9302, #FF5A2A)",
+                        WebkitBackgroundClip: "text",
+                        WebkitTextFillColor: "transparent",
+                        backgroundClip: "text",
+                      }}
+                    >
+                      {s.num}
+                    </div>
+                    <div className="text-[11px] font-semibold mt-0.5" style={{color: "var(--text-3)"}}>{s.label}</div>
+                  </div>
+                ))}
+              </div>
             </div>
 
-            {/* Right — quick leasing calculator */}
+            {/* Right — premium calculator */}
             <QuickEstimate />
           </div>
         </div>
@@ -177,7 +181,7 @@ export default function HomePage() {
       <Divider />
 
       {/* ══ PARTNERS ════════════════════════════════════════ */}
-      <section className="py-16 sm:py-20" style={{background: "var(--color-bg)"}}>
+      <section className="py-14 sm:py-18" style={{background: "var(--surface-1)"}}>
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionLabel>Partners</SectionLabel>
           <PartnerGrid section="all" />
@@ -186,8 +190,8 @@ export default function HomePage() {
 
       <Divider />
 
-      {/* ══ WHAT'S INSIDE ═══════════════════════════════════ */}
-      <section className="py-16 sm:py-20" style={{background: "var(--color-bg)"}}>
+      {/* ══ FEATURES GRID ═══════════════════════════════════ */}
+      <section className="py-16 sm:py-22" style={{background: "var(--color-bg)"}}>
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-4 mb-10">
             <div>
@@ -195,7 +199,7 @@ export default function HomePage() {
             </div>
             <Link
               href="/services"
-              className="inline-flex items-center gap-2 text-sm font-semibold transition-colors mb-10 sm:mb-0"
+              className="inline-flex items-center gap-2 text-sm font-bold transition-colors mb-10 sm:mb-0"
               style={{
                 background: "linear-gradient(135deg, #FE9302, #FF5A2A)",
                 WebkitBackgroundClip: "text",
@@ -207,26 +211,38 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid gap-3 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {FEATURES.map((feat) => {
               const Icon = feat.icon;
               return (
                 <Link
                   key={feat.n}
                   href={feat.href}
-                  className="group rounded-2xl p-6 sm:p-7 flex flex-col gap-4 no-underline transition-all duration-280 hover:-translate-y-[2px]"
+                  className="group relative rounded-2xl p-6 sm:p-7 flex flex-col gap-4 no-underline overflow-hidden hover-glow"
                   style={{
                     background: feat.bg,
-                    border: `1.5px solid ${feat.border}`,
-                    boxShadow: "inset 0 1px 0 rgba(255,255,255,0.05), 0 24px 48px -24px rgba(0,0,0,0.70)",
+                    border: `1px solid ${feat.border}`,
+                    boxShadow:
+                      `inset 0 1px 0 rgba(255,220,150,0.06),` +
+                      `0 24px 48px -24px rgba(0,0,0,0.75)`,
                   }}
                 >
-                  <div className="flex items-center justify-between">
+                  {/* Corner glow */}
+                  <div
+                    className="absolute -top-10 -right-10 w-32 h-32 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
+                    style={{background: `radial-gradient(circle, ${feat.glow} 0%, transparent 70%)`}}
+                  />
+
+                  <div className="flex items-center justify-between relative">
                     <div
                       className="w-11 h-11 rounded-xl flex items-center justify-center"
-                      style={{background: `${feat.accent}22`, border: `1px solid ${feat.accent}33`}}
+                      style={{
+                        background: `${feat.accent}22`,
+                        border: `1px solid ${feat.accent}30`,
+                        boxShadow: `0 0 20px -8px ${feat.accent}60`,
+                      }}
                     >
-                      <Icon size={20} style={{color: feat.accent}} />
+                      <Icon size={20} style={{color: feat.accent}}/>
                     </div>
                     <span
                       className="text-[10px] font-black tabular-nums tracking-widest"
@@ -236,17 +252,14 @@ export default function HomePage() {
                     </span>
                   </div>
 
-                  <h3 className="text-[17px] font-black text-white leading-tight">
+                  <h3 className="text-[17px] font-black leading-tight" style={{color: "var(--text-1)"}}>
                     {t(feat.tk as never)}
                   </h3>
-                  <p
-                    className="text-sm leading-relaxed flex-1 font-medium"
-                    style={{color: "var(--text-2)"}}
-                  >
+                  <p className="text-sm leading-relaxed flex-1 font-medium" style={{color: "var(--text-2)"}}>
                     {t(feat.tx as never)}
                   </p>
                   <span
-                    className="inline-flex items-center gap-1.5 text-[13px] font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                    className="inline-flex items-center gap-1.5 text-[13px] font-bold opacity-0 group-hover:opacity-100 transition-opacity duration-200"
                     style={{color: feat.accent}}
                   >
                     {t("cards.learnMore")} <ArrowRight size={12}/>
@@ -261,34 +274,43 @@ export default function HomePage() {
       <Divider />
 
       {/* ══ HOW IT WORKS ════════════════════════════════════ */}
-      <section className="py-16 sm:py-20" style={{background: "var(--color-bg)"}}>
+      <section className="py-16 sm:py-20" style={{background: "var(--surface-1)"}}>
         <div className="mx-auto max-w-7xl px-5 sm:px-8">
           <SectionLabel>{t("howTitle")}</SectionLabel>
 
           <div className="grid gap-8 sm:grid-cols-3">
-            {(["step1", "step2", "step3"] as const).map((k, i) => (
-              <div key={k} className="flex gap-5">
-                <div
-                  className="shrink-0 w-11 h-11 rounded-full flex items-center justify-center text-sm font-black"
-                  style={{
-                    background: "linear-gradient(135deg, #FE9302 0%, #FF5A2A 100%)",
-                    boxShadow: "0 4px 20px -6px rgba(255,121,24,0.60)",
-                    color: "#fff",
-                  }}
-                >
-                  {String(i + 1).padStart(2, "0")}
-                </div>
-                <div>
-                  <h3 className="text-base font-black text-white">{t(`${k}Title`)}</h3>
-                  <p
-                    className="mt-1.5 text-sm leading-relaxed font-medium"
-                    style={{color: "var(--text-2)"}}
+            {(["step1", "step2", "step3"] as const).map((k, i) => {
+              const accents = ["#FE9302", "#FF7918", "#FF5A2A"] as const;
+              const glows = [
+                "rgba(254,147,2,0.55)",
+                "rgba(255,121,24,0.55)",
+                "rgba(255,90,42,0.55)",
+              ] as const;
+              return (
+                <div key={k} className="flex gap-5 group">
+                  <div
+                    className="shrink-0 w-12 h-12 rounded-2xl flex items-center justify-center text-[13px] font-black transition-transform group-hover:scale-105"
+                    style={{
+                      background: `linear-gradient(135deg, ${accents[i]}22 0%, ${accents[i]}11 100%)`,
+                      border: `1.5px solid ${accents[i]}30`,
+                      color: accents[i],
+                      boxShadow: `0 4px 20px -8px ${glows[i]}`,
+                    }}
                   >
-                    {t(`${k}Text`)}
-                  </p>
+                    {String(i + 1).padStart(2, "0")}
+                  </div>
+                  <div>
+                    <h3 className="text-base font-black text-white">{t(`${k}Title`)}</h3>
+                    <p
+                      className="mt-1.5 text-sm leading-relaxed font-medium"
+                      style={{color: "var(--text-2)"}}
+                    >
+                      {t(`${k}Text`)}
+                    </p>
+                  </div>
                 </div>
-              </div>
-            ))}
+              );
+            })}
           </div>
         </div>
       </section>
@@ -297,31 +319,43 @@ export default function HomePage() {
 
       {/* ══ DOWNLOAD CTA ════════════════════════════════════ */}
       <section
-        className="relative overflow-hidden py-16 sm:py-20"
-        style={{background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)"}}
+        className="relative overflow-hidden py-16 sm:py-20 shine-once"
+        style={{
+          background: "linear-gradient(140deg, #FE9302 0%, #FF7918 45%, #FF5A2A 100%)",
+        }}
       >
-        {/* Noise texture */}
+        {/* Deep texture */}
         <div
-          className="absolute inset-0 pointer-events-none opacity-[0.06]"
+          className="absolute inset-0 pointer-events-none mix-blend-overlay opacity-[0.07]"
           style={{
-            backgroundImage: "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
           }}
         />
         {/* Grid */}
         <div
           className="absolute inset-0 pointer-events-none"
           style={{
-            backgroundImage: "linear-gradient(rgba(0,0,0,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(0,0,0,0.12) 1px, transparent 1px)",
-            backgroundSize: "60px 60px",
+            backgroundImage:
+              "linear-gradient(rgba(0,0,0,0.14) 1px, transparent 1px)," +
+              "linear-gradient(90deg, rgba(0,0,0,0.14) 1px, transparent 1px)",
+            backgroundSize: "64px 64px",
           }}
         />
+        {/* Bottom vignette */}
+        <div className="absolute bottom-0 left-0 right-0 h-16 pointer-events-none"
+          style={{background: "linear-gradient(to top, rgba(0,0,0,0.20), transparent)"}} />
 
         <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
           <div className="flex flex-col sm:flex-row items-start sm:items-center gap-8 justify-between">
             <div>
               <p
-                className="font-black text-white leading-tight tracking-tight"
-                style={{fontSize: "clamp(1.8rem, 3.5vw, 3rem)"}}
+                className="font-black leading-tight tracking-[-0.02em]"
+                style={{
+                  fontSize: "clamp(1.9rem, 3.8vw, 3.2rem)",
+                  color: "#fff",
+                  textShadow: "0 2px 12px rgba(180,60,0,0.40)",
+                }}
               >
                 {t("ctaStripTitle")}
               </p>

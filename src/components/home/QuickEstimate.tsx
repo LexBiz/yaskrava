@@ -31,34 +31,48 @@ export function QuickEstimate() {
 
   return (
     <div
-      className="rounded-2xl p-6 sm:p-8 flex flex-col gap-6"
+      className="relative rounded-2xl p-6 sm:p-8 flex flex-col gap-6 overflow-hidden"
       style={{
-        background: "linear-gradient(150deg, rgba(255,121,24,0.10) 0%, rgba(255,90,42,0.04) 50%, rgba(255,255,255,0.02) 100%)",
-        border: "1.5px solid rgba(255,121,24,0.26)",
+        background:
+          "linear-gradient(150deg, rgba(254,147,2,0.13) 0%, rgba(255,121,24,0.07) 40%, rgba(255,90,42,0.03) 70%, rgba(16,14,11,0) 100%)",
+        border: "1px solid rgba(254,147,2,0.28)",
         boxShadow:
-          "inset 0 1px 0 rgba(255,121,24,0.16)," +
-          "0 0 70px -22px rgba(255,121,24,0.32)," +
-          "0 32px 80px -32px rgba(0,0,0,0.80)",
+          "inset 0 1px 0 rgba(255,210,120,0.18)," +
+          "0 0 0 1px rgba(255,90,42,0.06)," +
+          "0 0 80px -22px rgba(255,121,24,0.36)," +
+          "0 40px 80px -32px rgba(0,0,0,0.85)",
       }}
     >
+      {/* Subtle noise overlay */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-[0.025]"
+        style={{
+          backgroundImage:
+            "url(\"data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.80' numOctaves='4'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E\")",
+        }}
+      />
+
+      {/* Corner glow */}
+      <div
+        className="absolute -top-16 -right-16 w-48 h-48 rounded-full pointer-events-none"
+        style={{background: "radial-gradient(circle, rgba(254,147,2,0.18) 0%, transparent 70%)"}}
+      />
+
       {/* Header */}
-      <div>
+      <div className="relative">
         <span className="yask-badge">{t("title")}</span>
-        <p className="mt-3 text-sm font-semibold" style={{color: "var(--text-3)"}}>
+        <p className="mt-3 text-sm font-medium" style={{color: "var(--text-3)"}}>
           {t("assumptions")}
         </p>
       </div>
 
       {/* Slider */}
-      <div>
+      <div className="relative">
         <div className="flex items-center justify-between mb-3">
-          <span
-            className="text-[10px] font-bold uppercase tracking-[0.14em]"
-            style={{color: "var(--text-3)"}}
-          >
+          <span className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{color: "var(--text-3)"}}>
             {t("priceLabel")}
           </span>
-          <span className="text-base font-black text-white tabular-nums">
+          <span className="text-base font-black tabular-nums" style={{color: "var(--text-1)"}}>
             {CZK.format(price)}
           </span>
         </div>
@@ -74,43 +88,56 @@ export function QuickEstimate() {
         />
       </div>
 
-      {/* Result */}
+      {/* Result panel */}
       <div
-        className="rounded-xl p-5 text-center"
+        className="relative rounded-xl p-5 text-center overflow-hidden"
         style={{
-          background: "rgba(0,0,0,0.40)",
-          border: "1px solid rgba(255,121,24,0.18)",
-          boxShadow: "0 0 40px -16px rgba(255,121,24,0.20)",
+          background: "linear-gradient(135deg, rgba(0,0,0,0.55) 0%, rgba(20,14,8,0.70) 100%)",
+          border: "1px solid rgba(254,147,2,0.20)",
+          boxShadow: "inset 0 1px 0 rgba(254,147,2,0.12)",
         }}
       >
+        <div
+          className="absolute inset-0 pointer-events-none"
+          style={{
+            background: "radial-gradient(ellipse 80% 60% at 50% 0%, rgba(254,147,2,0.10) 0%, transparent 70%)",
+          }}
+        />
+
         <p
-          className="text-[11px] font-bold uppercase tracking-[0.14em]"
-          style={{color: "rgba(255,121,24,0.75)"}}
+          className="relative text-[11px] font-bold uppercase tracking-[0.16em]"
+          style={{color: "rgba(254,147,2,0.75)"}}
         >
           {t("monthlyLabel")}
         </p>
         <p
           key={Math.round(monthly / 500)}
-          className="amount-pop font-black leading-none tabular-nums mt-2"
+          className="relative amount-pop font-black leading-none tabular-nums mt-2"
           style={{
-            fontSize: "clamp(2.2rem,5vw,3.2rem)",
-            background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)",
+            fontSize: "clamp(2.0rem, 4.5vw, 3.0rem)",
+            background: "linear-gradient(135deg, #FE9302 0%, #FF9A30 40%, #FF5A2A 100%)",
             WebkitBackgroundClip: "text",
             WebkitTextFillColor: "transparent",
             backgroundClip: "text",
+            filter: "drop-shadow(0 0 18px rgba(255,121,24,0.40))",
           }}
         >
           {CZK.format(monthly)}
+        </p>
+        <p className="relative mt-2 text-xs" style={{color: "var(--text-3)"}}>
+          за місяць · 20% аванс · 48 міс
         </p>
       </div>
 
       {/* CTA */}
       <Link
         href="/calculator"
-        className="flex items-center justify-between w-full h-12 px-5 rounded-xl text-white text-sm font-bold hover:brightness-105 transition-all"
+        className="relative flex items-center justify-between w-full h-12 px-5 rounded-xl text-white text-sm font-bold hover:brightness-105 transition-all"
         style={{
           background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)",
-          boxShadow: "0 4px 28px -8px rgba(255,121,24,0.55)",
+          boxShadow:
+            "0 4px 28px -8px rgba(255,121,24,0.60)," +
+            "0 1px 0 rgba(255,220,140,0.22) inset",
         }}
       >
         {t("cta")}

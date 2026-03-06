@@ -89,7 +89,7 @@ export default async function DealerDashboard() {
           />
         </div>
 
-        <section className="mt-8 rounded-3xl border border-white/10 p-5">
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <h2 className="text-lg font-semibold text-white">Lead inbox</h2>
           <div className="mt-5 divide-y divide-white/10">
             {applications.length ? (
@@ -121,7 +121,7 @@ export default async function DealerDashboard() {
                         <select
                           name="status"
                           defaultValue={lead.status}
-                          className="h-10 w-full rounded-2xl border border-white/10 bg-black/40 px-3 text-xs font-semibold text-white outline-none focus:border-white/25"
+                          className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                         >
                           {STATUS_OPTIONS.map((status) => (
                             <option key={status} value={status}>
@@ -143,7 +143,7 @@ export default async function DealerDashboard() {
                           name="dealerNote"
                           defaultValue={lead.dealerNote ?? ""}
                           placeholder="Dealer note…"
-                          className="min-h-24 rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white/90 outline-none placeholder:text-white/30 focus:border-white/25"
+                          className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/90 outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
                         />
                         <div className="flex justify-end">
                           <button
@@ -164,7 +164,7 @@ export default async function DealerDashboard() {
           </div>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 p-5">
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <h2 className="text-lg font-semibold text-white">Add vehicle</h2>
           <p className="mt-1 text-sm text-white/60">
             Publish a new car to your dealer subdomain and financing flow.
@@ -176,7 +176,7 @@ export default async function DealerDashboard() {
               <input
                 name="title"
                 required
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="BMW 320d Touring • 2021 • Automatic"
               />
             </label>
@@ -184,7 +184,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Make</span>
               <input
                 name="make"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="BMW"
               />
             </label>
@@ -192,7 +192,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Model</span>
               <input
                 name="model"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="320d Touring"
               />
             </label>
@@ -201,7 +201,7 @@ export default async function DealerDashboard() {
               <input
                 name="year"
                 type="number"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="2021"
               />
             </label>
@@ -210,7 +210,7 @@ export default async function DealerDashboard() {
               <input
                 name="mileageKm"
                 type="number"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="74000"
               />
             </label>
@@ -218,7 +218,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Fuel</span>
               <input
                 name="fuel"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Diesel"
               />
             </label>
@@ -226,7 +226,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Transmission</span>
               <input
                 name="transmission"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Automatic"
               />
             </label>
@@ -235,7 +235,7 @@ export default async function DealerDashboard() {
               <input
                 name="priceCzk"
                 type="number"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="649000"
               />
             </label>
@@ -244,7 +244,7 @@ export default async function DealerDashboard() {
               <select
                 name="availability"
                 defaultValue="ON_SITE"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
               >
                 {AVAILABILITY_OPTIONS.map((status) => (
                   <option key={status} value={status}>
@@ -257,7 +257,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Image URL</span>
               <input
                 name="imageUrl"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="https://..."
               />
             </label>
@@ -265,7 +265,7 @@ export default async function DealerDashboard() {
               <span className="text-xs font-semibold text-white/70">Description</span>
               <textarea
                 name="description"
-                className="min-h-24 rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none focus:border-white/25"
+                className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Short vehicle description and selling points."
               />
             </label>
@@ -280,7 +280,7 @@ export default async function DealerDashboard() {
           </form>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 p-5">
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <h2 className="text-lg font-semibold text-white">Vehicles</h2>
           <div className="mt-5 divide-y divide-white/10">
             {vehicles.length ? (
@@ -302,7 +302,7 @@ export default async function DealerDashboard() {
                       <select
                         name="availability"
                         defaultValue={vehicle.availability}
-                        className="h-10 rounded-2xl border border-white/10 bg-black/40 px-3 text-xs font-semibold text-white outline-none focus:border-white/25"
+                        className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                       >
                         {AVAILABILITY_OPTIONS.map((status) => (
                           <option key={status} value={status}>
@@ -311,22 +311,22 @@ export default async function DealerDashboard() {
                         ))}
                       </select>
 
-                      <label className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/40 px-3 text-xs text-white/70">
+                      <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
                         <input
                           type="checkbox"
                           name="published"
                           defaultChecked={vehicle.published}
-                          className="h-4 w-4 rounded border-white/20 bg-black/40"
+                          className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
                         />
                         Published
                       </label>
 
-                      <label className="flex items-center gap-2 rounded-2xl border border-white/10 bg-black/40 px-3 text-xs text-white/70">
+                      <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
                         <input
                           type="checkbox"
                           name="featured"
                           defaultChecked={vehicle.featured}
-                          className="h-4 w-4 rounded border-white/20 bg-black/40"
+                          className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
                         />
                         Featured
                       </label>
@@ -353,7 +353,7 @@ export default async function DealerDashboard() {
 
 function MetricCard({label, value}: {label: string; value: string}) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-5">
       <div className="text-xs uppercase tracking-[0.14em] text-white/45">{label}</div>
       <div className="mt-3 text-2xl font-black text-white">{value}</div>
     </div>

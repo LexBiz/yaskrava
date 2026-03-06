@@ -14,8 +14,8 @@ export default function FuelPage() {
         <div className="flex flex-wrap gap-3">
           <Link
             href="/apply"
-            className="inline-flex items-center gap-2 h-12 px-6 rounded-full bg-[var(--color-accent)] text-black text-sm font-extrabold tracking-wide hover:brightness-95 transition-all"
-            style={{ boxShadow: "0 0 30px -8px rgba(8,217,110,0.55)" }}
+            className="inline-flex items-center gap-2 h-12 px-6 rounded-full text-white text-sm font-extrabold tracking-wide hover:brightness-105 transition-all"
+            style={{ background: "linear-gradient(135deg,#FE9302,#FF5A2A)", boxShadow: "0 0 30px -8px rgba(255,121,24,0.60)" }}
           >
             {t("cta")} <ArrowRight size={15} />
           </Link>
@@ -23,7 +23,7 @@ export default function FuelPage() {
         </div>
       </PageHero>
 
-      <section className="bg-black py-20 sm:py-24">
+      <section style={{background:"linear-gradient(160deg,#3D2A12 0%,#2F1F0C 50%,#251809 100%)"}} className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
 
           {/* Partners label */}
@@ -120,12 +120,12 @@ export default function FuelPage() {
             {/* OMV */}
             <div
               className="rounded-2xl p-7 opacity-55"
-              style={{ background: "var(--surface-1)", border: "1.5px solid var(--border)" }}
+              style={{ background: "linear-gradient(150deg,rgba(255,200,100,0.06),rgba(255,150,30,0.02))", border: "1px solid rgba(255,180,60,0.14)" }}
             >
               <div className="flex items-center justify-between gap-3">
                 <div className="flex items-center gap-3">
                   <span className="w-11 h-11 rounded-xl flex items-center justify-center text-sm font-black"
-                    style={{ background: "var(--surface-3)", color: "var(--text-3)" }}>OM</span>
+                    style={{ background: "rgba(255,180,60,0.16)", color: "rgba(255,180,60,0.70)" }}>OM</span>
                   <span className="text-2xl font-black text-white">OMV</span>
                 </div>
                 <span className="text-[11px] font-bold rounded-full px-3 py-1"
@@ -141,7 +141,7 @@ export default function FuelPage() {
 
           {/* Download */}
           <div className="mt-12 rounded-2xl p-7 sm:p-8"
-            style={{ background: "var(--surface-1)", border: "1.5px solid var(--border)" }}>
+            style={{ background: "linear-gradient(150deg,rgba(254,147,2,0.12),rgba(255,90,42,0.04))", border: "1px solid rgba(254,147,2,0.22)" }}>
             <p className="text-lg font-black text-white">Use fuel cashback right in the app</p>
             <p className="mt-2 text-base font-medium" style={{ color: "var(--text-2)" }}>
               Download Yaskrava to get started with Shell, ORLEN and more.
@@ -152,7 +152,7 @@ export default function FuelPage() {
           </div>
 
           {/* Disclaimer */}
-          <div className="mt-6 rounded-xl p-4 text-sm font-medium" style={{ border: "1px solid var(--border)", color: "var(--text-3)" }}>
+          <div className="mt-6 rounded-xl p-4 text-sm font-medium" style={{ border: "1px solid rgba(255,170,60,0.14)", color: "var(--text-3)" }}>
             {t("disclaimer")}
           </div>
         </div>

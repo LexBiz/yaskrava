@@ -18,7 +18,7 @@ export default async function AdminLoginPage({
   return (
     <div className="min-h-dvh px-6 py-16">
       <div className="mx-auto max-w-md">
-        <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-8">
+        <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-8">
           <div className="text-sm font-semibold text-white">YASKRAVA • CRM</div>
           <h1 className="mt-3 text-2xl font-semibold">Central admin login</h1>
           <p className="mt-2 text-sm text-white/70">
@@ -37,7 +37,7 @@ export default async function AdminLoginPage({
               <input
                 name="email"
                 type="email"
-                className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-white/25"
+                className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="admin@yaskrava.local"
                 required
               />
@@ -48,7 +48,7 @@ export default async function AdminLoginPage({
               <input
                 name="password"
                 type="password"
-                className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-white/25"
+                className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Your password"
                 required
               />

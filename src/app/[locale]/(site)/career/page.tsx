@@ -22,7 +22,7 @@ export default function CareerPage() {
         </div>
       </PageHero>
 
-      <section className="py-14">
+      <section style={{background:"linear-gradient(160deg,#2F1F0C 0%,#251809 100%)"}} className="py-14">
         <Container>
           <div className="grid gap-4 md:grid-cols-2">
             <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
@@ -35,7 +35,7 @@ export default function CareerPage() {
             </div>
           </div>
 
-          <div className="mt-10 rounded-3xl border border-white/10 bg-black/30 p-6 sm:p-10">
+          <div className="mt-10 rounded-3xl border border-white/10 bg-[rgba(60,40,10,0.55)] p-6 sm:p-10">
             <div className="text-sm font-semibold text-white">{t("processTitle")}</div>
             <ol className="mt-4 space-y-3 text-sm leading-7 text-white/70">
               <li>1) {t("process.0")}</li>

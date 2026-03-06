@@ -12,7 +12,7 @@ export default function CalculatorPage() {
         <DownloadButtons />
       </PageHero>
 
-      <section className="bg-black py-12 sm:py-16">
+      <section className="py-12 sm:py-16" style={{background: "linear-gradient(180deg, #251809 0%, #1C1208 100%)"}}>
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
           <LeasingCalculator />
         </div>

@@ -112,7 +112,7 @@ export default async function AdminDashboard({
           <MetricCard label="New leads" value={String(leadsNew)} />
         </div>
 
-        <section className="mt-8 rounded-3xl border border-white/10 p-5">
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <div className="flex items-center justify-between gap-4">
             <div>
               <h2 className="text-lg font-semibold text-white">Provision dealer</h2>
@@ -142,7 +142,7 @@ export default async function AdminDashboard({
               <input
                 name="name"
                 required
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Premium Auto Brno"
               />
             </label>
@@ -150,7 +150,7 @@ export default async function AdminDashboard({
               <span className="text-xs font-semibold text-white/70">Subdomain slug</span>
               <input
                 name="slug"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="premium-auto-brno"
               />
             </label>
@@ -158,7 +158,7 @@ export default async function AdminDashboard({
               <span className="text-xs font-semibold text-white/70">Legal name</span>
               <input
                 name="legalName"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Premium Auto Brno s.r.o."
               />
             </label>
@@ -168,7 +168,7 @@ export default async function AdminDashboard({
                 name="supportEmail"
                 type="email"
                 required
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="info@dealer.cz"
               />
             </label>
@@ -176,7 +176,7 @@ export default async function AdminDashboard({
               <span className="text-xs font-semibold text-white/70">Support phone</span>
               <input
                 name="supportPhone"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="+420..."
               />
             </label>
@@ -186,7 +186,7 @@ export default async function AdminDashboard({
                 name="ownerEmail"
                 type="email"
                 required
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="owner@dealer.cz"
               />
             </label>
@@ -194,7 +194,7 @@ export default async function AdminDashboard({
               <span className="text-xs font-semibold text-white/70">Owner first name</span>
               <input
                 name="ownerFirstName"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Jan"
               />
             </label>
@@ -202,7 +202,7 @@ export default async function AdminDashboard({
               <span className="text-xs font-semibold text-white/70">Owner last name</span>
               <input
                 name="ownerLastName"
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Novak"
               />
             </label>
@@ -212,7 +212,7 @@ export default async function AdminDashboard({
                 name="ownerPassword"
                 type="text"
                 required
-                className="h-11 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Temporary secure password"
               />
             </label>
@@ -227,7 +227,7 @@ export default async function AdminDashboard({
           </form>
         </section>
 
-        <section className="mt-8 rounded-3xl border border-white/10 p-5">
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <h2 className="text-lg font-semibold text-white">Dealer network</h2>
           <div className="mt-5 divide-y divide-white/10">
             {dealerList.map((dealer) => {
@@ -254,7 +254,7 @@ export default async function AdminDashboard({
           </div>
         </section>
 
-        <div className="mt-8 overflow-hidden rounded-3xl border border-white/10">
+        <div className="mt-8 overflow-hidden rounded-3xl border border-[rgba(255,180,80,0.14)]">
           <div className="grid grid-cols-12 gap-0 bg-white/[0.03] px-4 py-3 text-xs font-semibold text-white/70">
             <div className="col-span-12 md:col-span-3">Client</div>
             <div className="col-span-12 md:col-span-2">Dealer</div>
@@ -305,7 +305,7 @@ export default async function AdminDashboard({
                         <select
                           name="status"
                           defaultValue={a.status}
-                          className="h-10 w-full rounded-2xl border border-white/10 bg-black/40 px-3 text-xs font-semibold text-white outline-none focus:border-white/25"
+                          className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                         >
                           {STATUS_OPTIONS.map((s) => (
                             <option key={s} value={s}>
@@ -328,7 +328,7 @@ export default async function AdminDashboard({
                         <select
                           name="status"
                           defaultValue={a.financingStatus}
-                          className="h-10 w-full rounded-2xl border border-white/10 bg-black/40 px-3 text-xs font-semibold text-white outline-none focus:border-white/25"
+                          className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                         >
                           {FINANCING_STATUS_OPTIONS.map((s) => (
                             <option key={s} value={s}>
@@ -353,7 +353,7 @@ export default async function AdminDashboard({
                             type="checkbox"
                             name="archived"
                             defaultChecked={a.archived}
-                            className="h-4 w-4 rounded border-white/20 bg-black/40"
+                            className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
                           />
                           Archived
                         </label>
@@ -388,7 +388,7 @@ export default async function AdminDashboard({
                         name="adminNote"
                         defaultValue={a.adminNote ?? ""}
                         placeholder="Internal note…"
-                        className="min-h-20 w-full rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white/90 outline-none placeholder:text-white/30 focus:border-white/25"
+                        className="min-h-20 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/90 outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
                       />
                       <div className="flex justify-end">
                         <button
@@ -416,7 +416,7 @@ export default async function AdminDashboard({
 
 function MetricCard({label, value}: {label: string; value: string}) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-5">
       <div className="text-xs uppercase tracking-[0.14em] text-white/45">{label}</div>
       <div className="mt-3 text-2xl font-black text-white">{value}</div>
     </div>

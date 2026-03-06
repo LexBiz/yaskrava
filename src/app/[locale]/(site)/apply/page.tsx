@@ -13,7 +13,7 @@ export default function ApplyPage() {
       <PageHero title={t("title")} subtitle={t("subtitle")}>
         <DownloadButtons />
       </PageHero>
-      <section className="py-14">
+      <section className="py-14" style={{background: "linear-gradient(180deg, #2F1F0C 0%, #1C1208 100%)"}}>
         <Container>
           <ApplicationForm />
         </Container>

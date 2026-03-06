@@ -1,6 +1,5 @@
 import Image from "next/image";
 import {useTranslations} from "next-intl";
-
 import {Link} from "@/i18n/navigation";
 
 type Props = {
@@ -12,12 +11,7 @@ type Props = {
   country?: string | null;
 };
 
-export function SiteFooter({
-  accentColor,
-  disclaimer,
-  city,
-  country,
-}: Props) {
+export function SiteFooter({accentColor, disclaimer, city, country}: Props) {
   const t = useTranslations("Footer");
   const nav = useTranslations("Nav");
 
@@ -38,74 +32,55 @@ export function SiteFooter({
 
   return (
     <footer
-      className="bg-[#0a0907]"
-      style={{borderTop: "1px solid rgba(255,255,255,0.07)"}}
+      style={{
+        background: "linear-gradient(180deg, #2F1F0C 0%, #1C1208 100%)",
+        borderTop: "1px solid rgba(255,170,60,0.12)",
+      }}
     >
       <div className="mx-auto max-w-7xl px-6 sm:px-10 py-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
-
-          {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block">
-              <Image
-                src="/logo.svg"
-                alt="Yaskrava"
-                width={140}
-                height={41}
-                style={{height: 32, width: "auto"}}
-              />
+              <Image src="/logo.svg" alt="Yaskrava" width={140} height={41}
+                style={{height: 32, width: "auto"}} />
             </Link>
             <p className="mt-5 text-sm leading-relaxed max-w-xs" style={{color: "var(--text-3)"}}>
               {disclaimer || t("disclaimer")}
             </p>
-
-            <div className="mt-5 flex gap-3">
-              <Link
-                href="/apply"
+            <div className="mt-5 flex gap-3 flex-wrap">
+              <Link href="/apply"
                 className="inline-flex h-9 items-center px-4 rounded-full text-white text-xs font-bold"
                 style={{
                   background: `linear-gradient(135deg, #FE9302 0%, ${accentColor} 50%, #FF5A2A 100%)`,
-                }}
-              >
+                  boxShadow: "0 0 16px -4px rgba(255,121,24,0.50)",
+                }}>
                 Отримати доступ
               </Link>
-              <Link
-                href="/calculator"
-                className="inline-flex h-9 items-center px-4 rounded-full text-xs font-semibold text-white/65 border border-white/12 hover:border-white/25 transition-colors"
-              >
+              <Link href="/calculator"
+                className="inline-flex h-9 items-center px-4 rounded-full text-xs font-semibold transition-colors hover:text-white"
+                style={{
+                  border: "1px solid rgba(255,170,60,0.20)",
+                  color: "var(--text-2)",
+                }}>
                 Калькулятор
               </Link>
             </div>
           </div>
 
-          {/* Company */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>
-              Company
-            </p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>Company</p>
             <ul className="space-y-2.5 text-sm">
               {companyLinks.map(l => (
-                <li key={l.href}>
-                  <Link href={l.href} className="footer-link">
-                    {l.label}
-                  </Link>
-                </li>
+                <li key={l.href}><Link href={l.href} className="footer-link">{l.label}</Link></li>
               ))}
             </ul>
           </div>
 
-          {/* Legal */}
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>
-              Legal
-            </p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>Legal</p>
             <ul className="space-y-2.5 text-sm">
               {legalLinks.map(l => (
-                <li key={l.href}>
-                  <Link href={l.href} className="footer-link">
-                    {l.label}
-                  </Link>
-                </li>
+                <li key={l.href}><Link href={l.href} className="footer-link">{l.label}</Link></li>
               ))}
             </ul>
           </div>

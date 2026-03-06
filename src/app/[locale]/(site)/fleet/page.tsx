@@ -112,7 +112,7 @@ function VehicleCard({
 }) {
   return (
     <article className="yask-card rounded-2xl overflow-hidden">
-      <div className="relative h-44 w-full bg-black/30">
+      <div className="relative h-44 w-full bg-[rgba(40,25,8,0.70)]">
         {v.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
@@ -230,7 +230,7 @@ export default async function FleetPage() {
         />
       </PageHero>
 
-      <section className="bg-black py-14 sm:py-20">
+      <section style={{background:"linear-gradient(160deg,#2F1F0C 0%,#251809 100%)"}} className="py-14 sm:py-20">
         <Container>
           <div className="grid gap-12">
             <div>

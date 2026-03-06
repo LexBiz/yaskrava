@@ -15,8 +15,8 @@ export default function ServicesPage() {
         <div className="flex flex-col gap-3 sm:flex-row">
           <Link
             href="/calculator"
-            className="inline-flex items-center gap-2 justify-center rounded-full bg-[var(--color-accent)] px-6 py-3 text-sm font-extrabold tracking-wide text-black hover:brightness-95 transition-all"
-            style={{ boxShadow: "0 0 28px -8px rgba(8,217,110,0.5)" }}
+            className="inline-flex items-center gap-2 justify-center rounded-full px-6 py-3 text-sm font-extrabold tracking-wide text-white hover:brightness-105 transition-all"
+            style={{ background: "linear-gradient(135deg,#FE9302,#FF5A2A)", boxShadow: "0 0 28px -8px rgba(255,121,24,0.55)" }}
           >
             {t("ctaCalculator")} <ArrowRight size={15} />
           </Link>
@@ -31,7 +31,7 @@ export default function ServicesPage() {
       </PageHero>
 
       {/* Main service cards */}
-      <section className="bg-black py-20 sm:py-24">
+      <section style={{background:"linear-gradient(160deg,#3D2A12 0%,#2F1F0C 50%,#251809 100%)"}} className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
 
           <div className="grid gap-4 md:grid-cols-2">
@@ -66,7 +66,7 @@ export default function ServicesPage() {
 
             <PartnerGrid section="all" />
 
-            <div className="mt-6 rounded-xl p-4 text-sm font-medium" style={{ border: "1px solid var(--border)", color: "var(--text-3)" }}>
+            <div className="mt-6 rounded-xl p-4 text-sm font-medium" style={{ border: "1px solid rgba(255,170,60,0.14)", color: "var(--text-3)" }}>
               {t("partnersDisclaimer")}
             </div>
           </div>
@@ -74,8 +74,8 @@ export default function ServicesPage() {
           {/* Download CTA */}
           <div className="mt-16 rounded-2xl p-7 sm:p-9"
             style={{
-              background: "linear-gradient(150deg, rgba(8,217,110,0.09), rgba(8,217,110,0.02))",
-              border: "1.5px solid rgba(8,217,110,0.2)",
+              background: "linear-gradient(150deg, rgba(254,147,2,0.14), rgba(255,90,42,0.05))",
+              border: "1px solid rgba(254,147,2,0.26)",
             }}>
             <p className="text-2xl font-black text-white">Access all services in the app</p>
             <p className="mt-2 text-base font-medium" style={{ color: "var(--text-2)" }}>

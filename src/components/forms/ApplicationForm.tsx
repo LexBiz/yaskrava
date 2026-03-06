@@ -93,13 +93,13 @@ export function ApplicationForm({vehicleId}: Props) {
 
   if (doneId) {
     return (
-      <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-10">
+      <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-6 sm:p-10">
         <div className="flex items-center gap-2 text-sm font-semibold text-white">
           <CheckCircle2 className="h-5 w-5 text-[var(--color-accent)]" />
           {t("successTitle")}
         </div>
         <div className="mt-3 text-sm text-white/70">{t("successText")}</div>
-        <div className="mt-4 rounded-2xl border border-white/10 bg-black/30 px-4 py-3 text-xs text-white/70">
+        <div className="mt-4 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(60,40,10,0.60)] px-4 py-3 text-xs text-white/70">
           ID: <span className="font-semibold text-white">{doneId}</span>
         </div>
       </div>
@@ -107,12 +107,12 @@ export function ApplicationForm({vehicleId}: Props) {
   }
 
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 sm:p-10">
+    <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-6 sm:p-10">
       <div className="text-sm font-semibold text-white">{t("title")}</div>
       <p className="mt-2 text-sm leading-7 text-white/70">{t("subtitle")}</p>
 
       {calc ? (
-        <div className="mt-6 rounded-2xl border border-white/10 bg-black/30 p-4">
+        <div className="mt-6 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(60,40,10,0.60)] p-4">
           <div className="text-xs font-semibold text-white/70">{t("calcAttached")}</div>
           <div className="mt-1 text-sm text-white">{calcSummary}</div>
           <div className="mt-2 text-xs text-white/50">{t("calcTip")}</div>
@@ -141,7 +141,7 @@ export function ApplicationForm({vehicleId}: Props) {
               value={fullName}
               onChange={(e) => setFullName(e.target.value)}
               required
-              className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/25"
+              className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.30)]"
               placeholder={t("fullNamePh")}
             />
           </label>
@@ -151,7 +151,7 @@ export function ApplicationForm({vehicleId}: Props) {
             <select
               value={topic}
               onChange={(e) => setTopic(e.target.value as Topic)}
-              className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none focus:border-white/25"
+              className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.30)]"
             >
               <option value="LEASING">{t("topicLeasing")}</option>
               <option value="VEHICLE">{t("topicVehicle")}</option>
@@ -166,7 +166,7 @@ export function ApplicationForm({vehicleId}: Props) {
             <input
               value={phone}
               onChange={(e) => setPhone(e.target.value)}
-              className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/25"
+              className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.30)]"
               placeholder="+420…"
             />
           </label>
@@ -177,7 +177,7 @@ export function ApplicationForm({vehicleId}: Props) {
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               type="email"
-              className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/25"
+              className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.30)]"
               placeholder="name@email.com"
             />
           </label>
@@ -187,7 +187,7 @@ export function ApplicationForm({vehicleId}: Props) {
             <input
               value={city}
               onChange={(e) => setCity(e.target.value)}
-              className="h-12 rounded-2xl border border-white/10 bg-black/40 px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/25"
+              className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.30)]"
               placeholder={t("cityPh")}
             />
           </label>
@@ -197,19 +197,19 @@ export function ApplicationForm({vehicleId}: Props) {
             <textarea
               value={message}
               onChange={(e) => setMessage(e.target.value)}
-              className="min-h-28 rounded-2xl border border-white/10 bg-black/40 px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-white/25"
+              className="min-h-28 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.30)]"
               placeholder={t("messagePh")}
             />
           </label>
         </div>
 
-        <label className="flex items-start gap-3 rounded-2xl border border-white/10 bg-black/30 p-4">
+        <label className="flex items-start gap-3 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(60,40,10,0.60)] p-4">
           <input
             type="checkbox"
             checked={consent}
             onChange={(e) => setConsent(e.target.checked)}
             required
-            className="mt-1 h-4 w-4 rounded border-white/20 bg-black/40"
+            className="mt-1 h-4 w-4 rounded border-[rgba(255,180,80,0.22)] bg-[rgba(50,32,8,0.70)]"
           />
           <span className="text-sm leading-6 text-white/70">
             {t("consentPrefix")}{" "}

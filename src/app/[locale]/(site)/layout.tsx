@@ -13,7 +13,7 @@ export default async function SiteLayout({children}: Props) {
   const dealer = await getCurrentDealerOrThrow();
 
   return (
-    <div className="min-h-dvh bg-[var(--color-bg)] text-[var(--color-fg)]">
+    <div className="min-h-dvh text-[var(--color-fg)]" style={{background: "var(--color-bg)"}}>
       <SiteHeader
         brandPrimary={dealer.brandPrimary}
         brandSecondary={dealer.brandSecondary}

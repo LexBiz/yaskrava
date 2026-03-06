@@ -11,7 +11,7 @@ export default function AboutPage() {
         <DownloadButtons />
       </PageHero>
 
-      <section className="bg-black py-20 sm:py-24">
+      <section style={{background:"linear-gradient(160deg,#3D2A12 0%,#2F1F0C 50%,#251809 100%)"}} className="py-20 sm:py-24">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
 
           <div className="grid gap-6 lg:grid-cols-12">
@@ -29,12 +29,12 @@ export default function AboutPage() {
               <div
                 className="rounded-2xl p-6"
                 style={{
-                  background: "linear-gradient(150deg, rgba(6,193,103,0.06), rgba(6,193,103,0.01))",
-                  border: "1px solid rgba(6,193,103,0.18)",
-                  boxShadow: "inset 0 1px 0 rgba(6,193,103,0.1)",
+                  background: "linear-gradient(150deg, rgba(254,147,2,0.12), rgba(255,121,24,0.04))",
+                  border: "1px solid rgba(254,147,2,0.24)",
+                  boxShadow: "inset 0 1px 0 rgba(254,147,2,0.14)",
                 }}
               >
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(6,193,103,0.7)" }}>
+                <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{ color: "rgba(254,147,2,0.80)" }}>
                   {t("principlesTitle")}
                 </p>
                 <ul className="mt-4 space-y-3 text-sm" style={{ color: "var(--text-2)" }}>
@@ -42,7 +42,7 @@ export default function AboutPage() {
                     <li key={i} className="flex items-start gap-2.5">
                       <span
                         className="mt-[3px] shrink-0 w-4 h-4 rounded-full flex items-center justify-center text-[10px] font-black"
-                        style={{ background: "rgba(6,193,103,0.15)", color: "var(--color-accent)" }}
+                        style={{ background: "rgba(254,147,2,0.18)", color: "#FE9302" }}
                       >
                         ✓
                       </span>

@@ -517,6 +517,79 @@ input[type="range"].slider:hover::-moz-range-thumb {
 }
 
 /* ══════════════════════════════════════════════════════
+   3D FLOATING APP ICON
+══════════════════════════════════════════════════════ */
+@keyframes float3d {
+  0%, 100% {
+    transform: perspective(900px) rotateY(10deg) rotateX(-6deg) translateY(0px);
+    filter:
+      drop-shadow(0 24px 48px rgba(0,0,0,0.70))
+      drop-shadow(0 0 40px rgba(255,121,24,0.35));
+  }
+  50% {
+    transform: perspective(900px) rotateY(14deg) rotateX(-3deg) translateY(-14px);
+    filter:
+      drop-shadow(0 36px 64px rgba(0,0,0,0.80))
+      drop-shadow(0 0 60px rgba(255,121,24,0.50));
+  }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.55; transform: scale(1); }
+  50%       { opacity: 0.80; transform: scale(1.08); }
+}
+
+@keyframes reflect-shimmer {
+  0%   { opacity: 0; transform: translateX(-120%) skewX(-18deg); }
+  30%  { opacity: 1; }
+  100% { opacity: 0; transform: translateX(220%) skewX(-18deg); }
+}
+
+.app-icon-3d {
+  position: relative;
+  transform: perspective(900px) rotateY(10deg) rotateX(-6deg);
+  filter:
+    drop-shadow(0 24px 48px rgba(0,0,0,0.70))
+    drop-shadow(0 0 40px rgba(255,121,24,0.35));
+  animation: float3d 4s ease-in-out infinite;
+  will-change: transform, filter;
+}
+
+/* Reflection under the icon */
+.app-icon-reflection {
+  position: absolute;
+  bottom: -28%;
+  left: 0;
+  right: 0;
+  height: 40%;
+  background: linear-gradient(180deg,
+    rgba(255,121,24,0.18) 0%,
+    transparent 100%
+  );
+  filter: blur(8px);
+  transform: perspective(900px) rotateX(70deg) scaleX(0.80) translateY(20px);
+  border-radius: 50%;
+  animation: glow-pulse 4s ease-in-out infinite;
+}
+
+/* ══════════════════════════════════════════════════════
+   CINEMATIC PHOTO SECTION
+══════════════════════════════════════════════════════ */
+@keyframes pan-slow {
+  0%   { transform: scale(1.05) translateX(0px); }
+  100% { transform: scale(1.05) translateX(-20px); }
+}
+
+.photo-cinematic {
+  position: relative;
+  overflow: hidden;
+}
+.photo-cinematic img {
+  animation: pan-slow 12s ease-in-out alternate infinite;
+  will-change: transform;
+}
+
+/* ══════════════════════════════════════════════════════
    SHIMMER
 ══════════════════════════════════════════════════════ */
 @keyframes shimmer {

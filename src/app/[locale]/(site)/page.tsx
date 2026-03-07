@@ -1,6 +1,8 @@
 import {ArrowRight, Flame, Car, CreditCard, Shield, Wrench, Wallet} from "lucide-react";
 import {useTranslations} from "next-intl";
 
+import {AppIcon3D} from "@/components/home/AppIcon3D";
+import {CinematicPhoto} from "@/components/home/CinematicPhoto";
 import {QuickEstimate} from "@/components/home/QuickEstimate";
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PartnerGrid} from "@/components/shared/PartnerGrid";
@@ -97,7 +99,11 @@ export default function HomePage() {
               </div>
             </div>
 
-            <QuickEstimate />
+            {/* RIGHT: 3D app icon on top + calculator below */}
+            <div className="flex flex-col items-center gap-8">
+              <AppIcon3D />
+              <QuickEstimate />
+            </div>
           </div>
         </div>
       </section>
@@ -207,6 +213,12 @@ export default function HomePage() {
           </div>
         </div>
       </section>
+
+      {/* ══ DIVIDER ══════════════════════════════════════════ */}
+      <div className="glow-line" />
+
+      {/* ══ CINEMATIC FLEET PHOTO ═══════════════════════════ */}
+      <CinematicPhoto />
 
       {/* ══ DIVIDER ══════════════════════════════════════════ */}
       <div className="glow-line" />

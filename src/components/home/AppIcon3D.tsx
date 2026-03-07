@@ -5,97 +5,148 @@ import {Link} from "@/i18n/navigation";
 
 export function AppIcon3D() {
   return (
-    <div className="relative flex flex-col items-center justify-center select-none">
+    <div className="relative flex flex-col items-center justify-center select-none py-8">
 
-      {/* Ambient glow behind */}
+      {/* === FLOOR GLOW (cast light from icon onto surface) === */}
       <div
-        className="absolute rounded-full pointer-events-none"
+        className="absolute pointer-events-none"
         style={{
-          width: 260,
-          height: 260,
-          top: "50%",
+          bottom: 20,
           left: "50%",
-          transform: "translate(-50%, -50%)",
-          background:
-            "radial-gradient(circle, rgba(255,121,24,0.55) 0%, rgba(255,153,2,0.30) 35%, transparent 72%)",
-          filter: "blur(40px)",
-          animation: "glow-pulse 4s ease-in-out infinite",
+          width: 260,
+          height: 50,
+          transform: "translateX(-50%)",
+          background: "radial-gradient(ellipse, rgba(255,121,24,0.55) 0%, transparent 72%)",
+          filter: "blur(18px)",
         }}
       />
 
-      {/* 3D floating icon wrapper */}
-      <div className="app-icon-3d">
+      {/* === 3D ICON: like an app icon sitting on a table, viewed from slight above-right === */}
+      <div
+        className="relative"
+        style={{
+          /* Core 3D perspective tilt */
+          transform:
+            "perspective(900px) rotateX(18deg) rotateY(-22deg) rotateZ(2deg)",
+          transformStyle: "preserve-3d",
+          /* Multi-level shadow = depth illusion */
+          filter:
+            "drop-shadow(0 2px 0px rgba(180,60,0,0.70)) " +
+            "drop-shadow(0 6px 12px rgba(0,0,0,0.75)) " +
+            "drop-shadow(0 20px 40px rgba(0,0,0,0.65)) " +
+            "drop-shadow(0 0 50px rgba(255,121,24,0.40))",
+          /* Tiny upward float to sit above "surface" */
+          marginBottom: 8,
+        }}
+      >
+        {/* Icon image */}
         <div
-          className="relative overflow-hidden"
           style={{
-            width: 200,
-            height: 200,
-            borderRadius: 44,
-            boxShadow:
-              "0 0 0 1px rgba(255,255,255,0.18) inset," +
-              "0 0 0 2px rgba(255,121,24,0.35) inset," +
-              "0 32px 80px rgba(0,0,0,0.80)," +
-              "0 8px 24px rgba(255,121,24,0.40)",
+            width: 180,
+            height: 180,
+            borderRadius: 40,
+            overflow: "hidden",
+            position: "relative",
+            /* Inset border — gives physical edge feel */
+            outline: "1.5px solid rgba(255,255,255,0.16)",
+            outlineOffset: "-1.5px",
           }}
         >
           <Image
             src="/Logo.png"
-            alt="Yaskrava App"
-            width={200}
-            height={200}
+            alt="Yaskrava"
+            width={180}
+            height={180}
             priority
-            style={{width: "100%", height: "100%", objectFit: "cover"}}
+            style={{width: "100%", height: "100%", objectFit: "cover", display: "block"}}
           />
 
-          {/* Specular highlight — top-left glare */}
+          {/* Top-left specular glare (light hitting the glass/screen) */}
           <div
-            className="absolute pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              top: 0,
-              left: 0,
-              right: 0,
-              height: "52%",
               background:
-                "linear-gradient(160deg, rgba(255,255,255,0.24) 0%, transparent 60%)",
-              borderRadius: "44px 44px 0 0",
+                "linear-gradient(135deg, rgba(255,255,255,0.28) 0%, transparent 45%)",
+              borderRadius: 40,
             }}
           />
 
-          {/* Right edge light (from perspective tilt) */}
+          {/* Bottom-right ambient bounce light */}
           <div
-            className="absolute right-0 top-0 bottom-0 pointer-events-none"
+            className="absolute inset-0 pointer-events-none"
             style={{
-              width: 14,
-              background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.12))",
-              borderRadius: "0 44px 44px 0",
+              background:
+                "linear-gradient(315deg, rgba(255,153,2,0.14) 0%, transparent 45%)",
+              borderRadius: 40,
             }}
           />
-
-          {/* Shimmer sweep */}
-          <div
-            className="absolute inset-0 pointer-events-none overflow-hidden"
-            style={{borderRadius: 44}}
-          >
-            <div
-              style={{
-                position: "absolute",
-                inset: 0,
-                background:
-                  "linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.22) 48%, transparent 100%)",
-                animation: "reflect-shimmer 5s 1s ease-in-out infinite",
-              }}
-            />
-          </div>
         </div>
 
-        {/* Ground shadow / reflection */}
-        <div className="app-icon-reflection" />
+        {/* === SIDE FACE (bottom edge, gives 3D thickness) === */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: -10,
+            left: 8,
+            right: 8,
+            height: 12,
+            borderRadius: "0 0 28px 28px",
+            background: "linear-gradient(180deg, rgba(180,60,0,0.90) 0%, rgba(120,30,0,0.70) 100%)",
+            transform: "rotateX(-90deg) translateZ(-6px)",
+            transformOrigin: "top center",
+          }}
+        />
+
+        {/* === RIGHT FACE (gives 3D thickness) === */}
+        <div
+          style={{
+            position: "absolute",
+            top: 8,
+            right: -10,
+            bottom: 8,
+            width: 12,
+            borderRadius: "0 28px 28px 0",
+            background: "linear-gradient(90deg, rgba(200,70,0,0.80) 0%, rgba(140,40,0,0.60) 100%)",
+            transform: "rotateY(90deg) translateZ(-6px)",
+            transformOrigin: "left center",
+          }}
+        />
       </div>
 
-      {/* Label */}
+      {/* === REFLECTION (mirror image below, fading out) === */}
+      <div
+        className="relative pointer-events-none"
+        style={{
+          width: 180,
+          height: 60,
+          overflow: "hidden",
+          transform: "perspective(900px) rotateX(18deg) rotateY(-22deg) rotateZ(2deg) scaleY(-1)",
+          opacity: 0.18,
+          filter: "blur(4px)",
+          marginTop: -8,
+        }}
+      >
+        <Image
+          src="/Logo.png"
+          alt=""
+          aria-hidden="true"
+          width={180}
+          height={60}
+          style={{width: 180, height: 180, objectFit: "cover", display: "block", marginTop: -120}}
+        />
+        {/* Fade out reflection */}
+        <div
+          className="absolute inset-0"
+          style={{
+            background: "linear-gradient(180deg, rgba(59,59,61,0) 0%, rgba(59,59,61,1) 100%)",
+          }}
+        />
+      </div>
+
+      {/* CTA link */}
       <Link
         href="/apply"
-        className="mt-10 inline-flex items-center gap-2 text-sm font-bold text-white rounded-full px-5 py-2.5 transition-all hover:brightness-110"
+        className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-white rounded-full px-6 py-2.5 transition-all hover:brightness-110"
         style={{
           background: "linear-gradient(135deg, #FF7918, #FF9902)",
           boxShadow: "0 4px 20px -6px rgba(255,121,24,0.70)",

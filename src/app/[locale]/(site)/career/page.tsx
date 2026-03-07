@@ -1,7 +1,6 @@
 import {useTranslations} from "next-intl";
 
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
-import {Container} from "@/components/site/Container";
 import {PageHero} from "@/components/site/PageHero";
 import {Link} from "@/i18n/navigation";
 
@@ -10,42 +9,56 @@ export default function CareerPage() {
 
   return (
     <div>
-      <PageHero title={t("title")} subtitle={t("subtitle")}>
+      {/* Orange gradient hero */}
+      <PageHero variant="gradient" title={t("title")} subtitle={t("subtitle")}>
         <div className="flex flex-wrap gap-3">
-          <Link
-            href="/apply"
-            className="inline-flex items-center justify-center rounded-full border border-white/15 bg-white/5 px-5 py-3 text-sm font-semibold text-white"
-          >
+          <Link href="/apply" className="btn-white h-11 px-6 text-sm font-bold"
+            style={{background: "#FFFFFF", color: "#3B3B3D"}}>
             {t("cta")}
           </Link>
           <DownloadButtons />
         </div>
       </PageHero>
 
-      <section style={{background:"linear-gradient(160deg,#2F1F0C 0%,#251809 100%)"}} className="py-14">
-        <Container>
+      {/* White — roles */}
+      <section className="section-white py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10">
           <div className="grid gap-4 md:grid-cols-2">
-            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-              <div className="text-sm font-semibold text-white">{t("roles.salesTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("roles.salesText")}</div>
+            <div className="yask-card-on-white rounded-2xl p-6">
+              <div className="w-8 h-1 rounded-full mb-4"
+                style={{background: "linear-gradient(90deg,#FF7918,#FF9902)"}} />
+              <div className="text-base font-black" style={{color: "#3B3B3D"}}>{t("roles.salesTitle")}</div>
+              <div className="mt-2 text-sm leading-7" style={{color: "rgba(59,59,61,0.68)"}}>{t("roles.salesText")}</div>
             </div>
-            <div className="rounded-3xl border border-white/10 bg-white/[0.03] p-6">
-              <div className="text-sm font-semibold text-white">{t("roles.opsTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("roles.opsText")}</div>
+            <div className="yask-card-on-white rounded-2xl p-6">
+              <div className="w-8 h-1 rounded-full mb-4"
+                style={{background: "linear-gradient(90deg,#FF7918,#FF9902)"}} />
+              <div className="text-base font-black" style={{color: "#3B3B3D"}}>{t("roles.opsTitle")}</div>
+              <div className="mt-2 text-sm leading-7" style={{color: "rgba(59,59,61,0.68)"}}>{t("roles.opsText")}</div>
             </div>
           </div>
+        </div>
+      </section>
 
-          <div className="mt-10 rounded-3xl border border-white/10 bg-[rgba(60,40,10,0.55)] p-6 sm:p-10">
-            <div className="text-sm font-semibold text-white">{t("processTitle")}</div>
-            <ol className="mt-4 space-y-3 text-sm leading-7 text-white/70">
-              <li>1) {t("process.0")}</li>
-              <li>2) {t("process.1")}</li>
-              <li>3) {t("process.2")}</li>
-            </ol>
+      {/* Charcoal — process */}
+      <section className="section-charcoal py-14 sm:py-20">
+        <div className="mx-auto max-w-7xl px-6 sm:px-10">
+          <div className="section-accent-line mb-4" />
+          <h2 className="text-xl font-extrabold text-white mb-8">{t("processTitle")}</h2>
+          <div className="flex flex-col sm:flex-row gap-0">
+            {(t.raw("process") as string[]).map((step: string, i: number) => (
+              <div key={i} className="flex-1 flex gap-4 items-start p-5 rounded-2xl"
+                style={{background: "rgba(255,255,255,0.06)", border: "1px solid rgba(255,255,255,0.10)", margin: "4px"}}>
+                <div className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-black text-white"
+                  style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 4px 16px -4px rgba(255,121,24,0.60)"}}>
+                  {i + 1}
+                </div>
+                <div className="text-sm font-medium leading-relaxed text-white/75">{step}</div>
+              </div>
+            ))}
           </div>
-        </Container>
+        </div>
       </section>
     </div>
   );
 }
-

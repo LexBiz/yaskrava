@@ -20,7 +20,7 @@ type Props = {
   accentColor: string;
 };
 
-export function SiteHeader({accentColor}: Props) {
+export function SiteHeader({}: Props) {
   const tNav = useTranslations("Nav");
   const path = usePathname();
   const [open, setOpen] = useState(false);
@@ -39,17 +39,18 @@ export function SiteHeader({accentColor}: Props) {
     <header
       className="sticky top-0 z-50 h-16 flex items-center"
       style={{
-        background: "rgba(26, 18, 8, 0.92)",
-        borderBottom: "1px solid rgba(255,170,60,0.10)",
+        background: "rgba(44, 44, 46, 0.95)",
+        borderBottom: "1px solid rgba(255,255,255,0.08)",
         backdropFilter: "blur(22px) saturate(160%)",
         WebkitBackdropFilter: "blur(22px) saturate(160%)",
       }}
     >
       <div className="mx-auto w-full max-w-7xl px-5 sm:px-8 flex items-center gap-4">
 
+        {/* Logo — white version (on dark header) */}
         <Link href="/" className="shrink-0 flex items-center no-underline">
-          <Image src="/logo.svg" alt="Yaskrava" width={120} height={35}
-            priority style={{height: 28, width: "auto"}} />
+          <Image src="/logo.svg" alt="Yaskrava" width={130} height={38}
+            priority style={{height: 30, width: "auto"}} />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-0.5 ml-6">
@@ -60,10 +61,10 @@ export function SiteHeader({accentColor}: Props) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "h-8 px-3 flex items-center text-[13px] font-medium transition-all rounded-full",
+                  "h-8 px-3 flex items-center text-[13px] font-semibold transition-all rounded-full",
                   active
-                    ? "text-white bg-white/[0.09]"
-                    : "text-white/45 hover:text-white/80 hover:bg-white/[0.04]",
+                    ? "text-white bg-[#FF7918]"
+                    : "text-white/55 hover:text-white hover:bg-white/[0.07]",
                 )}
               >
                 {item.label}
@@ -81,13 +82,9 @@ export function SiteHeader({accentColor}: Props) {
                 className={cn(
                   "h-7 w-8 flex items-center justify-center text-[11px] font-bold rounded-full transition-all",
                   locale === l.code
-                    ? "text-black"
-                    : "text-white/40 hover:text-white/65",
+                    ? "text-white bg-[#FF7918]"
+                    : "text-white/40 hover:text-white/70",
                 )}
-                style={locale === l.code ? {
-                  background: `linear-gradient(135deg, #FE9302, #FF5A2A)`,
-                  boxShadow: "0 0 12px rgba(255,121,24,0.50)",
-                } : undefined}
               >
                 {l.label}
               </Link>
@@ -96,10 +93,10 @@ export function SiteHeader({accentColor}: Props) {
 
           <Link
             href="/calculator"
-            className="hidden sm:flex h-9 items-center px-4 rounded-full text-white text-[12px] font-bold tracking-wide hover:brightness-105 transition-all"
+            className="hidden sm:flex h-9 items-center px-4 rounded-full text-white text-[12px] font-bold hover:brightness-105 transition-all"
             style={{
-              background: `linear-gradient(135deg, #FE9302 0%, ${accentColor} 50%, #FF5A2A 100%)`,
-              boxShadow: `0 0 24px -8px rgba(255,121,24,0.60)`,
+              background: "linear-gradient(135deg, #FF7918, #FF9902)",
+              boxShadow: "0 0 20px -6px rgba(255,121,24,0.65)",
             }}
           >
             {tNav("calculator")}
@@ -108,8 +105,8 @@ export function SiteHeader({accentColor}: Props) {
           <button
             type="button" aria-label="Toggle menu" aria-expanded={open}
             onClick={() => setOpen(v => !v)}
-            className="lg:hidden flex h-8 w-8 items-center justify-center rounded-full transition-colors"
-            style={{border: "1px solid rgba(255,170,60,0.16)", color: "var(--text-2)"}}
+            className="lg:hidden flex h-8 w-8 items-center justify-center rounded-full text-white/60"
+            style={{border: "1px solid rgba(255,255,255,0.14)"}}
           >
             {open ? <X size={15}/> : <Menu size={15}/>}
           </button>
@@ -120,16 +117,14 @@ export function SiteHeader({accentColor}: Props) {
         <div
           className="lg:hidden absolute top-full left-0 right-0"
           style={{
-            background: "rgba(26, 18, 8, 0.97)",
-            borderBottom: "1px solid rgba(255,170,60,0.10)",
-            backdropFilter: "blur(24px)",
-            WebkitBackdropFilter: "blur(24px)",
+            background: "#2C2C2E",
+            borderBottom: "1px solid rgba(255,255,255,0.08)",
           }}
         >
           <div className="mx-auto max-w-7xl px-5 py-5 space-y-1">
             {nav.map(item => (
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
-                className="flex h-11 items-center px-4 rounded-xl text-sm font-semibold text-white/65 hover:text-white hover:bg-white/[0.05] transition-colors">
+                className="flex h-11 items-center px-4 rounded-xl text-sm font-semibold text-white/65 hover:text-white hover:bg-white/[0.07] transition-colors">
                 {item.label}
               </Link>
             ))}
@@ -138,12 +133,10 @@ export function SiteHeader({accentColor}: Props) {
                 <Link key={l.code} href={path || "/"} locale={l.code} onClick={() => setOpen(false)}
                   className={cn(
                     "h-9 w-9 flex items-center justify-center rounded-full text-[11px] font-bold transition-all",
-                    locale === l.code ? "text-black" : "text-white/40 border border-white/12",
-                  )}
-                  style={locale === l.code ? {
-                    background: "linear-gradient(135deg, #FE9302, #FF5A2A)",
-                  } : undefined}
-                >
+                    locale === l.code
+                      ? "text-white bg-[#FF7918]"
+                      : "text-white/45 border border-white/12",
+                  )}>
                   {l.label}
                 </Link>
               ))}
@@ -151,15 +144,11 @@ export function SiteHeader({accentColor}: Props) {
             <div className="pt-2 grid grid-cols-2 gap-2">
               <Link href="/calculator" onClick={() => setOpen(false)}
                 className="h-11 flex items-center justify-center rounded-xl text-white text-sm font-bold"
-                style={{
-                  background: `linear-gradient(135deg, #FE9302 0%, ${accentColor} 50%, #FF5A2A 100%)`,
-                  boxShadow: "0 4px 20px -6px rgba(255,121,24,0.55)",
-                }}>
+                style={{background: "linear-gradient(135deg, #FF7918, #FF9902)", boxShadow: "0 4px 20px -6px rgba(255,121,24,0.60)"}}>
                 {tNav("calculator")}
               </Link>
               <Link href="/apply" onClick={() => setOpen(false)}
-                className="h-11 flex items-center justify-center rounded-xl text-sm font-medium text-white/70 hover:text-white transition-colors"
-                style={{border: "1px solid rgba(255,170,60,0.16)"}}>
+                className="h-11 flex items-center justify-center rounded-xl text-sm font-semibold text-white/70 border border-white/12 hover:border-white/25 transition-colors">
                 {tNav("apply")}
               </Link>
             </div>

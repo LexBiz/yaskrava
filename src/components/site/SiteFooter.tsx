@@ -11,7 +11,7 @@ type Props = {
   country?: string | null;
 };
 
-export function SiteFooter({accentColor, disclaimer, city, country}: Props) {
+export function SiteFooter({disclaimer, city, country}: Props) {
   const t = useTranslations("Footer");
   const nav = useTranslations("Nav");
 
@@ -31,44 +31,35 @@ export function SiteFooter({accentColor, disclaimer, city, country}: Props) {
   ] as const;
 
   return (
-    <footer
-      style={{
-        background: "linear-gradient(180deg, #2F1F0C 0%, #1C1208 100%)",
-        borderTop: "1px solid rgba(255,170,60,0.12)",
-      }}
-    >
+    <footer style={{background: "#2C2C2E", borderTop: "2px solid #FF7918"}}>
       <div className="mx-auto max-w-7xl px-6 sm:px-10 py-14">
         <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-4">
+
+          {/* Brand */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-block">
-              <Image src="/logo.svg" alt="Yaskrava" width={140} height={41}
-                style={{height: 32, width: "auto"}} />
+              {/* Orange logo on dark background */}
+              <Image src="/logo.svg" alt="Yaskrava" width={150} height={44}
+                style={{height: 34, width: "auto"}} />
             </Link>
-            <p className="mt-5 text-sm leading-relaxed max-w-xs" style={{color: "var(--text-3)"}}>
+            <p className="mt-5 text-sm leading-relaxed max-w-xs" style={{color: "rgba(255,255,255,0.50)"}}>
               {disclaimer || t("disclaimer")}
             </p>
-            <div className="mt-5 flex gap-3 flex-wrap">
+            <div className="mt-6 flex gap-3 flex-wrap">
               <Link href="/apply"
-                className="inline-flex h-9 items-center px-4 rounded-full text-white text-xs font-bold"
-                style={{
-                  background: `linear-gradient(135deg, #FE9302 0%, ${accentColor} 50%, #FF5A2A 100%)`,
-                  boxShadow: "0 0 16px -4px rgba(255,121,24,0.50)",
-                }}>
+                className="inline-flex h-10 items-center px-5 rounded-full text-white text-sm font-bold"
+                style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 0 18px -4px rgba(255,121,24,0.55)"}}>
                 Отримати доступ
               </Link>
               <Link href="/calculator"
-                className="inline-flex h-9 items-center px-4 rounded-full text-xs font-semibold transition-colors hover:text-white"
-                style={{
-                  border: "1px solid rgba(255,170,60,0.20)",
-                  color: "var(--text-2)",
-                }}>
+                className="inline-flex h-10 items-center px-5 rounded-full text-sm font-semibold text-white/65 border border-white/14 hover:text-white transition-colors">
                 Калькулятор
               </Link>
             </div>
           </div>
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>Company</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] mb-4" style={{color: "#FF9902"}}>Company</p>
             <ul className="space-y-2.5 text-sm">
               {companyLinks.map(l => (
                 <li key={l.href}><Link href={l.href} className="footer-link">{l.label}</Link></li>
@@ -77,7 +68,7 @@ export function SiteFooter({accentColor, disclaimer, city, country}: Props) {
           </div>
 
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.14em] mb-4" style={{color: "var(--text-3)"}}>Legal</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.16em] mb-4" style={{color: "#FF9902"}}>Legal</p>
             <ul className="space-y-2.5 text-sm">
               {legalLinks.map(l => (
                 <li key={l.href}><Link href={l.href} className="footer-link">{l.label}</Link></li>
@@ -86,13 +77,14 @@ export function SiteFooter({accentColor, disclaimer, city, country}: Props) {
           </div>
         </div>
 
+        {/* Orange divider */}
         <div className="glow-line my-8" />
 
         <div className="flex flex-wrap items-center justify-between gap-4">
-          <p className="text-[11px]" style={{color: "var(--text-3)"}}>
+          <p className="text-[11px]" style={{color: "rgba(255,255,255,0.40)"}}>
             {t("copyright", {year: new Date().getFullYear()})}
           </p>
-          <p className="text-[11px]" style={{color: "var(--text-3)"}}>
+          <p className="text-[11px]" style={{color: "rgba(255,255,255,0.40)"}}>
             GDPR compliant · {city || "Praha"}, {country || "CZ"}
           </p>
         </div>

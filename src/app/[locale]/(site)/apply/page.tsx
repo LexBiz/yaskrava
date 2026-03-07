@@ -10,10 +10,10 @@ export default function ApplyPage() {
 
   return (
     <div>
-      <PageHero title={t("title")} subtitle={t("subtitle")}>
+      <PageHero variant="charcoal" title={t("title")} subtitle={t("subtitle")}>
         <DownloadButtons />
       </PageHero>
-      <section className="py-14" style={{background: "linear-gradient(180deg, #2F1F0C 0%, #1C1208 100%)"}}>
+      <section className="section-white py-14">
         <Container>
           <ApplicationForm />
         </Container>
@@ -21,4 +21,3 @@ export default function ApplyPage() {
     </div>
   );
 }
-

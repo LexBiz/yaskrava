@@ -5,15 +5,10 @@ import {SiteFooter} from "@/components/site/SiteFooter";
 import {SiteHeader} from "@/components/site/SiteHeader";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
 
-type Props = {
-  children: ReactNode;
-};
-
-export default async function SiteLayout({children}: Props) {
+export default async function SiteLayout({children}: {children: ReactNode}) {
   const dealer = await getCurrentDealerOrThrow();
-
   return (
-    <div className="min-h-dvh text-[var(--color-fg)]" style={{background: "var(--color-bg)"}}>
+    <div style={{background: "#3B3B3D", color: "#FFFFFF"}}>
       <SiteHeader
         brandPrimary={dealer.brandPrimary}
         brandSecondary={dealer.brandSecondary}
@@ -32,4 +27,3 @@ export default async function SiteLayout({children}: Props) {
     </div>
   );
 }
-

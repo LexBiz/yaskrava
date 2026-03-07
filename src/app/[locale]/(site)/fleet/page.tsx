@@ -223,14 +223,14 @@ export default async function FleetPage() {
 
   return (
     <div>
-      <PageHero title={t("title")} subtitle={t("subtitle")}>
+      <PageHero variant="gradient" title={t("title")} subtitle={t("subtitle")}>
         <DownloadButtons
           appStoreUrl={dealer.appStoreUrl}
           playStoreUrl={dealer.playStoreUrl}
         />
       </PageHero>
 
-      <section style={{background:"linear-gradient(160deg,#2F1F0C 0%,#251809 100%)"}} className="py-14 sm:py-20">
+      <section className="section-charcoal py-14 sm:py-20">
         <Container>
           <div className="grid gap-12">
             <div>

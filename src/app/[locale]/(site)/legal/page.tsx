@@ -9,43 +9,27 @@ export default function LegalIndexPage() {
 
   return (
     <div>
-      <PageHero title={t("title")} subtitle={t("subtitle")} />
-
-      <section className="py-14" style={{background: "linear-gradient(180deg, #2F1F0C 0%, #1C1208 100%)"}}>
+      <PageHero variant="charcoal" title={t("title")} subtitle={t("subtitle")} />
+      <section className="section-white py-14">
         <Container>
           <div className="grid gap-4 md:grid-cols-2">
-            <Link
-              href="/legal/privacy"
-              className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:bg-white/[0.05]"
-            >
-              <div className="text-sm font-semibold text-white">{t("privacyTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("privacyText")}</div>
-            </Link>
-            <Link
-              href="/legal/terms"
-              className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:bg-white/[0.05]"
-            >
-              <div className="text-sm font-semibold text-white">{t("termsTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("termsText")}</div>
-            </Link>
-            <Link
-              href="/legal/cookies"
-              className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:bg-white/[0.05]"
-            >
-              <div className="text-sm font-semibold text-white">{t("cookiesTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("cookiesText")}</div>
-            </Link>
-            <Link
-              href="/legal/imprint"
-              className="rounded-3xl border border-white/10 bg-white/[0.03] p-6 hover:bg-white/[0.05]"
-            >
-              <div className="text-sm font-semibold text-white">{t("imprintTitle")}</div>
-              <div className="mt-2 text-sm leading-7 text-white/70">{t("imprintText")}</div>
-            </Link>
+            {[
+              {href: "/legal/privacy", title: t("privacyTitle"), text: t("privacyText")},
+              {href: "/legal/terms",   title: t("termsTitle"),   text: t("termsText")},
+              {href: "/legal/cookies", title: t("cookiesTitle"), text: t("cookiesText")},
+              {href: "/legal/imprint", title: t("imprintTitle"), text: t("imprintText")},
+            ].map(l => (
+              <Link key={l.href} href={l.href}
+                className="yask-card-on-white rounded-2xl p-6 no-underline group hover:border-[#FF7918]/25 transition-all">
+                <div className="w-6 h-[2px] rounded-full mb-3"
+                  style={{background: "linear-gradient(90deg,#FF7918,#FF9902)"}} />
+                <div className="text-sm font-semibold" style={{color: "#3B3B3D"}}>{l.title}</div>
+                <div className="mt-2 text-sm leading-6" style={{color: "rgba(59,59,61,0.65)"}}>{l.text}</div>
+              </Link>
+            ))}
           </div>
         </Container>
       </section>
     </div>
   );
 }
-

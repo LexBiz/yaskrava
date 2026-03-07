@@ -22,16 +22,10 @@ export const dynamic = "force-dynamic";
 export async function generateMetadata(): Promise<Metadata> {
   const dealer = await getCurrentDealer();
   const name = dealer?.websiteTitle || dealer?.name || "Yaskrava";
-
   return {
-    title: {
-      default: name,
-      template: `%s — ${name}`,
-    },
-    description: `${name} — вигідні рішення для водіїв: паливо, авто-послуги, фінансування та лізинг в одному застосунку.`,
-    icons: {
-      icon: "/symbol.svg",
-    },
+    title: {default: name, template: `%s — ${name}`},
+    description: `${name} — вигідні рішення для водіїв: паливо, авто-послуги, фінансування та лізинг.`,
+    icons: {icon: "/symbol.svg"},
   };
 }
 
@@ -39,19 +33,17 @@ export function generateStaticParams() {
   return routing.locales.map((locale) => ({locale}));
 }
 
-type Props = {
+export default async function LocaleLayout({
+  children,
+  params,
+}: {
   children: React.ReactNode;
   params: Promise<{locale: string}>;
-};
-
-export default async function LocaleLayout({children, params}: Props) {
+}) {
   const {locale} = await params;
   const dealer = await getCurrentDealer();
 
-  if (!hasLocale(routing.locales, locale)) {
-    notFound();
-  }
-
+  if (!hasLocale(routing.locales, locale)) notFound();
   setRequestLocale(locale);
 
   const messages = await getMessages();
@@ -62,9 +54,7 @@ export default async function LocaleLayout({children, params}: Props) {
         className="antialiased"
         style={
           dealer
-            ? ({
-                ["--color-accent" as string]: dealer.accentColor,
-              } as CSSProperties)
+            ? ({["--color-accent" as string]: dealer.accentColor} as CSSProperties)
             : undefined
         }
       >

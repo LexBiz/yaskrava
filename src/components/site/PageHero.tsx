@@ -7,58 +7,73 @@ type Props = {
   subtitle?: ReactNode;
   children?: ReactNode;
   className?: string;
+  variant?: "charcoal" | "orange" | "gradient";
 };
 
-export function PageHero({eyebrow, title, subtitle, children, className}: Props) {
+export function PageHero({eyebrow, title, subtitle, children, className, variant = "charcoal"}: Props) {
+  const isOrange = variant === "orange" || variant === "gradient";
+
   return (
     <section
       className={cn("relative overflow-hidden border-b", className)}
       style={{
-        background: "linear-gradient(160deg, #3D2A12 0%, #2F1F0C 40%, #251809 100%)",
-        borderColor: "rgba(255,170,60,0.12)",
+        background:
+          variant === "gradient"
+            ? "linear-gradient(135deg, #FF7918 0%, #FF9902 100%)"
+            : variant === "orange"
+              ? "#FF7918"
+              : "#3B3B3D",
+        borderColor: isOrange ? "rgba(255,255,255,0.15)" : "rgba(255,255,255,0.08)",
       }}
     >
-      {/* Orange glow top-left */}
-      <div className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "radial-gradient(ellipse 55% 70% at -10% -15%, rgba(254,147,2,0.16) 0%, transparent 60%)," +
-            "radial-gradient(ellipse 40% 50% at 100% 100%, rgba(255,90,42,0.08) 0%, transparent 55%)",
-        }}
-      />
-      {/* Warm grid overlay */}
+      {/* Noise + grid overlay */}
       <div className="absolute inset-0 pointer-events-none"
         style={{
           backgroundImage:
-            "linear-gradient(rgba(255,200,100,1) 1px, transparent 1px)," +
-            "linear-gradient(90deg, rgba(255,200,100,1) 1px, transparent 1px)",
+            "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px)," +
+            "linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
           backgroundSize: "72px 72px",
-          opacity: 0.020,
-          maskImage: "radial-gradient(ellipse 65% 75% at 0% 0%, black 0%, transparent 80%)",
+          opacity: isOrange ? 0.06 : 0.04,
+          maskImage: "radial-gradient(ellipse 70% 80% at 5% 5%, black 0%, transparent 75%)",
         }}
       />
 
       <div className="relative mx-auto max-w-7xl px-5 sm:px-8 py-14 sm:py-20">
-        {eyebrow && <span className="yask-badge mb-5 inline-block">{eyebrow}</span>}
-        <div className="section-accent-line mb-5" />
+        {eyebrow && (
+          <span
+            className={cn("mb-5 inline-block", isOrange ? "yask-badge-on-orange" : "yask-badge")}
+          >
+            {eyebrow}
+          </span>
+        )}
+
+        <div
+          className="w-8 h-[3px] rounded-full mb-5"
+          style={{
+            background: isOrange ? "rgba(255,255,255,0.75)" : "linear-gradient(90deg,#FF7918,#FF9902)",
+            boxShadow: isOrange ? "0 0 12px rgba(255,255,255,0.45)" : "0 0 14px rgba(255,121,24,0.60)",
+          }}
+        />
+
         <h1
           className="font-black tracking-[-0.02em] leading-[1.05] max-w-3xl"
           style={{
             fontSize: "clamp(2.2rem, 4.4vw, 4rem)",
-            background: "linear-gradient(175deg, #FFFFFF 0%, rgba(255,235,190,0.60) 100%)",
-            WebkitBackgroundClip: "text",
-            WebkitTextFillColor: "transparent",
-            backgroundClip: "text",
+            color: "#FFFFFF",
           }}
         >
           {title}
         </h1>
+
         {subtitle && (
-          <p className="mt-5 text-base sm:text-[17px] leading-relaxed max-w-2xl font-medium"
-            style={{color: "var(--text-2)"}}>
+          <p
+            className="mt-5 text-base sm:text-[17px] leading-relaxed max-w-2xl font-medium"
+            style={{color: isOrange ? "rgba(255,255,255,0.80)" : "rgba(255,255,255,0.65)"}}
+          >
             {subtitle}
           </p>
         )}
+
         {children && <div className="mt-8">{children}</div>}
       </div>
     </section>

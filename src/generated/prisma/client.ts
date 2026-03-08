@@ -70,6 +70,11 @@ export type UserSession = Prisma.UserSessionModel
  */
 export type Application = Prisma.ApplicationModel
 /**
+ * Model PartnerLead
+ * 
+ */
+export type PartnerLead = Prisma.PartnerLeadModel
+/**
  * Model Vehicle
  * 
  */

@@ -1,9 +1,7 @@
-import {ArrowRight} from "lucide-react";
 import {useTranslations} from "next-intl";
 
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PageHero} from "@/components/site/PageHero";
-import {Link} from "@/i18n/navigation";
 
 export default function FuelPage() {
   const t = useTranslations("Fuel");
@@ -12,13 +10,7 @@ export default function FuelPage() {
     <div>
       {/* Charcoal hero */}
       <PageHero variant="charcoal" title={t("title")} subtitle={t("subtitle")}>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/apply" className="btn-primary h-11 px-6 text-sm font-bold"
-            style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 0 28px -6px rgba(255,121,24,0.60)"}}>
-            {t("cta")} <ArrowRight size={15}/>
-          </Link>
-          <DownloadButtons />
-        </div>
+        <DownloadButtons />
       </PageHero>
 
       {/* White section — partner cards */}

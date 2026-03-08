@@ -34,6 +34,7 @@ export type AuditLogMinAggregateOutputType = {
   actorUserId: string | null
   dealerId: string | null
   applicationId: string | null
+  partnerLeadId: string | null
   vehicleId: string | null
 }
 
@@ -47,6 +48,7 @@ export type AuditLogMaxAggregateOutputType = {
   actorUserId: string | null
   dealerId: string | null
   applicationId: string | null
+  partnerLeadId: string | null
   vehicleId: string | null
 }
 
@@ -61,6 +63,7 @@ export type AuditLogCountAggregateOutputType = {
   actorUserId: number
   dealerId: number
   applicationId: number
+  partnerLeadId: number
   vehicleId: number
   _all: number
 }
@@ -76,6 +79,7 @@ export type AuditLogMinAggregateInputType = {
   actorUserId?: true
   dealerId?: true
   applicationId?: true
+  partnerLeadId?: true
   vehicleId?: true
 }
 
@@ -89,6 +93,7 @@ export type AuditLogMaxAggregateInputType = {
   actorUserId?: true
   dealerId?: true
   applicationId?: true
+  partnerLeadId?: true
   vehicleId?: true
 }
 
@@ -103,6 +108,7 @@ export type AuditLogCountAggregateInputType = {
   actorUserId?: true
   dealerId?: true
   applicationId?: true
+  partnerLeadId?: true
   vehicleId?: true
   _all?: true
 }
@@ -190,6 +196,7 @@ export type AuditLogGroupByOutputType = {
   actorUserId: string | null
   dealerId: string | null
   applicationId: string | null
+  partnerLeadId: string | null
   vehicleId: string | null
   _count: AuditLogCountAggregateOutputType | null
   _min: AuditLogMinAggregateOutputType | null
@@ -225,10 +232,12 @@ export type AuditLogWhereInput = {
   actorUserId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   dealerId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   applicationId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
+  partnerLeadId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   vehicleId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   actorUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
   dealer?: Prisma.XOR<Prisma.DealerNullableScalarRelationFilter, Prisma.DealerWhereInput> | null
   application?: Prisma.XOR<Prisma.ApplicationNullableScalarRelationFilter, Prisma.ApplicationWhereInput> | null
+  partnerLead?: Prisma.XOR<Prisma.PartnerLeadNullableScalarRelationFilter, Prisma.PartnerLeadWhereInput> | null
   vehicle?: Prisma.XOR<Prisma.VehicleNullableScalarRelationFilter, Prisma.VehicleWhereInput> | null
 }
 
@@ -243,10 +252,12 @@ export type AuditLogOrderByWithRelationInput = {
   actorUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   dealerId?: Prisma.SortOrderInput | Prisma.SortOrder
   applicationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  partnerLeadId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehicleId?: Prisma.SortOrderInput | Prisma.SortOrder
   actorUser?: Prisma.AdminUserOrderByWithRelationInput
   dealer?: Prisma.DealerOrderByWithRelationInput
   application?: Prisma.ApplicationOrderByWithRelationInput
+  partnerLead?: Prisma.PartnerLeadOrderByWithRelationInput
   vehicle?: Prisma.VehicleOrderByWithRelationInput
 }
 
@@ -264,10 +275,12 @@ export type AuditLogWhereUniqueInput = Prisma.AtLeast<{
   actorUserId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   dealerId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   applicationId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
+  partnerLeadId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   vehicleId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   actorUser?: Prisma.XOR<Prisma.AdminUserNullableScalarRelationFilter, Prisma.AdminUserWhereInput> | null
   dealer?: Prisma.XOR<Prisma.DealerNullableScalarRelationFilter, Prisma.DealerWhereInput> | null
   application?: Prisma.XOR<Prisma.ApplicationNullableScalarRelationFilter, Prisma.ApplicationWhereInput> | null
+  partnerLead?: Prisma.XOR<Prisma.PartnerLeadNullableScalarRelationFilter, Prisma.PartnerLeadWhereInput> | null
   vehicle?: Prisma.XOR<Prisma.VehicleNullableScalarRelationFilter, Prisma.VehicleWhereInput> | null
 }, "id">
 
@@ -282,6 +295,7 @@ export type AuditLogOrderByWithAggregationInput = {
   actorUserId?: Prisma.SortOrderInput | Prisma.SortOrder
   dealerId?: Prisma.SortOrderInput | Prisma.SortOrder
   applicationId?: Prisma.SortOrderInput | Prisma.SortOrder
+  partnerLeadId?: Prisma.SortOrderInput | Prisma.SortOrder
   vehicleId?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.AuditLogCountOrderByAggregateInput
   _max?: Prisma.AuditLogMaxOrderByAggregateInput
@@ -302,6 +316,7 @@ export type AuditLogScalarWhereWithAggregatesInput = {
   actorUserId?: Prisma.StringNullableWithAggregatesFilter<"AuditLog"> | string | null
   dealerId?: Prisma.StringNullableWithAggregatesFilter<"AuditLog"> | string | null
   applicationId?: Prisma.StringNullableWithAggregatesFilter<"AuditLog"> | string | null
+  partnerLeadId?: Prisma.StringNullableWithAggregatesFilter<"AuditLog"> | string | null
   vehicleId?: Prisma.StringNullableWithAggregatesFilter<"AuditLog"> | string | null
 }
 
@@ -316,6 +331,7 @@ export type AuditLogCreateInput = {
   actorUser?: Prisma.AdminUserCreateNestedOneWithoutAuditLogsInput
   dealer?: Prisma.DealerCreateNestedOneWithoutAuditLogsInput
   application?: Prisma.ApplicationCreateNestedOneWithoutAuditLogsInput
+  partnerLead?: Prisma.PartnerLeadCreateNestedOneWithoutAuditLogsInput
   vehicle?: Prisma.VehicleCreateNestedOneWithoutAuditLogsInput
 }
 
@@ -330,6 +346,7 @@ export type AuditLogUncheckedCreateInput = {
   actorUserId?: string | null
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -344,6 +361,7 @@ export type AuditLogUpdateInput = {
   actorUser?: Prisma.AdminUserUpdateOneWithoutAuditLogsNestedInput
   dealer?: Prisma.DealerUpdateOneWithoutAuditLogsNestedInput
   application?: Prisma.ApplicationUpdateOneWithoutAuditLogsNestedInput
+  partnerLead?: Prisma.PartnerLeadUpdateOneWithoutAuditLogsNestedInput
   vehicle?: Prisma.VehicleUpdateOneWithoutAuditLogsNestedInput
 }
 
@@ -358,6 +376,7 @@ export type AuditLogUncheckedUpdateInput = {
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -372,6 +391,7 @@ export type AuditLogCreateManyInput = {
   actorUserId?: string | null
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -396,6 +416,7 @@ export type AuditLogUncheckedUpdateManyInput = {
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -420,6 +441,7 @@ export type AuditLogCountOrderByAggregateInput = {
   actorUserId?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
   applicationId?: Prisma.SortOrder
+  partnerLeadId?: Prisma.SortOrder
   vehicleId?: Prisma.SortOrder
 }
 
@@ -433,6 +455,7 @@ export type AuditLogMaxOrderByAggregateInput = {
   actorUserId?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
   applicationId?: Prisma.SortOrder
+  partnerLeadId?: Prisma.SortOrder
   vehicleId?: Prisma.SortOrder
 }
 
@@ -446,6 +469,7 @@ export type AuditLogMinOrderByAggregateInput = {
   actorUserId?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
   applicationId?: Prisma.SortOrder
+  partnerLeadId?: Prisma.SortOrder
   vehicleId?: Prisma.SortOrder
 }
 
@@ -575,6 +599,48 @@ export type AuditLogUncheckedUpdateManyWithoutApplicationNestedInput = {
   deleteMany?: Prisma.AuditLogScalarWhereInput | Prisma.AuditLogScalarWhereInput[]
 }
 
+export type AuditLogCreateNestedManyWithoutPartnerLeadInput = {
+  create?: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput> | Prisma.AuditLogCreateWithoutPartnerLeadInput[] | Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput[]
+  connectOrCreate?: Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput | Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput[]
+  createMany?: Prisma.AuditLogCreateManyPartnerLeadInputEnvelope
+  connect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+}
+
+export type AuditLogUncheckedCreateNestedManyWithoutPartnerLeadInput = {
+  create?: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput> | Prisma.AuditLogCreateWithoutPartnerLeadInput[] | Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput[]
+  connectOrCreate?: Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput | Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput[]
+  createMany?: Prisma.AuditLogCreateManyPartnerLeadInputEnvelope
+  connect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+}
+
+export type AuditLogUpdateManyWithoutPartnerLeadNestedInput = {
+  create?: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput> | Prisma.AuditLogCreateWithoutPartnerLeadInput[] | Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput[]
+  connectOrCreate?: Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput | Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput[]
+  upsert?: Prisma.AuditLogUpsertWithWhereUniqueWithoutPartnerLeadInput | Prisma.AuditLogUpsertWithWhereUniqueWithoutPartnerLeadInput[]
+  createMany?: Prisma.AuditLogCreateManyPartnerLeadInputEnvelope
+  set?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  disconnect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  delete?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  connect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  update?: Prisma.AuditLogUpdateWithWhereUniqueWithoutPartnerLeadInput | Prisma.AuditLogUpdateWithWhereUniqueWithoutPartnerLeadInput[]
+  updateMany?: Prisma.AuditLogUpdateManyWithWhereWithoutPartnerLeadInput | Prisma.AuditLogUpdateManyWithWhereWithoutPartnerLeadInput[]
+  deleteMany?: Prisma.AuditLogScalarWhereInput | Prisma.AuditLogScalarWhereInput[]
+}
+
+export type AuditLogUncheckedUpdateManyWithoutPartnerLeadNestedInput = {
+  create?: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput> | Prisma.AuditLogCreateWithoutPartnerLeadInput[] | Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput[]
+  connectOrCreate?: Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput | Prisma.AuditLogCreateOrConnectWithoutPartnerLeadInput[]
+  upsert?: Prisma.AuditLogUpsertWithWhereUniqueWithoutPartnerLeadInput | Prisma.AuditLogUpsertWithWhereUniqueWithoutPartnerLeadInput[]
+  createMany?: Prisma.AuditLogCreateManyPartnerLeadInputEnvelope
+  set?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  disconnect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  delete?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  connect?: Prisma.AuditLogWhereUniqueInput | Prisma.AuditLogWhereUniqueInput[]
+  update?: Prisma.AuditLogUpdateWithWhereUniqueWithoutPartnerLeadInput | Prisma.AuditLogUpdateWithWhereUniqueWithoutPartnerLeadInput[]
+  updateMany?: Prisma.AuditLogUpdateManyWithWhereWithoutPartnerLeadInput | Prisma.AuditLogUpdateManyWithWhereWithoutPartnerLeadInput[]
+  deleteMany?: Prisma.AuditLogScalarWhereInput | Prisma.AuditLogScalarWhereInput[]
+}
+
 export type AuditLogCreateNestedManyWithoutVehicleInput = {
   create?: Prisma.XOR<Prisma.AuditLogCreateWithoutVehicleInput, Prisma.AuditLogUncheckedCreateWithoutVehicleInput> | Prisma.AuditLogCreateWithoutVehicleInput[] | Prisma.AuditLogUncheckedCreateWithoutVehicleInput[]
   connectOrCreate?: Prisma.AuditLogCreateOrConnectWithoutVehicleInput | Prisma.AuditLogCreateOrConnectWithoutVehicleInput[]
@@ -635,6 +701,7 @@ export type AuditLogCreateWithoutDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUser?: Prisma.AdminUserCreateNestedOneWithoutAuditLogsInput
   application?: Prisma.ApplicationCreateNestedOneWithoutAuditLogsInput
+  partnerLead?: Prisma.PartnerLeadCreateNestedOneWithoutAuditLogsInput
   vehicle?: Prisma.VehicleCreateNestedOneWithoutAuditLogsInput
 }
 
@@ -648,6 +715,7 @@ export type AuditLogUncheckedCreateWithoutDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -691,6 +759,7 @@ export type AuditLogScalarWhereInput = {
   actorUserId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   dealerId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   applicationId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
+  partnerLeadId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
   vehicleId?: Prisma.StringNullableFilter<"AuditLog"> | string | null
 }
 
@@ -704,6 +773,7 @@ export type AuditLogCreateWithoutActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealer?: Prisma.DealerCreateNestedOneWithoutAuditLogsInput
   application?: Prisma.ApplicationCreateNestedOneWithoutAuditLogsInput
+  partnerLead?: Prisma.PartnerLeadCreateNestedOneWithoutAuditLogsInput
   vehicle?: Prisma.VehicleCreateNestedOneWithoutAuditLogsInput
 }
 
@@ -717,6 +787,7 @@ export type AuditLogUncheckedCreateWithoutActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -756,6 +827,7 @@ export type AuditLogCreateWithoutApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUser?: Prisma.AdminUserCreateNestedOneWithoutAuditLogsInput
   dealer?: Prisma.DealerCreateNestedOneWithoutAuditLogsInput
+  partnerLead?: Prisma.PartnerLeadCreateNestedOneWithoutAuditLogsInput
   vehicle?: Prisma.VehicleCreateNestedOneWithoutAuditLogsInput
 }
 
@@ -769,6 +841,7 @@ export type AuditLogUncheckedCreateWithoutApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: string | null
   dealerId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -798,6 +871,60 @@ export type AuditLogUpdateManyWithWhereWithoutApplicationInput = {
   data: Prisma.XOR<Prisma.AuditLogUpdateManyMutationInput, Prisma.AuditLogUncheckedUpdateManyWithoutApplicationInput>
 }
 
+export type AuditLogCreateWithoutPartnerLeadInput = {
+  id?: string
+  createdAt?: Date | string
+  action: $Enums.AuditAction
+  actorType?: $Enums.AuditActorType
+  message?: string | null
+  targetId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUser?: Prisma.AdminUserCreateNestedOneWithoutAuditLogsInput
+  dealer?: Prisma.DealerCreateNestedOneWithoutAuditLogsInput
+  application?: Prisma.ApplicationCreateNestedOneWithoutAuditLogsInput
+  vehicle?: Prisma.VehicleCreateNestedOneWithoutAuditLogsInput
+}
+
+export type AuditLogUncheckedCreateWithoutPartnerLeadInput = {
+  id?: string
+  createdAt?: Date | string
+  action: $Enums.AuditAction
+  actorType?: $Enums.AuditActorType
+  message?: string | null
+  targetId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUserId?: string | null
+  dealerId?: string | null
+  applicationId?: string | null
+  vehicleId?: string | null
+}
+
+export type AuditLogCreateOrConnectWithoutPartnerLeadInput = {
+  where: Prisma.AuditLogWhereUniqueInput
+  create: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput>
+}
+
+export type AuditLogCreateManyPartnerLeadInputEnvelope = {
+  data: Prisma.AuditLogCreateManyPartnerLeadInput | Prisma.AuditLogCreateManyPartnerLeadInput[]
+  skipDuplicates?: boolean
+}
+
+export type AuditLogUpsertWithWhereUniqueWithoutPartnerLeadInput = {
+  where: Prisma.AuditLogWhereUniqueInput
+  update: Prisma.XOR<Prisma.AuditLogUpdateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedUpdateWithoutPartnerLeadInput>
+  create: Prisma.XOR<Prisma.AuditLogCreateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedCreateWithoutPartnerLeadInput>
+}
+
+export type AuditLogUpdateWithWhereUniqueWithoutPartnerLeadInput = {
+  where: Prisma.AuditLogWhereUniqueInput
+  data: Prisma.XOR<Prisma.AuditLogUpdateWithoutPartnerLeadInput, Prisma.AuditLogUncheckedUpdateWithoutPartnerLeadInput>
+}
+
+export type AuditLogUpdateManyWithWhereWithoutPartnerLeadInput = {
+  where: Prisma.AuditLogScalarWhereInput
+  data: Prisma.XOR<Prisma.AuditLogUpdateManyMutationInput, Prisma.AuditLogUncheckedUpdateManyWithoutPartnerLeadInput>
+}
+
 export type AuditLogCreateWithoutVehicleInput = {
   id?: string
   createdAt?: Date | string
@@ -809,6 +936,7 @@ export type AuditLogCreateWithoutVehicleInput = {
   actorUser?: Prisma.AdminUserCreateNestedOneWithoutAuditLogsInput
   dealer?: Prisma.DealerCreateNestedOneWithoutAuditLogsInput
   application?: Prisma.ApplicationCreateNestedOneWithoutAuditLogsInput
+  partnerLead?: Prisma.PartnerLeadCreateNestedOneWithoutAuditLogsInput
 }
 
 export type AuditLogUncheckedCreateWithoutVehicleInput = {
@@ -822,6 +950,7 @@ export type AuditLogUncheckedCreateWithoutVehicleInput = {
   actorUserId?: string | null
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
 }
 
 export type AuditLogCreateOrConnectWithoutVehicleInput = {
@@ -860,6 +989,7 @@ export type AuditLogCreateManyDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -873,6 +1003,7 @@ export type AuditLogUpdateWithoutDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUser?: Prisma.AdminUserUpdateOneWithoutAuditLogsNestedInput
   application?: Prisma.ApplicationUpdateOneWithoutAuditLogsNestedInput
+  partnerLead?: Prisma.PartnerLeadUpdateOneWithoutAuditLogsNestedInput
   vehicle?: Prisma.VehicleUpdateOneWithoutAuditLogsNestedInput
 }
 
@@ -886,6 +1017,7 @@ export type AuditLogUncheckedUpdateWithoutDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -899,6 +1031,7 @@ export type AuditLogUncheckedUpdateManyWithoutDealerInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -912,6 +1045,7 @@ export type AuditLogCreateManyActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -925,6 +1059,7 @@ export type AuditLogUpdateWithoutActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealer?: Prisma.DealerUpdateOneWithoutAuditLogsNestedInput
   application?: Prisma.ApplicationUpdateOneWithoutAuditLogsNestedInput
+  partnerLead?: Prisma.PartnerLeadUpdateOneWithoutAuditLogsNestedInput
   vehicle?: Prisma.VehicleUpdateOneWithoutAuditLogsNestedInput
 }
 
@@ -938,6 +1073,7 @@ export type AuditLogUncheckedUpdateWithoutActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -951,6 +1087,7 @@ export type AuditLogUncheckedUpdateManyWithoutActorUserInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -964,6 +1101,7 @@ export type AuditLogCreateManyApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: string | null
   dealerId?: string | null
+  partnerLeadId?: string | null
   vehicleId?: string | null
 }
 
@@ -977,6 +1115,7 @@ export type AuditLogUpdateWithoutApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUser?: Prisma.AdminUserUpdateOneWithoutAuditLogsNestedInput
   dealer?: Prisma.DealerUpdateOneWithoutAuditLogsNestedInput
+  partnerLead?: Prisma.PartnerLeadUpdateOneWithoutAuditLogsNestedInput
   vehicle?: Prisma.VehicleUpdateOneWithoutAuditLogsNestedInput
 }
 
@@ -990,6 +1129,7 @@ export type AuditLogUncheckedUpdateWithoutApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1003,6 +1143,63 @@ export type AuditLogUncheckedUpdateManyWithoutApplicationInput = {
   metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AuditLogCreateManyPartnerLeadInput = {
+  id?: string
+  createdAt?: Date | string
+  action: $Enums.AuditAction
+  actorType?: $Enums.AuditActorType
+  message?: string | null
+  targetId?: string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUserId?: string | null
+  dealerId?: string | null
+  applicationId?: string | null
+  vehicleId?: string | null
+}
+
+export type AuditLogUpdateWithoutPartnerLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  action?: Prisma.EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+  actorType?: Prisma.EnumAuditActorTypeFieldUpdateOperationsInput | $Enums.AuditActorType
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUser?: Prisma.AdminUserUpdateOneWithoutAuditLogsNestedInput
+  dealer?: Prisma.DealerUpdateOneWithoutAuditLogsNestedInput
+  application?: Prisma.ApplicationUpdateOneWithoutAuditLogsNestedInput
+  vehicle?: Prisma.VehicleUpdateOneWithoutAuditLogsNestedInput
+}
+
+export type AuditLogUncheckedUpdateWithoutPartnerLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  action?: Prisma.EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+  actorType?: Prisma.EnumAuditActorTypeFieldUpdateOperationsInput | $Enums.AuditActorType
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+}
+
+export type AuditLogUncheckedUpdateManyWithoutPartnerLeadInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  action?: Prisma.EnumAuditActionFieldUpdateOperationsInput | $Enums.AuditAction
+  actorType?: Prisma.EnumAuditActorTypeFieldUpdateOperationsInput | $Enums.AuditActorType
+  message?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  targetId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  metadata?: Prisma.NullableJsonNullValueInput | runtime.InputJsonValue
+  actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vehicleId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1017,6 +1214,7 @@ export type AuditLogCreateManyVehicleInput = {
   actorUserId?: string | null
   dealerId?: string | null
   applicationId?: string | null
+  partnerLeadId?: string | null
 }
 
 export type AuditLogUpdateWithoutVehicleInput = {
@@ -1030,6 +1228,7 @@ export type AuditLogUpdateWithoutVehicleInput = {
   actorUser?: Prisma.AdminUserUpdateOneWithoutAuditLogsNestedInput
   dealer?: Prisma.DealerUpdateOneWithoutAuditLogsNestedInput
   application?: Prisma.ApplicationUpdateOneWithoutAuditLogsNestedInput
+  partnerLead?: Prisma.PartnerLeadUpdateOneWithoutAuditLogsNestedInput
 }
 
 export type AuditLogUncheckedUpdateWithoutVehicleInput = {
@@ -1043,6 +1242,7 @@ export type AuditLogUncheckedUpdateWithoutVehicleInput = {
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 export type AuditLogUncheckedUpdateManyWithoutVehicleInput = {
@@ -1056,6 +1256,7 @@ export type AuditLogUncheckedUpdateManyWithoutVehicleInput = {
   actorUserId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   applicationId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  partnerLeadId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
 
@@ -1071,10 +1272,12 @@ export type AuditLogSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs
   actorUserId?: boolean
   dealerId?: boolean
   applicationId?: boolean
+  partnerLeadId?: boolean
   vehicleId?: boolean
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }, ExtArgs["result"]["auditLog"]>
 
@@ -1089,10 +1292,12 @@ export type AuditLogSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exte
   actorUserId?: boolean
   dealerId?: boolean
   applicationId?: boolean
+  partnerLeadId?: boolean
   vehicleId?: boolean
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }, ExtArgs["result"]["auditLog"]>
 
@@ -1107,10 +1312,12 @@ export type AuditLogSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exte
   actorUserId?: boolean
   dealerId?: boolean
   applicationId?: boolean
+  partnerLeadId?: boolean
   vehicleId?: boolean
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }, ExtArgs["result"]["auditLog"]>
 
@@ -1125,26 +1332,30 @@ export type AuditLogSelectScalar = {
   actorUserId?: boolean
   dealerId?: boolean
   applicationId?: boolean
+  partnerLeadId?: boolean
   vehicleId?: boolean
 }
 
-export type AuditLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "action" | "actorType" | "message" | "targetId" | "metadata" | "actorUserId" | "dealerId" | "applicationId" | "vehicleId", ExtArgs["result"]["auditLog"]>
+export type AuditLogOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "action" | "actorType" | "message" | "targetId" | "metadata" | "actorUserId" | "dealerId" | "applicationId" | "partnerLeadId" | "vehicleId", ExtArgs["result"]["auditLog"]>
 export type AuditLogInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }
 export type AuditLogIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }
 export type AuditLogIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   actorUser?: boolean | Prisma.AuditLog$actorUserArgs<ExtArgs>
   dealer?: boolean | Prisma.AuditLog$dealerArgs<ExtArgs>
   application?: boolean | Prisma.AuditLog$applicationArgs<ExtArgs>
+  partnerLead?: boolean | Prisma.AuditLog$partnerLeadArgs<ExtArgs>
   vehicle?: boolean | Prisma.AuditLog$vehicleArgs<ExtArgs>
 }
 
@@ -1154,6 +1365,7 @@ export type $AuditLogPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     actorUser: Prisma.$AdminUserPayload<ExtArgs> | null
     dealer: Prisma.$DealerPayload<ExtArgs> | null
     application: Prisma.$ApplicationPayload<ExtArgs> | null
+    partnerLead: Prisma.$PartnerLeadPayload<ExtArgs> | null
     vehicle: Prisma.$VehiclePayload<ExtArgs> | null
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
@@ -1167,6 +1379,7 @@ export type $AuditLogPayload<ExtArgs extends runtime.Types.Extensions.InternalAr
     actorUserId: string | null
     dealerId: string | null
     applicationId: string | null
+    partnerLeadId: string | null
     vehicleId: string | null
   }, ExtArgs["result"]["auditLog"]>
   composites: {}
@@ -1565,6 +1778,7 @@ export interface Prisma__AuditLogClient<T, Null = never, ExtArgs extends runtime
   actorUser<T extends Prisma.AuditLog$actorUserArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditLog$actorUserArgs<ExtArgs>>): Prisma.Prisma__AdminUserClient<runtime.Types.Result.GetResult<Prisma.$AdminUserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   dealer<T extends Prisma.AuditLog$dealerArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditLog$dealerArgs<ExtArgs>>): Prisma.Prisma__DealerClient<runtime.Types.Result.GetResult<Prisma.$DealerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   application<T extends Prisma.AuditLog$applicationArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditLog$applicationArgs<ExtArgs>>): Prisma.Prisma__ApplicationClient<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+  partnerLead<T extends Prisma.AuditLog$partnerLeadArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditLog$partnerLeadArgs<ExtArgs>>): Prisma.Prisma__PartnerLeadClient<runtime.Types.Result.GetResult<Prisma.$PartnerLeadPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   vehicle<T extends Prisma.AuditLog$vehicleArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.AuditLog$vehicleArgs<ExtArgs>>): Prisma.Prisma__VehicleClient<runtime.Types.Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -1605,6 +1819,7 @@ export interface AuditLogFieldRefs {
   readonly actorUserId: Prisma.FieldRef<"AuditLog", 'String'>
   readonly dealerId: Prisma.FieldRef<"AuditLog", 'String'>
   readonly applicationId: Prisma.FieldRef<"AuditLog", 'String'>
+  readonly partnerLeadId: Prisma.FieldRef<"AuditLog", 'String'>
   readonly vehicleId: Prisma.FieldRef<"AuditLog", 'String'>
 }
     
@@ -2056,6 +2271,25 @@ export type AuditLog$applicationArgs<ExtArgs extends runtime.Types.Extensions.In
    */
   include?: Prisma.ApplicationInclude<ExtArgs> | null
   where?: Prisma.ApplicationWhereInput
+}
+
+/**
+ * AuditLog.partnerLead
+ */
+export type AuditLog$partnerLeadArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PartnerLead
+   */
+  select?: Prisma.PartnerLeadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PartnerLead
+   */
+  omit?: Prisma.PartnerLeadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PartnerLeadInclude<ExtArgs> | null
+  where?: Prisma.PartnerLeadWhereInput
 }
 
 /**

@@ -81,6 +81,11 @@ export default function HomePage() {
                   style={{border: "1px solid rgba(255,255,255,0.15)", color: "rgba(255,255,255,0.70)"}}>
                   Калькулятор <ArrowRight size={13}/>
                 </Link>
+                <Link href="/partner"
+                  className="inline-flex items-center gap-2 h-10 px-4 rounded-full text-sm font-bold transition-all"
+                  style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", color: "#fff", boxShadow: "0 4px 16px -6px rgba(255,121,24,0.55)"}}>
+                  {t("ctaPartner")} <ArrowRight size={13}/>
+                </Link>
               </div>
 
               {/* Stats */}
@@ -244,9 +249,9 @@ export default function HomePage() {
                 {t("ctaStripSub")}
               </p>
               <div className="mt-6 flex gap-3 flex-wrap">
-                <Link href="/apply" className="btn-primary h-12 px-8"
+                <Link href="/partner" className="btn-primary h-12 px-8"
                   style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 4px 28px -6px rgba(255,121,24,0.65)"}}>
-                  Отримати доступ
+                  {t("ctaPartner")}
                 </Link>
                 <Link href="/calculator"
                   className="btn-outline-white h-12 px-8"

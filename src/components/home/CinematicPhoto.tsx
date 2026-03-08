@@ -1,7 +1,10 @@
 import Image from "next/image";
+import {useTranslations} from "next-intl";
 import {Link} from "@/i18n/navigation";
 
 export function CinematicPhoto() {
+  const t = useTranslations("Home");
+
   return (
     <section
       className="section-charcoal py-16 sm:py-24"
@@ -29,7 +32,7 @@ export function CinematicPhoto() {
                 letterSpacing: "-0.025em",
               }}
             >
-              Автомобілі —{" "}
+              {t("fleetVisualTitle")}{" "}
               <span
                 style={{
                   background: "linear-gradient(135deg, #FF7918 0%, #FF9902 100%)",
@@ -38,7 +41,7 @@ export function CinematicPhoto() {
                   backgroundClip: "text",
                 }}
               >
-                в дорозі та на місці
+                {t("fleetVisualAccent")}
               </span>
             </h2>
 
@@ -46,8 +49,7 @@ export function CinematicPhoto() {
               className="mt-5 text-base font-medium max-w-md leading-relaxed"
               style={{color: "rgba(255,255,255,0.60)"}}
             >
-              Актуальний каталог автомобілів — які вже у нас на майданчику і які ще в дорозі.
-              Зручне фінансування та лізинг прямо в застосунку.
+              {t("fleetVisualText")}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -59,7 +61,7 @@ export function CinematicPhoto() {
                   boxShadow: "0 4px 24px -6px rgba(255,121,24,0.70)",
                 }}
               >
-                Переглянути автомобілі
+                {t("fleetVisualPrimary")}
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
                 </svg>
@@ -72,7 +74,7 @@ export function CinematicPhoto() {
                   color: "rgba(255,255,255,0.80)",
                 }}
               >
-                Лізинг
+                {t("fleetVisualSecondary")}
               </Link>
             </div>
           </div>

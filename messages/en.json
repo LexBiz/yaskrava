@@ -17,6 +17,7 @@
     "heroSubtitle": "Fuel cashback, discounts on car services, financing and useful services — right in your phone.",
     "ctaPrimary": "Get access to the app",
     "ctaSecondary": "Fuel cashback",
+    "ctaPartner": "Become a partner",
     "sectionsTitle": "What’s inside",
     "cards": {
       "learnMore": "Learn more",
@@ -42,7 +43,13 @@
     "step3Title": "Save and track",
     "step3Text": "Cashback and discounts are tracked in one place with a clear CZK balance.",
     "ctaStripTitle": "Start saving today",
-    "ctaStripSub": "Fuel cashback and discounts — one app, one balance."
+    "ctaStripSub": "Fuel cashback and discounts — one app, one balance.",
+    "fleetVisualTitle": "Vehicles",
+    "fleetVisualAccent": "in transit and on site",
+    "fleetVisualText": "Current inventory, financing-friendly offers and a direct route into leasing for each vehicle.",
+    "fleetVisualPrimary": "View vehicles",
+    "fleetVisualSecondary": "Leasing",
+    "downloadAppCta": "Download the app"
   },
   "Common": {
     "learnMore": "Learn more",
@@ -114,7 +121,8 @@
     "detailsOnRequest": "Details on request",
     "status": "Status",
     "statusInTransit": "In transit",
-    "statusOnSite": "On site"
+    "statusOnSite": "On site",
+    "openVehicle": "Open vehicle"
   },
   "Fuel": {
     "title": "Fuel — cashback in the app",
@@ -228,19 +236,22 @@
   "CalculatorUI": {
     "inputsTitle": "Parameters",
     "price": "Vehicle price",
+    "priceWithoutVat": "Price without VAT",
     "downPaymentPct": "Down payment",
     "termMonths": "Term",
     "apr": "APR",
-    "residualPct": "Residual value",
-    "monthlyFees": "Monthly fees (insurance/service)",
+    "customerType": "Customer type",
+    "customerTypePrivate": "Private person",
+    "customerTypeBusiness": "Company / OSVC",
+    "downPaymentPrivateHint": "Minimum down payment: 20% for private clients",
+    "downPaymentBusinessHint": "Minimum down payment: 10% for company / OSVC",
     "disclaimer": "Preliminary estimate. Final terms depend on assessment and partner conditions.",
-    "monthlyLease": "Lease payment",
-    "monthlyTotal": "Monthly total",
+    "fixedAprNote": "APR is fixed at 15% p.a. Maximum term is 60 months.",
+    "fixedAprBadge": "Fixed APR",
+    "preliminaryPayment": "PRELIMINARY PAYMENT",
     "downPayment": "Down payment",
-    "residual": "Residual (balloon)",
     "principalLabel": "Principal",
     "interestLabel": "Interest",
-    "feesTotal": "Fees (total)",
     "totalPaid": "Total cost",
     "copy": "Copy",
     "copied": "Copied",
@@ -278,7 +289,8 @@
     "title": "Quick estimate",
     "priceLabel": "Vehicle price",
     "monthlyLabel": "Monthly from",
-    "assumptions": "20% down · 48 months · 10% APR",
+    "assumptions": "20% down · 60 months · 15% APR",
+    "summary": "15% APR · 60 months · excl. VAT",
     "cta": "Get full calculation"
   },
   "AppTeaser": {
@@ -296,6 +308,48 @@
     "ctaPrimary": "Get access",
     "ctaSecondary": "See services",
     "note": "We don’t publish fake download links. Leave a request and we’ll send the correct access steps."
+  },
+  "Partner": {
+    "eyebrow": "Dealer onboarding",
+    "title": "Become a partner",
+    "subtitle": "Leave a partner request. After approval we connect your own mini‑CRM and your inventory on your future subdomain.",
+    "intro": "This form is for dealerships and business partners who want to work with Yaskrava. It goes to a separate partner pipeline in our CRM."
+  },
+  "PartnerForm": {
+    "title": "Partner request",
+    "subtitle": "Tell us about your dealership, contact person and inventory. We’ll review the request and contact you with next steps.",
+    "companyName": "Company name",
+    "companyNamePh": "Premium Auto Brno",
+    "contactName": "Contact person",
+    "contactNamePh": "Jan Novak",
+    "phone": "Phone",
+    "email": "Email",
+    "city": "City",
+    "cityPh": "Brno",
+    "website": "Website",
+    "fleetSize": "How many cars do you sell?",
+    "fleetSizePh": "e.g. 20-50 cars / month",
+    "message": "Message",
+    "messagePh": "Tell us about your dealership, financing needs and how fast you want to launch.",
+    "send": "Send partner request",
+    "successTitle": "Request sent",
+    "successText": "Thanks. Our partner team will contact you soon.",
+    "errorGeneric": "Could not send the form. Please try again.",
+    "errorNetwork": "Network error. Please try again."
+  },
+  "VehicleDetail": {
+    "subtitle": "Vehicle details, preliminary financing and application.",
+    "statusInTransit": "In transit",
+    "statusOnSite": "On site",
+    "backToFleet": "Back to vehicles",
+    "noImage": "No image",
+    "year": "Year",
+    "mileage": "Mileage",
+    "fuel": "Fuel",
+    "gearbox": "Gearbox",
+    "financingTitle": "Financing for this vehicle",
+    "financingText": "You can leave a financing request for this exact vehicle, and the preliminary calculator already uses its current price.",
+    "priceOnRequest": "Price on request"
   }
 }
 

@@ -19,7 +19,8 @@ export default function ServicesPage() {
             style={{background: "#FFFFFF", color: "#3B3B3D"}}>
             {t("ctaCalculator")} <ArrowRight size={15}/>
           </Link>
-          <Link href="/apply" className="btn-outline-white h-11 px-6 text-sm font-bold">
+          <DownloadButtons />
+          <Link href="/fleet" className="btn-outline-white h-11 px-6 text-sm font-bold">
             {t("ctaApply")}
           </Link>
         </div>

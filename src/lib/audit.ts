@@ -11,6 +11,7 @@ export async function writeAuditLog(input: {
   actorUserId?: string | null;
   dealerId?: string | null;
   applicationId?: string | null;
+  partnerLeadId?: string | null;
   vehicleId?: string | null;
   targetId?: string | null;
   message?: string | null;
@@ -23,6 +24,7 @@ export async function writeAuditLog(input: {
       actorUserId: input.actorUserId ?? undefined,
       dealerId: input.dealerId ?? undefined,
       applicationId: input.applicationId ?? undefined,
+      partnerLeadId: input.partnerLeadId ?? undefined,
       vehicleId: input.vehicleId ?? undefined,
       targetId: input.targetId ?? undefined,
       message: input.message ?? undefined,

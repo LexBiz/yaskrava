@@ -34,6 +34,17 @@ export const FinancingStatus = {
 export type FinancingStatus = (typeof FinancingStatus)[keyof typeof FinancingStatus]
 
 
+export const PartnerLeadStatus = {
+  NEW: 'NEW',
+  IN_REVIEW: 'IN_REVIEW',
+  CONTACTED: 'CONTACTED',
+  APPROVED: 'APPROVED',
+  REJECTED: 'REJECTED'
+} as const
+
+export type PartnerLeadStatus = (typeof PartnerLeadStatus)[keyof typeof PartnerLeadStatus]
+
+
 export const ApplicationTopic = {
   LEASING: 'LEASING',
   FUEL: 'FUEL',
@@ -97,6 +108,10 @@ export const AuditAction = {
   APPLICATION_ARCHIVED: 'APPLICATION_ARCHIVED',
   APPLICATION_NOTE_UPDATED: 'APPLICATION_NOTE_UPDATED',
   APPLICATION_SOFT_DELETED: 'APPLICATION_SOFT_DELETED',
+  PARTNER_LEAD_CREATED: 'PARTNER_LEAD_CREATED',
+  PARTNER_LEAD_STATUS_UPDATED: 'PARTNER_LEAD_STATUS_UPDATED',
+  PARTNER_LEAD_ARCHIVED: 'PARTNER_LEAD_ARCHIVED',
+  PARTNER_LEAD_NOTE_UPDATED: 'PARTNER_LEAD_NOTE_UPDATED',
   VEHICLE_CREATED: 'VEHICLE_CREATED',
   VEHICLE_UPDATED: 'VEHICLE_UPDATED',
   VEHICLE_ARCHIVED: 'VEHICLE_ARCHIVED'

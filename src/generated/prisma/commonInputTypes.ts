@@ -318,6 +318,23 @@ export type EnumFinancingStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumFinancingStatusFilter<$PrismaModel>
 }
 
+export type EnumPartnerLeadStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PartnerLeadStatus | Prisma.EnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel> | $Enums.PartnerLeadStatus
+}
+
+export type EnumPartnerLeadStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PartnerLeadStatus | Prisma.EnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPartnerLeadStatusWithAggregatesFilter<$PrismaModel> | $Enums.PartnerLeadStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel>
+}
+
 export type EnumVehicleAvailabilityFilter<$PrismaModel = never> = {
   equals?: $Enums.VehicleAvailability | Prisma.EnumVehicleAvailabilityFieldRefInput<$PrismaModel>
   in?: $Enums.VehicleAvailability[] | Prisma.ListEnumVehicleAvailabilityFieldRefInput<$PrismaModel>
@@ -711,6 +728,23 @@ export type NestedEnumFinancingStatusWithAggregatesFilter<$PrismaModel = never> 
   _count?: Prisma.NestedIntFilter<$PrismaModel>
   _min?: Prisma.NestedEnumFinancingStatusFilter<$PrismaModel>
   _max?: Prisma.NestedEnumFinancingStatusFilter<$PrismaModel>
+}
+
+export type NestedEnumPartnerLeadStatusFilter<$PrismaModel = never> = {
+  equals?: $Enums.PartnerLeadStatus | Prisma.EnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel> | $Enums.PartnerLeadStatus
+}
+
+export type NestedEnumPartnerLeadStatusWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.PartnerLeadStatus | Prisma.EnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  in?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  notIn?: $Enums.PartnerLeadStatus[] | Prisma.ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedEnumPartnerLeadStatusWithAggregatesFilter<$PrismaModel> | $Enums.PartnerLeadStatus
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumPartnerLeadStatusFilter<$PrismaModel>
 }
 
 export type NestedEnumVehicleAvailabilityFilter<$PrismaModel = never> = {

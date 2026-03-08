@@ -4,6 +4,7 @@ import {getTranslations} from "next-intl/server";
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {Container} from "@/components/site/Container";
 import {PageHero} from "@/components/site/PageHero";
+import {Link} from "@/i18n/navigation";
 import {prisma} from "@/lib/prisma";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
 
@@ -11,6 +12,7 @@ export const dynamic = "force-dynamic";
 
 type VehicleCardData = {
   id: string;
+  slug?: string;
   title: string;
   year?: number | null;
   mileageKm?: number | null;
@@ -105,13 +107,16 @@ function VehicleCard({
   v,
   status,
   statusClass,
+  openLabel,
 }: {
   v: VehicleCardData;
   status: string;
   statusClass: string;
+  openLabel: string;
 }) {
   return (
-    <article className="yask-card rounded-2xl overflow-hidden">
+    <Link href={v.slug ? `/fleet/${v.slug}` : "/fleet"} className="block no-underline">
+    <article className="yask-card rounded-2xl overflow-hidden group">
       <div className="relative h-44 w-full bg-[rgba(40,25,8,0.70)]">
         {v.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
@@ -131,6 +136,7 @@ function VehicleCard({
             {status}
           </span>
         </div>
+        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent opacity-70" />
       </div>
 
       <div className="p-5">
@@ -174,8 +180,12 @@ function VehicleCard({
             {formatCzk(v.priceCzk) || "on request"}
           </span>
         </div>
+        <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity">
+          {openLabel}
+        </div>
       </div>
     </article>
+    </Link>
   );
 }
 
@@ -243,6 +253,7 @@ export default async function FleetPage() {
                     v={v}
                     status={t("statusInTransit")}
                     statusClass="bg-amber-400/20 text-amber-300 border border-amber-300/30"
+                    openLabel={t("openVehicle")}
                   />
                 ))}
               </div>
@@ -258,6 +269,7 @@ export default async function FleetPage() {
                     v={v}
                     status={t("statusOnSite")}
                     statusClass="bg-emerald-400/20 text-emerald-300 border border-emerald-300/30"
+                    openLabel={t("openVehicle")}
                   />
                 ))}
               </div>

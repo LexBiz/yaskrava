@@ -1,7 +1,11 @@
 import {
   adminLogoutAction,
+  createPlatformVehicleAction,
   createDealerProvisionAction,
   deleteApplicationAction,
+  setPartnerLeadNoteAction,
+  setPartnerLeadStatusAction,
+  togglePartnerLeadArchivedAction,
   setAdminNoteAction,
   setApplicationStatusAction,
   setFinancingStatusAction,
@@ -30,6 +34,14 @@ const FINANCING_STATUS_OPTIONS = [
   "FUNDED",
 ] as const;
 
+const PARTNER_STATUS_OPTIONS = [
+  "NEW",
+  "IN_REVIEW",
+  "CONTACTED",
+  "APPROVED",
+  "REJECTED",
+] as const;
+
 export default async function AdminDashboard({
   searchParams,
 }: {
@@ -47,7 +59,7 @@ export default async function AdminDashboard({
     ? params.dealerError[0]
     : params.dealerError;
 
-  const [applications, dealers, activeUsers, dealerList] = await Promise.all([
+  const [applications, partnerLeads, dealers, activeUsers, dealerList] = await Promise.all([
     prisma.application.findMany({
       where: {deletedAt: null},
       orderBy: {createdAt: "desc"},
@@ -55,6 +67,14 @@ export default async function AdminDashboard({
       include: {
         dealer: true,
         financingCase: true,
+      },
+    }),
+    prisma.partnerLead.findMany({
+      where: {deletedAt: null},
+      orderBy: {createdAt: "desc"},
+      take: 100,
+      include: {
+        convertedDealer: true,
       },
     }),
     prisma.dealer.count({
@@ -76,6 +96,7 @@ export default async function AdminDashboard({
   ]);
 
   const leadsNew = applications.filter((item) => item.status === "NEW").length;
+  const partnerNew = partnerLeads.filter((item) => item.status === "NEW").length;
   const financingOpen = applications.filter(
     (item) =>
       item.financingStatus !== "APPROVED" &&
@@ -105,11 +126,12 @@ export default async function AdminDashboard({
           </form>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-4">
+        <div className="mt-8 grid gap-4 md:grid-cols-5">
           <MetricCard label="Active dealers" value={String(dealers)} />
           <MetricCard label="Active CRM users" value={String(activeUsers)} />
           <MetricCard label="Open financing cases" value={String(financingOpen)} />
           <MetricCard label="New leads" value={String(leadsNew)} />
+          <MetricCard label="New partner leads" value={String(partnerNew)} />
         </div>
 
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
@@ -251,6 +273,188 @@ export default async function AdminDashboard({
                 </div>
               );
             })}
+          </div>
+        </section>
+
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
+          <h2 className="text-lg font-semibold text-white">Upload vehicle</h2>
+          <p className="mt-1 text-sm text-white/60">
+            Add inventory directly from central CRM for any dealer.
+          </p>
+
+          <form action={createPlatformVehicleAction} className="mt-5 grid gap-4 lg:grid-cols-2">
+            <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">Dealer</span>
+              <select
+                name="dealerId"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                required
+              >
+                <option value="">Select dealer</option>
+                {dealerList.map((dealer) => (
+                  <option key={dealer.id} value={dealer.id}>
+                    {dealer.name}
+                  </option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">Title</span>
+              <input
+                name="title"
+                required
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                placeholder="BMW 320d Touring • 2021"
+              />
+            </label>
+            <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">Stock number</span>
+              <input
+                name="stockNumber"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+              />
+            </label>
+            <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">Price CZK</span>
+              <input
+                name="priceCzk"
+                type="number"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+              />
+            </label>
+            <label className="grid gap-1.5 lg:col-span-2">
+              <span className="text-xs font-semibold text-white/70">Upload photo</span>
+              <input
+                name="imageFile"
+                type="file"
+                accept="image/*"
+                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+              />
+            </label>
+            <label className="grid gap-1.5 lg:col-span-2">
+              <span className="text-xs font-semibold text-white/70">Description</span>
+              <textarea
+                name="description"
+                className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+              />
+            </label>
+            <div className="lg:col-span-2 flex justify-end">
+              <button
+                type="submit"
+                className="h-11 rounded-2xl bg-[var(--color-accent)] px-5 text-sm font-semibold text-black hover:brightness-95"
+              >
+                Upload vehicle
+              </button>
+            </div>
+          </form>
+        </section>
+
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">Partner requests</h2>
+              <p className="mt-1 text-sm text-white/60">
+                Hidden partner applications from the public site. Review, approve and then provision a dealer.
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-5 divide-y divide-white/10">
+            {partnerLeads.length ? (
+              partnerLeads.map((lead) => (
+                <div key={lead.id} className="py-5">
+                  <div className="grid gap-4 md:grid-cols-[1.5fr_1fr_1fr]">
+                    <div>
+                      <div className="text-sm font-semibold text-white">{lead.companyName}</div>
+                      <div className="mt-1 text-xs text-white/50">
+                        {lead.contactName} • {new Date(lead.createdAt).toLocaleString()}
+                      </div>
+                      <div className="mt-1 text-xs text-white/40">
+                        {lead.email} {lead.phone ? `• ${lead.phone}` : ""} {lead.website ? `• ${lead.website}` : ""}
+                      </div>
+                      <div className="mt-1 text-xs text-white/40">
+                        {lead.city || "—"} {lead.fleetSize ? `• Fleet: ${lead.fleetSize}` : ""}
+                      </div>
+                      <div className="mt-1 text-xs text-white/30">
+                        {lead.sourceDomain} {lead.sourcePath ? `• ${lead.sourcePath}` : ""}
+                      </div>
+                      {lead.message ? (
+                        <div className="mt-3 text-sm leading-6 text-white/65">{lead.message}</div>
+                      ) : null}
+                      {lead.convertedDealer ? (
+                        <div className="mt-3 text-xs font-semibold text-[var(--color-accent)]">
+                          Converted dealer: {lead.convertedDealer.name}
+                        </div>
+                      ) : null}
+                    </div>
+
+                    <div>
+                      <form action={setPartnerLeadStatusAction} className="flex gap-2">
+                        <input type="hidden" name="id" value={lead.id} />
+                        <select
+                          name="status"
+                          defaultValue={lead.status}
+                          className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                        >
+                          {PARTNER_STATUS_OPTIONS.map((s) => (
+                            <option key={s} value={s}>
+                              {s}
+                            </option>
+                          ))}
+                        </select>
+                        <button
+                          type="submit"
+                          className="h-10 rounded-2xl border border-white/15 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10"
+                        >
+                          Save
+                        </button>
+                      </form>
+
+                      <form action={togglePartnerLeadArchivedAction} className="mt-3 flex items-center gap-3">
+                        <input type="hidden" name="id" value={lead.id} />
+                        <label className="flex items-center gap-2 text-xs text-white/70">
+                          <input
+                            type="checkbox"
+                            name="archived"
+                            defaultChecked={lead.archived}
+                            className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
+                          />
+                          Archived
+                        </label>
+                        <button
+                          type="submit"
+                          className="h-10 rounded-2xl border border-white/15 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10"
+                        >
+                          Update
+                        </button>
+                      </form>
+                    </div>
+
+                    <div>
+                      <form action={setPartnerLeadNoteAction} className="grid gap-2">
+                        <input type="hidden" name="id" value={lead.id} />
+                        <textarea
+                          name="adminNote"
+                          defaultValue={lead.adminNote ?? ""}
+                          placeholder="Partner note…"
+                          className="min-h-24 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/90 outline-none placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
+                        />
+                        <div className="flex justify-end">
+                          <button
+                            type="submit"
+                            className="h-10 rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10"
+                          >
+                            Save note
+                          </button>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              ))
+            ) : (
+              <div className="py-6 text-sm text-white/60">No partner requests yet.</div>
+            )}
           </div>
         </section>
 

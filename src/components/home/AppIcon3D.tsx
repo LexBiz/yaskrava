@@ -1,9 +1,12 @@
 "use client";
 
 import Image from "next/image";
+import {useTranslations} from "next-intl";
 import {Link} from "@/i18n/navigation";
 
 export function AppIcon3D() {
+  const t = useTranslations("Home");
+
   return (
     <div className="relative flex flex-col items-center justify-center select-none py-8">
 
@@ -152,7 +155,7 @@ export function AppIcon3D() {
           boxShadow: "0 4px 20px -6px rgba(255,121,24,0.70)",
         }}
       >
-        Завантажити застосунок
+        {t("downloadAppCta")}
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
           <path d="M12 5v14M5 12l7 7 7-7"/>
         </svg>

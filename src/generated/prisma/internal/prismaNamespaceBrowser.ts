@@ -57,6 +57,7 @@ export const ModelName = {
   DealerMembership: 'DealerMembership',
   UserSession: 'UserSession',
   Application: 'Application',
+  PartnerLead: 'PartnerLead',
   Vehicle: 'Vehicle',
   VehicleImage: 'VehicleImage',
   FinancingCase: 'FinancingCase',
@@ -192,6 +193,35 @@ export const ApplicationScalarFieldEnum = {
 export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
 
 
+export const PartnerLeadScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  contactedAt: 'contactedAt',
+  decisionAt: 'decisionAt',
+  archived: 'archived',
+  deletedAt: 'deletedAt',
+  sourceDomain: 'sourceDomain',
+  sourcePath: 'sourcePath',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  companyName: 'companyName',
+  contactName: 'contactName',
+  phone: 'phone',
+  email: 'email',
+  city: 'city',
+  website: 'website',
+  fleetSize: 'fleetSize',
+  message: 'message',
+  status: 'status',
+  adminNote: 'adminNote',
+  convertedDealerId: 'convertedDealerId'
+} as const
+
+export type PartnerLeadScalarFieldEnum = (typeof PartnerLeadScalarFieldEnum)[keyof typeof PartnerLeadScalarFieldEnum]
+
+
 export const VehicleScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -260,6 +290,7 @@ export const AuditLogScalarFieldEnum = {
   actorUserId: 'actorUserId',
   dealerId: 'dealerId',
   applicationId: 'applicationId',
+  partnerLeadId: 'partnerLeadId',
   vehicleId: 'vehicleId'
 } as const
 

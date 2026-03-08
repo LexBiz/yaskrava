@@ -14,6 +14,7 @@ type Props = {
 export function SiteFooter({disclaimer, city, country}: Props) {
   const t = useTranslations("Footer");
   const nav = useTranslations("Nav");
+  const home = useTranslations("Home");
 
   const companyLinks = [
     {href: "/about",    label: nav("about")},
@@ -49,7 +50,7 @@ export function SiteFooter({disclaimer, city, country}: Props) {
               <Link href="/apply"
                 className="inline-flex h-10 items-center px-5 rounded-full text-white text-sm font-bold"
                 style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 0 18px -4px rgba(255,121,24,0.55)"}}>
-                Отримати доступ
+                {home("ctaPrimary")}
               </Link>
               <Link href="/calculator"
                 className="inline-flex h-10 items-center px-5 rounded-full text-sm font-semibold text-white/65 border border-white/14 hover:text-white transition-colors">

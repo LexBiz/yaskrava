@@ -17,6 +17,7 @@
     "heroSubtitle": "Cashback na palivo, slevy na auto‑služby, financování a užitečné služby — přímo v telefonu.",
     "ctaPrimary": "Získat přístup k aplikaci",
     "ctaSecondary": "Cashback na palivo",
+    "ctaPartner": "Stát se partnerem",
     "sectionsTitle": "Co v aplikaci najdete",
     "cards": {
       "learnMore": "Zjistit více",
@@ -42,7 +43,13 @@
     "step3Title": "Šetřete a mějte přehled",
     "step3Text": "Cashback i slevy máte na jednom místě s jasným zůstatkem v CZK.",
     "ctaStripTitle": "Začněte šetřit ještě dnes",
-    "ctaStripSub": "Cashback na palivo a slevy — jedna aplikace, jeden zůstatek."
+    "ctaStripSub": "Cashback na palivo a slevy — jedna aplikace, jeden zůstatek.",
+    "fleetVisualTitle": "Vozidla",
+    "fleetVisualAccent": "na cestě a na místě",
+    "fleetVisualText": "Aktuální inventář, nabídky vhodné pro financování a přímá cesta do leasingu pro každé vozidlo.",
+    "fleetVisualPrimary": "Zobrazit vozidla",
+    "fleetVisualSecondary": "Leasing",
+    "downloadAppCta": "Stáhnout aplikaci"
   },
   "Common": {
     "learnMore": "Zjistit více",
@@ -114,7 +121,8 @@
     "detailsOnRequest": "Detaily na vyžádání",
     "status": "Stav",
     "statusInTransit": "Na cestě",
-    "statusOnSite": "Na ploše"
+    "statusOnSite": "Na ploše",
+    "openVehicle": "Otevřít vozidlo"
   },
   "Fuel": {
     "title": "Palivo — cashback v aplikaci",
@@ -228,19 +236,22 @@
   "CalculatorUI": {
     "inputsTitle": "Parametry",
     "price": "Cena vozidla",
+    "priceWithoutVat": "Cena bez DPH",
     "downPaymentPct": "Akontace",
     "termMonths": "Doba",
     "apr": "APR",
-    "residualPct": "Zůstatková hodnota",
-    "monthlyFees": "Měsíční poplatky (pojištění/servis)",
+    "customerType": "Typ klienta",
+    "customerTypePrivate": "Soukromá osoba",
+    "customerTypeBusiness": "Firma / OSVČ",
+    "downPaymentPrivateHint": "Minimální akontace: 20% pro soukromou osobu",
+    "downPaymentBusinessHint": "Minimální akontace: 10% pro firmu / OSVČ",
     "disclaimer": "Předběžný odhad. Konečné podmínky závisí na posouzení a partnerech.",
-    "monthlyLease": "Splátka (leasing)",
-    "monthlyTotal": "Měsíčně celkem",
+    "fixedAprNote": "Sazba je pevně 15% ročně. Maximální doba je 60 měsíců.",
+    "fixedAprBadge": "Pevná sazba",
+    "preliminaryPayment": "PŘEDBĚŽNÁ SPLÁTKA",
     "downPayment": "Akontace",
-    "residual": "Zůstatek (balón)",
     "principalLabel": "Jistina",
     "interestLabel": "Úrok",
-    "feesTotal": "Poplatky (celkem)",
     "totalPaid": "Celkové náklady",
     "copy": "Kopírovat",
     "copied": "Zkopírováno",
@@ -278,7 +289,8 @@
     "title": "Rychlý odhad",
     "priceLabel": "Cena vozidla",
     "monthlyLabel": "Měsíčně od",
-    "assumptions": "20% akontace · 48 měsíců · 10% APR",
+    "assumptions": "20% akontace · 60 měsíců · 15% APR",
+    "summary": "15% APR · 60 měs. · bez DPH",
     "cta": "Přesný výpočet"
   },
   "AppTeaser": {
@@ -296,6 +308,48 @@
     "ctaPrimary": "Získat přístup",
     "ctaSecondary": "Zobrazit služby",
     "note": "Nedáváme sem falešné odkazy ke stažení. Nechte žádost a pošleme správné kroky k přístupu."
+  },
+  "Partner": {
+    "eyebrow": "Připojení dealera",
+    "title": "Stát se partnerem",
+    "subtitle": "Zanechte partnerskou žádost. Po schválení vám připojíme mini‑CRM a vaše vozy na budoucí subdoméně.",
+    "intro": "Tento formulář je určen pro autosalony a obchodní partnery, kteří chtějí spolupracovat s Yaskrava. Spadá do samostatného partnerského pipeline v naší CRM."
+  },
+  "PartnerForm": {
+    "title": "Partnerská žádost",
+    "subtitle": "Řekněte nám něco o svém autosalonu, kontaktní osobě a počtu vozidel. Žádost posoudíme a ozveme se vám.",
+    "companyName": "Název společnosti",
+    "companyNamePh": "Premium Auto Brno",
+    "contactName": "Kontaktní osoba",
+    "contactNamePh": "Jan Novák",
+    "phone": "Telefon",
+    "email": "E-mail",
+    "city": "Město",
+    "cityPh": "Brno",
+    "website": "Web",
+    "fleetSize": "Kolik aut prodáváte?",
+    "fleetSizePh": "např. 20-50 aut / měsíc",
+    "message": "Zpráva",
+    "messagePh": "Popište svůj autosalon, potřebu financování a jak rychle chcete spustit spolupráci.",
+    "send": "Odeslat partnerskou žádost",
+    "successTitle": "Žádost odeslána",
+    "successText": "Děkujeme. Náš partnerský tým se vám brzy ozve.",
+    "errorGeneric": "Formulář se nepodařilo odeslat. Zkuste to prosím znovu.",
+    "errorNetwork": "Chyba sítě. Zkuste to prosím znovu."
+  },
+  "VehicleDetail": {
+    "subtitle": "Detail vozu, předběžné financování a žádost.",
+    "statusInTransit": "Na cestě",
+    "statusOnSite": "Na místě",
+    "backToFleet": "Zpět na vozidla",
+    "noImage": "Bez obrázku",
+    "year": "Rok",
+    "mileage": "Nájezd",
+    "fuel": "Palivo",
+    "gearbox": "Převodovka",
+    "financingTitle": "Financování pro tento vůz",
+    "financingText": "Můžete zanechat žádost o financování právě tohoto vozu a předběžná kalkulačka už používá jeho aktuální cenu.",
+    "priceOnRequest": "Cena na vyžádání"
   }
 }
 

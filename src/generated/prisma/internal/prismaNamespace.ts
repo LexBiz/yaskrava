@@ -390,6 +390,7 @@ export const ModelName = {
   DealerMembership: 'DealerMembership',
   UserSession: 'UserSession',
   Application: 'Application',
+  PartnerLead: 'PartnerLead',
   Vehicle: 'Vehicle',
   VehicleImage: 'VehicleImage',
   FinancingCase: 'FinancingCase',
@@ -409,7 +410,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "vehicle" | "vehicleImage" | "financingCase" | "auditLog"
+    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "partnerLead" | "vehicle" | "vehicleImage" | "financingCase" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -854,6 +855,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.ApplicationCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.ApplicationCountAggregateOutputType> | number
+        }
+      }
+    }
+    PartnerLead: {
+      payload: Prisma.$PartnerLeadPayload<ExtArgs>
+      fields: Prisma.PartnerLeadFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.PartnerLeadFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.PartnerLeadFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        findFirst: {
+          args: Prisma.PartnerLeadFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.PartnerLeadFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        findMany: {
+          args: Prisma.PartnerLeadFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>[]
+        }
+        create: {
+          args: Prisma.PartnerLeadCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        createMany: {
+          args: Prisma.PartnerLeadCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.PartnerLeadCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>[]
+        }
+        delete: {
+          args: Prisma.PartnerLeadDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        update: {
+          args: Prisma.PartnerLeadUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        deleteMany: {
+          args: Prisma.PartnerLeadDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.PartnerLeadUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.PartnerLeadUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>[]
+        }
+        upsert: {
+          args: Prisma.PartnerLeadUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$PartnerLeadPayload>
+        }
+        aggregate: {
+          args: Prisma.PartnerLeadAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregatePartnerLead>
+        }
+        groupBy: {
+          args: Prisma.PartnerLeadGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerLeadGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.PartnerLeadCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.PartnerLeadCountAggregateOutputType> | number
         }
       }
     }
@@ -1305,6 +1380,35 @@ export const ApplicationScalarFieldEnum = {
 export type ApplicationScalarFieldEnum = (typeof ApplicationScalarFieldEnum)[keyof typeof ApplicationScalarFieldEnum]
 
 
+export const PartnerLeadScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  contactedAt: 'contactedAt',
+  decisionAt: 'decisionAt',
+  archived: 'archived',
+  deletedAt: 'deletedAt',
+  sourceDomain: 'sourceDomain',
+  sourcePath: 'sourcePath',
+  utmSource: 'utmSource',
+  utmMedium: 'utmMedium',
+  utmCampaign: 'utmCampaign',
+  companyName: 'companyName',
+  contactName: 'contactName',
+  phone: 'phone',
+  email: 'email',
+  city: 'city',
+  website: 'website',
+  fleetSize: 'fleetSize',
+  message: 'message',
+  status: 'status',
+  adminNote: 'adminNote',
+  convertedDealerId: 'convertedDealerId'
+} as const
+
+export type PartnerLeadScalarFieldEnum = (typeof PartnerLeadScalarFieldEnum)[keyof typeof PartnerLeadScalarFieldEnum]
+
+
 export const VehicleScalarFieldEnum = {
   id: 'id',
   createdAt: 'createdAt',
@@ -1373,6 +1477,7 @@ export const AuditLogScalarFieldEnum = {
   actorUserId: 'actorUserId',
   dealerId: 'dealerId',
   applicationId: 'applicationId',
+  partnerLeadId: 'partnerLeadId',
   vehicleId: 'vehicleId'
 } as const
 
@@ -1574,6 +1679,20 @@ export type ListEnumFinancingStatusFieldRefInput<$PrismaModel> = FieldRefInputTy
 
 
 /**
+ * Reference to a field of type 'PartnerLeadStatus'
+ */
+export type EnumPartnerLeadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PartnerLeadStatus'>
+    
+
+
+/**
+ * Reference to a field of type 'PartnerLeadStatus[]'
+ */
+export type ListEnumPartnerLeadStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'PartnerLeadStatus[]'>
+    
+
+
+/**
  * Reference to a field of type 'VehicleAvailability'
  */
 export type EnumVehicleAvailabilityFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'VehicleAvailability'>
@@ -1743,6 +1862,7 @@ export type GlobalOmitConfig = {
   dealerMembership?: Prisma.DealerMembershipOmit
   userSession?: Prisma.UserSessionOmit
   application?: Prisma.ApplicationOmit
+  partnerLead?: Prisma.PartnerLeadOmit
   vehicle?: Prisma.VehicleOmit
   vehicleImage?: Prisma.VehicleImageOmit
   financingCase?: Prisma.FinancingCaseOmit

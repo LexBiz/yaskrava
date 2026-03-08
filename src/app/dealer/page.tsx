@@ -181,6 +181,22 @@ export default async function DealerDashboard() {
               />
             </label>
             <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">Stock number</span>
+              <input
+                name="stockNumber"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                placeholder="YA-001"
+              />
+            </label>
+            <label className="grid gap-1.5">
+              <span className="text-xs font-semibold text-white/70">VIN last 6</span>
+              <input
+                name="vinLast6"
+                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                placeholder="123ABC"
+              />
+            </label>
+            <label className="grid gap-1.5">
               <span className="text-xs font-semibold text-white/70">Make</span>
               <input
                 name="make"
@@ -254,6 +270,15 @@ export default async function DealerDashboard() {
               </select>
             </label>
             <label className="grid gap-1.5 lg:col-span-2">
+              <span className="text-xs font-semibold text-white/70">Upload photo</span>
+              <input
+                name="imageFile"
+                type="file"
+                accept="image/*"
+                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+              />
+            </label>
+            <label className="grid gap-1.5 lg:col-span-2">
               <span className="text-xs font-semibold text-white/70">Image URL</span>
               <input
                 name="imageUrl"
@@ -268,6 +293,15 @@ export default async function DealerDashboard() {
                 className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                 placeholder="Short vehicle description and selling points."
               />
+            </label>
+            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/75 lg:col-span-2">
+              <input
+                type="checkbox"
+                name="leasingEligible"
+                defaultChecked
+                className="h-4 w-4 rounded border-white/20 bg-black/20"
+              />
+              Leasing eligible
             </label>
             <div className="lg:col-span-2 flex justify-end">
               <button

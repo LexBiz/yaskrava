@@ -49,3 +49,20 @@ export const applicationCreateSchema = z
 export type ApplicationCreateInput = z.infer<typeof applicationCreateSchema>;
 export type CalculatorSnapshot = z.infer<typeof calculatorSnapshotSchema>;
 
+export const partnerLeadCreateSchema = z.object({
+  sourcePath: z.string().max(200).optional(),
+  utmSource: z.string().max(120).optional(),
+  utmMedium: z.string().max(120).optional(),
+  utmCampaign: z.string().max(120).optional(),
+  companyName: z.string().min(2).max(160),
+  contactName: z.string().min(2).max(120),
+  phone: z.string().min(5).max(40).optional(),
+  email: z.string().email().max(200),
+  city: z.string().max(120).optional(),
+  website: z.string().url().max(300).optional(),
+  fleetSize: z.string().max(80).optional(),
+  message: z.string().max(5000).optional(),
+});
+
+export type PartnerLeadCreateInput = z.infer<typeof partnerLeadCreateSchema>;
+

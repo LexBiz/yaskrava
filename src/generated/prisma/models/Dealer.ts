@@ -297,6 +297,7 @@ export type DealerWhereInput = {
   domains?: Prisma.DealerDomainListRelationFilter
   memberships?: Prisma.DealerMembershipListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
+  convertedPartnerLeads?: Prisma.PartnerLeadListRelationFilter
   vehicles?: Prisma.VehicleListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }
@@ -324,6 +325,7 @@ export type DealerOrderByWithRelationInput = {
   domains?: Prisma.DealerDomainOrderByRelationAggregateInput
   memberships?: Prisma.DealerMembershipOrderByRelationAggregateInput
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
+  convertedPartnerLeads?: Prisma.PartnerLeadOrderByRelationAggregateInput
   vehicles?: Prisma.VehicleOrderByRelationAggregateInput
   auditLogs?: Prisma.AuditLogOrderByRelationAggregateInput
 }
@@ -354,6 +356,7 @@ export type DealerWhereUniqueInput = Prisma.AtLeast<{
   domains?: Prisma.DealerDomainListRelationFilter
   memberships?: Prisma.DealerMembershipListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
+  convertedPartnerLeads?: Prisma.PartnerLeadListRelationFilter
   vehicles?: Prisma.VehicleListRelationFilter
   auditLogs?: Prisma.AuditLogListRelationFilter
 }, "id" | "slug">
@@ -431,6 +434,7 @@ export type DealerCreateInput = {
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
 }
@@ -458,6 +462,7 @@ export type DealerUncheckedCreateInput = {
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
 }
@@ -485,6 +490,7 @@ export type DealerUpdateInput = {
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
 }
@@ -512,6 +518,7 @@ export type DealerUncheckedUpdateInput = {
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
 }
@@ -716,6 +723,22 @@ export type DealerUpdateOneRequiredWithoutApplicationsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.DealerUpdateToOneWithWhereWithoutApplicationsInput, Prisma.DealerUpdateWithoutApplicationsInput>, Prisma.DealerUncheckedUpdateWithoutApplicationsInput>
 }
 
+export type DealerCreateNestedOneWithoutConvertedPartnerLeadsInput = {
+  create?: Prisma.XOR<Prisma.DealerCreateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedCreateWithoutConvertedPartnerLeadsInput>
+  connectOrCreate?: Prisma.DealerCreateOrConnectWithoutConvertedPartnerLeadsInput
+  connect?: Prisma.DealerWhereUniqueInput
+}
+
+export type DealerUpdateOneWithoutConvertedPartnerLeadsNestedInput = {
+  create?: Prisma.XOR<Prisma.DealerCreateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedCreateWithoutConvertedPartnerLeadsInput>
+  connectOrCreate?: Prisma.DealerCreateOrConnectWithoutConvertedPartnerLeadsInput
+  upsert?: Prisma.DealerUpsertWithoutConvertedPartnerLeadsInput
+  disconnect?: Prisma.DealerWhereInput | boolean
+  delete?: Prisma.DealerWhereInput | boolean
+  connect?: Prisma.DealerWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.DealerUpdateToOneWithWhereWithoutConvertedPartnerLeadsInput, Prisma.DealerUpdateWithoutConvertedPartnerLeadsInput>, Prisma.DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput>
+}
+
 export type DealerCreateNestedOneWithoutVehiclesInput = {
   create?: Prisma.XOR<Prisma.DealerCreateWithoutVehiclesInput, Prisma.DealerUncheckedCreateWithoutVehiclesInput>
   connectOrCreate?: Prisma.DealerCreateOrConnectWithoutVehiclesInput
@@ -768,6 +791,7 @@ export type DealerCreateWithoutDomainsInput = {
   playStoreUrl?: string | null
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
 }
@@ -794,6 +818,7 @@ export type DealerUncheckedCreateWithoutDomainsInput = {
   playStoreUrl?: string | null
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
 }
@@ -836,6 +861,7 @@ export type DealerUpdateWithoutDomainsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
 }
@@ -862,6 +888,7 @@ export type DealerUncheckedUpdateWithoutDomainsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
 }
@@ -888,6 +915,7 @@ export type DealerCreateWithoutMembershipsInput = {
   playStoreUrl?: string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
 }
@@ -914,6 +942,7 @@ export type DealerUncheckedCreateWithoutMembershipsInput = {
   playStoreUrl?: string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
 }
@@ -956,6 +985,7 @@ export type DealerUpdateWithoutMembershipsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
 }
@@ -982,6 +1012,7 @@ export type DealerUncheckedUpdateWithoutMembershipsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
 }
@@ -1008,6 +1039,7 @@ export type DealerCreateWithoutApplicationsInput = {
   playStoreUrl?: string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
 }
@@ -1034,6 +1066,7 @@ export type DealerUncheckedCreateWithoutApplicationsInput = {
   playStoreUrl?: string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
 }
@@ -1076,6 +1109,7 @@ export type DealerUpdateWithoutApplicationsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
 }
@@ -1102,6 +1136,131 @@ export type DealerUncheckedUpdateWithoutApplicationsInput = {
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
+  vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
+  auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
+}
+
+export type DealerCreateWithoutConvertedPartnerLeadsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  slug: string
+  name: string
+  legalName?: string | null
+  status?: $Enums.DealerStatus
+  defaultLocale?: string
+  accentColor?: string
+  brandPrimary?: string
+  brandSecondary?: string
+  supportEmail?: string | null
+  supportPhone?: string | null
+  city?: string | null
+  country?: string | null
+  websiteTitle?: string | null
+  footerDisclaimer?: string | null
+  appStoreUrl?: string | null
+  playStoreUrl?: string | null
+  domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
+  memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
+  applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
+  auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
+}
+
+export type DealerUncheckedCreateWithoutConvertedPartnerLeadsInput = {
+  id?: string
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  slug: string
+  name: string
+  legalName?: string | null
+  status?: $Enums.DealerStatus
+  defaultLocale?: string
+  accentColor?: string
+  brandPrimary?: string
+  brandSecondary?: string
+  supportEmail?: string | null
+  supportPhone?: string | null
+  city?: string | null
+  country?: string | null
+  websiteTitle?: string | null
+  footerDisclaimer?: string | null
+  appStoreUrl?: string | null
+  playStoreUrl?: string | null
+  domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
+  memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
+  applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
+  auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
+}
+
+export type DealerCreateOrConnectWithoutConvertedPartnerLeadsInput = {
+  where: Prisma.DealerWhereUniqueInput
+  create: Prisma.XOR<Prisma.DealerCreateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedCreateWithoutConvertedPartnerLeadsInput>
+}
+
+export type DealerUpsertWithoutConvertedPartnerLeadsInput = {
+  update: Prisma.XOR<Prisma.DealerUpdateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput>
+  create: Prisma.XOR<Prisma.DealerCreateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedCreateWithoutConvertedPartnerLeadsInput>
+  where?: Prisma.DealerWhereInput
+}
+
+export type DealerUpdateToOneWithWhereWithoutConvertedPartnerLeadsInput = {
+  where?: Prisma.DealerWhereInput
+  data: Prisma.XOR<Prisma.DealerUpdateWithoutConvertedPartnerLeadsInput, Prisma.DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput>
+}
+
+export type DealerUpdateWithoutConvertedPartnerLeadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDealerStatusFieldUpdateOperationsInput | $Enums.DealerStatus
+  defaultLocale?: Prisma.StringFieldUpdateOperationsInput | string
+  accentColor?: Prisma.StringFieldUpdateOperationsInput | string
+  brandPrimary?: Prisma.StringFieldUpdateOperationsInput | string
+  brandSecondary?: Prisma.StringFieldUpdateOperationsInput | string
+  supportEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
+  memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
+  applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
+  auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
+}
+
+export type DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  slug?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  legalName?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  status?: Prisma.EnumDealerStatusFieldUpdateOperationsInput | $Enums.DealerStatus
+  defaultLocale?: Prisma.StringFieldUpdateOperationsInput | string
+  accentColor?: Prisma.StringFieldUpdateOperationsInput | string
+  brandPrimary?: Prisma.StringFieldUpdateOperationsInput | string
+  brandSecondary?: Prisma.StringFieldUpdateOperationsInput | string
+  supportEmail?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
+  memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
+  applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
   vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
 }
@@ -1129,6 +1288,7 @@ export type DealerCreateWithoutVehiclesInput = {
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   auditLogs?: Prisma.AuditLogCreateNestedManyWithoutDealerInput
 }
 
@@ -1155,6 +1315,7 @@ export type DealerUncheckedCreateWithoutVehiclesInput = {
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   auditLogs?: Prisma.AuditLogUncheckedCreateNestedManyWithoutDealerInput
 }
 
@@ -1197,6 +1358,7 @@ export type DealerUpdateWithoutVehiclesInput = {
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   auditLogs?: Prisma.AuditLogUpdateManyWithoutDealerNestedInput
 }
 
@@ -1223,6 +1385,7 @@ export type DealerUncheckedUpdateWithoutVehiclesInput = {
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
   auditLogs?: Prisma.AuditLogUncheckedUpdateManyWithoutDealerNestedInput
 }
 
@@ -1249,6 +1412,7 @@ export type DealerCreateWithoutAuditLogsInput = {
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleCreateNestedManyWithoutDealerInput
 }
 
@@ -1275,6 +1439,7 @@ export type DealerUncheckedCreateWithoutAuditLogsInput = {
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
   vehicles?: Prisma.VehicleUncheckedCreateNestedManyWithoutDealerInput
 }
 
@@ -1317,6 +1482,7 @@ export type DealerUpdateWithoutAuditLogsInput = {
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUpdateManyWithoutDealerNestedInput
 }
 
@@ -1343,6 +1509,7 @@ export type DealerUncheckedUpdateWithoutAuditLogsInput = {
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
+  convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
   vehicles?: Prisma.VehicleUncheckedUpdateManyWithoutDealerNestedInput
 }
 
@@ -1355,6 +1522,7 @@ export type DealerCountOutputType = {
   domains: number
   memberships: number
   applications: number
+  convertedPartnerLeads: number
   vehicles: number
   auditLogs: number
 }
@@ -1363,6 +1531,7 @@ export type DealerCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions
   domains?: boolean | DealerCountOutputTypeCountDomainsArgs
   memberships?: boolean | DealerCountOutputTypeCountMembershipsArgs
   applications?: boolean | DealerCountOutputTypeCountApplicationsArgs
+  convertedPartnerLeads?: boolean | DealerCountOutputTypeCountConvertedPartnerLeadsArgs
   vehicles?: boolean | DealerCountOutputTypeCountVehiclesArgs
   auditLogs?: boolean | DealerCountOutputTypeCountAuditLogsArgs
 }
@@ -1396,6 +1565,13 @@ export type DealerCountOutputTypeCountMembershipsArgs<ExtArgs extends runtime.Ty
  */
 export type DealerCountOutputTypeCountApplicationsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   where?: Prisma.ApplicationWhereInput
+}
+
+/**
+ * DealerCountOutputType without action
+ */
+export type DealerCountOutputTypeCountConvertedPartnerLeadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.PartnerLeadWhereInput
 }
 
 /**
@@ -1436,6 +1612,7 @@ export type DealerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   domains?: boolean | Prisma.Dealer$domainsArgs<ExtArgs>
   memberships?: boolean | Prisma.Dealer$membershipsArgs<ExtArgs>
   applications?: boolean | Prisma.Dealer$applicationsArgs<ExtArgs>
+  convertedPartnerLeads?: boolean | Prisma.Dealer$convertedPartnerLeadsArgs<ExtArgs>
   vehicles?: boolean | Prisma.Dealer$vehiclesArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Dealer$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DealerCountOutputTypeDefaultArgs<ExtArgs>
@@ -1512,6 +1689,7 @@ export type DealerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   domains?: boolean | Prisma.Dealer$domainsArgs<ExtArgs>
   memberships?: boolean | Prisma.Dealer$membershipsArgs<ExtArgs>
   applications?: boolean | Prisma.Dealer$applicationsArgs<ExtArgs>
+  convertedPartnerLeads?: boolean | Prisma.Dealer$convertedPartnerLeadsArgs<ExtArgs>
   vehicles?: boolean | Prisma.Dealer$vehiclesArgs<ExtArgs>
   auditLogs?: boolean | Prisma.Dealer$auditLogsArgs<ExtArgs>
   _count?: boolean | Prisma.DealerCountOutputTypeDefaultArgs<ExtArgs>
@@ -1525,6 +1703,7 @@ export type $DealerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     domains: Prisma.$DealerDomainPayload<ExtArgs>[]
     memberships: Prisma.$DealerMembershipPayload<ExtArgs>[]
     applications: Prisma.$ApplicationPayload<ExtArgs>[]
+    convertedPartnerLeads: Prisma.$PartnerLeadPayload<ExtArgs>[]
     vehicles: Prisma.$VehiclePayload<ExtArgs>[]
     auditLogs: Prisma.$AuditLogPayload<ExtArgs>[]
   }
@@ -1945,6 +2124,7 @@ export interface Prisma__DealerClient<T, Null = never, ExtArgs extends runtime.T
   domains<T extends Prisma.Dealer$domainsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$domainsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DealerDomainPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   memberships<T extends Prisma.Dealer$membershipsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$membershipsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$DealerMembershipPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   applications<T extends Prisma.Dealer$applicationsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$applicationsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$ApplicationPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  convertedPartnerLeads<T extends Prisma.Dealer$convertedPartnerLeadsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$convertedPartnerLeadsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$PartnerLeadPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   vehicles<T extends Prisma.Dealer$vehiclesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$vehiclesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$VehiclePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   auditLogs<T extends Prisma.Dealer$auditLogsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Dealer$auditLogsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$AuditLogPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -2452,6 +2632,30 @@ export type Dealer$applicationsArgs<ExtArgs extends runtime.Types.Extensions.Int
   take?: number
   skip?: number
   distinct?: Prisma.ApplicationScalarFieldEnum | Prisma.ApplicationScalarFieldEnum[]
+}
+
+/**
+ * Dealer.convertedPartnerLeads
+ */
+export type Dealer$convertedPartnerLeadsArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the PartnerLead
+   */
+  select?: Prisma.PartnerLeadSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the PartnerLead
+   */
+  omit?: Prisma.PartnerLeadOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.PartnerLeadInclude<ExtArgs> | null
+  where?: Prisma.PartnerLeadWhereInput
+  orderBy?: Prisma.PartnerLeadOrderByWithRelationInput | Prisma.PartnerLeadOrderByWithRelationInput[]
+  cursor?: Prisma.PartnerLeadWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.PartnerLeadScalarFieldEnum | Prisma.PartnerLeadScalarFieldEnum[]
 }
 
 /**

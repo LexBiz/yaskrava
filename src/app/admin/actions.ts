@@ -13,6 +13,7 @@ import {assertRateLimit} from "@/lib/rateLimit";
 import {assertSameOrigin, getClientIp} from "@/lib/security";
 import {slugify, uniqueSlug} from "@/lib/slug";
 import {buildDealerHostname} from "@/lib/tenant";
+import {saveVehicleImage} from "@/lib/uploads";
 
 export async function adminLoginAction(formData: FormData) {
   const schema = z.object({
@@ -249,6 +250,104 @@ export async function setFinancingStatusAction(formData: FormData) {
   revalidatePath("/admin");
 }
 
+export async function setPartnerLeadStatusAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+    status: z.enum(["NEW", "IN_REVIEW", "CONTACTED", "APPROVED", "REJECTED"]),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+    status: String(formData.get("status") ?? ""),
+  });
+
+  await prisma.partnerLead.update({
+    where: {id: parsed.id},
+    data: {
+      status: parsed.status,
+      contactedAt: parsed.status === "CONTACTED" ? new Date() : undefined,
+      decisionAt:
+        parsed.status === "APPROVED" || parsed.status === "REJECTED"
+          ? new Date()
+          : undefined,
+    },
+  });
+
+  await writeAuditLog({
+    action: "PARTNER_LEAD_STATUS_UPDATED",
+    actorUserId: user.id,
+    partnerLeadId: parsed.id,
+    message: `Central CRM updated partner lead status to ${parsed.status}.`,
+  });
+
+  revalidatePath("/admin");
+}
+
+export async function togglePartnerLeadArchivedAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+    archived: z.string().optional(),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+    archived: formData.get("archived") ? "on" : undefined,
+  });
+
+  await prisma.partnerLead.update({
+    where: {id: parsed.id},
+    data: {
+      archived: Boolean(parsed.archived),
+    },
+  });
+
+  await writeAuditLog({
+    action: "PARTNER_LEAD_ARCHIVED",
+    actorUserId: user.id,
+    partnerLeadId: parsed.id,
+    message: `Central CRM changed partner archived=${Boolean(parsed.archived)}.`,
+  });
+
+  revalidatePath("/admin");
+}
+
+export async function setPartnerLeadNoteAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+    adminNote: z.string().max(5000).optional(),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+    adminNote: String(formData.get("adminNote") ?? "").trim() || undefined,
+  });
+
+  await prisma.partnerLead.update({
+    where: {id: parsed.id},
+    data: {
+      adminNote: parsed.adminNote,
+    },
+  });
+
+  await writeAuditLog({
+    action: "PARTNER_LEAD_NOTE_UPDATED",
+    actorUserId: user.id,
+    partnerLeadId: parsed.id,
+    message: "Central CRM updated partner lead note.",
+  });
+
+  revalidatePath("/admin");
+}
+
 export async function createDealerProvisionAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
@@ -362,5 +461,89 @@ export async function createDealerProvisionAction(formData: FormData) {
   }
 
   redirect(`/admin?dealerCreated=${finalSlug}`);
+}
+
+export async function createPlatformVehicleAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    dealerId: z.string().min(1),
+    title: z.string().min(3).max(160),
+    stockNumber: z.string().max(80).optional(),
+    make: z.string().max(80).optional(),
+    model: z.string().max(80).optional(),
+    year: z.coerce.number().int().min(1950).max(2100).optional(),
+    mileageKm: z.coerce.number().int().min(0).max(2_000_000).optional(),
+    fuel: z.string().max(40).optional(),
+    transmission: z.string().max(40).optional(),
+    vinLast6: z.string().max(20).optional(),
+    priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
+    imageUrl: z.string().url().max(2000).optional(),
+    description: z.string().max(5000).optional(),
+    leasingEligible: z.string().optional(),
+    availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
+  });
+
+  const parsed = schema.parse({
+    dealerId: String(formData.get("dealerId") ?? ""),
+    title: String(formData.get("title") ?? "").trim(),
+    stockNumber: String(formData.get("stockNumber") ?? "").trim() || undefined,
+    make: String(formData.get("make") ?? "").trim() || undefined,
+    model: String(formData.get("model") ?? "").trim() || undefined,
+    year: String(formData.get("year") ?? "").trim() || undefined,
+    mileageKm: String(formData.get("mileageKm") ?? "").trim() || undefined,
+    fuel: String(formData.get("fuel") ?? "").trim() || undefined,
+    transmission: String(formData.get("transmission") ?? "").trim() || undefined,
+    vinLast6: String(formData.get("vinLast6") ?? "").trim() || undefined,
+    priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
+    imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    description: String(formData.get("description") ?? "").trim() || undefined,
+    leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
+    availability: String(formData.get("availability") ?? "ON_SITE"),
+  });
+
+  const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
+  let slug = slugify(parsed.title);
+  if (!slug) slug = uniqueSlug("vehicle");
+
+  const existing = await prisma.vehicle.findFirst({
+    where: {dealerId: parsed.dealerId, slug},
+    select: {id: true},
+  });
+
+  if (existing) slug = uniqueSlug(slug);
+
+  const vehicle = await prisma.vehicle.create({
+    data: {
+      dealerId: parsed.dealerId,
+      slug,
+      title: parsed.title,
+      stockNumber: parsed.stockNumber,
+      make: parsed.make,
+      model: parsed.model,
+      year: parsed.year,
+      mileageKm: parsed.mileageKm,
+      fuel: parsed.fuel,
+      transmission: parsed.transmission,
+      vinLast6: parsed.vinLast6,
+      priceCzk: parsed.priceCzk,
+      imageUrl: uploadedImageUrl || parsed.imageUrl,
+      description: parsed.description,
+      leasingEligible: Boolean(parsed.leasingEligible),
+      availability: parsed.availability,
+      published: true,
+    },
+  });
+
+  await writeAuditLog({
+    action: "VEHICLE_CREATED",
+    actorUserId: user.id,
+    dealerId: parsed.dealerId,
+    vehicleId: vehicle.id,
+    message: `Central CRM created vehicle ${vehicle.title}.`,
+  });
+
+  revalidatePath("/admin");
 }
 

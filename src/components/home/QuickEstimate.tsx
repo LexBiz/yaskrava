@@ -8,10 +8,10 @@ import {Link} from "@/i18n/navigation";
 
 function estimate(price: number): number {
   const down     = price * 0.2;
-  const residual = price * 0.2;
   const P        = price - down;
-  const r        = 0.10 / 12;
-  const n        = 48;
+  const residual = 0;
+  const r        = 0.15 / 12;
+  const n        = 60;
   const pow      = Math.pow(1 + r, n);
   return Math.round(Math.max(0, (P * r * pow - residual * r) / (pow - 1)));
 }
@@ -91,7 +91,7 @@ export function QuickEstimate() {
           {CZK.format(monthly)}
         </p>
         <p className="relative mt-2 text-xs" style={{color: "rgba(255,255,255,0.38)"}}>
-          за місяць · 20% аванс · 48 міс
+          {t("summary")} · {CZK.format(Math.round(price / 1.21))}
         </p>
       </div>
 

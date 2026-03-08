@@ -9,9 +9,9 @@ export default function PrivacyPolicyPage() {
   return (
     <div>
       <PageHero title={t("privacyTitle")} subtitle={t("privacySubtitle")} />
-      <section className="py-14">
+      <section className="section-white py-14">
         <Container>
-          <div className="prose prose-invert max-w-none prose-p:text-white/70 prose-li:text-white/70">
+          <div className="prose max-w-none prose-p:text-[rgba(59,59,61,0.72)] prose-li:text-[rgba(59,59,61,0.72)] prose-headings:text-[#3B3B3D]">
             <p>{t("templateDisclaimer")}</p>
             <h2>{t("sections.controller")}</h2>
             <p>{t("privacy.controller")}</p>

@@ -12,7 +12,13 @@ function Logo({
   scale?: number;
 }) {
   return (
-    <span className="w-12 h-12 rounded-xl overflow-hidden shrink-0 bg-white/[0.06] border border-white/10 relative">
+    <span
+      className="w-12 h-12 rounded-xl overflow-hidden shrink-0 relative"
+      style={{
+        background: "rgba(59,59,61,0.06)",
+        border: "1px solid rgba(59,59,61,0.10)",
+      }}
+    >
       <Image
         src={src}
         alt={name}

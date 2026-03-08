@@ -16,7 +16,7 @@ export function AppIcon3D() {
         style={{
           bottom: 20,
           left: "50%",
-          width: 260,
+          width: "min(260px, 72vw)",
           height: 50,
           transform: "translateX(-50%)",
           background: "radial-gradient(ellipse, rgba(255,121,24,0.55) 0%, transparent 72%)",
@@ -45,8 +45,8 @@ export function AppIcon3D() {
         {/* Icon image */}
         <div
           style={{
-            width: 180,
-            height: 180,
+            width: "min(180px, 52vw)",
+            aspectRatio: "1 / 1",
             borderRadius: 40,
             overflow: "hidden",
             position: "relative",
@@ -120,7 +120,7 @@ export function AppIcon3D() {
       <div
         className="relative pointer-events-none"
         style={{
-          width: 180,
+          width: "min(180px, 52vw)",
           height: 60,
           overflow: "hidden",
           transform: "perspective(900px) rotateX(18deg) rotateY(-22deg) rotateZ(2deg) scaleY(-1)",
@@ -135,7 +135,7 @@ export function AppIcon3D() {
           aria-hidden="true"
           width={180}
           height={60}
-          style={{width: 180, height: 180, objectFit: "cover", display: "block", marginTop: -120}}
+          style={{width: "100%", height: 180, objectFit: "cover", display: "block", marginTop: -120}}
         />
         {/* Fade out reflection */}
         <div

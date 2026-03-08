@@ -49,8 +49,15 @@ export function SiteHeader({}: Props) {
 
         {/* Logo — white version (on dark header) */}
         <Link href="/" className="shrink-0 flex items-center no-underline">
-          <Image src="/logo.svg" alt="Yaskrava" width={130} height={38}
-            priority style={{height: 30, width: "auto"}} />
+          <Image
+            src="/logo.svg"
+            alt="Yaskrava"
+            width={130}
+            height={38}
+            priority
+            style={{height: 26, width: "auto"}}
+            className="sm:h-[30px]"
+          />
         </Link>
 
         <nav className="hidden lg:flex items-center gap-0.5 ml-6">
@@ -121,7 +128,7 @@ export function SiteHeader({}: Props) {
             borderBottom: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          <div className="mx-auto max-w-7xl px-5 py-5 space-y-1">
+          <div className="mx-auto max-w-7xl px-5 py-4 space-y-1">
             {nav.map(item => (
               <Link key={item.href} href={item.href} onClick={() => setOpen(false)}
                 className="flex h-11 items-center px-4 rounded-xl text-sm font-semibold text-white/65 hover:text-white hover:bg-white/[0.07] transition-colors">
@@ -141,7 +148,7 @@ export function SiteHeader({}: Props) {
                 </Link>
               ))}
             </div>
-            <div className="pt-2 grid grid-cols-2 gap-2">
+            <div className="pt-2 grid grid-cols-1 sm:grid-cols-2 gap-2">
               <Link href="/calculator" onClick={() => setOpen(false)}
                 className="h-11 flex items-center justify-center rounded-xl text-white text-sm font-bold"
                 style={{background: "linear-gradient(135deg, #FF7918, #FF9902)", boxShadow: "0 4px 20px -6px rgba(255,121,24,0.60)"}}>

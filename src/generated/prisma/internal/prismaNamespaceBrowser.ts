@@ -60,6 +60,7 @@ export const ModelName = {
   PartnerLead: 'PartnerLead',
   Vehicle: 'Vehicle',
   VehicleImage: 'VehicleImage',
+  Vacancy: 'Vacancy',
   FinancingCase: 'FinancingCase',
   AuditLog: 'AuditLog'
 } as const
@@ -243,6 +244,7 @@ export const VehicleScalarFieldEnum = {
   priceCzk: 'priceCzk',
   description: 'description',
   imageUrl: 'imageUrl',
+  videoUrl: 'videoUrl',
   vinLast6: 'vinLast6',
   dealerId: 'dealerId'
 } as const
@@ -260,6 +262,24 @@ export const VehicleImageScalarFieldEnum = {
 } as const
 
 export type VehicleImageScalarFieldEnum = (typeof VehicleImageScalarFieldEnum)[keyof typeof VehicleImageScalarFieldEnum]
+
+
+export const VacancyScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  title: 'title',
+  city: 'city',
+  employmentType: 'employmentType',
+  description: 'description',
+  contactEmail: 'contactEmail',
+  sortOrder: 'sortOrder',
+  published: 'published',
+  dealerId: 'dealerId'
+} as const
+
+export type VacancyScalarFieldEnum = (typeof VacancyScalarFieldEnum)[keyof typeof VacancyScalarFieldEnum]
 
 
 export const FinancingCaseScalarFieldEnum = {

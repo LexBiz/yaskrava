@@ -6,26 +6,46 @@ import {useMemo, useState} from "react";
 
 import {Link} from "@/i18n/navigation";
 
-function estimate(price: number): number {
-  const down     = price * 0.2;
+const MIN_PRICE = 180_000;
+const MAX_PRICE = 3_000_000;
+const DOWN_PRIVATE = 0.35;
+const MONTHS = 24;
+
+function estimate(price: number, isPrivate: boolean): number {
+  const downPct  = isPrivate ? DOWN_PRIVATE : 0.20;
+  const down     = price * downPct;
   const P        = price - down;
-  const residual = 0;
   const r        = 0.15 / 12;
-  const n        = 60;
-  const pow      = Math.pow(1 + r, n);
-  return Math.round(Math.max(0, (P * r * pow - residual * r) / (pow - 1)));
+  const pow      = Math.pow(1 + r, MONTHS);
+  return Math.round(Math.max(0, (P * r * pow) / (pow - 1)));
 }
 
 const CZK = new Intl.NumberFormat("cs-CZ", {style: "currency", currency: "CZK", maximumFractionDigits: 0});
 
 export function QuickEstimate() {
   const t = useTranslations("QuickEstimate");
-  const MIN = 100_000;
-  const MAX = 3_000_000;
+  const tCalc = useTranslations("CalculatorUI");
 
-  const [price, setPrice] = useState(600_000);
-  const monthly = useMemo(() => estimate(price), [price]);
-  const pct = Math.round(((price - MIN) / (MAX - MIN)) * 100);
+  const [grossPrice, setGrossPrice] = useState(600_000);
+  const [priceInput, setPriceInput] = useState("600000");
+  const [isPrivate, setIsPrivate] = useState(true);
+
+  const monthly = useMemo(() => estimate(grossPrice, isPrivate), [grossPrice, isPrivate]);
+  const pct = Math.round(((grossPrice - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100);
+
+  function handlePriceInput(raw: string) {
+    const digits = raw.replace(/\D/g, "");
+    setPriceInput(digits);
+    const n = Number(digits);
+    if (n >= MIN_PRICE && n <= MAX_PRICE) setGrossPrice(n);
+  }
+
+  function handlePriceBlur() {
+    const n = Number(priceInput.replace(/\D/g, ""));
+    const v = Math.max(MIN_PRICE, Math.min(MAX_PRICE, isNaN(n) ? MIN_PRICE : n));
+    setGrossPrice(v);
+    setPriceInput(String(v));
+  }
 
   return (
     <div
@@ -47,8 +67,26 @@ export function QuickEstimate() {
       <div className="relative">
         <span className="yask-badge">{t("title")}</span>
         <p className="mt-3 text-sm font-medium" style={{color: "rgba(255,255,255,0.45)"}}>
-          {t("assumptions")}
+          {(isPrivate ? "35%" : "20%")} {tCalc("downPaymentPct").toLowerCase()} · {MONTHS} {tCalc("termMonths").toLowerCase().replace(/\s/g, "")}
         </p>
+        <div className="mt-4 inline-flex rounded-full border border-white/10 bg-white/5 p-1">
+          <button
+            type="button"
+            onClick={() => setIsPrivate(true)}
+            className="rounded-full px-3 py-1.5 text-[11px] font-bold text-white transition-all"
+            style={{background: isPrivate ? "rgba(255,121,24,0.22)" : "transparent"}}
+          >
+            {tCalc("customerTypePrivate")}
+          </button>
+          <button
+            type="button"
+            onClick={() => setIsPrivate(false)}
+            className="rounded-full px-3 py-1.5 text-[11px] font-bold text-white transition-all"
+            style={{background: !isPrivate ? "rgba(255,121,24,0.22)" : "transparent"}}
+          >
+            {tCalc("customerTypeBusiness")}
+          </button>
+        </div>
       </div>
 
       <div className="relative">
@@ -58,12 +96,25 @@ export function QuickEstimate() {
             {t("priceLabel")}
           </span>
           <span className="text-base font-black text-white tabular-nums">
-            {CZK.format(price)}
+            {CZK.format(grossPrice)}
           </span>
         </div>
         <input
-          type="range" className="slider w-full" min={MIN} max={MAX} step={25_000}
-          value={price} onChange={e => setPrice(Number(e.target.value))}
+          type="text"
+          inputMode="numeric"
+          value={priceInput}
+          onChange={e => handlePriceInput(e.target.value)}
+          onBlur={handlePriceBlur}
+          placeholder={String(MIN_PRICE)}
+          className="w-full h-10 rounded-xl border border-white/10 bg-white/5 px-4 text-sm text-white tabular-nums outline-none focus:border-[var(--color-accent)] transition-colors mb-2"
+        />
+        <input
+          type="range" className="slider w-full" min={MIN_PRICE} max={MAX_PRICE} step={25_000}
+          value={grossPrice} onChange={e => {
+            const v = Number(e.target.value);
+            setGrossPrice(v);
+            setPriceInput(String(v));
+          }}
           style={{"--sp": `${pct}%`} as React.CSSProperties}
         />
       </div>
@@ -91,7 +142,7 @@ export function QuickEstimate() {
           {CZK.format(monthly)}
         </p>
         <p className="relative mt-2 text-xs" style={{color: "rgba(255,255,255,0.38)"}}>
-          {t("summary")} · {CZK.format(Math.round(price / 1.21))}
+          {t("summary")} · {isPrivate ? "35%" : "20%"} {tCalc("downPaymentPct").toLowerCase()} · {MONTHS} {tCalc("termMonths").toLowerCase().replace(/\s/g,"")}
         </p>
       </div>
 

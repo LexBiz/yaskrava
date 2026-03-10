@@ -8,13 +8,15 @@ import {authenticateWithPassword, clearSession, createSession, requireDealerUser
 import {writeAuditLog} from "@/lib/audit";
 import {prisma} from "@/lib/prisma";
 import {assertRateLimit} from "@/lib/rateLimit";
+import {resolveDealerCrmLocale} from "@/lib/crmCopy";
 import {assertSameOrigin, getClientIp} from "@/lib/security";
 import {slugify, uniqueSlug} from "@/lib/slug";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
-import {saveVehicleImage} from "@/lib/uploads";
+import {saveVehicleImage, saveVehicleVideo} from "@/lib/uploads";
 
 export async function dealerLoginAction(formData: FormData) {
   const dealer = await getCurrentDealerOrThrow();
+  const lang = resolveDealerCrmLocale(String(formData.get("lang") ?? ""));
   const schema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -26,7 +28,7 @@ export async function dealerLoginAction(formData: FormData) {
   });
 
   if (!parsed.success) {
-    redirect("/dealer/login?error=validation");
+    redirect(`/dealer/login?lang=${lang}&error=validation`);
   }
 
   const ip = await getClientIp();
@@ -37,12 +39,12 @@ export async function dealerLoginAction(formData: FormData) {
       windowMs: 1000 * 60 * 15,
     });
   } catch {
-    redirect("/dealer/login?error=rate");
+    redirect(`/dealer/login?lang=${lang}&error=rate`);
   }
 
   const user = await authenticateWithPassword(parsed.data.email, parsed.data.password);
   if (!user) {
-    redirect("/dealer/login?error=credentials");
+    redirect(`/dealer/login?lang=${lang}&error=credentials`);
   }
 
   const membership = user.memberships.find(
@@ -50,7 +52,7 @@ export async function dealerLoginAction(formData: FormData) {
   );
 
   if (!membership && !user.platformRole) {
-    redirect("/dealer/login?error=dealer");
+    redirect(`/dealer/login?lang=${lang}&error=dealer`);
   }
 
   await createSession(user.id);
@@ -60,11 +62,12 @@ export async function dealerLoginAction(formData: FormData) {
     dealerId: dealer.id,
     message: "Dealer CRM login",
   });
-  redirect("/dealer");
+  redirect(`/dealer?lang=${lang}`);
 }
 
-export async function dealerLogoutAction() {
+export async function dealerLogoutAction(formData: FormData) {
   const dealer = await getCurrentDealerOrThrow();
+  const lang = resolveDealerCrmLocale(String(formData.get("lang") ?? ""));
   const {user} = await requireDealerUser(dealer.id);
   await clearSession();
   await writeAuditLog({
@@ -73,7 +76,7 @@ export async function dealerLogoutAction() {
     dealerId: dealer.id,
     message: "Dealer CRM logout",
   });
-  redirect("/dealer/login");
+  redirect(`/dealer/login?lang=${lang}`);
 }
 
 export async function setDealerApplicationStatusAction(formData: FormData) {
@@ -227,6 +230,7 @@ export async function createDealerVehicleAction(formData: FormData) {
     vinLast6: z.string().max(20).optional(),
     priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
     imageUrl: z.string().url().max(2000).optional(),
+    videoUrl: z.string().url().max(2000).optional(),
     description: z.string().max(5000).optional(),
     leasingEligible: z.string().optional(),
     availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
@@ -244,12 +248,14 @@ export async function createDealerVehicleAction(formData: FormData) {
     vinLast6: String(formData.get("vinLast6") ?? "").trim() || undefined,
     priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
     imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
     availability: String(formData.get("availability") ?? "ON_SITE"),
   });
 
   const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
+  const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
 
   let slug = slugify(parsed.title);
   if (!slug) {
@@ -283,6 +289,7 @@ export async function createDealerVehicleAction(formData: FormData) {
       vinLast6: parsed.vinLast6,
       priceCzk: parsed.priceCzk,
       imageUrl: uploadedImageUrl || parsed.imageUrl,
+      videoUrl: uploadedVideoUrl || parsed.videoUrl,
       description: parsed.description,
       leasingEligible: Boolean(parsed.leasingEligible),
       availability: parsed.availability,
@@ -296,6 +303,86 @@ export async function createDealerVehicleAction(formData: FormData) {
     dealerId: dealer.id,
     vehicleId: vehicle.id,
     message: `Dealer CRM created vehicle ${vehicle.title}.`,
+  });
+
+  revalidatePath("/dealer");
+}
+
+export async function deleteDealerVehicleAction(formData: FormData) {
+  const dealer = await getCurrentDealerOrThrow();
+  const {user} = await requireDealerUser(dealer.id);
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+  });
+
+  const updated = await prisma.vehicle.updateMany({
+    where: {
+      id: parsed.id,
+      dealerId: dealer.id,
+      deletedAt: null,
+    },
+    data: {
+      deletedAt: new Date(),
+      published: false,
+    },
+  });
+
+  if (updated.count === 0) {
+    throw new Error("VEHICLE_NOT_FOUND");
+  }
+
+  await writeAuditLog({
+    action: "VEHICLE_ARCHIVED",
+    actorUserId: user.id,
+    dealerId: dealer.id,
+    vehicleId: parsed.id,
+    message: "Dealer CRM deleted vehicle listing.",
+  });
+
+  revalidatePath("/dealer");
+}
+
+export async function markDealerVehicleSoldAction(formData: FormData) {
+  const dealer = await getCurrentDealerOrThrow();
+  const {user} = await requireDealerUser(dealer.id);
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+  });
+
+  const updated = await prisma.vehicle.updateMany({
+    where: {
+      id: parsed.id,
+      dealerId: dealer.id,
+      deletedAt: null,
+    },
+    data: {
+      availability: "SOLD",
+      published: false,
+    },
+  });
+
+  if (updated.count === 0) {
+    throw new Error("VEHICLE_NOT_FOUND");
+  }
+
+  await writeAuditLog({
+    action: "VEHICLE_UPDATED",
+    actorUserId: user.id,
+    dealerId: dealer.id,
+    vehicleId: parsed.id,
+    message: "Dealer CRM marked vehicle as sold.",
   });
 
   revalidatePath("/dealer");

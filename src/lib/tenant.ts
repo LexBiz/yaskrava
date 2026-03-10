@@ -5,6 +5,7 @@ import {cache} from "react";
 import {headers} from "next/headers";
 import {notFound} from "next/navigation";
 
+import {APP_STORE_URL, PLAY_STORE_URL} from "@/lib/appLinks";
 import {prisma} from "@/lib/prisma";
 
 function normalizeHostname(input: string | null | undefined) {
@@ -60,8 +61,8 @@ function getFallbackDealer() {
     websiteTitle: "Yaskrava",
     footerDisclaimer:
       "Leasing and financing offers are subject to partner approval and legal review.",
-    appStoreUrl: process.env.NEXT_PUBLIC_APP_STORE_URL || "/apply",
-    playStoreUrl: process.env.NEXT_PUBLIC_PLAY_STORE_URL || "/apply",
+    appStoreUrl: APP_STORE_URL,
+    playStoreUrl: PLAY_STORE_URL,
     createdAt: new Date(0),
     updatedAt: new Date(0),
     domains: [

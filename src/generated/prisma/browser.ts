@@ -63,6 +63,11 @@ export type Vehicle = Prisma.VehicleModel
  */
 export type VehicleImage = Prisma.VehicleImageModel
 /**
+ * Model Vacancy
+ * 
+ */
+export type Vacancy = Prisma.VacancyModel
+/**
  * Model FinancingCase
  * 
  */

@@ -1,34 +1,45 @@
 import {dealerLoginAction} from "@/app/dealer/actions";
+import {dealerCrmCopy, resolveDealerCrmLocale} from "@/lib/crmCopy";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
+import Link from "next/link";
 
 export default async function DealerLoginPage({
   searchParams,
 }: {
-  searchParams: Promise<{error?: string | string[]}>;
+  searchParams: Promise<{error?: string | string[]; lang?: string | string[]}>;
 }) {
   const dealer = await getCurrentDealerOrThrow();
-  const {error} = await searchParams;
+  const {error, lang} = await searchParams;
   const errorCode = Array.isArray(error) ? error[0] : error;
+  const locale = resolveDealerCrmLocale(Array.isArray(lang) ? lang[0] : lang);
+  const t = dealerCrmCopy[locale];
 
   const errorMessage =
     errorCode === "rate"
-      ? "Too many login attempts. Please wait a bit."
+      ? t.errorRate
       : errorCode === "dealer"
-        ? "This account is not assigned to the current dealer."
+        ? t.errorDealer
         : errorCode
-          ? "Invalid email or password."
+          ? t.errorCredentials
           : null;
 
   return (
     <div className="min-h-dvh px-6 py-16">
       <div className="mx-auto max-w-md">
         <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-8">
-          <div className="text-sm font-semibold text-white">
-            {dealer.name} • Dealer CRM
+          <div className="mb-5 flex items-center justify-between gap-3">
+            <div className="text-xs font-semibold text-white/50">{t.language}</div>
+            <div className="flex items-center gap-2 text-xs font-semibold">
+              <Link href="/dealer/login?lang=uk" className={locale === "uk" ? "text-white" : "text-white/45"}>UKR</Link>
+              <Link href="/dealer/login?lang=cs" className={locale === "cs" ? "text-white" : "text-white/45"}>CS</Link>
+            </div>
           </div>
-          <h1 className="mt-3 text-2xl font-semibold">Dealer login</h1>
+          <div className="text-sm font-semibold text-white">
+            {dealer.name} • {t.eyebrow}
+          </div>
+          <h1 className="mt-3 text-2xl font-semibold">{t.loginTitle}</h1>
           <p className="mt-2 text-sm text-white/70">
-            Sign in to manage your own vehicles, leads and financing statuses.
+            {t.loginText}
           </p>
 
           {errorMessage ? (
@@ -38,24 +49,25 @@ export default async function DealerLoginPage({
           ) : null}
 
           <form action={dealerLoginAction} className="mt-6 grid gap-3">
+            <input type="hidden" name="lang" value={locale} />
             <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">Email</span>
+              <span className="text-xs font-semibold text-white/70">{t.email}</span>
               <input
                 name="email"
                 type="email"
                 className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="dealer@yaskrava.local"
+                placeholder={t.emailPlaceholder}
                 required
               />
             </label>
 
             <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">Password</span>
+              <span className="text-xs font-semibold text-white/70">{t.password}</span>
               <input
                 name="password"
                 type="password"
                 className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="Your password"
+                placeholder={t.passwordPlaceholder}
                 required
               />
             </label>
@@ -64,7 +76,7 @@ export default async function DealerLoginPage({
               type="submit"
               className="mt-2 h-12 rounded-2xl bg-[var(--color-accent)] px-4 text-sm font-semibold text-black transition hover:brightness-95"
             >
-              Sign in
+              {t.signIn}
             </button>
           </form>
         </div>

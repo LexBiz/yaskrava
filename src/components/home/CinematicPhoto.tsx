@@ -21,7 +21,7 @@ export function CinematicPhoto() {
             <div className="flex items-center gap-2 mb-5">
               <div className="h-0.5 w-8 rounded-full" style={{background: "linear-gradient(90deg,#FF7918,#FF9902)"}}/>
               <span className="text-[11px] font-bold uppercase tracking-[0.18em]" style={{color: "rgba(255,255,255,0.45)"}}>
-                FLEET
+                {t("fleetVisualTitle")}
               </span>
             </div>
 
@@ -129,7 +129,7 @@ export function CinematicPhoto() {
             >
               <Image
                 src="/Photo1.jpg"
-                alt="Yaskrava fleet — автомобілі в дорозі"
+                alt={t("fleetVisualTitle")}
                 width={680}
                 height={383}
                 priority

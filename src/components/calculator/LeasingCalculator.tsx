@@ -1,6 +1,6 @@
 "use client";
 
-import {ArrowRight, Check, Copy} from "lucide-react";
+import {ArrowRight} from "lucide-react";
 import {useLocale, useTranslations} from "next-intl";
 import {useMemo, useState} from "react";
 
@@ -44,14 +44,14 @@ function SliderField({label, value, min, max, step, display, onChange}: SliderPr
 
   return (
     <div>
-      <div className="flex items-center justify-between mb-2">
+      <div className="flex items-start justify-between gap-3 mb-2">
         <span
           className="text-[10px] font-extrabold uppercase tracking-[0.16em]"
           style={{ color: "var(--text-3)" }}
         >
           {label}
         </span>
-        <span className="text-base font-black text-white tabular-nums">{display}</span>
+        <span className="max-w-[58%] text-right text-sm sm:text-base font-black text-white tabular-nums leading-tight">{display}</span>
       </div>
 
       <input
@@ -139,10 +139,16 @@ function Leg({ color, label }: { color: string; label: string }) {
    MAIN COMPONENT
 ═══════════════════════════════════════════ */
 
+const MIN_PRICE = 180_000;
+const MAX_PRICE = 3_000_000;
+const MIN_MONTHS = 6;
+const MAX_MONTHS = 36;
+
 type Props = {
   initialPrice?: number;
   lockPrice?: boolean;
   vehicleTitle?: string;
+  compact?: boolean;
 };
 
 type CustomerType = "PRIVATE" | "BUSINESS";
@@ -151,26 +157,42 @@ export function LeasingCalculator({
   initialPrice = 600_000,
   lockPrice = false,
   vehicleTitle,
+  compact = false,
 }: Props) {
   const t      = useTranslations("CalculatorUI");
   const locale = useLocale();
   const router = useRouter();
 
-  /* State */
-  const [price,       setPrice]       = useState(initialPrice);
-  const [customerType, setCustomerType] = useState<CustomerType>("PRIVATE");
-  const [downPct,     setDownPct]     = useState(20);
-  const [months,      setMonths]      = useState(48);
-  const [copied,      setCopied]      = useState(false);
+  const clampedInitial = Math.max(MIN_PRICE, Math.min(MAX_PRICE, initialPrice));
 
-  const apr = 15;
-  const minDownPct = customerType === "BUSINESS" ? 10 : 20;
+  /* State */
+  const [grossPrice,   setGrossPrice]   = useState(clampedInitial);
+  const [priceInput,   setPriceInput]   = useState(String(clampedInitial));
+  const [customerType, setCustomerType] = useState<CustomerType>("PRIVATE");
+  const [downPct,     setDownPct]     = useState(35);
+  const [months,      setMonths]      = useState(24);
+
+  const minDownPct = customerType === "BUSINESS" ? 20 : 35;
+
   function selectCustomerType(nextType: CustomerType) {
-    const nextMinDown = nextType === "BUSINESS" ? 10 : 20;
+    const nextMinDown = nextType === "BUSINESS" ? 20 : 35;
     setCustomerType(nextType);
     setDownPct((current) => Math.max(current, nextMinDown));
   }
 
+  function handlePriceInputChange(raw: string) {
+    const digits = raw.replace(/\D/g, "");
+    setPriceInput(digits);
+    const n = Number(digits);
+    if (n >= MIN_PRICE && n <= MAX_PRICE) setGrossPrice(n);
+  }
+
+  function handlePriceInputBlur() {
+    const n = Number(priceInput.replace(/\D/g, ""));
+    const clamped = Math.max(MIN_PRICE, Math.min(MAX_PRICE, isNaN(n) ? MIN_PRICE : n));
+    setGrossPrice(clamped);
+    setPriceInput(String(clamped));
+  }
 
   /* CZK formatter */
   const czk = useMemo(
@@ -180,27 +202,24 @@ export function LeasingCalculator({
     [locale],
   );
 
-  const priceWithoutVat = useMemo(() => Math.round(price / 1.21), [price]);
+  /* Always WITH_VAT — no toggle */
+  const activePrice = grossPrice;
 
   /* Computation */
   const r = useMemo(() => {
-    const down     = Math.round((price * downPct)     / 100);
-    const principal = Math.max(0, price - down);
-    const rMonthly = apr / 100 / 12;
-
-    const residual = 0;
-    const monthly      = Math.round(Math.max(0, pmt(principal, rMonthly, months, residual)));
-    const monthlyTotal = monthly;
+    const down     = Math.round((activePrice * downPct) / 100);
+    const principal = Math.max(0, activePrice - down);
+    const rMonthly = 0.15 / 12;
+    const monthly      = Math.round(Math.max(0, pmt(principal, rMonthly, months, 0)));
     const totalPaid    = monthly * months + down;
-    const totalInterest = Math.max(0, totalPaid - price);
-
-    return { down, residual, principal, monthly, monthlyTotal, totalPaid, totalInterest };
-  }, [price, downPct, months, apr]);
+    const totalInterest = Math.max(0, totalPaid - activePrice);
+    return { down, principal, monthly, monthlyTotal: monthly, totalPaid, totalInterest };
+  }, [activePrice, downPct, months]);
 
   /* Snapshot */
   const snapshot: CalculatorSnapshot = {
-    priceCzk: price, downPaymentCzk: r.down, termMonths: months,
-    aprPercent: apr, residualCzk: 0, monthlyFeesCzk: 0,
+    priceCzk: activePrice, downPaymentCzk: r.down, termMonths: months,
+    aprPercent: 0, residualCzk: 0, monthlyFeesCzk: 0,
     monthlyPaymentCzk: r.monthly, monthlyTotalCzk: r.monthlyTotal,
   };
 
@@ -210,22 +229,6 @@ export function LeasingCalculator({
     locale === "uk" ? `${months} міс.` :
     `${months} mo.`;
 
-  function handleCopy() {
-    navigator.clipboard.writeText([
-      "YASKRAVA · Leasing estimate",
-      `${t("price")}: ${czk.format(price)}`,
-      `${t("priceWithoutVat")}: ${czk.format(priceWithoutVat)}`,
-      `${t("customerType")}: ${customerType === "BUSINESS" ? t("customerTypeBusiness") : t("customerTypePrivate")}`,
-      `${t("downPaymentPct")}: ${downPct}% · ${czk.format(r.down)}`,
-      `${t("termMonths")}: ${months}`,
-      `${t("apr")}: ${apr}%`,
-      `${t("monthlyTotal")}: ${czk.format(r.monthlyTotal)}`,
-    ].join("\n")).then(() => {
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    });
-  }
-
   function handleApply() {
     localStorage.setItem("yaskrava_calc", JSON.stringify(snapshot));
     router.push("/apply");
@@ -233,7 +236,7 @@ export function LeasingCalculator({
 
   return (
     <div
-      className="grid lg:grid-cols-[1fr_1.15fr] overflow-hidden rounded-2xl"
+      className={`${compact ? "grid" : "grid lg:grid-cols-[1fr_1.15fr]"} overflow-hidden rounded-2xl`}
       style={{ border: "1.5px solid var(--border-md)" }}
     >
 
@@ -247,8 +250,9 @@ export function LeasingCalculator({
           {vehicleTitle ? (
             <p className="mt-3 text-sm font-semibold text-white">{vehicleTitle}</p>
           ) : null}
-          <p className="mt-2 text-xs text-white/60">{t("fixedAprNote")}</p>
         </div>
+
+        {/* Customer type toggle */}
 
         <div>
           <div className="flex items-center justify-between mb-2">
@@ -287,38 +291,46 @@ export function LeasingCalculator({
           </div>
         </div>
 
-        {lockPrice ? (
-          <div>
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[10px] font-extrabold uppercase tracking-[0.16em]" style={{ color: "var(--text-3)" }}>
-                {t("price")}
-              </span>
-              <span className="text-base font-black text-white tabular-nums">{czk.format(price)}</span>
-            </div>
+        {/* Price input: locked or editable with manual input + slider */}
+        <div>
+          <div className="flex items-start justify-between gap-3 mb-2">
+            <span className="text-[10px] font-extrabold uppercase tracking-[0.16em]" style={{ color: "var(--text-3)" }}>
+              {t("priceWithVat")}
+            </span>
+            <span className="text-sm font-black text-white tabular-nums">{czk.format(activePrice)}</span>
+          </div>
+          {lockPrice ? (
             <div className="h-12 rounded-2xl border border-white/10 bg-white/5 px-4 flex items-center text-white/80 text-sm">
-              {czk.format(price)}
+              {czk.format(activePrice)}
             </div>
-            <div className="mt-2 text-xs text-white/55">
-              {t("priceWithoutVat")}: <span className="font-semibold text-white">{czk.format(priceWithoutVat)}</span>
-            </div>
-          </div>
-        ) : (
-          <SliderField
-            label={t("price")}
-            value={price}
-            min={50_000}
-            max={3_000_000}
-            step={10_000}
-            display={czk.format(price)}
-            onChange={setPrice}
-          />
-        )}
-
-        {!lockPrice ? (
-          <div className="text-xs text-white/55 -mt-3">
-            {t("priceWithoutVat")}: <span className="font-semibold text-white">{czk.format(priceWithoutVat)}</span>
-          </div>
-        ) : null}
+          ) : (
+            <>
+              <input
+                type="text"
+                inputMode="numeric"
+                value={priceInput}
+                onChange={e => handlePriceInputChange(e.target.value)}
+                onBlur={handlePriceInputBlur}
+                placeholder={String(MIN_PRICE)}
+                className="w-full h-11 rounded-2xl border border-white/10 bg-white/5 px-4 text-sm text-white tabular-nums outline-none focus:border-[var(--color-accent)] transition-colors mb-2"
+              />
+              <input
+                type="range"
+                className="slider"
+                min={MIN_PRICE}
+                max={MAX_PRICE}
+                step={10_000}
+                value={grossPrice}
+                onChange={e => {
+                  const v = Number(e.target.value);
+                  setGrossPrice(v);
+                  setPriceInput(String(v));
+                }}
+                style={{ "--sp": `${((grossPrice - MIN_PRICE) / (MAX_PRICE - MIN_PRICE)) * 100}%` } as React.CSSProperties}
+              />
+            </>
+          )}
+        </div>
 
         <SliderField
           label={t("downPaymentPct")}
@@ -337,9 +349,9 @@ export function LeasingCalculator({
         <SliderField
           label={t("termMonths")}
           value={months}
-          min={12}
-          max={60}
-          step={12}
+          min={MIN_MONTHS}
+          max={MAX_MONTHS}
+          step={6}
           display={monthLabel}
           onChange={setMonths}
         />
@@ -369,11 +381,8 @@ export function LeasingCalculator({
             {czk.format(r.monthlyTotal)}
           </p>
 
-          <p className="mt-2 text-sm" style={{ color: "var(--text-2)" }}>
-            {t("fixedAprBadge")}: <span className="font-semibold text-white">15%</span>
-          </p>
           <p className="mt-1 text-xs text-white/55">
-            {t("priceWithoutVat")}: <span className="font-semibold text-white">{czk.format(priceWithoutVat)}</span>
+            {t("priceWithVat")}: <span className="font-semibold text-white">{czk.format(grossPrice)}</span>
           </p>
         </div>
 
@@ -397,24 +406,11 @@ export function LeasingCalculator({
         </div>
 
         {/* Actions */}
-        <div className="mt-auto flex gap-3">
-          <button
-            type="button"
-            onClick={handleCopy}
-            className="flex-1 h-12 flex items-center justify-center gap-2 rounded-xl text-sm font-semibold transition-all hover:bg-white/[0.05]"
-            style={{
-              border: "1px solid var(--border-md)",
-              color:  "var(--text-2)",
-            }}
-          >
-            {copied ? <Check size={15} className="text-[var(--color-accent)]" /> : <Copy size={15} />}
-            {copied ? t("copied") : t("copy")}
-          </button>
-
+        <div className="mt-auto">
           <button
             type="button"
             onClick={handleApply}
-            className="flex-1 h-12 flex items-center justify-center gap-2 rounded-xl text-white text-sm font-extrabold hover:brightness-105 transition-all"
+            className="w-full h-12 flex items-center justify-center gap-2 rounded-xl text-white text-sm font-extrabold hover:brightness-105 transition-all"
             style={{background: "linear-gradient(135deg, #FE9302 0%, #FF7918 50%, #FF5A2A 100%)", boxShadow: "0 4px 28px -8px rgba(255,121,24,0.55)"}}
           >
             {t("sendWithCalc")}

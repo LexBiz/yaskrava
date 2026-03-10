@@ -53,7 +53,7 @@ export function ApplicationForm({
 
   const calcSummary = useMemo(() => {
     if (!calc) return null;
-    return `${calc.termMonths}m • APR ${calc.aprPercent}% • monthly ${calc.monthlyTotalCzk} CZK`;
+    return `${calc.termMonths}m • monthly ${calc.monthlyTotalCzk} CZK`;
   }, [calc]);
 
   async function submit() {

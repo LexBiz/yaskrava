@@ -59,6 +59,7 @@ export type VehicleMinAggregateOutputType = {
   priceCzk: number | null
   description: string | null
   imageUrl: string | null
+  videoUrl: string | null
   vinLast6: string | null
   dealerId: string | null
 }
@@ -84,6 +85,7 @@ export type VehicleMaxAggregateOutputType = {
   priceCzk: number | null
   description: string | null
   imageUrl: string | null
+  videoUrl: string | null
   vinLast6: string | null
   dealerId: string | null
 }
@@ -109,6 +111,7 @@ export type VehicleCountAggregateOutputType = {
   priceCzk: number
   description: number
   imageUrl: number
+  videoUrl: number
   vinLast6: number
   dealerId: number
   _all: number
@@ -148,6 +151,7 @@ export type VehicleMinAggregateInputType = {
   priceCzk?: true
   description?: true
   imageUrl?: true
+  videoUrl?: true
   vinLast6?: true
   dealerId?: true
 }
@@ -173,6 +177,7 @@ export type VehicleMaxAggregateInputType = {
   priceCzk?: true
   description?: true
   imageUrl?: true
+  videoUrl?: true
   vinLast6?: true
   dealerId?: true
 }
@@ -198,6 +203,7 @@ export type VehicleCountAggregateInputType = {
   priceCzk?: true
   description?: true
   imageUrl?: true
+  videoUrl?: true
   vinLast6?: true
   dealerId?: true
   _all?: true
@@ -310,6 +316,7 @@ export type VehicleGroupByOutputType = {
   priceCzk: number | null
   description: string | null
   imageUrl: string | null
+  videoUrl: string | null
   vinLast6: string | null
   dealerId: string
   _count: VehicleCountAggregateOutputType | null
@@ -358,6 +365,7 @@ export type VehicleWhereInput = {
   priceCzk?: Prisma.IntNullableFilter<"Vehicle"> | number | null
   description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  videoUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   dealerId?: Prisma.StringFilter<"Vehicle"> | string
   dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
@@ -387,6 +395,7 @@ export type VehicleOrderByWithRelationInput = {
   priceCzk?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vinLast6?: Prisma.SortOrderInput | Prisma.SortOrder
   dealerId?: Prisma.SortOrder
   dealer?: Prisma.DealerOrderByWithRelationInput
@@ -420,6 +429,7 @@ export type VehicleWhereUniqueInput = Prisma.AtLeast<{
   priceCzk?: Prisma.IntNullableFilter<"Vehicle"> | number | null
   description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  videoUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   dealerId?: Prisma.StringFilter<"Vehicle"> | string
   dealer?: Prisma.XOR<Prisma.DealerScalarRelationFilter, Prisma.DealerWhereInput>
@@ -449,6 +459,7 @@ export type VehicleOrderByWithAggregationInput = {
   priceCzk?: Prisma.SortOrderInput | Prisma.SortOrder
   description?: Prisma.SortOrderInput | Prisma.SortOrder
   imageUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  videoUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   vinLast6?: Prisma.SortOrderInput | Prisma.SortOrder
   dealerId?: Prisma.SortOrder
   _count?: Prisma.VehicleCountOrderByAggregateInput
@@ -482,6 +493,7 @@ export type VehicleScalarWhereWithAggregatesInput = {
   priceCzk?: Prisma.IntNullableWithAggregatesFilter<"Vehicle"> | number | null
   description?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
+  videoUrl?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableWithAggregatesFilter<"Vehicle"> | string | null
   dealerId?: Prisma.StringWithAggregatesFilter<"Vehicle"> | string
 }
@@ -507,6 +519,7 @@ export type VehicleCreateInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
   images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
@@ -535,6 +548,7 @@ export type VehicleUncheckedCreateInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealerId: string
   images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
@@ -563,6 +577,7 @@ export type VehicleUpdateInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
   images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
@@ -591,6 +606,7 @@ export type VehicleUncheckedUpdateInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
@@ -619,6 +635,7 @@ export type VehicleCreateManyInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealerId: string
 }
@@ -644,6 +661,7 @@ export type VehicleUpdateManyMutationInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -668,6 +686,7 @@ export type VehicleUncheckedUpdateManyInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.StringFieldUpdateOperationsInput | string
 }
@@ -713,6 +732,7 @@ export type VehicleCountOrderByAggregateInput = {
   priceCzk?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
 }
@@ -744,6 +764,7 @@ export type VehicleMaxOrderByAggregateInput = {
   priceCzk?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
 }
@@ -769,6 +790,7 @@ export type VehicleMinOrderByAggregateInput = {
   priceCzk?: Prisma.SortOrder
   description?: Prisma.SortOrder
   imageUrl?: Prisma.SortOrder
+  videoUrl?: Prisma.SortOrder
   vinLast6?: Prisma.SortOrder
   dealerId?: Prisma.SortOrder
 }
@@ -905,6 +927,7 @@ export type VehicleCreateWithoutDealerInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
@@ -932,6 +955,7 @@ export type VehicleUncheckedCreateWithoutDealerInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
@@ -988,6 +1012,7 @@ export type VehicleScalarWhereInput = {
   priceCzk?: Prisma.IntNullableFilter<"Vehicle"> | number | null
   description?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   imageUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
+  videoUrl?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   vinLast6?: Prisma.StringNullableFilter<"Vehicle"> | string | null
   dealerId?: Prisma.StringFilter<"Vehicle"> | string
 }
@@ -1013,6 +1038,7 @@ export type VehicleCreateWithoutApplicationsInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
   images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
@@ -1040,6 +1066,7 @@ export type VehicleUncheckedCreateWithoutApplicationsInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealerId: string
   images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
@@ -1083,6 +1110,7 @@ export type VehicleUpdateWithoutApplicationsInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
   images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
@@ -1110,6 +1138,7 @@ export type VehicleUncheckedUpdateWithoutApplicationsInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
@@ -1137,6 +1166,7 @@ export type VehicleCreateWithoutImagesInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutVehicleInput
@@ -1164,6 +1194,7 @@ export type VehicleUncheckedCreateWithoutImagesInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealerId: string
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutVehicleInput
@@ -1207,6 +1238,7 @@ export type VehicleUpdateWithoutImagesInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
@@ -1234,6 +1266,7 @@ export type VehicleUncheckedUpdateWithoutImagesInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.StringFieldUpdateOperationsInput | string
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
@@ -1261,6 +1294,7 @@ export type VehicleCreateWithoutAuditLogsInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealer: Prisma.DealerCreateNestedOneWithoutVehiclesInput
   images?: Prisma.VehicleImageCreateNestedManyWithoutVehicleInput
@@ -1288,6 +1322,7 @@ export type VehicleUncheckedCreateWithoutAuditLogsInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
   dealerId: string
   images?: Prisma.VehicleImageUncheckedCreateNestedManyWithoutVehicleInput
@@ -1331,6 +1366,7 @@ export type VehicleUpdateWithoutAuditLogsInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealer?: Prisma.DealerUpdateOneRequiredWithoutVehiclesNestedInput
   images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
@@ -1358,6 +1394,7 @@ export type VehicleUncheckedUpdateWithoutAuditLogsInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   dealerId?: Prisma.StringFieldUpdateOperationsInput | string
   images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
@@ -1385,6 +1422,7 @@ export type VehicleCreateManyDealerInput = {
   priceCzk?: number | null
   description?: string | null
   imageUrl?: string | null
+  videoUrl?: string | null
   vinLast6?: string | null
 }
 
@@ -1409,6 +1447,7 @@ export type VehicleUpdateWithoutDealerInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.VehicleImageUpdateManyWithoutVehicleNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutVehicleNestedInput
@@ -1436,6 +1475,7 @@ export type VehicleUncheckedUpdateWithoutDealerInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   images?: Prisma.VehicleImageUncheckedUpdateManyWithoutVehicleNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutVehicleNestedInput
@@ -1463,6 +1503,7 @@ export type VehicleUncheckedUpdateManyWithoutDealerInput = {
   priceCzk?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   description?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   imageUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  videoUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   vinLast6?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
 }
 
@@ -1536,6 +1577,7 @@ export type VehicleSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs 
   priceCzk?: boolean
   description?: boolean
   imageUrl?: boolean
+  videoUrl?: boolean
   vinLast6?: boolean
   dealerId?: boolean
   dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
@@ -1566,6 +1608,7 @@ export type VehicleSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Exten
   priceCzk?: boolean
   description?: boolean
   imageUrl?: boolean
+  videoUrl?: boolean
   vinLast6?: boolean
   dealerId?: boolean
   dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
@@ -1592,6 +1635,7 @@ export type VehicleSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Exten
   priceCzk?: boolean
   description?: boolean
   imageUrl?: boolean
+  videoUrl?: boolean
   vinLast6?: boolean
   dealerId?: boolean
   dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
@@ -1618,11 +1662,12 @@ export type VehicleSelectScalar = {
   priceCzk?: boolean
   description?: boolean
   imageUrl?: boolean
+  videoUrl?: boolean
   vinLast6?: boolean
   dealerId?: boolean
 }
 
-export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "deletedAt" | "availability" | "published" | "featured" | "leasingEligible" | "slug" | "stockNumber" | "title" | "make" | "model" | "year" | "mileageKm" | "fuel" | "transmission" | "priceCzk" | "description" | "imageUrl" | "vinLast6" | "dealerId", ExtArgs["result"]["vehicle"]>
+export type VehicleOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "deletedAt" | "availability" | "published" | "featured" | "leasingEligible" | "slug" | "stockNumber" | "title" | "make" | "model" | "year" | "mileageKm" | "fuel" | "transmission" | "priceCzk" | "description" | "imageUrl" | "videoUrl" | "vinLast6" | "dealerId", ExtArgs["result"]["vehicle"]>
 export type VehicleInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   dealer?: boolean | Prisma.DealerDefaultArgs<ExtArgs>
   images?: boolean | Prisma.Vehicle$imagesArgs<ExtArgs>
@@ -1666,6 +1711,7 @@ export type $VehiclePayload<ExtArgs extends runtime.Types.Extensions.InternalArg
     priceCzk: number | null
     description: string | null
     imageUrl: string | null
+    videoUrl: string | null
     vinLast6: string | null
     dealerId: string
   }, ExtArgs["result"]["vehicle"]>
@@ -2115,6 +2161,7 @@ export interface VehicleFieldRefs {
   readonly priceCzk: Prisma.FieldRef<"Vehicle", 'Int'>
   readonly description: Prisma.FieldRef<"Vehicle", 'String'>
   readonly imageUrl: Prisma.FieldRef<"Vehicle", 'String'>
+  readonly videoUrl: Prisma.FieldRef<"Vehicle", 'String'>
   readonly vinLast6: Prisma.FieldRef<"Vehicle", 'String'>
   readonly dealerId: Prisma.FieldRef<"Vehicle", 'String'>
 }

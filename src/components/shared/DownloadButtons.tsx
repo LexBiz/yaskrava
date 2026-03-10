@@ -1,9 +1,13 @@
 /* Server Component — no event handlers needed */
 
-import {getCurrentDealer} from "@/lib/tenant";
+import {getTranslations} from "next-intl/server";
 
-const DEFAULT_APP_STORE_URL = process.env.NEXT_PUBLIC_APP_STORE_URL || "/apply";
-const DEFAULT_PLAY_STORE_URL = process.env.NEXT_PUBLIC_PLAY_STORE_URL || "/apply";
+import {APP_STORE_URL, PLAY_STORE_URL} from "@/lib/appLinks";
+import {getCurrentDealer} from "@/lib/tenant";
+import {SmartDownloadLink} from "@/components/shared/SmartDownloadLink";
+
+const DEFAULT_APP_STORE_URL = APP_STORE_URL;
+const DEFAULT_PLAY_STORE_URL = PLAY_STORE_URL;
 
 function AppleLogo() {
   return (
@@ -37,6 +41,7 @@ export async function DownloadButtons({
   appStoreUrl,
   playStoreUrl,
 }: Props) {
+  const t = await getTranslations("DownloadButtons");
   const dealer = await getCurrentDealer();
   const resolvedAppStoreUrl =
     appStoreUrl || dealer?.appStoreUrl || DEFAULT_APP_STORE_URL;
@@ -47,39 +52,37 @@ export async function DownloadButtons({
     <div
       className={`flex gap-3 ${layout === "col" ? "flex-col" : "flex-col xs:flex-row sm:flex-row flex-wrap"} ${className}`}
     >
-      <a
-        href={resolvedAppStoreUrl}
-        target={resolvedAppStoreUrl.startsWith("http") ? "_blank" : undefined}
-        rel={resolvedAppStoreUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+      <SmartDownloadLink
+        appStoreUrl={resolvedAppStoreUrl}
+        playStoreUrl={resolvedPlayStoreUrl}
         className="store-btn w-full sm:w-auto"
       >
         <AppleLogo />
         <div>
           <div style={{ fontSize: "10px", opacity: 0.55, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", lineHeight: 1 }}>
-            Download on the
+            {t("appStoreTop")}
           </div>
           <div style={{ fontSize: "15px", fontWeight: 800, lineHeight: 1.3, letterSpacing: "-0.01em" }}>
-            App Store
+            {t("appStoreBottom")}
           </div>
         </div>
-      </a>
+      </SmartDownloadLink>
 
-      <a
-        href={resolvedPlayStoreUrl}
-        target={resolvedPlayStoreUrl.startsWith("http") ? "_blank" : undefined}
-        rel={resolvedPlayStoreUrl.startsWith("http") ? "noopener noreferrer" : undefined}
+      <SmartDownloadLink
+        appStoreUrl={resolvedAppStoreUrl}
+        playStoreUrl={resolvedPlayStoreUrl}
         className="store-btn w-full sm:w-auto"
       >
         <PlayLogo />
         <div>
           <div style={{ fontSize: "10px", opacity: 0.55, fontWeight: 600, letterSpacing: "0.05em", textTransform: "uppercase", lineHeight: 1 }}>
-            Get it on
+            {t("playStoreTop")}
           </div>
           <div style={{ fontSize: "15px", fontWeight: 800, lineHeight: 1.3, letterSpacing: "-0.01em" }}>
-            Google Play
+            {t("playStoreBottom")}
           </div>
         </div>
-      </a>
+      </SmartDownloadLink>
     </div>
   );
 }

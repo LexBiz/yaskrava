@@ -10,9 +10,9 @@ export default async function AdminLoginPage({
 
   const errorMessage =
     errorCode === "rate"
-      ? "Too many login attempts. Please wait a bit."
+      ? "Забагато спроб входу. Спробуйте трохи пізніше."
       : errorCode
-        ? "Invalid email or password."
+        ? "Невірний email або пароль."
         : null;
 
   return (
@@ -20,9 +20,9 @@ export default async function AdminLoginPage({
       <div className="mx-auto max-w-md">
         <div className="rounded-3xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-8">
           <div className="text-sm font-semibold text-white">YASKRAVA • CRM</div>
-          <h1 className="mt-3 text-2xl font-semibold">Central admin login</h1>
+          <h1 className="mt-3 text-2xl font-semibold">Вхід до центральної CRM</h1>
           <p className="mt-2 text-sm text-white/70">
-            Sign in with your platform account to manage all dealers, leads and financing cases.
+            Увійдіть під платформеним акаунтом, щоб керувати дилерами, заявками та кейсами фінансування.
           </p>
 
           {errorMessage ? (
@@ -44,12 +44,12 @@ export default async function AdminLoginPage({
             </label>
 
             <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">Password</span>
+              <span className="text-xs font-semibold text-white/70">Пароль</span>
               <input
                 name="password"
                 type="password"
                 className="h-12 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none ring-0 placeholder:text-white/30 focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="Your password"
+                placeholder="Ваш пароль"
                 required
               />
             </label>
@@ -58,13 +58,13 @@ export default async function AdminLoginPage({
               type="submit"
               className="mt-2 h-12 rounded-2xl bg-[var(--color-accent)] px-4 text-sm font-semibold text-black transition hover:brightness-95"
             >
-              Sign in
+              Увійти
             </button>
           </form>
         </div>
         <div className="mt-6 text-xs text-white/40">
-          Accounts are seeded via <code className="text-white/60">ADMIN_EMAIL</code>,{" "}
-          <code className="text-white/60">ADMIN_PASSWORD</code> and dealer membership seed data.
+          Акаунти seed-яться через <code className="text-white/60">ADMIN_EMAIL</code>,{" "}
+          <code className="text-white/60">ADMIN_PASSWORD</code> та seed-дані дилерських ролей.
         </div>
       </div>
     </div>

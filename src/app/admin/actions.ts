@@ -13,7 +13,28 @@ import {assertRateLimit} from "@/lib/rateLimit";
 import {assertSameOrigin, getClientIp} from "@/lib/security";
 import {slugify, uniqueSlug} from "@/lib/slug";
 import {buildDealerHostname} from "@/lib/tenant";
-import {saveVehicleImage} from "@/lib/uploads";
+import {saveVehicleImage, saveVehicleVideo} from "@/lib/uploads";
+
+function getPlatformDealerSlug() {
+  return process.env.DEFAULT_DEALER_SLUG || "yaskrava";
+}
+
+async function getPlatformDealerOrThrow() {
+  const dealer = await prisma.dealer.findUnique({
+    where: {slug: getPlatformDealerSlug()},
+    select: {id: true, slug: true},
+  });
+  if (!dealer) {
+    throw new Error("PLATFORM_DEALER_NOT_FOUND");
+  }
+  return dealer;
+}
+
+async function revalidateCareerPages() {
+  revalidatePath("/en/career");
+  revalidatePath("/cs/career");
+  revalidatePath("/uk/career");
+}
 
 export async function adminLoginAction(formData: FormData) {
   const schema = z.object({
@@ -353,6 +374,7 @@ export async function createDealerProvisionAction(formData: FormData) {
   await assertSameOrigin();
 
   const schema = z.object({
+    partnerLeadId: z.string().min(1).optional(),
     name: z.string().min(2).max(120),
     slug: z.string().min(2).max(60).optional(),
     legalName: z.string().max(160).optional(),
@@ -365,6 +387,7 @@ export async function createDealerProvisionAction(formData: FormData) {
   });
 
   const parsed = schema.safeParse({
+    partnerLeadId: String(formData.get("partnerLeadId") ?? "").trim() || undefined,
     name: String(formData.get("name") ?? "").trim(),
     slug: String(formData.get("slug") ?? "").trim() || undefined,
     legalName: String(formData.get("legalName") ?? "").trim() || undefined,
@@ -377,7 +400,7 @@ export async function createDealerProvisionAction(formData: FormData) {
   });
 
   if (!parsed.success) {
-    redirect("/admin?dealerError=validation");
+    redirect("/admin?view=dealers&dealerError=validation");
   }
 
   const slugBase = parsed.data.slug ? slugify(parsed.data.slug) : slugify(parsed.data.name);
@@ -455,20 +478,41 @@ export async function createDealerProvisionAction(formData: FormData) {
           } as never,
         },
       });
+
+      if (parsed.data.partnerLeadId) {
+        await tx.partnerLead.updateMany({
+          where: {
+            id: parsed.data.partnerLeadId,
+            deletedAt: null,
+          },
+          data: {
+            convertedDealerId: dealer.id,
+            status: "APPROVED",
+            archived: true,
+            decisionAt: new Date(),
+          },
+        });
+      }
     });
   } catch {
-    redirect("/admin?dealerError=duplicate");
+    redirect("/admin?view=dealers&dealerError=duplicate");
   }
 
-  redirect(`/admin?dealerCreated=${finalSlug}`);
+  const query = new URLSearchParams({
+    view: "dealers",
+    dealerCreated: finalSlug,
+    ownerEmail: parsed.data.ownerEmail,
+    ownerPassword: parsed.data.ownerPassword,
+  });
+  redirect(`/admin?${query.toString()}`);
 }
 
 export async function createPlatformVehicleAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
+  const platformDealer = await getPlatformDealerOrThrow();
 
   const schema = z.object({
-    dealerId: z.string().min(1),
     title: z.string().min(3).max(160),
     stockNumber: z.string().max(80).optional(),
     make: z.string().max(80).optional(),
@@ -480,13 +524,13 @@ export async function createPlatformVehicleAction(formData: FormData) {
     vinLast6: z.string().max(20).optional(),
     priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
     imageUrl: z.string().url().max(2000).optional(),
+    videoUrl: z.string().url().max(2000).optional(),
     description: z.string().max(5000).optional(),
     leasingEligible: z.string().optional(),
     availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
   });
 
   const parsed = schema.parse({
-    dealerId: String(formData.get("dealerId") ?? ""),
     title: String(formData.get("title") ?? "").trim(),
     stockNumber: String(formData.get("stockNumber") ?? "").trim() || undefined,
     make: String(formData.get("make") ?? "").trim() || undefined,
@@ -498,17 +542,19 @@ export async function createPlatformVehicleAction(formData: FormData) {
     vinLast6: String(formData.get("vinLast6") ?? "").trim() || undefined,
     priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
     imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
     availability: String(formData.get("availability") ?? "ON_SITE"),
   });
 
   const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
+  const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
   let slug = slugify(parsed.title);
   if (!slug) slug = uniqueSlug("vehicle");
 
   const existing = await prisma.vehicle.findFirst({
-    where: {dealerId: parsed.dealerId, slug},
+    where: {dealerId: platformDealer.id, slug},
     select: {id: true},
   });
 
@@ -516,7 +562,7 @@ export async function createPlatformVehicleAction(formData: FormData) {
 
   const vehicle = await prisma.vehicle.create({
     data: {
-      dealerId: parsed.dealerId,
+      dealerId: platformDealer.id,
       slug,
       title: parsed.title,
       stockNumber: parsed.stockNumber,
@@ -529,6 +575,7 @@ export async function createPlatformVehicleAction(formData: FormData) {
       vinLast6: parsed.vinLast6,
       priceCzk: parsed.priceCzk,
       imageUrl: uploadedImageUrl || parsed.imageUrl,
+      videoUrl: uploadedVideoUrl || parsed.videoUrl,
       description: parsed.description,
       leasingEligible: Boolean(parsed.leasingEligible),
       availability: parsed.availability,
@@ -539,11 +586,290 @@ export async function createPlatformVehicleAction(formData: FormData) {
   await writeAuditLog({
     action: "VEHICLE_CREATED",
     actorUserId: user.id,
-    dealerId: parsed.dealerId,
+    dealerId: platformDealer.id,
     vehicleId: vehicle.id,
-    message: `Central CRM created vehicle ${vehicle.title}.`,
+    message: `Central CRM created platform vehicle ${vehicle.title}.`,
   });
 
   revalidatePath("/admin");
+}
+
+export async function updatePlatformVehicleAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+  const platformDealer = await getPlatformDealerOrThrow();
+
+  const schema = z.object({
+    id: z.string().min(1),
+    title: z.string().min(3).max(160),
+    priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
+    imageUrl: z.string().url().max(2000).optional(),
+    videoUrl: z.string().url().max(2000).optional(),
+    description: z.string().max(5000).optional(),
+    availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]),
+    published: z.string().optional(),
+    featured: z.string().optional(),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+    title: String(formData.get("title") ?? "").trim(),
+    priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
+    imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
+    description: String(formData.get("description") ?? "").trim() || undefined,
+    availability: String(formData.get("availability") ?? ""),
+    published: formData.get("published") ? "on" : undefined,
+    featured: formData.get("featured") ? "on" : undefined,
+  });
+
+  const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
+  const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
+
+  const updated = await prisma.vehicle.updateMany({
+    where: {
+      id: parsed.id,
+      dealerId: platformDealer.id,
+      deletedAt: null,
+    },
+    data: {
+      title: parsed.title,
+      priceCzk: parsed.priceCzk,
+      imageUrl: uploadedImageUrl || parsed.imageUrl,
+      videoUrl: uploadedVideoUrl || parsed.videoUrl,
+      description: parsed.description,
+      availability: parsed.availability,
+      published: Boolean(parsed.published),
+      featured: Boolean(parsed.featured),
+    },
+  });
+
+  if (updated.count === 0) {
+    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+  }
+
+  await writeAuditLog({
+    action: "VEHICLE_UPDATED",
+    actorUserId: user.id,
+    dealerId: platformDealer.id,
+    vehicleId: parsed.id,
+    message: "Central CRM updated platform vehicle.",
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/uk/fleet");
+  revalidatePath("/cs/fleet");
+  revalidatePath("/en/fleet");
+}
+
+export async function markPlatformVehicleSoldAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+  const platformDealer = await getPlatformDealerOrThrow();
+
+  const schema = z.object({
+    id: z.string().min(1),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+  });
+
+  const updated = await prisma.vehicle.updateMany({
+    where: {
+      id: parsed.id,
+      dealerId: platformDealer.id,
+      deletedAt: null,
+    },
+    data: {
+      availability: "SOLD",
+      published: false,
+    },
+  });
+
+  if (updated.count === 0) {
+    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+  }
+
+  await writeAuditLog({
+    action: "VEHICLE_UPDATED",
+    actorUserId: user.id,
+    dealerId: platformDealer.id,
+    vehicleId: parsed.id,
+    message: "Central CRM marked platform vehicle as sold.",
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/uk/fleet");
+  revalidatePath("/cs/fleet");
+  revalidatePath("/en/fleet");
+}
+
+export async function deletePlatformVehicleAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+  const platformDealer = await getPlatformDealerOrThrow();
+
+  const schema = z.object({
+    id: z.string().min(1),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+  });
+
+  const updated = await prisma.vehicle.updateMany({
+    where: {
+      id: parsed.id,
+      dealerId: platformDealer.id,
+      deletedAt: null,
+    },
+    data: {
+      deletedAt: new Date(),
+      published: false,
+    },
+  });
+
+  if (updated.count === 0) {
+    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+  }
+
+  await writeAuditLog({
+    action: "VEHICLE_ARCHIVED",
+    actorUserId: user.id,
+    dealerId: platformDealer.id,
+    vehicleId: parsed.id,
+    message: "Central CRM deleted platform vehicle listing.",
+  });
+
+  revalidatePath("/admin");
+  revalidatePath("/uk/fleet");
+  revalidatePath("/cs/fleet");
+  revalidatePath("/en/fleet");
+}
+
+export async function createCareerVacancyAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+  const platformDealer = await getPlatformDealerOrThrow();
+
+  const schema = z.object({
+    title: z.string().min(3).max(160),
+    city: z.string().max(80).optional(),
+    employmentType: z.string().max(80).optional(),
+    description: z.string().max(5000).optional(),
+    contactEmail: z.string().email().max(200).optional(),
+    published: z.string().optional(),
+  });
+
+  const parsed = schema.parse({
+    title: String(formData.get("title") ?? "").trim(),
+    city: String(formData.get("city") ?? "").trim() || undefined,
+    employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
+    description: String(formData.get("description") ?? "").trim() || undefined,
+    contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
+    published: formData.get("published") ? "on" : undefined,
+  });
+
+  const vacancy = await prisma.vacancy.create({
+    data: {
+      dealerId: platformDealer.id,
+      title: parsed.title,
+      city: parsed.city,
+      employmentType: parsed.employmentType,
+      description: parsed.description,
+      contactEmail: parsed.contactEmail,
+      sortOrder: 0,
+      published: Boolean(parsed.published),
+    },
+  });
+
+  await writeAuditLog({
+    action: "VACANCY_CREATED",
+    actorUserId: user.id,
+    dealerId: platformDealer.id,
+    message: `Central CRM created vacancy ${vacancy.title}.`,
+  });
+
+  revalidatePath("/admin");
+  await revalidateCareerPages();
+}
+
+export async function updateCareerVacancyAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+    title: z.string().min(3).max(160),
+    city: z.string().max(80).optional(),
+    employmentType: z.string().max(80).optional(),
+    description: z.string().max(5000).optional(),
+    contactEmail: z.string().email().max(200).optional(),
+    published: z.string().optional(),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+    title: String(formData.get("title") ?? "").trim(),
+    city: String(formData.get("city") ?? "").trim() || undefined,
+    employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
+    description: String(formData.get("description") ?? "").trim() || undefined,
+    contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
+    published: formData.get("published") ? "on" : undefined,
+  });
+
+  const vacancy = await prisma.vacancy.update({
+    where: {id: parsed.id},
+    data: {
+      title: parsed.title,
+      city: parsed.city,
+      employmentType: parsed.employmentType,
+      description: parsed.description,
+      contactEmail: parsed.contactEmail,
+      published: Boolean(parsed.published),
+    },
+  });
+
+  await writeAuditLog({
+    action: "VACANCY_UPDATED",
+    actorUserId: user.id,
+    dealerId: vacancy.dealerId,
+    message: `Central CRM updated vacancy ${vacancy.title}.`,
+  });
+
+  revalidatePath("/admin");
+  await revalidateCareerPages();
+}
+
+export async function archiveCareerVacancyAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({
+    id: z.string().min(1),
+  });
+
+  const parsed = schema.parse({
+    id: String(formData.get("id") ?? ""),
+  });
+
+  const vacancy = await prisma.vacancy.update({
+    where: {id: parsed.id},
+    data: {
+      deletedAt: new Date(),
+      published: false,
+    },
+  });
+
+  await writeAuditLog({
+    action: "VACANCY_ARCHIVED",
+    actorUserId: user.id,
+    dealerId: vacancy.dealerId,
+    message: `Central CRM archived vacancy ${vacancy.title}.`,
+  });
+
+  revalidatePath("/admin");
+  await revalidateCareerPages();
 }
 

@@ -48,7 +48,6 @@ export async function POST(request: Request) {
       phone: parsed.data.phone,
       email: parsed.data.email,
       city: parsed.data.city,
-      website: parsed.data.website,
       fleetSize: parsed.data.fleetSize,
       message: parsed.data.message,
     },

@@ -5,6 +5,7 @@ import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PartnerGrid} from "@/components/shared/PartnerGrid";
 import {PageHero} from "@/components/site/PageHero";
 import {Link} from "@/i18n/navigation";
+import {PRIMARY_DOWNLOAD_URL} from "@/lib/appLinks";
 
 export default function ServicesPage() {
   const t = useTranslations("Services");
@@ -34,8 +35,23 @@ export default function ServicesPage() {
               {k: "leasing",  href: "/calculator"},
               {k: "vehicles", href: "/fleet"},
               {k: "fuel",     href: "/fuel"},
-              {k: "support",  href: "/apply"},
+              {k: "support",  href: PRIMARY_DOWNLOAD_URL, external: true},
             ].map(({k, href}) => (
+              k === "support" ? (
+                <a key={k} href={href} target="_blank" rel="noopener noreferrer"
+                  className="yask-card-on-white group rounded-2xl p-7 no-underline transition-all hover:border-[#FF7918]/30">
+                  <div className="w-8 h-1 rounded-full mb-4"
+                    style={{background: "linear-gradient(90deg,#FF7918,#FF9902)"}} />
+                  <div className="text-xl font-black" style={{color: "#3B3B3D"}}>{t(`cards.${k}Title` as never)}</div>
+                  <div className="mt-3 text-base leading-relaxed font-medium" style={{color: "rgba(59,59,61,0.68)"}}>
+                    {t(`cards.${k}Text` as never)}
+                  </div>
+                  <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity"
+                    style={{color: "#FF7918"}}>
+                    {t("learnMore")} <ArrowRight size={13}/>
+                  </div>
+                </a>
+              ) : (
               <Link key={k} href={href}
                 className="yask-card-on-white group rounded-2xl p-7 no-underline transition-all hover:border-[#FF7918]/30">
                 <div className="w-8 h-1 rounded-full mb-4"
@@ -46,11 +62,13 @@ export default function ServicesPage() {
                 </div>
                 <div className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold opacity-0 group-hover:opacity-100 transition-opacity"
                   style={{color: "#FF7918"}}>
-                  Детальніше <ArrowRight size={13}/>
+                  {t("learnMore")} <ArrowRight size={13}/>
                 </div>
               </Link>
+              )
             ))}
           </div>
+
         </div>
       </section>
 
@@ -75,9 +93,9 @@ export default function ServicesPage() {
       {/* Orange CTA */}
       <section className="section-gradient py-14 sm:py-16 cta-section">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
-          <p className="text-2xl font-black text-white">Access all services in the app</p>
+          <p className="text-2xl font-black text-white">{t("appCtaTitle")}</p>
           <p className="mt-2 text-base font-medium" style={{color: "rgba(255,255,255,0.78)"}}>
-            All partner offers, cashback and features — in one place.
+            {t("appCtaText")}
           </p>
           <div className="mt-6">
             <DownloadButtons />

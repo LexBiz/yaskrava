@@ -1,6 +1,6 @@
 import {Calendar, Fuel, Gauge, Settings2} from "lucide-react";
 import type {ReactNode} from "react";
-import {getTranslations} from "next-intl/server";
+import {getLocale, getTranslations} from "next-intl/server";
 import {notFound} from "next/navigation";
 
 import {LeasingCalculator} from "@/components/calculator/LeasingCalculator";
@@ -14,13 +14,28 @@ import {getCurrentDealerOrThrow} from "@/lib/tenant";
 
 export const dynamic = "force-dynamic";
 
-function formatCzk(value?: number | null) {
+function formatCzk(value: number | null | undefined, locale: string) {
   if (!value) return null;
-  return new Intl.NumberFormat("cs-CZ", {
+  return new Intl.NumberFormat(locale === "uk" ? "uk-UA" : locale === "cs" ? "cs-CZ" : "en-US", {
     style: "currency",
     currency: "CZK",
     maximumFractionDigits: 0,
   }).format(value);
+}
+
+function mapFuel(value: string | null | undefined, t: Awaited<ReturnType<typeof getTranslations>>) {
+  if (!value) return "—";
+  if (value === "Diesel") return t("demoFuelDiesel");
+  if (value === "Petrol") return t("demoFuelPetrol");
+  if (value === "Hybrid") return t("demoFuelHybrid");
+  return value;
+}
+
+function mapTransmission(value: string | null | undefined, t: Awaited<ReturnType<typeof getTranslations>>) {
+  if (!value) return "—";
+  if (value === "Automatic") return t("demoTransmissionAutomatic");
+  if (value === "Manual") return t("demoTransmissionManual");
+  return value;
 }
 
 export default async function VehicleDetailPage({
@@ -29,8 +44,10 @@ export default async function VehicleDetailPage({
   params: Promise<{slug: string}>;
 }) {
   const {slug} = await params;
+  const locale = await getLocale();
   const dealer = await getCurrentDealerOrThrow();
   const t = await getTranslations("VehicleDetail");
+  const tFleet = await getTranslations("Fleet");
 
   const vehicle = await prisma.vehicle.findFirst({
     where: {
@@ -51,7 +68,7 @@ export default async function VehicleDetailPage({
         variant="gradient"
         eyebrow={vehicle.availability === "IN_TRANSIT" ? t("statusInTransit") : t("statusOnSite")}
         title={vehicle.title}
-        subtitle={vehicle.description || t("subtitle")}
+        subtitle={vehicle.availability === "IN_TRANSIT" ? t("statusInTransitText") : t("statusOnSiteText")}
       >
         <div className="flex flex-wrap gap-3">
           <Link href="/fleet" className="btn-white">
@@ -80,11 +97,33 @@ export default async function VehicleDetailPage({
                 )}
               </div>
 
+              {vehicle.videoUrl ? (
+                <div className="mt-6 overflow-hidden rounded-3xl border border-gray-200 bg-white p-3">
+                  {vehicle.videoUrl.endsWith(".mp4") || vehicle.videoUrl.endsWith(".webm") || vehicle.videoUrl.endsWith(".mov") ? (
+                    <video
+                      src={vehicle.videoUrl}
+                      controls
+                      className="h-auto w-full rounded-2xl bg-black"
+                    />
+                  ) : (
+                    <div className="aspect-video overflow-hidden rounded-2xl">
+                      <iframe
+                        src={vehicle.videoUrl}
+                        title={`${vehicle.title} video`}
+                        className="h-full w-full"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                        allowFullScreen
+                      />
+                    </div>
+                  )}
+                </div>
+              ) : null}
+
               <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <SpecCard icon={<Calendar size={14} />} label={t("year")} value={vehicle.year?.toString() || "—"} />
                 <SpecCard icon={<Gauge size={14} />} label={t("mileage")} value={vehicle.mileageKm ? `${vehicle.mileageKm.toLocaleString()} km` : "—"} />
-                <SpecCard icon={<Fuel size={14} />} label={t("fuel")} value={vehicle.fuel || "—"} />
-                <SpecCard icon={<Settings2 size={14} />} label={t("gearbox")} value={vehicle.transmission || "—"} />
+                <SpecCard icon={<Fuel size={14} />} label={t("fuel")} value={mapFuel(vehicle.fuel, tFleet)} />
+                <SpecCard icon={<Settings2 size={14} />} label={t("gearbox")} value={mapTransmission(vehicle.transmission, tFleet)} />
               </div>
 
               <div className="mt-8 rounded-3xl border border-gray-200 bg-white p-6">
@@ -92,7 +131,7 @@ export default async function VehicleDetailPage({
                   {t("financingTitle")}
                 </div>
                 <div className="mt-3 text-3xl font-black" style={{color: "#FF7918"}}>
-                  {formatCzk(vehicle.priceCzk) || t("priceOnRequest")}
+                  {formatCzk(vehicle.priceCzk, locale) || t("priceOnRequest")}
                 </div>
                 <div className="mt-2 text-sm leading-7" style={{color: "rgba(59,59,61,0.68)"}}>
                   {t("financingText")}
@@ -101,11 +140,17 @@ export default async function VehicleDetailPage({
             </div>
 
             <div className="space-y-8">
-              <LeasingCalculator
-                initialPrice={vehicle.priceCzk || 600_000}
-                lockPrice={Boolean(vehicle.priceCzk)}
-                vehicleTitle={vehicle.title}
-              />
+              <div
+                className="section-charcoal overflow-hidden rounded-[28px] shadow-[0_28px_80px_-40px_rgba(0,0,0,0.55)]"
+                style={{border: "1px solid rgba(255,121,24,0.18)"}}
+              >
+                <LeasingCalculator
+                  initialPrice={vehicle.priceCzk || 600_000}
+                  lockPrice={Boolean(vehicle.priceCzk)}
+                  vehicleTitle={vehicle.title}
+                  compact
+                />
+              </div>
               <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
             </div>
           </div>

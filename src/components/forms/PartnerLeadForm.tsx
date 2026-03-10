@@ -11,7 +11,6 @@ export function PartnerLeadForm() {
   const [phone, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [city, setCity] = useState("");
-  const [website, setWebsite] = useState("");
   const [fleetSize, setFleetSize] = useState("");
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
@@ -36,7 +35,6 @@ export function PartnerLeadForm() {
           phone: phone.trim() || undefined,
           email: email.trim(),
           city: city.trim() || undefined,
-          website: website.trim() || undefined,
           fleetSize: fleetSize.trim() || undefined,
           message: message.trim() || undefined,
         }),
@@ -151,16 +149,6 @@ export function PartnerLeadForm() {
               onChange={(e) => setFleetSize(e.target.value)}
               className="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-[#FF7918]"
               placeholder={t("fleetSizePh")}
-            />
-          </label>
-
-          <label className="grid gap-1.5 sm:col-span-2">
-            <span className="text-xs font-semibold text-gray-600">{t("website")}</span>
-            <input
-              value={website}
-              onChange={(e) => setWebsite(e.target.value)}
-              className="h-12 rounded-2xl border border-gray-200 bg-white px-4 text-sm text-gray-800 outline-none placeholder:text-gray-400 focus:border-[#FF7918]"
-              placeholder="https://..."
             />
           </label>
 

@@ -1,3 +1,4 @@
+import Image from "next/image";
 import {useTranslations} from "next-intl";
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PageHero} from "@/components/site/PageHero";
@@ -24,27 +25,45 @@ export default function AboutPage() {
               </p>
             </div>
             <div className="lg:col-span-5">
-              <div className="rounded-2xl p-6"
-                style={{
-                  background: "linear-gradient(150deg, rgba(255,121,24,0.08), rgba(255,153,2,0.04))",
-                  border: "1px solid rgba(255,121,24,0.18)",
-                }}>
-                <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{color: "#FF7918"}}>
-                  {t("principlesTitle")}
-                </p>
-                <ul className="mt-4 space-y-3 text-sm" style={{color: "rgba(59,59,61,0.75)"}}>
-                  {(t.raw("principles") as string[]).map((p, i) => (
-                    <li key={i} className="flex items-start gap-2.5">
-                      <span className="mt-[3px] shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black text-white"
-                        style={{background: "linear-gradient(135deg,#FF7918,#FF9902)"}}>
-                        ✓
-                      </span>
-                      {p}
-                    </li>
-                  ))}
-                </ul>
+              <div className="overflow-hidden rounded-[26px] border border-[rgba(255,121,24,0.18)] bg-white shadow-[0_24px_70px_-36px_rgba(255,121,24,0.32)]">
+                <div className="relative h-56 sm:h-64">
+                  <Image
+                    src="/Photo1.jpg"
+                    alt={t("officialImageAlt")}
+                    fill
+                    sizes="(min-width: 1024px) 40vw, 100vw"
+                    className="object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-[rgba(25,18,12,0.76)] via-transparent to-transparent" />
+                </div>
+                <div className="p-6">
+                  <p className="text-sm leading-relaxed" style={{color: "rgba(59,59,61,0.70)"}}>
+                    {t("officialText")}
+                  </p>
+                </div>
               </div>
             </div>
+          </div>
+
+          <div className="mt-8 rounded-2xl p-6"
+            style={{
+              background: "linear-gradient(150deg, rgba(255,121,24,0.08), rgba(255,153,2,0.04))",
+              border: "1px solid rgba(255,121,24,0.18)",
+            }}>
+            <p className="text-[10px] font-bold uppercase tracking-[0.14em]" style={{color: "#FF7918"}}>
+              {t("principlesTitle")}
+            </p>
+            <ul className="mt-4 grid gap-3 md:grid-cols-2 text-sm" style={{color: "rgba(59,59,61,0.75)"}}>
+              {(t.raw("principles") as string[]).map((p, i) => (
+                <li key={i} className="flex items-start gap-2.5">
+                  <span className="mt-[3px] shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black text-white"
+                    style={{background: "linear-gradient(135deg,#FF7918,#FF9902)"}}>
+                    ✓
+                  </span>
+                  {p}
+                </li>
+              ))}
+            </ul>
           </div>
 
           <div className="mt-12 grid gap-4 md:grid-cols-3">
@@ -65,9 +84,9 @@ export default function AboutPage() {
       {/* Orange CTA */}
       <section className="section-gradient py-16 sm:py-20 cta-section">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
-          <p className="text-2xl font-black text-white">Приєднайтесь до Yaskrava</p>
+          <p className="text-2xl font-black text-white">{t("appCtaTitle")}</p>
           <p className="mt-2 text-base font-medium" style={{color: "rgba(255,255,255,0.78)"}}>
-            Завантажте застосунок і отримайте доступ до всіх можливостей платформи.
+            {t("appCtaText")}
           </p>
           <div className="mt-6">
             <DownloadButtons />
@@ -77,3 +96,4 @@ export default function AboutPage() {
     </div>
   );
 }
+

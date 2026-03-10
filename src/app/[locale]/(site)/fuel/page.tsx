@@ -112,9 +112,9 @@ export default function FuelPage() {
       {/* Orange download CTA */}
       <section className="section-gradient py-14 sm:py-16 cta-section">
         <div className="mx-auto max-w-7xl px-6 sm:px-10">
-          <p className="text-xl font-black text-white">Use fuel cashback right in the app</p>
+          <p className="text-xl font-black text-white">{t("appCtaTitle")}</p>
           <p className="mt-2 text-base font-medium" style={{color: "rgba(255,255,255,0.78)"}}>
-            Download Yaskrava to get started with Shell, ORLEN and more.
+            {t("appCtaText")}
           </p>
           <div className="mt-5"><DownloadButtons /></div>
         </div>

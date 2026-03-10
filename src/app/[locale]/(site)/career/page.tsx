@@ -1,23 +1,28 @@
-import {useTranslations} from "next-intl";
+import {getTranslations} from "next-intl/server";
 
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {PageHero} from "@/components/site/PageHero";
-import {Link} from "@/i18n/navigation";
+import {prisma} from "@/lib/prisma";
+import {getCurrentDealerOrThrow} from "@/lib/tenant";
 
-export default function CareerPage() {
-  const t = useTranslations("Career");
+export default async function CareerPage() {
+  const t = await getTranslations("Career");
+  const dealer = await getCurrentDealerOrThrow();
+  const vacancies = await prisma.vacancy.findMany({
+    where: {
+      dealerId: dealer.id,
+      deletedAt: null,
+      published: true,
+    },
+    orderBy: {createdAt: "desc"},
+    take: 30,
+  });
 
   return (
     <div>
       {/* Orange gradient hero */}
       <PageHero variant="gradient" title={t("title")} subtitle={t("subtitle")}>
-        <div className="flex flex-wrap gap-3">
-          <Link href="/apply" className="btn-white h-11 px-6 text-sm font-bold"
-            style={{background: "#FFFFFF", color: "#3B3B3D"}}>
-            {t("cta")}
-          </Link>
-          <DownloadButtons />
-        </div>
+        <DownloadButtons />
       </PageHero>
 
       {/* White — roles */}
@@ -37,6 +42,36 @@ export default function CareerPage() {
               <div className="mt-2 text-sm leading-7" style={{color: "rgba(59,59,61,0.68)"}}>{t("roles.opsText")}</div>
             </div>
           </div>
+
+          {vacancies.length ? (
+            <div className="mt-8">
+              <h2 className="text-xl font-extrabold" style={{color: "#3B3B3D"}}>{t("vacanciesTitle")}</h2>
+              <div className="mt-4 grid gap-4 md:grid-cols-2">
+                {vacancies.map((vacancy) => (
+                  <article key={vacancy.id} className="yask-card-on-white rounded-2xl p-6">
+                    <div className="text-base font-black" style={{color: "#3B3B3D"}}>{vacancy.title}</div>
+                    <div className="mt-2 text-xs font-semibold" style={{color: "rgba(59,59,61,0.52)"}}>
+                      {[vacancy.city, vacancy.employmentType].filter(Boolean).join(" • ") || t("vacancyDefaultMeta")}
+                    </div>
+                    {vacancy.description ? (
+                      <p className="mt-3 text-sm leading-7" style={{color: "rgba(59,59,61,0.70)"}}>
+                        {vacancy.description}
+                      </p>
+                    ) : null}
+                    {vacancy.contactEmail ? (
+                      <a
+                        href={`mailto:${vacancy.contactEmail}`}
+                        className="mt-4 inline-flex rounded-full px-4 py-2 text-xs font-bold no-underline"
+                        style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", color: "#fff"}}
+                      >
+                        {t("vacancyApply")} • {vacancy.contactEmail}
+                      </a>
+                    ) : null}
+                  </article>
+                ))}
+              </div>
+            </div>
+          ) : null}
         </div>
       </section>
 

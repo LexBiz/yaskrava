@@ -393,6 +393,7 @@ export const ModelName = {
   PartnerLead: 'PartnerLead',
   Vehicle: 'Vehicle',
   VehicleImage: 'VehicleImage',
+  Vacancy: 'Vacancy',
   FinancingCase: 'FinancingCase',
   AuditLog: 'AuditLog'
 } as const
@@ -410,7 +411,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "partnerLead" | "vehicle" | "vehicleImage" | "financingCase" | "auditLog"
+    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "partnerLead" | "vehicle" | "vehicleImage" | "vacancy" | "financingCase" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1080,6 +1081,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    Vacancy: {
+      payload: Prisma.$VacancyPayload<ExtArgs>
+      fields: Prisma.VacancyFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.VacancyFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.VacancyFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        findFirst: {
+          args: Prisma.VacancyFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.VacancyFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        findMany: {
+          args: Prisma.VacancyFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>[]
+        }
+        create: {
+          args: Prisma.VacancyCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        createMany: {
+          args: Prisma.VacancyCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.VacancyCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>[]
+        }
+        delete: {
+          args: Prisma.VacancyDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        update: {
+          args: Prisma.VacancyUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        deleteMany: {
+          args: Prisma.VacancyDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.VacancyUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.VacancyUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>[]
+        }
+        upsert: {
+          args: Prisma.VacancyUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$VacancyPayload>
+        }
+        aggregate: {
+          args: Prisma.VacancyAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateVacancy>
+        }
+        groupBy: {
+          args: Prisma.VacancyGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VacancyGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.VacancyCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.VacancyCountAggregateOutputType> | number
+        }
+      }
+    }
     FinancingCase: {
       payload: Prisma.$FinancingCasePayload<ExtArgs>
       fields: Prisma.FinancingCaseFieldRefs
@@ -1430,6 +1505,7 @@ export const VehicleScalarFieldEnum = {
   priceCzk: 'priceCzk',
   description: 'description',
   imageUrl: 'imageUrl',
+  videoUrl: 'videoUrl',
   vinLast6: 'vinLast6',
   dealerId: 'dealerId'
 } as const
@@ -1447,6 +1523,24 @@ export const VehicleImageScalarFieldEnum = {
 } as const
 
 export type VehicleImageScalarFieldEnum = (typeof VehicleImageScalarFieldEnum)[keyof typeof VehicleImageScalarFieldEnum]
+
+
+export const VacancyScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  deletedAt: 'deletedAt',
+  title: 'title',
+  city: 'city',
+  employmentType: 'employmentType',
+  description: 'description',
+  contactEmail: 'contactEmail',
+  sortOrder: 'sortOrder',
+  published: 'published',
+  dealerId: 'dealerId'
+} as const
+
+export type VacancyScalarFieldEnum = (typeof VacancyScalarFieldEnum)[keyof typeof VacancyScalarFieldEnum]
 
 
 export const FinancingCaseScalarFieldEnum = {
@@ -1865,6 +1959,7 @@ export type GlobalOmitConfig = {
   partnerLead?: Prisma.PartnerLeadOmit
   vehicle?: Prisma.VehicleOmit
   vehicleImage?: Prisma.VehicleImageOmit
+  vacancy?: Prisma.VacancyOmit
   financingCase?: Prisma.FinancingCaseOmit
   auditLog?: Prisma.AuditLogOmit
 }

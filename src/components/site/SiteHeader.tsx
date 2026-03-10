@@ -3,7 +3,7 @@
 import {Menu, X} from "lucide-react";
 import {useLocale, useTranslations} from "next-intl";
 import Image from "next/image";
-import {useMemo, useState} from "react";
+import {useEffect, useMemo, useRef, useState} from "react";
 
 import {Link, usePathname} from "@/i18n/navigation";
 import {cn} from "@/lib/cn";
@@ -22,9 +22,22 @@ type Props = {
 
 export function SiteHeader({}: Props) {
   const tNav = useTranslations("Nav");
+  const tHome = useTranslations("Home");
   const path = usePathname();
   const [open, setOpen] = useState(false);
   const locale = useLocale();
+  const menuRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!open) return;
+    function handleOutside(e: MouseEvent) {
+      if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+        setOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleOutside);
+    return () => document.removeEventListener("mousedown", handleOutside);
+  }, [open]);
 
   const nav = useMemo(() => [
     {href: "/about",    label: tNav("about")},
@@ -32,11 +45,11 @@ export function SiteHeader({}: Props) {
     {href: "/fleet",    label: tNav("fleet")},
     {href: "/fuel",     label: tNav("fuel")},
     {href: "/career",   label: tNav("career")},
-    {href: "/legal",    label: tNav("legal")},
   ], [tNav]);
 
   return (
     <header
+      ref={menuRef}
       className="sticky top-0 z-50 h-16 flex items-center"
       style={{
         background: "rgba(44, 44, 46, 0.95)",
@@ -99,6 +112,12 @@ export function SiteHeader({}: Props) {
           </div>
 
           <Link
+            href="/partner"
+            className="hidden lg:flex h-9 items-center px-4 rounded-full text-white/70 text-[12px] font-semibold hover:text-white hover:bg-white/[0.07] transition-all"
+          >
+            {tHome("ctaPartner")}
+          </Link>
+          <Link
             href="/calculator"
             className="hidden sm:flex h-9 items-center px-4 rounded-full text-white text-[12px] font-bold hover:brightness-105 transition-all"
             style={{
@@ -154,9 +173,9 @@ export function SiteHeader({}: Props) {
                 style={{background: "linear-gradient(135deg, #FF7918, #FF9902)", boxShadow: "0 4px 20px -6px rgba(255,121,24,0.60)"}}>
                 {tNav("calculator")}
               </Link>
-              <Link href="/apply" onClick={() => setOpen(false)}
-                className="h-11 flex items-center justify-center rounded-xl text-sm font-semibold text-white/70 border border-white/12 hover:border-white/25 transition-colors">
-                {tNav("apply")}
+              <Link href="/partner" onClick={() => setOpen(false)}
+                className="h-11 flex items-center justify-center rounded-xl text-sm font-semibold text-white/70 border border-white/12 hover:text-white hover:border-white/25 transition-colors">
+                {tHome("ctaPartner")}
               </Link>
             </div>
           </div>

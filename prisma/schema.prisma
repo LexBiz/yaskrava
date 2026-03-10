@@ -86,6 +86,9 @@ enum AuditAction {
   VEHICLE_CREATED
   VEHICLE_UPDATED
   VEHICLE_ARCHIVED
+  VACANCY_CREATED
+  VACANCY_UPDATED
+  VACANCY_ARCHIVED
 }
 
 model Dealer {
@@ -115,6 +118,7 @@ model Dealer {
   applications     Application[]
   convertedPartnerLeads PartnerLead[] @relation("ConvertedDealerPartnerLeads")
   vehicles         Vehicle[]
+  vacancies        Vacancy[]
   auditLogs        AuditLog[]
 }
 
@@ -298,6 +302,7 @@ model Vehicle {
   priceCzk      Int?
   description   String?
   imageUrl      String?
+  videoUrl      String?
 
   vinLast6      String?
   dealerId      String
@@ -324,6 +329,26 @@ model VehicleImage {
   vehicle    Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
 
   @@index([vehicleId, sortOrder])
+}
+
+model Vacancy {
+  id             String   @id @default(cuid())
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  deletedAt      DateTime?
+
+  title          String
+  city           String?
+  employmentType String?
+  description    String?
+  contactEmail   String?
+  sortOrder      Int      @default(0)
+  published      Boolean  @default(true)
+
+  dealerId       String
+  dealer         Dealer   @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+
+  @@index([dealerId, published, deletedAt, sortOrder])
 }
 
 model FinancingCase {

@@ -1,6 +1,5 @@
 import {ReactNode} from "react";
 
-import {GlobalPartnerSection} from "@/components/shared/GlobalPartnerSection";
 import {SiteFooter} from "@/components/site/SiteFooter";
 import {SiteHeader} from "@/components/site/SiteHeader";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
@@ -15,7 +14,6 @@ export default async function SiteLayout({children}: {children: ReactNode}) {
         accentColor={dealer.accentColor}
       />
       <main>{children}</main>
-      <GlobalPartnerSection />
       <SiteFooter
         brandPrimary={dealer.brandPrimary}
         brandSecondary={dealer.brandSecondary}

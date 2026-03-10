@@ -59,7 +59,6 @@ export const partnerLeadCreateSchema = z.object({
   phone: z.string().min(5).max(40).optional(),
   email: z.string().email().max(200),
   city: z.string().max(120).optional(),
-  website: z.string().url().max(300).optional(),
   fleetSize: z.string().max(80).optional(),
   message: z.string().max(5000).optional(),
 });

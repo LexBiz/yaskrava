@@ -1,5 +1,5 @@
 import {Calendar, Fuel, Gauge, Settings2} from "lucide-react";
-import {getTranslations} from "next-intl/server";
+import {getLocale, getTranslations} from "next-intl/server";
 
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {Container} from "@/components/site/Container";
@@ -22,85 +22,36 @@ type VehicleCardData = {
   imageUrl?: string | null;
 };
 
-const DEMO_TRANSIT: VehicleCardData[] = [
-  {
-    id: "demo-it-1",
-    title: "BMW 320d Touring",
-    year: 2021,
-    mileageKm: 74000,
-    fuel: "Diesel",
-    transmission: "Automatic",
-    priceCzk: 649000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1555215695-3004980ad54e?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "demo-it-2",
-    title: "Audi A4 Avant",
-    year: 2020,
-    mileageKm: 82000,
-    fuel: "Diesel",
-    transmission: "Automatic",
-    priceCzk: 589000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "demo-it-3",
-    title: "Škoda Kodiaq 2.0 TDI",
-    year: 2021,
-    mileageKm: 69000,
-    fuel: "Diesel",
-    transmission: "Automatic",
-    priceCzk: 739000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?auto=format&fit=crop&w=1200&q=80",
-  },
-];
-
-const DEMO_ONSITE: VehicleCardData[] = [
-  {
-    id: "demo-os-1",
-    title: "Toyota Corolla Hybrid",
-    year: 2022,
-    mileageKm: 51000,
-    fuel: "Hybrid",
-    transmission: "Automatic",
-    priceCzk: 469000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1583267746897-2cf415887172?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "demo-os-2",
-    title: "Volkswagen Passat Variant",
-    year: 2020,
-    mileageKm: 94000,
-    fuel: "Diesel",
-    transmission: "Automatic",
-    priceCzk: 519000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1605515298946-d062f2e9da53?auto=format&fit=crop&w=1200&q=80",
-  },
-  {
-    id: "demo-os-3",
-    title: "Hyundai Tucson 1.6 T-GDI",
-    year: 2021,
-    mileageKm: 63000,
-    fuel: "Petrol",
-    transmission: "Automatic",
-    priceCzk: 599000,
-    imageUrl:
-      "https://images.unsplash.com/photo-1563720223185-11003d516935?auto=format&fit=crop&w=1200&q=80",
-  },
-];
-
-function formatCzk(value?: number | null) {
+function formatCzk(value: number | null | undefined, locale: string) {
   if (!value) return null;
-  return new Intl.NumberFormat("cs-CZ", {
+  return new Intl.NumberFormat(locale, {
     style: "currency",
     currency: "CZK",
     maximumFractionDigits: 0,
   }).format(value);
+}
+
+function mapFuel(value: string | null | undefined, t: Awaited<ReturnType<typeof getTranslations>>) {
+  if (!value) return "—";
+  if (value === "Diesel") return t("demoFuelDiesel");
+  if (value === "Petrol") return t("demoFuelPetrol");
+  if (value === "Hybrid") return t("demoFuelHybrid");
+  return value;
+}
+
+function mapTransmission(value: string | null | undefined, t: Awaited<ReturnType<typeof getTranslations>>) {
+  if (!value) return "—";
+  if (value === "Automatic") return t("demoTransmissionAutomatic");
+  if (value === "Manual") return t("demoTransmissionManual");
+  return value;
+}
+
+function mapVehicleCopy(vehicle: VehicleCardData, t: Awaited<ReturnType<typeof getTranslations>>) {
+  return {
+    ...vehicle,
+    fuel: mapFuel(vehicle.fuel, t),
+    transmission: mapTransmission(vehicle.transmission, t),
+  };
 }
 
 function VehicleCard({
@@ -108,11 +59,25 @@ function VehicleCard({
   status,
   statusClass,
   openLabel,
+  locale,
+  labels,
+  onRequestLabel,
+  noImageLabel,
 }: {
   v: VehicleCardData;
   status: string;
   statusClass: string;
   openLabel: string;
+  locale: string;
+  labels: {
+    year: string;
+    mileage: string;
+    fuel: string;
+    gearbox: string;
+    priceFrom: string;
+  };
+  onRequestLabel: string;
+  noImageLabel: string;
 }) {
   return (
     <Link href={v.slug ? `/fleet/${v.slug}` : "/fleet"} className="block no-underline">
@@ -128,7 +93,7 @@ function VehicleCard({
           />
         ) : (
           <div className="h-full w-full flex items-center justify-center text-white/40 text-sm">
-            No image
+            {noImageLabel}
           </div>
         )}
         <div className="absolute top-3 left-3">
@@ -145,14 +110,14 @@ function VehicleCard({
           <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
             <div className="flex items-center gap-1.5 text-white/60">
               <Calendar size={13} />
-              Year
+              {labels.year}
             </div>
             <div className="mt-1 text-white font-semibold">{v.year ?? "—"}</div>
           </div>
           <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
             <div className="flex items-center gap-1.5 text-white/60">
               <Gauge size={13} />
-              Mileage
+              {labels.mileage}
             </div>
             <div className="mt-1 text-white font-semibold">
               {v.mileageKm ? `${v.mileageKm.toLocaleString()} km` : "—"}
@@ -161,23 +126,23 @@ function VehicleCard({
           <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
             <div className="flex items-center gap-1.5 text-white/60">
               <Fuel size={13} />
-              Fuel
+              {labels.fuel}
             </div>
             <div className="mt-1 text-white font-semibold">{v.fuel || "—"}</div>
           </div>
           <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
             <div className="flex items-center gap-1.5 text-white/60">
               <Settings2 size={13} />
-              Gearbox
+              {labels.gearbox}
             </div>
             <div className="mt-1 text-white font-semibold">{v.transmission || "—"}</div>
           </div>
         </div>
 
         <div className="mt-4 flex items-center justify-between">
-          <span className="text-xs text-white/55">Price from</span>
+          <span className="text-xs text-white/55">{labels.priceFrom}</span>
           <span className="text-sm font-black text-[var(--color-accent)]">
-            {formatCzk(v.priceCzk) || "on request"}
+            {formatCzk(v.priceCzk, locale) || onRequestLabel}
           </span>
         </div>
         <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity">
@@ -190,6 +155,7 @@ function VehicleCard({
 }
 
 export default async function FleetPage() {
+  const locale = await getLocale();
   const t = await getTranslations("Fleet");
   const dealer = await getCurrentDealerOrThrow();
 
@@ -224,12 +190,16 @@ export default async function FleetPage() {
     dbOnSite = [];
   }
 
-  const inTransit = dbInTransit.length
-    ? dbInTransit
-    : DEMO_TRANSIT;
-  const onSite = dbOnSite.length
-    ? dbOnSite
-    : DEMO_ONSITE;
+  const inTransit = dbInTransit.map((vehicle) => mapVehicleCopy(vehicle, t));
+  const onSite = dbOnSite.map((vehicle) => mapVehicleCopy(vehicle, t));
+  const hasVehicles = inTransit.length > 0 || onSite.length > 0;
+  const labels = {
+    year: t("year"),
+    mileage: t("mileage"),
+    fuel: t("fuel"),
+    gearbox: t("gearbox"),
+    priceFrom: t("priceFrom"),
+  };
 
   return (
     <div>
@@ -242,39 +212,69 @@ export default async function FleetPage() {
 
       <section className="section-charcoal py-14 sm:py-20">
         <Container>
+          {!hasVehicles ? (
+            <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-8 text-center shadow-[0_24px_60px_-36px_rgba(0,0,0,0.55)]">
+              <div className="section-accent-line mx-auto mb-5" />
+              <h2 className="text-2xl font-black text-white">{t("emptyTitle")}</h2>
+              <p className="mx-auto mt-3 max-w-2xl text-sm leading-7 text-white/70">
+                {t("emptyText")}
+              </p>
+            </div>
+          ) : (
           <div className="grid gap-12">
             <div>
               <h2 className="text-2xl font-black text-white">{t("inTransitTitle")}</h2>
               <p className="mt-2 text-sm text-white/70">{t("inTransitText")}</p>
-              <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
-                {inTransit.map((v) => (
-                  <VehicleCard
-                    key={v.id}
-                    v={v}
-                    status={t("statusInTransit")}
-                    statusClass="bg-amber-400/20 text-amber-300 border border-amber-300/30"
-                    openLabel={t("openVehicle")}
-                  />
-                ))}
-              </div>
+              {inTransit.length ? (
+                <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                  {inTransit.map((v) => (
+                    <VehicleCard
+                      key={v.id}
+                      v={v}
+                      status={t("statusInTransit")}
+                      statusClass="bg-amber-400/20 text-amber-300 border border-amber-300/30"
+                      openLabel={t("openVehicle")}
+                      locale={locale}
+                      labels={labels}
+                      onRequestLabel={t("priceOnRequest")}
+                      noImageLabel={t("noImage")}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm text-white/60">
+                  {t("emptyTransit")}
+                </div>
+              )}
             </div>
 
             <div>
               <h2 className="text-2xl font-black text-white">{t("onSiteTitle")}</h2>
               <p className="mt-2 text-sm text-white/70">{t("onSiteText")}</p>
-              <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
-                {onSite.map((v) => (
-                  <VehicleCard
-                    key={v.id}
-                    v={v}
-                    status={t("statusOnSite")}
-                    statusClass="bg-emerald-400/20 text-emerald-300 border border-emerald-300/30"
-                    openLabel={t("openVehicle")}
-                  />
-                ))}
-              </div>
+              {onSite.length ? (
+                <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                  {onSite.map((v) => (
+                    <VehicleCard
+                      key={v.id}
+                      v={v}
+                      status={t("statusOnSite")}
+                      statusClass="bg-emerald-400/20 text-emerald-300 border border-emerald-300/30"
+                      openLabel={t("openVehicle")}
+                      locale={locale}
+                      labels={labels}
+                      onRequestLabel={t("priceOnRequest")}
+                      noImageLabel={t("noImage")}
+                    />
+                  ))}
+                </div>
+              ) : (
+                <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm text-white/60">
+                  {t("emptyOnSite")}
+                </div>
+              )}
             </div>
           </div>
+          )}
         </Container>
       </section>
     </div>

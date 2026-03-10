@@ -30,26 +30,23 @@ export default function HomePage() {
 
   return (
     <>
-      {/* ══ HERO — Warm amber brand gradient ════════════════ */}
-      <section
-        className="relative overflow-hidden"
-        style={{
-          background: "linear-gradient(160deg, #3D2A12 0%, #2F1F0C 35%, #251809 70%, #1C1208 100%)",
-          backgroundImage:
-            "linear-gradient(160deg, #3D2A12 0%, #2F1F0C 35%, #251809 70%, #1C1208 100%)," +
-            "radial-gradient(ellipse 65% 65% at -5% -10%, rgba(254,147,2,0.18) 0%, transparent 55%)," +
-            "radial-gradient(ellipse 45% 50% at 100% 100%, rgba(255,90,42,0.10) 0%, transparent 50%)",
-        }}
-      >
+      {/* ══ HERO — Charcoal brand dark ══════════════════════ */}
+      <section className="relative overflow-hidden" style={{background: "#3B3B3D"}}>
+        <div className="absolute inset-0 pointer-events-none"
+          style={{
+            background:
+              "radial-gradient(ellipse 60% 70% at -5% -10%, rgba(255,121,24,0.16) 0%, transparent 55%)," +
+              "radial-gradient(ellipse 40% 50% at 105% 100%, rgba(255,153,2,0.10) 0%, transparent 50%)",
+          }}
+        />
         {/* Grid texture */}
         <div className="absolute inset-0 pointer-events-none"
           style={{
             backgroundImage:
-              "linear-gradient(rgba(255,200,100,1) 1px, transparent 1px)," +
-              "linear-gradient(90deg, rgba(255,200,100,1) 1px, transparent 1px)",
+              "linear-gradient(rgba(255,255,255,1) 1px, transparent 1px)," +
+              "linear-gradient(90deg, rgba(255,255,255,1) 1px, transparent 1px)",
             backgroundSize: "80px 80px",
-            opacity: 0.018,
-            maskImage: "radial-gradient(ellipse 75% 80% at 30% 30%, black 10%, transparent 100%)",
+            opacity: 0.030,
           }}
         />
 

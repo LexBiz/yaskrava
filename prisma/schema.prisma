@@ -119,6 +119,7 @@ model Dealer {
   convertedPartnerLeads PartnerLead[] @relation("ConvertedDealerPartnerLeads")
   vehicles         Vehicle[]
   vacancies        Vacancy[]
+  dailyMetrics     DealerDailyMetric[]
   auditLogs        AuditLog[]
 }
 
@@ -368,6 +369,24 @@ model FinancingCase {
 
   application           Application      @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   assignedYaskravaUser  AdminUser?       @relation("YaskravaAssignedFinancingCases", fields: [assignedYaskravaUserId], references: [id], onDelete: SetNull)
+}
+
+model DealerDailyMetric {
+  id                   String   @id @default(cuid())
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+
+  date                 DateTime
+  vehicleCount         Int      @default(0)
+  applicationsTotal    Int      @default(0)
+  applicationsApproved Int      @default(0)
+  applicationsRejected Int      @default(0)
+
+  dealerId             String
+  dealer               Dealer   @relation(fields: [dealerId], references: [id], onDelete: Cascade)
+
+  @@unique([dealerId, date])
+  @@index([date])
 }
 
 model AuditLog {

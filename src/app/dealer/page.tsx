@@ -16,6 +16,7 @@ import {
   resolveDealerCrmLocale,
   topicLabels,
 } from "@/lib/crmCopy";
+import {getDealerMetricSummary} from "@/lib/dealerMetrics";
 import {requireDealerUser} from "@/lib/auth";
 import {prisma} from "@/lib/prisma";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
@@ -54,7 +55,7 @@ export default async function DealerDashboard({
   const dealer = await getCurrentDealerOrThrow();
   const {user, membership} = await requireDealerUser(dealer.id);
 
-  const [applications, vehicles] = await Promise.all([
+  const [applications, vehicles, metrics] = await Promise.all([
     prisma.application.findMany({
       where: {
         dealerId: dealer.id,
@@ -74,6 +75,7 @@ export default async function DealerDashboard({
       orderBy: {createdAt: "desc"},
       take: 100,
     }),
+    getDealerMetricSummary(dealer.id),
   ]);
   const visibleVehicles = vehicles.filter((vehicle) => {
     if (inventoryFilter === "on_site") return vehicle.availability === "ON_SITE";
@@ -114,20 +116,21 @@ export default async function DealerDashboard({
           <Link href="/dealer?lang=cs" className={locale === "cs" ? "text-white" : "text-white/45"}>CS</Link>
         </div>
 
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
-          <MetricCard label={t.vehicles} value={String(vehicles.length)} />
-          <MetricCard label={t.leads} value={String(applications.length)} />
-          <MetricCard
-            label={t.openFinancing}
-            value={String(
-              applications.filter(
-                (item) =>
-                  item.financingStatus !== "APPROVED" &&
-                  item.financingStatus !== "REJECTED" &&
-                  item.financingStatus !== "FUNDED"
-              ).length
-            )}
-          />
+        <div className="mt-8 grid gap-4 md:grid-cols-4">
+          <MetricCard label={t.vehicles} value={String(metrics.vehicleCount)} />
+          <MetricCard label={t.leads} value={String(metrics.applicationsTotal)} />
+          <MetricCard label={locale === "cs" ? "Schváleno" : "Схвалено"} value={String(metrics.applicationsApproved)} />
+          <MetricCard label={locale === "cs" ? "Zamítnuto" : "Відхилено"} value={String(metrics.applicationsRejected)} />
+        </div>
+
+        <div className="mt-3 text-right text-xs text-white/45">
+          {metrics.latestSnapshotDate
+            ? `${locale === "cs" ? "Poslední denní snapshot" : "Останній daily snapshot"}: ${new Date(
+                metrics.latestSnapshotDate
+              ).toLocaleDateString()}`
+            : locale === "cs"
+              ? "Denní snapshot zatím nebyl vytvořen"
+              : "Daily snapshot ще не створено"}
         </div>
 
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">

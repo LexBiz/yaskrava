@@ -62,6 +62,7 @@ export const ModelName = {
   VehicleImage: 'VehicleImage',
   Vacancy: 'Vacancy',
   FinancingCase: 'FinancingCase',
+  DealerDailyMetric: 'DealerDailyMetric',
   AuditLog: 'AuditLog'
 } as const
 
@@ -297,6 +298,21 @@ export const FinancingCaseScalarFieldEnum = {
 } as const
 
 export type FinancingCaseScalarFieldEnum = (typeof FinancingCaseScalarFieldEnum)[keyof typeof FinancingCaseScalarFieldEnum]
+
+
+export const DealerDailyMetricScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  date: 'date',
+  vehicleCount: 'vehicleCount',
+  applicationsTotal: 'applicationsTotal',
+  applicationsApproved: 'applicationsApproved',
+  applicationsRejected: 'applicationsRejected',
+  dealerId: 'dealerId'
+} as const
+
+export type DealerDailyMetricScalarFieldEnum = (typeof DealerDailyMetricScalarFieldEnum)[keyof typeof DealerDailyMetricScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {

@@ -73,6 +73,11 @@ export type Vacancy = Prisma.VacancyModel
  */
 export type FinancingCase = Prisma.FinancingCaseModel
 /**
+ * Model DealerDailyMetric
+ * 
+ */
+export type DealerDailyMetric = Prisma.DealerDailyMetricModel
+/**
  * Model AuditLog
  * 
  */

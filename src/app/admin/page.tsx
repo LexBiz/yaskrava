@@ -24,6 +24,7 @@ import {
   partnerStatusLabels,
   topicLabels,
 } from "@/lib/crmCopy";
+import {getDealerMetricsMap} from "@/lib/dealerMetrics";
 import {prisma} from "@/lib/prisma";
 import {getDealerCrmUrl, getDealerPublicUrl} from "@/lib/tenant";
 
@@ -148,8 +149,6 @@ export default async function AdminDashboard({
     activeUsers,
     dealerList,
     platformDealer,
-    appsByDealer,
-    financingByDealer,
   ] = await Promise.all([
     prisma.application.findMany({
       where: {deletedAt: null},
@@ -194,19 +193,6 @@ export default async function AdminDashboard({
       where: {slug: platformDealerSlug},
       select: {id: true, name: true, slug: true},
     }),
-    prisma.application.groupBy({
-      by: ["dealerId"],
-      where: {deletedAt: null},
-      _count: {_all: true},
-    }),
-    prisma.application.groupBy({
-      by: ["dealerId", "financingStatus"],
-      where: {
-        deletedAt: null,
-        financingStatus: {in: ["APPROVED", "FUNDED", "REJECTED"]},
-      },
-      _count: {_all: true},
-    }),
   ]);
 
   const [vacancies, yaskravaVehicles] = platformDealer
@@ -230,24 +216,7 @@ export default async function AdminDashboard({
       ])
     : [[], []];
 
-  const dealerMetrics = new Map<string, {total: number; approved: number; rejected: number}>();
-  for (const row of appsByDealer) {
-    dealerMetrics.set(row.dealerId, {
-      total: row._count._all,
-      approved: 0,
-      rejected: 0,
-    });
-  }
-  for (const row of financingByDealer) {
-    const current = dealerMetrics.get(row.dealerId) || {total: 0, approved: 0, rejected: 0};
-    if (row.financingStatus === "APPROVED" || row.financingStatus === "FUNDED") {
-      current.approved += row._count._all;
-    }
-    if (row.financingStatus === "REJECTED") {
-      current.rejected += row._count._all;
-    }
-    dealerMetrics.set(row.dealerId, current);
-  }
+  const dealerMetrics = await getDealerMetricsMap(dealerList.map((dealer) => dealer.id));
 
   const leadsNew = applications.filter((item) => item.status === "NEW").length;
   const partnerNew = partnerLeads.filter((item) => item.status === "NEW").length;
@@ -670,7 +639,13 @@ export default async function AdminDashboard({
               <div className="mt-5 grid gap-4 xl:grid-cols-2">
                 {pagedDealers.map((dealer) => {
                   const owner = dealer.memberships.find((item) => item.role === "DEALER_OWNER")?.user;
-                  const kpi = dealerMetrics.get(dealer.id) || {total: 0, approved: 0, rejected: 0};
+                  const kpi = dealerMetrics.get(dealer.id) || {
+                    applicationsTotal: 0,
+                    applicationsApproved: 0,
+                    applicationsRejected: 0,
+                    vehicleCount: 0,
+                    latestSnapshotDate: null,
+                  };
                   return (
                     <article key={dealer.id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-4">
                       <div className="flex items-start justify-between gap-3">
@@ -695,9 +670,23 @@ export default async function AdminDashboard({
                         </div>
                       </div>
                       <div className="mt-4 flex flex-wrap gap-3 text-xs text-white/75">
-                        <span>{t.dealerLeads}: {kpi.total}</span>
-                        <span className="text-emerald-300">{t.dealerApproved}: {kpi.approved}</span>
-                        <span className="text-red-300">{t.dealerRejected}: {kpi.rejected}</span>
+                        <span>Авто: {kpi.vehicleCount}</span>
+                        <span>{t.dealerLeads}: {kpi.applicationsTotal}</span>
+                        <span className="text-emerald-300">{t.dealerApproved}: {kpi.applicationsApproved}</span>
+                        <span className="text-red-300">{t.dealerRejected}: {kpi.applicationsRejected}</span>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between gap-3">
+                        <div className="text-[11px] text-white/45">
+                          {kpi.latestSnapshotDate
+                            ? `Daily snapshot: ${new Date(kpi.latestSnapshotDate).toLocaleDateString()}`
+                            : "Daily snapshot pending"}
+                        </div>
+                        <a
+                          href={`/admin/dealers/${dealer.id}`}
+                          className="inline-flex h-9 items-center rounded-full border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10"
+                        >
+                          Деталі дилера
+                        </a>
                       </div>
                     </article>
                   );

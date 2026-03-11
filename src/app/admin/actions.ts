@@ -408,6 +408,35 @@ export async function createDealerProvisionAction(formData: FormData) {
   const hostname = buildDealerHostname(finalSlug);
   const passwordHash = await hash(parsed.data.ownerPassword, 12);
 
+  const [existingDealer, existingDomain, existingOwner] = await Promise.all([
+    prisma.dealer.findUnique({
+      where: {slug: finalSlug},
+      select: {id: true},
+    }),
+    prisma.dealerDomain.findUnique({
+      where: {hostname},
+      select: {id: true},
+    }),
+    prisma.adminUser.findUnique({
+      where: {email: parsed.data.ownerEmail},
+      include: {
+        memberships: {
+          where: {isActive: true},
+          select: {dealerId: true},
+        },
+      },
+    }),
+  ]);
+
+  if (
+    existingDealer ||
+    existingDomain ||
+    existingOwner?.platformRole ||
+    (existingOwner?.memberships.length ?? 0) > 0
+  ) {
+    redirect("/admin?view=dealers&dealerError=duplicate");
+  }
+
   try {
     await prisma.$transaction(async (tx) => {
       const dealer = await tx.dealer.create({
@@ -429,15 +458,8 @@ export async function createDealerProvisionAction(formData: FormData) {
         },
       });
 
-      const owner = await tx.adminUser.upsert({
-        where: {email: parsed.data.ownerEmail},
-        update: {
-          passwordHash,
-          firstName: parsed.data.ownerFirstName,
-          lastName: parsed.data.ownerLastName,
-          isActive: true,
-        },
-        create: {
+      const owner = await tx.adminUser.create({
+        data: {
           email: parsed.data.ownerEmail,
           passwordHash,
           firstName: parsed.data.ownerFirstName,

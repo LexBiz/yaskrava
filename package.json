@@ -9,7 +9,11 @@
     "lint": "eslint",
     "db:seed": "tsx prisma/seed.ts",
     "db:migrate": "prisma migrate dev",
-    "db:generate": "prisma generate"
+    "db:generate": "prisma generate",
+    "metrics:snapshot": "tsx scripts/snapshot-dealer-metrics.ts",
+    "backup:db": "tsx scripts/backup-db.ts",
+    "backup:uploads": "tsx scripts/backup-uploads.ts",
+    "backup:all": "npm run backup:db && npm run backup:uploads"
   },
   "dependencies": {
     "@prisma/adapter-pg": "^7.4.2",

@@ -395,6 +395,7 @@ export const ModelName = {
   VehicleImage: 'VehicleImage',
   Vacancy: 'Vacancy',
   FinancingCase: 'FinancingCase',
+  DealerDailyMetric: 'DealerDailyMetric',
   AuditLog: 'AuditLog'
 } as const
 
@@ -411,7 +412,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "partnerLead" | "vehicle" | "vehicleImage" | "vacancy" | "financingCase" | "auditLog"
+    modelProps: "dealer" | "dealerDomain" | "adminUser" | "dealerMembership" | "userSession" | "application" | "partnerLead" | "vehicle" | "vehicleImage" | "vacancy" | "financingCase" | "dealerDailyMetric" | "auditLog"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -1229,6 +1230,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         }
       }
     }
+    DealerDailyMetric: {
+      payload: Prisma.$DealerDailyMetricPayload<ExtArgs>
+      fields: Prisma.DealerDailyMetricFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.DealerDailyMetricFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.DealerDailyMetricFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        findFirst: {
+          args: Prisma.DealerDailyMetricFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.DealerDailyMetricFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        findMany: {
+          args: Prisma.DealerDailyMetricFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>[]
+        }
+        create: {
+          args: Prisma.DealerDailyMetricCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        createMany: {
+          args: Prisma.DealerDailyMetricCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.DealerDailyMetricCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>[]
+        }
+        delete: {
+          args: Prisma.DealerDailyMetricDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        update: {
+          args: Prisma.DealerDailyMetricUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        deleteMany: {
+          args: Prisma.DealerDailyMetricDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.DealerDailyMetricUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.DealerDailyMetricUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>[]
+        }
+        upsert: {
+          args: Prisma.DealerDailyMetricUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$DealerDailyMetricPayload>
+        }
+        aggregate: {
+          args: Prisma.DealerDailyMetricAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateDealerDailyMetric>
+        }
+        groupBy: {
+          args: Prisma.DealerDailyMetricGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DealerDailyMetricGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.DealerDailyMetricCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.DealerDailyMetricCountAggregateOutputType> | number
+        }
+      }
+    }
     AuditLog: {
       payload: Prisma.$AuditLogPayload<ExtArgs>
       fields: Prisma.AuditLogFieldRefs
@@ -1558,6 +1633,21 @@ export const FinancingCaseScalarFieldEnum = {
 } as const
 
 export type FinancingCaseScalarFieldEnum = (typeof FinancingCaseScalarFieldEnum)[keyof typeof FinancingCaseScalarFieldEnum]
+
+
+export const DealerDailyMetricScalarFieldEnum = {
+  id: 'id',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  date: 'date',
+  vehicleCount: 'vehicleCount',
+  applicationsTotal: 'applicationsTotal',
+  applicationsApproved: 'applicationsApproved',
+  applicationsRejected: 'applicationsRejected',
+  dealerId: 'dealerId'
+} as const
+
+export type DealerDailyMetricScalarFieldEnum = (typeof DealerDailyMetricScalarFieldEnum)[keyof typeof DealerDailyMetricScalarFieldEnum]
 
 
 export const AuditLogScalarFieldEnum = {
@@ -1961,6 +2051,7 @@ export type GlobalOmitConfig = {
   vehicleImage?: Prisma.VehicleImageOmit
   vacancy?: Prisma.VacancyOmit
   financingCase?: Prisma.FinancingCaseOmit
+  dealerDailyMetric?: Prisma.DealerDailyMetricOmit
   auditLog?: Prisma.AuditLogOmit
 }
 

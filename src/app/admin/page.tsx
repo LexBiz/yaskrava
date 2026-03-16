@@ -17,7 +17,9 @@ import {
   deletePlatformVehicleAction,
   deactivateDealerAction,
   reactivateDealerAction,
+  resetDealerPasswordAction,
 } from "@/app/admin/actions";
+import {ConfirmForm} from "@/app/admin/ConfirmForm";
 import {requireAdmin} from "@/lib/adminAuth";
 import {
   adminCrmUk,
@@ -28,7 +30,7 @@ import {
 } from "@/lib/crmCopy";
 import {getDealerMetricsMap} from "@/lib/dealerMetrics";
 import {prisma} from "@/lib/prisma";
-import {getDealerCrmUrl, getDealerPublicUrl} from "@/lib/tenant";
+import {buildDealerHostname, getDealerCrmUrl, getDealerPublicUrl} from "@/lib/tenant";
 
 const STATUS_OPTIONS = [
   "NEW",
@@ -139,6 +141,8 @@ export default async function AdminDashboard({
     dealerLeadPage?: string | string[];
     dealerPage?: string | string[];
     vehiclePage?: string | string[];
+    newPwdDealerId?: string | string[];
+    newPwd?: string | string[];
   }>;
 }) {
   const t = adminCrmUk;
@@ -154,6 +158,8 @@ export default async function AdminDashboard({
   const dealerError = sp("dealerError");
   const ownerEmail = sp("ownerEmail");
   const ownerPassword = sp("ownerPassword");
+  const newPwdDealerId = sp("newPwdDealerId");
+  const newPwd = sp("newPwd");
   const vehicleSaved = sp("vehicleSaved");
   const vehicleError = sp("vehicleError");
   const vacancySaved = sp("vacancySaved");
@@ -995,58 +1001,103 @@ export default async function AdminDashboard({
               {/* Dealer network */}
               <section className="mt-8">
                 <h2 className="mb-3 text-base font-bold text-white">{t.dealerNetwork}</h2>
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-4">
                   {pagedDealers.map((dealer) => {
                     const owner = dealer.memberships.find((m) => m.role === "DEALER_OWNER")?.user;
                     const kpi = dealerMetrics.get(dealer.id) || {vehicleCount:0, applicationsTotal:0, applicationsApproved:0, applicationsRejected:0, latestSnapshotDate:null};
+                    const isActive = dealer.status === "ACTIVE";
+                    const justReset = newPwdDealerId === dealer.id && newPwd;
+                    const crmUrl = getDealerCrmUrl(dealer.slug);
+                    const pubUrl = getDealerPublicUrl(dealer.slug);
                     return (
-                      <article key={dealer.id} className={SECTION}>
-                        <div className="flex items-start justify-between gap-2">
+                      <article key={dealer.id} className="rounded-2xl border border-white/10 bg-white/[0.03] overflow-hidden">
+                        {/* Header row */}
+                        <div className="flex items-start justify-between gap-3 px-5 pt-4 pb-3">
                           <div className="min-w-0">
-                            <div className="text-sm font-bold text-white">{dealer.name}</div>
-                            <div className="mt-0.5 text-xs text-white/40">{dealer.slug} · {dealer.status}</div>
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className="text-sm font-bold text-white">{dealer.name}</span>
+                              <span className={`rounded-full border px-2 py-0.5 text-[10px] font-bold ${isActive ? "border-emerald-500/25 bg-emerald-500/10 text-emerald-300" : "border-red-500/25 bg-red-500/10 text-red-300"}`}>
+                                {isActive ? "Активний" : "Деактивовано"}
+                              </span>
+                            </div>
+                            <div className="mt-0.5 text-[11px] text-white/35">{dealer.slug}</div>
                           </div>
-                          <span className="shrink-0 rounded-lg border border-emerald-500/25 bg-emerald-500/10 px-2 py-1 text-[10px] font-bold text-emerald-300">
-                            Активний
+                          <div className="flex shrink-0 items-center gap-1.5">
+                            <a href={`/admin/dealers/${dealer.id}`} className={BTN_GHOST_SM}>Деталі →</a>
+                          </div>
+                        </div>
+
+                        {/* Credentials block */}
+                        <div className="mx-5 mb-3 rounded-xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/5 p-3 grid gap-2">
+                          <div className="text-[10px] font-bold uppercase tracking-wider text-[var(--color-accent)]/70 mb-0.5">Дані для входу в міні-CRM дилера</div>
+
+                          {/* Site + CRM URLs */}
+                          <div className="grid gap-1 text-[12px]">
+                            <div className="flex items-center gap-2">
+                              <span className="w-14 shrink-0 text-white/40">Сайт</span>
+                              <a href={pubUrl} target="_blank" rel="noopener noreferrer"
+                                className="truncate font-mono text-[var(--color-accent)] hover:underline">{pubUrl}</a>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="w-14 shrink-0 text-white/40">CRM вхід</span>
+                              <a href={crmUrl} target="_blank" rel="noopener noreferrer"
+                                className="truncate font-mono text-[var(--color-accent)] hover:underline">{crmUrl}</a>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="w-14 shrink-0 text-white/40">Email</span>
+                              <span className="font-mono text-white/80 select-all">{owner?.email || "—"}</span>
+                            </div>
+                            <div className="flex items-center gap-2">
+                              <span className="w-14 shrink-0 text-white/40">Пароль</span>
+                              {justReset ? (
+                                <span className="font-mono font-bold text-emerald-300 select-all bg-emerald-500/10 px-2 py-0.5 rounded-lg">{newPwd} — збережіть!</span>
+                              ) : (
+                                <form action={resetDealerPasswordAction} className="inline-flex items-center gap-2">
+                                  <input type="hidden" name="id" value={dealer.id} />
+                                  <span className="text-white/30 italic text-[11px]">захищений ·</span>
+                                  <button type="submit"
+                                    className="text-[11px] font-semibold text-[var(--color-accent)] hover:underline">
+                                    🔑 Згенерувати новий
+                                  </button>
+                                </form>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* KPI row */}
+                        <div className="flex flex-wrap items-center gap-x-4 gap-y-1 px-5 pb-3 text-xs">
+                          <span className="text-white/50">Авто: <strong className="text-white">{kpi.vehicleCount}</strong></span>
+                          <span className="text-white/50">Заявки: <strong className="text-white">{kpi.applicationsTotal}</strong></span>
+                          <span className="text-emerald-400">✓ {kpi.applicationsApproved} схвалено</span>
+                          <span className="text-red-400">✕ {kpi.applicationsRejected} відхилено</span>
+                          <span className="ml-auto text-white/25 text-[10px]">
+                            {kpi.latestSnapshotDate ? new Date(kpi.latestSnapshotDate).toLocaleDateString("uk") : ""}
                           </span>
                         </div>
 
-                        <div className="mt-3 grid gap-1 text-[11px] text-white/40">
-                          <div className="truncate">{getDealerPublicUrl(dealer.slug)}</div>
-                          <div>{owner?.email || "—"}</div>
-                        </div>
-
-                        <div className="mt-3 flex flex-wrap gap-3 text-xs">
-                          <span className="text-white/60">Авто: <strong className="text-white">{kpi.vehicleCount}</strong></span>
-                          <span className="text-white/60">Заявки: <strong className="text-white">{kpi.applicationsTotal}</strong></span>
-                          <span className="text-emerald-400">✓ {kpi.applicationsApproved}</span>
-                          <span className="text-red-400">✕ {kpi.applicationsRejected}</span>
-                        </div>
-
-                        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
-                          <div className="text-[11px] text-white/30">
-                            {kpi.latestSnapshotDate
-                              ? `Snapshot: ${new Date(kpi.latestSnapshotDate).toLocaleDateString("uk")}`
-                              : "Snapshot pending"}
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {dealer.status === "ACTIVE" ? (
-                              <form action={deactivateDealerAction}>
-                                <input type="hidden" name="id" value={dealer.id} />
-                                <button type="submit" className="inline-flex h-7 items-center rounded-lg border border-red-500/30 bg-red-500/10 px-2.5 text-[11px] font-bold text-red-400 hover:bg-red-500/20 transition">
-                                  Деактивувати
-                                </button>
-                              </form>
-                            ) : (
-                              <form action={reactivateDealerAction}>
-                                <input type="hidden" name="id" value={dealer.id} />
-                                <button type="submit" className="inline-flex h-7 items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 text-[11px] font-bold text-emerald-400 hover:bg-emerald-500/20 transition">
-                                  Активувати
-                                </button>
-                              </form>
-                            )}
-                            <a href={`/admin/dealers/${dealer.id}`} className={BTN_GHOST_SM}>Деталі →</a>
-                          </div>
+                        {/* Danger zone */}
+                        <div className="border-t border-white/8 px-5 py-2.5 flex items-center gap-3">
+                          {isActive ? (
+                            <ConfirmForm
+                              action={deactivateDealerAction}
+                              confirmMessage={`Деактивувати дилера «${dealer.name}»? Його сайт перестане працювати.`}
+                            >
+                              <input type="hidden" name="id" value={dealer.id} />
+                              <button type="submit"
+                                className="text-[11px] font-semibold text-red-400 hover:text-red-300 transition">
+                                ⏸ Деактивувати дилера
+                              </button>
+                            </ConfirmForm>
+                          ) : (
+                            <form action={reactivateDealerAction}>
+                              <input type="hidden" name="id" value={dealer.id} />
+                              <button type="submit"
+                                className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition">
+                                ▶ Активувати дилера
+                              </button>
+                            </form>
+                          )}
                         </div>
                       </article>
                     );

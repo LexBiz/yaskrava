@@ -1129,3 +1129,37 @@ export async function reactivateDealerAction(formData: FormData) {
 
   revalidatePath("/admin");
 }
+
+export async function resetDealerPasswordAction(formData: FormData) {
+  const adminUser = await requireAdmin();
+  await assertSameOrigin();
+
+  const id = String(formData.get("id") ?? "").trim();
+  if (!id) redirect("/admin?view=dealers");
+
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#";
+  let newPassword = "";
+  for (let i = 0; i < 12; i++) {
+    newPassword += chars[Math.floor(Math.random() * chars.length)];
+  }
+
+  const membership = await prisma.dealerMembership.findFirst({
+    where: {dealerId: id, role: "DEALER_OWNER", isActive: true},
+  });
+  if (!membership) redirect("/admin?view=dealers");
+
+  const passwordHash = await hash(newPassword, 12);
+  await prisma.adminUser.update({
+    where: {id: membership.userId},
+    data: {passwordHash},
+  });
+
+  await writeAuditLog({
+    action: "DEALER_PROVISIONED",
+    actorUserId: adminUser.id,
+    dealerId: id,
+    message: "Admin reset dealer owner password.",
+  });
+
+  redirect(`/admin?view=dealers&newPwdDealerId=${id}&newPwd=${encodeURIComponent(newPassword)}`);
+}

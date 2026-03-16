@@ -187,6 +187,7 @@ export default async function AdminDashboard({
       prisma.dealer.count({where: {status: "ACTIVE", slug: {not: platformDealerSlug}}}),
       prisma.adminUser.count({where: {isActive: true, platformRole: {not: null}}}),
       prisma.dealer.findMany({
+        where: {slug: {not: platformDealerSlug}},
         orderBy: {createdAt: "desc"},
         include: {memberships: {where: {isActive: true}, include: {user: true}}},
         take: 50,

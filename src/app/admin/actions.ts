@@ -1085,8 +1085,10 @@ export async function deactivateDealerAction(formData: FormData) {
   const dealer = await prisma.dealer.findFirst({
     where: {id: parsed.id},
   });
-  if (!dealer) throw new Error("DEALER_NOT_FOUND");
-  if (dealer.slug === getPlatformDealerSlug()) throw new Error("CANNOT_DEACTIVATE_PLATFORM_DEALER");
+  if (!dealer || dealer.slug === getPlatformDealerSlug()) {
+    revalidatePath("/admin");
+    return;
+  }
 
   await prisma.dealer.update({
     where: {id: parsed.id},

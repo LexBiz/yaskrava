@@ -1609,6 +1609,7 @@ export const VacancyScalarFieldEnum = {
   title: 'title',
   city: 'city',
   employmentType: 'employmentType',
+  salary: 'salary',
   description: 'description',
   contactEmail: 'contactEmail',
   sortOrder: 'sortOrder',

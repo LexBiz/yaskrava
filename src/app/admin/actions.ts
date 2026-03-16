@@ -936,6 +936,7 @@ export async function createCareerVacancyAction(formData: FormData) {
     title: z.string().min(3).max(160),
     city: z.string().max(80).optional(),
     employmentType: z.string().max(80).optional(),
+    salary: z.string().max(160).optional(),
     description: z.string().max(5000).optional(),
     contactEmail: z.string().email().max(200).optional(),
     sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
@@ -946,6 +947,7 @@ export async function createCareerVacancyAction(formData: FormData) {
     title: String(formData.get("title") ?? "").trim(),
     city: String(formData.get("city") ?? "").trim() || undefined,
     employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
+    salary: String(formData.get("salary") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
     sortOrder: String(formData.get("sortOrder") ?? "").trim() || undefined,
@@ -963,6 +965,7 @@ export async function createCareerVacancyAction(formData: FormData) {
       title: validParsed.title,
       city: validParsed.city,
       employmentType: validParsed.employmentType,
+      salary: validParsed.salary,
       description: validParsed.description,
       contactEmail: validParsed.contactEmail,
       sortOrder: validParsed.sortOrder ?? 0,
@@ -991,6 +994,7 @@ export async function updateCareerVacancyAction(formData: FormData) {
     title: z.string().min(3).max(160),
     city: z.string().max(80).optional(),
     employmentType: z.string().max(80).optional(),
+    salary: z.string().max(160).optional(),
     description: z.string().max(5000).optional(),
     contactEmail: z.string().email().max(200).optional(),
     sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
@@ -1002,6 +1006,7 @@ export async function updateCareerVacancyAction(formData: FormData) {
     title: String(formData.get("title") ?? "").trim(),
     city: String(formData.get("city") ?? "").trim() || undefined,
     employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
+    salary: String(formData.get("salary") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
     sortOrder: String(formData.get("sortOrder") ?? "").trim() || undefined,
@@ -1019,6 +1024,7 @@ export async function updateCareerVacancyAction(formData: FormData) {
       title: validParsed.title,
       city: validParsed.city,
       employmentType: validParsed.employmentType,
+      salary: validParsed.salary,
       description: validParsed.description,
       contactEmail: validParsed.contactEmail,
       sortOrder: validParsed.sortOrder ?? 0,
@@ -1069,3 +1075,55 @@ export async function archiveCareerVacancyAction(formData: FormData) {
   await revalidateCareerPages();
 }
 
+export async function deactivateDealerAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+
+  const dealer = await prisma.dealer.findFirst({
+    where: {id: parsed.id},
+  });
+  if (!dealer) throw new Error("DEALER_NOT_FOUND");
+  if (dealer.slug === getPlatformDealerSlug()) throw new Error("CANNOT_DEACTIVATE_PLATFORM_DEALER");
+
+  await prisma.dealer.update({
+    where: {id: parsed.id},
+    data: {status: "INACTIVE"},
+  });
+
+  await writeAuditLog({
+    action: "DEALER_PROVISIONED",
+    actorUserId: user.id,
+    dealerId: parsed.id,
+    message: "Central CRM deactivated dealer account.",
+  });
+
+  revalidatePath("/admin");
+}
+
+export async function reactivateDealerAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+
+  const dealer = await prisma.dealer.findFirst({where: {id: parsed.id}});
+  if (!dealer) throw new Error("DEALER_NOT_FOUND");
+
+  await prisma.dealer.update({
+    where: {id: parsed.id},
+    data: {status: "ACTIVE"},
+  });
+
+  await writeAuditLog({
+    action: "DEALER_PROVISIONED",
+    actorUserId: user.id,
+    dealerId: parsed.id,
+    message: "Central CRM reactivated dealer account.",
+  });
+
+  revalidatePath("/admin");
+}

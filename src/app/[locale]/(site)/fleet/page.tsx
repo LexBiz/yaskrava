@@ -58,6 +58,16 @@ function mapVehicleCopy(vehicle: VehicleCardData, t: Awaited<ReturnType<typeof g
   };
 }
 
+function isValidMediaUrl(url: string | null | undefined): url is string {
+  if (!url || url.trim().length === 0) return false;
+  return (
+    url.startsWith("http://") ||
+    url.startsWith("https://") ||
+    url.startsWith("/uploads/") ||
+    url.startsWith("/")
+  );
+}
+
 function VehicleCard({
   v,
   status,
@@ -83,8 +93,9 @@ function VehicleCard({
   onRequestLabel: string;
   noImageLabel: string;
 }) {
-  const galleryImage = v.images?.[0]?.url;
-  const heroImage = v.imageUrl || galleryImage;
+  const galleryImage = v.images?.find((i) => isValidMediaUrl(i.url))?.url;
+  const rawHeroImage = v.imageUrl || galleryImage;
+  const heroImage = isValidMediaUrl(rawHeroImage) ? rawHeroImage : undefined;
   const videoCount = Array.isArray(v.videoGallery) ? v.videoGallery.length : 0;
   const photoCount = v.images?.length || (heroImage ? 1 : 0);
 

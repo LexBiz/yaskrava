@@ -1,0 +1,2 @@
+ALTER TABLE "Vacancy"
+ADD COLUMN IF NOT EXISTS "salary" TEXT;

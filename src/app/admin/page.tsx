@@ -15,6 +15,8 @@ import {
   updatePlatformVehicleAction,
   markPlatformVehicleSoldAction,
   deletePlatformVehicleAction,
+  deactivateDealerAction,
+  reactivateDealerAction,
 } from "@/app/admin/actions";
 import {requireAdmin} from "@/lib/adminAuth";
 import {
@@ -758,16 +760,19 @@ export default async function AdminDashboard({
                     <input name="title" required className={INP} placeholder="Senior Sales Manager" />
                   </LabelField>
                   <LabelField label="Місто">
-                    <input name="city" className={INP} placeholder="Prague" />
+                    <input name="city" className={INP} placeholder="Прага" />
                   </LabelField>
                   <LabelField label="Тип зайнятості">
-                    <input name="employmentType" className={INP} placeholder="Full-time" />
+                    <input name="employmentType" className={INP} placeholder="Повна зайнятість" />
+                  </LabelField>
+                  <LabelField label="Зарплата" className="sm:col-span-2">
+                    <input name="salary" className={INP} placeholder="40 000 – 60 000 CZK/місяць" />
                   </LabelField>
                   <LabelField label="Email для зв'язку">
                     <input name="contactEmail" type="email" className={INP} placeholder="career@yaskrava.eu" />
                   </LabelField>
-                  <LabelField label="Порядок (sort order — менше = вище)">
-                    <input name="sortOrder" type="number" defaultValue={0} className={INP} />
+                  <LabelField label="Позиція у списку (1 = перша)">
+                    <input name="sortOrder" type="number" defaultValue={0} min={0} className={INP} />
                   </LabelField>
                   <LabelField label="Опис вакансії" className="sm:col-span-2">
                     <textarea name="description" rows={4} className={AREA}
@@ -789,8 +794,8 @@ export default async function AdminDashboard({
                         <div>
                           <div className="text-sm font-bold text-white">{vacancy.title}</div>
                           <div className="mt-0.5 text-xs text-white/40">
-                            {[vacancy.city, vacancy.employmentType].filter(Boolean).join(" · ") || "Без деталей"}
-                            {" · sort: "}{vacancy.sortOrder}
+                            {[vacancy.city, vacancy.employmentType, (vacancy as {salary?: string | null}).salary].filter(Boolean).join(" · ") || "Без деталей"}
+                            {vacancy.sortOrder > 0 ? ` · позиція ${vacancy.sortOrder}` : ""}
                           </div>
                         </div>
                         <span className={`inline-flex h-7 items-center rounded-lg border px-2.5 text-[11px] font-bold ${
@@ -808,37 +813,46 @@ export default async function AdminDashboard({
                         <summary className="cursor-pointer px-3 py-2.5 text-xs font-semibold text-white/50 hover:text-white/80 [&::-webkit-details-marker]:hidden">
                           ✏️ Редагувати
                         </summary>
-                        <form action={updateCareerVacancyAction} className="grid gap-3 px-3 pb-4 pt-2 sm:grid-cols-2">
-                          <input type="hidden" name="id" value={vacancy.id} />
-                          <LabelField label="Назва посади">
-                            <input name="title" defaultValue={vacancy.title} className={INP_SM} />
-                          </LabelField>
-                          <LabelField label="Місто">
-                            <input name="city" defaultValue={vacancy.city ?? ""} className={INP_SM} />
-                          </LabelField>
-                          <LabelField label="Тип зайнятості">
-                            <input name="employmentType" defaultValue={vacancy.employmentType ?? ""} className={INP_SM} />
-                          </LabelField>
-                          <LabelField label="Email">
-                            <input name="contactEmail" defaultValue={vacancy.contactEmail ?? ""} className={INP_SM} />
-                          </LabelField>
-                          <LabelField label="Sort order">
-                            <input name="sortOrder" type="number" defaultValue={vacancy.sortOrder} className={INP_SM} />
-                          </LabelField>
-                          <div className="flex items-end">
-                            <CheckboxField name="published" defaultChecked={vacancy.published} label="Опублікована" />
-                          </div>
-                          <LabelField label="Опис" className="sm:col-span-2">
-                            <textarea name="description" defaultValue={vacancy.description ?? ""} rows={3} className={`${AREA} text-xs`} />
-                          </LabelField>
-                          <div className="flex justify-between sm:col-span-2">
-                            <form action={archiveCareerVacancyAction}>
-                              <input type="hidden" name="id" value={vacancy.id} />
-                              <button type="submit" className={BTN_DANGER_SM}>{t.archiveVacancy}</button>
-                            </form>
-                            <button type="submit" className={BTN_PRIMARY}>{t.save}</button>
-                          </div>
-                        </form>
+                        <div className="grid gap-3 px-3 pb-4 pt-2">
+                          <form action={updateCareerVacancyAction} className="grid gap-3 sm:grid-cols-2">
+                            <input type="hidden" name="id" value={vacancy.id} />
+                            <LabelField label="Назва посади">
+                              <input name="title" defaultValue={vacancy.title} className={INP_SM} />
+                            </LabelField>
+                            <LabelField label="Місто">
+                              <input name="city" defaultValue={vacancy.city ?? ""} className={INP_SM} />
+                            </LabelField>
+                            <LabelField label="Тип зайнятості">
+                              <input name="employmentType" defaultValue={vacancy.employmentType ?? ""} className={INP_SM} />
+                            </LabelField>
+                            <LabelField label="Зарплата">
+                              <input name="salary" defaultValue={(vacancy as {salary?: string | null}).salary ?? ""} className={INP_SM} placeholder="40 000 – 60 000 CZK/міс" />
+                            </LabelField>
+                            <LabelField label="Email">
+                              <input name="contactEmail" defaultValue={vacancy.contactEmail ?? ""} className={INP_SM} />
+                            </LabelField>
+                            <LabelField label="Позиція у списку (1 = перша)">
+                              <input name="sortOrder" type="number" min={0} defaultValue={vacancy.sortOrder} className={INP_SM} />
+                            </LabelField>
+                            <div className="flex items-end">
+                              <CheckboxField name="published" defaultChecked={vacancy.published} label="Опублікована" />
+                            </div>
+                            <div />
+                            <LabelField label="Опис" className="sm:col-span-2">
+                              <textarea name="description" defaultValue={vacancy.description ?? ""} rows={3} className={`${AREA} text-xs`} />
+                            </LabelField>
+                            <div className="flex justify-end sm:col-span-2">
+                              <button type="submit" className={BTN_PRIMARY}>{t.save}</button>
+                            </div>
+                          </form>
+                          <form action={archiveCareerVacancyAction} className="pt-1 border-t border-white/8">
+                            <input type="hidden" name="id" value={vacancy.id} />
+                            <button type="submit" className={BTN_DANGER_SM}
+                              onClick={(e) => { if (!confirm("Видалити вакансію назавжди?")) e.preventDefault(); }}>
+                              🗑 Видалити вакансію
+                            </button>
+                          </form>
+                        </div>
                       </details>
                     </article>
                   ))
@@ -1020,13 +1034,31 @@ export default async function AdminDashboard({
                           <span className="text-red-400">✕ {kpi.applicationsRejected}</span>
                         </div>
 
-                        <div className="mt-3 flex items-center justify-between">
+                        <div className="mt-3 flex flex-wrap items-center justify-between gap-2">
                           <div className="text-[11px] text-white/30">
                             {kpi.latestSnapshotDate
                               ? `Snapshot: ${new Date(kpi.latestSnapshotDate).toLocaleDateString("uk")}`
                               : "Snapshot pending"}
                           </div>
-                          <a href={`/admin/dealers/${dealer.id}`} className={BTN_GHOST_SM}>Деталі →</a>
+                          <div className="flex items-center gap-2">
+                            {dealer.status === "ACTIVE" ? (
+                              <form action={deactivateDealerAction}
+                                onSubmit={(e) => { if (!confirm(`Деактивувати дилера «${dealer.name}»?`)) e.preventDefault(); }}>
+                                <input type="hidden" name="id" value={dealer.id} />
+                                <button type="submit" className="inline-flex h-7 items-center rounded-lg border border-red-500/30 bg-red-500/10 px-2.5 text-[11px] font-bold text-red-400 hover:bg-red-500/20 transition">
+                                  Деактивувати
+                                </button>
+                              </form>
+                            ) : (
+                              <form action={reactivateDealerAction}>
+                                <input type="hidden" name="id" value={dealer.id} />
+                                <button type="submit" className="inline-flex h-7 items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 text-[11px] font-bold text-emerald-400 hover:bg-emerald-500/20 transition">
+                                  Активувати
+                                </button>
+                              </form>
+                            )}
+                            <a href={`/admin/dealers/${dealer.id}`} className={BTN_GHOST_SM}>Деталі →</a>
+                          </div>
                         </div>
                       </article>
                     );

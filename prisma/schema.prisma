@@ -342,6 +342,7 @@ model Vacancy {
   title          String
   city           String?
   employmentType String?
+  salary         String?
   description    String?
   contactEmail   String?
   sortOrder      Int      @default(0)

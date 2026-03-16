@@ -845,12 +845,9 @@ export default async function AdminDashboard({
                               <button type="submit" className={BTN_PRIMARY}>{t.save}</button>
                             </div>
                           </form>
-                          <form action={archiveCareerVacancyAction} className="pt-1 border-t border-white/8">
+                            <form action={archiveCareerVacancyAction} className="pt-1 border-t border-white/8">
                             <input type="hidden" name="id" value={vacancy.id} />
-                            <button type="submit" className={BTN_DANGER_SM}
-                              onClick={(e) => { if (!confirm("Видалити вакансію назавжди?")) e.preventDefault(); }}>
-                              🗑 Видалити вакансію
-                            </button>
+                            <button type="submit" className={BTN_DANGER_SM}>🗑 Видалити вакансію</button>
                           </form>
                         </div>
                       </details>
@@ -1042,8 +1039,7 @@ export default async function AdminDashboard({
                           </div>
                           <div className="flex items-center gap-2">
                             {dealer.status === "ACTIVE" ? (
-                              <form action={deactivateDealerAction}
-                                onSubmit={(e) => { if (!confirm(`Деактивувати дилера «${dealer.name}»?`)) e.preventDefault(); }}>
+                              <form action={deactivateDealerAction}>
                                 <input type="hidden" name="id" value={dealer.id} />
                                 <button type="submit" className="inline-flex h-7 items-center rounded-lg border border-red-500/30 bg-red-500/10 px-2.5 text-[11px] font-bold text-red-400 hover:bg-red-500/20 transition">
                                   Деактивувати

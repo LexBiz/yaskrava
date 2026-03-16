@@ -586,153 +586,144 @@ export default async function AdminDashboard({
                   </div>
                 </div>
 
-                <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="grid gap-2">
                   {filteredVehicles.length ? (
                     pagedVehicles.map((vehicle) => {
                       const galleryImages = getVehicleGalleryImages(vehicle);
                       const galleryVideos = getVehicleGalleryVideos(vehicle.videoGallery);
                       const extraGalleryImages = galleryImages.filter((url) => url !== vehicle.imageUrl);
-                      const thumbSrc = vehicle.imageUrl || galleryImages[0];
+                      const rawThumb = vehicle.imageUrl || galleryImages[0];
+                      const thumbSrc = rawThumb && (rawThumb.startsWith("http") || rawThumb.startsWith("/")) ? rawThumb : undefined;
+                      const statusTone = vehicle.availability === "SOLD" ? "border-white/10 bg-white/5 text-white/35" : vehicle.availability === "IN_TRANSIT" ? "border-amber-400/30 bg-amber-400/10 text-amber-300" : "border-emerald-400/30 bg-emerald-400/10 text-emerald-300";
+                      const statusLabel = vehicle.availability === "SOLD" ? "Продано" : vehicle.availability === "IN_TRANSIT" ? "В дорозі" : "В наявності";
 
                       return (
-                        <article key={vehicle.id} className={`${CARD} flex flex-col overflow-hidden`}>
-                          {/* Thumbnail */}
-                          <div className="relative h-36 w-full bg-white/5">
-                            {thumbSrc ? (
-                              // eslint-disable-next-line @next/next/no-img-element
-                              <img src={thumbSrc} alt={vehicle.title} className="h-full w-full object-cover" />
-                            ) : (
-                              <div className="flex h-full items-center justify-center text-2xl text-white/15">🚗</div>
-                            )}
-                            <div className="absolute left-2 top-2 flex gap-1">
-                              <VehicleStatusPill label={vehicle.availability === "SOLD" ? "Продано" : vehicle.availability === "IN_TRANSIT" ? "В дорозі" : "В наявності"} tone={vehicle.availability} />
+                        <article key={vehicle.id} className="rounded-xl border border-white/8 bg-white/[0.03] overflow-hidden">
+                          {/* ── Compact row ── */}
+                          <div className="flex items-center gap-3 p-3">
+                            {/* Thumbnail */}
+                            <div className="relative h-14 w-20 shrink-0 overflow-hidden rounded-lg bg-white/5">
+                              {thumbSrc ? (
+                                // eslint-disable-next-line @next/next/no-img-element
+                                <img src={thumbSrc} alt={vehicle.title} className="h-full w-full object-cover" />
+                              ) : (
+                                <div className="flex h-full items-center justify-center text-lg text-white/15">🚗</div>
+                              )}
                             </div>
-                            {vehicle.featured ? (
-                              <div className="absolute right-2 top-2 rounded-lg bg-[var(--color-accent)] px-2 py-0.5 text-[10px] font-black text-black">FEATURED</div>
-                            ) : null}
-                            {!vehicle.published ? (
-                              <div className="absolute bottom-2 right-2 rounded-lg bg-black/70 px-2 py-0.5 text-[10px] font-semibold text-white/70">Прихований</div>
-                            ) : null}
-                          </div>
 
-                          {/* Info */}
-                          <div className="flex flex-1 flex-col gap-3 p-4">
-                            <div>
-                              <div className="line-clamp-2 text-sm font-bold text-white leading-tight">{vehicle.title}</div>
-                              <div className="mt-1 text-sm font-bold text-[var(--color-accent)]">
-                                {vehicle.priceCzk ? `${vehicle.priceCzk.toLocaleString("cs")} CZK` : "За запитом"}
+                            {/* Info */}
+                            <div className="min-w-0 flex-1">
+                              <div className="flex flex-wrap items-center gap-2">
+                                <span className="truncate text-sm font-bold text-white">{vehicle.title}</span>
+                                <span className={`shrink-0 rounded-full border px-2 py-0.5 text-[10px] font-bold ${statusTone}`}>{statusLabel}</span>
+                                {vehicle.featured ? <span className="shrink-0 rounded-full bg-[var(--color-accent)] px-2 py-0.5 text-[10px] font-black text-black">★</span> : null}
+                                {!vehicle.published ? <span className="shrink-0 rounded-full border border-white/10 bg-white/5 px-2 py-0.5 text-[10px] text-white/40">Прихований</span> : null}
                               </div>
-                              <div className="mt-1 flex flex-wrap gap-1.5 text-[11px] text-white/40">
-                                {vehicle.make ? <span>{vehicle.make}</span> : null}
-                                {vehicle.model ? <span>{vehicle.model}</span> : null}
+                              <div className="mt-0.5 flex flex-wrap gap-2 text-[11px] text-white/40">
+                                {vehicle.priceCzk ? <span className="font-semibold text-[var(--color-accent)]">{vehicle.priceCzk.toLocaleString("cs")} CZK</span> : null}
                                 {vehicle.year ? <span>{vehicle.year}</span> : null}
                                 {vehicle.mileageKm ? <span>{vehicle.mileageKm.toLocaleString()} km</span> : null}
-                              </div>
-                              <div className="mt-1 flex gap-2 text-[10px] text-white/30">
-                                {galleryImages.length > 0 ? <span>📷 {galleryImages.length}</span> : null}
-                                {galleryVideos.length > 0 ? <span>🎬 {galleryVideos.length}</span> : null}
+                                {vehicle.fuel ? <span>{vehicle.fuel}</span> : null}
+                                {galleryImages.length > 0 ? <span>📷{galleryImages.length}</span> : null}
+                                {galleryVideos.length > 0 ? <span>🎬{galleryVideos.length}</span> : null}
                               </div>
                             </div>
 
-                            {/* Quick actions */}
-                            <div className="flex flex-wrap gap-2">
+                            {/* Action buttons */}
+                            <div className="flex shrink-0 items-center gap-1.5">
                               {vehicle.availability !== "SOLD" ? (
                                 <form action={markPlatformVehicleSoldAction}>
                                   <input type="hidden" name="id" value={vehicle.id} />
-                                  <button type="submit" className="inline-flex h-8 items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-3 text-[11px] font-semibold text-emerald-300 hover:bg-emerald-500/20 transition">
+                                  <button type="submit" title="Позначити як продано"
+                                    className="inline-flex h-8 items-center rounded-lg border border-emerald-500/30 bg-emerald-500/10 px-2.5 text-[11px] font-semibold text-emerald-300 hover:bg-emerald-500/20 transition whitespace-nowrap">
                                     Продано
                                   </button>
                                 </form>
                               ) : null}
                               <form action={deletePlatformVehicleAction}>
                                 <input type="hidden" name="id" value={vehicle.id} />
-                                <button type="submit" className="inline-flex h-8 items-center rounded-lg border border-red-500/25 bg-red-500/8 px-3 text-[11px] font-semibold text-red-400 hover:bg-red-500/15 transition">
-                                  Видалити
+                                <button type="submit" title="Видалити авто"
+                                  className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-500/25 bg-red-500/8 text-sm text-red-400 hover:bg-red-500/20 transition">
+                                  🗑
                                 </button>
                               </form>
                             </div>
-
-                            {/* Edit form */}
-                            <details className="rounded-xl border border-white/8 bg-white/[0.02]">
-                              <summary className="cursor-pointer px-3 py-2.5 text-xs font-semibold text-white/50 hover:text-white/80 [&::-webkit-details-marker]:hidden">
-                                ✏️ Редагувати картку
-                              </summary>
-                              <form action={updatePlatformVehicleAction} className="px-3 pb-4 pt-2">
-                                <input type="hidden" name="id" value={vehicle.id} />
-                                <div className="grid gap-3">
-                                  <div className="grid gap-3 sm:grid-cols-2">
-                                    <LabelField label="Назва *">
-                                      <input name="title" required defaultValue={vehicle.title} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Артикул">
-                                      <input name="stockNumber" defaultValue={vehicle.stockNumber ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Марка">
-                                      <input name="make" defaultValue={vehicle.make ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Модель">
-                                      <input name="model" defaultValue={vehicle.model ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Рік">
-                                      <input name="year" type="number" defaultValue={vehicle.year ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Пробіг, км">
-                                      <input name="mileageKm" type="number" defaultValue={vehicle.mileageKm ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Паливо">
-                                      <input name="fuel" defaultValue={vehicle.fuel ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Коробка">
-                                      <input name="transmission" defaultValue={vehicle.transmission ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Ціна CZK">
-                                      <input name="priceCzk" type="number" defaultValue={vehicle.priceCzk ?? ""} className={INP_SM} />
-                                    </LabelField>
-                                    <LabelField label="Наявність">
-                                      <select name="availability" defaultValue={vehicle.availability} className={SEL_SM}>
-                                        <option value="ON_SITE">{t.availabilityOnSite}</option>
-                                        <option value="IN_TRANSIT">{t.availabilityTransit}</option>
-                                        <option value="SOLD">{t.availabilitySold}</option>
-                                      </select>
-                                    </LabelField>
-                                  </div>
-                                  <div className="flex flex-wrap gap-3">
-                                    <CheckboxField name="published" defaultChecked={vehicle.published} label="Опубліковано" />
-                                    <CheckboxField name="featured" defaultChecked={vehicle.featured} label="Рекомендоване" />
-                                    <CheckboxField name="leasingEligible" defaultChecked={vehicle.leasingEligible} label="Лізинг" />
-                                  </div>
-                                  <LabelField label="Головне фото URL">
-                                    <input name="imageUrl" defaultValue={vehicle.imageUrl ?? ""} className={INP_SM} placeholder="https://…" />
-                                  </LabelField>
-                                  <LabelField label="Додаткові фото URL">
-                                    <textarea name="galleryImageUrls" defaultValue={extraGalleryImages.join("\n")} rows={2} className={`${AREA} text-xs`} />
-                                  </LabelField>
-                                  <LabelField label="Завантажити нові фото (до 10)">
-                                    <input name="imageFiles" type="file" accept="image/*" multiple className={FILE_INP} />
-                                  </LabelField>
-                                  <LabelField label="URL відео">
-                                    <input name="videoUrl" defaultValue={vehicle.videoUrl ?? ""} className={INP_SM} placeholder="https://…" />
-                                  </LabelField>
-                                  <LabelField label="Завантажити відео">
-                                    <input name="videoFile" type="file" accept="video/*" className={FILE_INP} />
-                                  </LabelField>
-                                  <LabelField label="Опис">
-                                    <textarea name="description" defaultValue={vehicle.description ?? ""} rows={3} className={`${AREA} text-xs`} />
-                                  </LabelField>
-                                  <div className="flex justify-end pt-1">
-                                    <button type="submit" className={BTN_PRIMARY}>Зберегти</button>
-                                  </div>
-                                </div>
-                              </form>
-                            </details>
                           </div>
+
+                          {/* Edit form – collapsible */}
+                          <details className="border-t border-white/8">
+                            <summary className="cursor-pointer px-4 py-2 text-xs font-semibold text-white/40 hover:text-white/70 transition [&::-webkit-details-marker]:hidden">
+                              ✏️ Редагувати
+                            </summary>
+                            <form action={updatePlatformVehicleAction} className="grid gap-3 px-4 pb-4 pt-2 sm:grid-cols-2">
+                              <input type="hidden" name="id" value={vehicle.id} />
+                              <LabelField label="Назва *" className="sm:col-span-2">
+                                <input name="title" required defaultValue={vehicle.title} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Марка">
+                                <input name="make" defaultValue={vehicle.make ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Модель">
+                                <input name="model" defaultValue={vehicle.model ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Рік">
+                                <input name="year" type="number" defaultValue={vehicle.year ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Пробіг, км">
+                                <input name="mileageKm" type="number" defaultValue={vehicle.mileageKm ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Паливо">
+                                <input name="fuel" defaultValue={vehicle.fuel ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Коробка">
+                                <input name="transmission" defaultValue={vehicle.transmission ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Ціна CZK">
+                                <input name="priceCzk" type="number" defaultValue={vehicle.priceCzk ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <LabelField label="Наявність">
+                                <select name="availability" defaultValue={vehicle.availability} className={SEL_SM}>
+                                  <option value="ON_SITE">{t.availabilityOnSite}</option>
+                                  <option value="IN_TRANSIT">{t.availabilityTransit}</option>
+                                  <option value="SOLD">{t.availabilitySold}</option>
+                                </select>
+                              </LabelField>
+                              <LabelField label="Артикул">
+                                <input name="stockNumber" defaultValue={vehicle.stockNumber ?? ""} className={INP_SM} />
+                              </LabelField>
+                              <div className="flex flex-wrap gap-3 sm:col-span-2">
+                                <CheckboxField name="published" defaultChecked={vehicle.published} label="Опубліковано" />
+                                <CheckboxField name="featured" defaultChecked={vehicle.featured} label="Рекомендоване" />
+                                <CheckboxField name="leasingEligible" defaultChecked={vehicle.leasingEligible} label="Лізинг" />
+                              </div>
+                              <LabelField label="Головне фото URL" className="sm:col-span-2">
+                                <input name="imageUrl" defaultValue={vehicle.imageUrl ?? ""} className={INP_SM} placeholder="https://…" />
+                              </LabelField>
+                              <LabelField label="Додаткові фото URL (по одному в рядку)" className="sm:col-span-2">
+                                <textarea name="galleryImageUrls" defaultValue={extraGalleryImages.join("\n")} rows={2} className={`${AREA} text-xs`} />
+                              </LabelField>
+                              <LabelField label="Завантажити нові фото (до 10)" className="sm:col-span-2">
+                                <input name="imageFiles" type="file" accept="image/*" multiple className={FILE_INP} />
+                              </LabelField>
+                              <LabelField label="URL відео">
+                                <input name="videoUrl" defaultValue={vehicle.videoUrl ?? ""} className={INP_SM} placeholder="https://…" />
+                              </LabelField>
+                              <LabelField label="Завантажити відео">
+                                <input name="videoFile" type="file" accept="video/*" className={FILE_INP} />
+                              </LabelField>
+                              <LabelField label="Опис" className="sm:col-span-2">
+                                <textarea name="description" defaultValue={vehicle.description ?? ""} rows={3} className={`${AREA} text-xs`} />
+                              </LabelField>
+                              <div className="flex justify-end sm:col-span-2">
+                                <button type="submit" className={BTN_PRIMARY}>Зберегти</button>
+                              </div>
+                            </form>
+                          </details>
                         </article>
                       );
                     })
                   ) : (
-                    <div className="col-span-full">
-                      <EmptyState text={t.noPlatformVehicles} />
-                    </div>
+                    <EmptyState text={t.noPlatformVehicles} />
                   )}
                 </div>
                 {vehiclePages > 1 && (

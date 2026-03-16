@@ -11,7 +11,7 @@ export const calculatorSnapshotSchema = z
     monthlyPaymentCzk: z.number().int().nonnegative(),
     monthlyTotalCzk: z.number().int().nonnegative(),
   })
-  .passthrough();
+  .strict();
 
 export const applicationCreateSchema = z
   .object({

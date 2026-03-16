@@ -149,7 +149,8 @@ export const resolveDealerByHostname = cache(async (hostname: string) => {
 
     return domain?.dealer ?? null;
   } catch {
-    return getFallbackDealer();
+    // Return null on DB errors — callers handle null with notFound() or fallback
+    return null;
   }
 });
 

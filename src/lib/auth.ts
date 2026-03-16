@@ -29,13 +29,13 @@ export async function createSession(userId: string) {
   const rawToken = createRawSessionToken();
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
 
-  await prisma.userSession.create({
-    data: {
-      userId,
-      tokenHash: sha256(rawToken),
-      expiresAt,
-    },
-  });
+  // Delete all old sessions for this user and create new one atomically
+  await prisma.$transaction([
+    prisma.userSession.deleteMany({where: {userId}}),
+    prisma.userSession.create({
+      data: {userId, tokenHash: sha256(rawToken), expiresAt},
+    }),
+  ]);
 
   const cookieStore = await cookies();
   cookieStore.set(SESSION_COOKIE_NAME, rawToken, {

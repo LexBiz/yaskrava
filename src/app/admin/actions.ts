@@ -176,6 +176,7 @@ async function collectVehicleMedia(formData: FormData, input: z.infer<typeof veh
 }
 
 export async function adminLoginAction(formData: FormData) {
+  await assertSameOrigin();
   const schema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
@@ -1018,8 +1019,9 @@ export async function updateCareerVacancyAction(formData: FormData) {
   }
   const validParsed = parsed.data!;
 
+  const platformDealer2 = await getPlatformDealerOrThrow();
   const vacancy = await prisma.vacancy.update({
-    where: {id: validParsed.id},
+    where: {id: validParsed.id, dealerId: platformDealer2.id},
     data: {
       title: validParsed.title,
       city: validParsed.city,
@@ -1138,9 +1140,12 @@ export async function resetDealerPasswordAction(formData: FormData) {
   if (!id) redirect("/admin?view=dealers");
 
   const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#";
+  const {randomBytes} = await import("node:crypto");
+  const buf = randomBytes(18);
   let newPassword = "";
-  for (let i = 0; i < 12; i++) {
-    newPassword += chars[Math.floor(Math.random() * chars.length)];
+  for (const byte of buf) {
+    newPassword += chars[byte % chars.length];
+    if (newPassword.length === 12) break;
   }
 
   const membership = await prisma.dealerMembership.findFirst({

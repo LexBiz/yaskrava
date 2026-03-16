@@ -18,6 +18,7 @@ import {asFiles} from "@/lib/vehicleMedia";
 const MAX_VEHICLE_IMAGES = 10;
 
 export async function dealerLoginAction(formData: FormData) {
+  await assertSameOrigin();
   const dealer = await getCurrentDealerOrThrow();
   const lang = resolveDealerCrmLocale(String(formData.get("lang") ?? ""));
   const schema = z.object({

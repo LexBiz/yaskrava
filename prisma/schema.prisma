@@ -235,6 +235,9 @@ model Application {
   @@index([dealerId, status])
   @@index([dealerId, financingStatus])
   @@index([dealerId, archived, deletedAt])
+  @@index([vehicleId])
+  @@index([assignedDealerUserId])
+  @@index([assignedYaskravaUserId])
 }
 
 model PartnerLead {
@@ -371,6 +374,9 @@ model FinancingCase {
 
   application           Application      @relation(fields: [applicationId], references: [id], onDelete: Cascade)
   assignedYaskravaUser  AdminUser?       @relation("YaskravaAssignedFinancingCases", fields: [assignedYaskravaUserId], references: [id], onDelete: SetNull)
+
+  @@index([status])
+  @@index([assignedYaskravaUserId, status])
 }
 
 model DealerDailyMetric {
@@ -417,5 +423,6 @@ model AuditLog {
   @@index([applicationId, createdAt])
   @@index([partnerLeadId, createdAt])
   @@index([vehicleId, createdAt])
+  @@index([actorUserId, createdAt])
 }
 

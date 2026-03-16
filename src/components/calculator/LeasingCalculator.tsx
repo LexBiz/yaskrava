@@ -219,7 +219,7 @@ export function LeasingCalculator({
   /* Snapshot */
   const snapshot: CalculatorSnapshot = {
     priceCzk: activePrice, downPaymentCzk: r.down, termMonths: months,
-    aprPercent: 0, residualCzk: 0, monthlyFeesCzk: 0,
+    aprPercent: 15, residualCzk: 0, monthlyFeesCzk: 0,
     monthlyPaymentCzk: r.monthly, monthlyTotalCzk: r.monthlyTotal,
   };
 

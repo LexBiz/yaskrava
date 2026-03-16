@@ -12,7 +12,10 @@ import {resolveDealerCrmLocale} from "@/lib/crmCopy";
 import {assertSameOrigin, getClientIp} from "@/lib/security";
 import {slugify, uniqueSlug} from "@/lib/slug";
 import {getCurrentDealerOrThrow} from "@/lib/tenant";
-import {saveVehicleImage, saveVehicleVideo} from "@/lib/uploads";
+import {saveVehicleImages, saveVehicleVideo} from "@/lib/uploads";
+import {asFiles} from "@/lib/vehicleMedia";
+
+const MAX_VEHICLE_IMAGES = 10;
 
 export async function dealerLoginAction(formData: FormData) {
   const dealer = await getCurrentDealerOrThrow();
@@ -254,8 +257,26 @@ export async function createDealerVehicleAction(formData: FormData) {
     availability: String(formData.get("availability") ?? "ON_SITE"),
   });
 
-  const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
+  // Collect up to MAX_VEHICLE_IMAGES uploaded images
+  const imageFileEntries = [
+    ...formData.getAll("imageFiles"),
+    formData.get("imageFile"),
+  ].filter((entry): entry is FormDataEntryValue => entry !== null);
+  const uploadedImages = await saveVehicleImages(
+    asFiles(imageFileEntries).slice(0, MAX_VEHICLE_IMAGES)
+  );
+
+  // Only 1 video allowed
   const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
+
+  // Combine manual URL + uploaded images (max 10 total)
+  const allImageUrls = [
+    ...(parsed.imageUrl ? [parsed.imageUrl] : []),
+    ...uploadedImages,
+  ].slice(0, MAX_VEHICLE_IMAGES);
+
+  const primaryImageUrl = allImageUrls[0];
+  const primaryVideoUrl = uploadedVideoUrl || parsed.videoUrl;
 
   let slug = slugify(parsed.title);
   if (!slug) {
@@ -288,12 +309,21 @@ export async function createDealerVehicleAction(formData: FormData) {
       transmission: parsed.transmission,
       vinLast6: parsed.vinLast6,
       priceCzk: parsed.priceCzk,
-      imageUrl: uploadedImageUrl || parsed.imageUrl,
-      videoUrl: uploadedVideoUrl || parsed.videoUrl,
+      imageUrl: primaryImageUrl,
+      videoUrl: primaryVideoUrl,
       description: parsed.description,
       leasingEligible: Boolean(parsed.leasingEligible),
       availability: parsed.availability,
       published: true,
+      images: allImageUrls.length
+        ? {
+            create: allImageUrls.map((url, index) => ({
+              url,
+              alt: parsed.title,
+              sortOrder: index,
+            })),
+          }
+        : undefined,
     },
   });
 

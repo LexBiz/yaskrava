@@ -56,11 +56,26 @@ export default async function VehicleDetailPage({
       deletedAt: null,
       published: true,
     },
+    include: {
+      images: {
+        orderBy: {sortOrder: "asc"},
+      },
+    },
   });
 
   if (!vehicle) {
     notFound();
   }
+
+  const galleryImages = Array.from(
+    new Set([vehicle.imageUrl, ...vehicle.images.map((image) => image.url)].filter(Boolean))
+  ) as string[];
+  const galleryVideos = Array.isArray(vehicle.videoGallery)
+    ? vehicle.videoGallery.filter((item): item is string => typeof item === "string" && item.length > 0)
+    : vehicle.videoUrl
+      ? [vehicle.videoUrl]
+      : [];
+  const primaryImage = galleryImages[0];
 
   return (
     <div>
@@ -83,10 +98,10 @@ export default async function VehicleDetailPage({
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
             <div>
               <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white">
-                {vehicle.imageUrl ? (
+                {primaryImage ? (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
-                    src={vehicle.imageUrl}
+                    src={primaryImage}
                     alt={vehicle.title}
                     className="h-[380px] w-full object-cover"
                   />
@@ -97,27 +112,86 @@ export default async function VehicleDetailPage({
                 )}
               </div>
 
-              {vehicle.videoUrl ? (
-                <div className="mt-6 overflow-hidden rounded-3xl border border-gray-200 bg-white p-3">
-                  {vehicle.videoUrl.endsWith(".mp4") || vehicle.videoUrl.endsWith(".webm") || vehicle.videoUrl.endsWith(".mov") ? (
-                    <video
-                      src={vehicle.videoUrl}
-                      controls
-                      className="h-auto w-full rounded-2xl bg-black"
-                    />
-                  ) : (
-                    <div className="aspect-video overflow-hidden rounded-2xl">
-                      <iframe
-                        src={vehicle.videoUrl}
-                        title={`${vehicle.title} video`}
-                        className="h-full w-full"
-                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                        allowFullScreen
-                      />
+              {galleryImages.length > 1 ? (
+                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+                  {galleryImages.slice(1).map((imageUrl) => (
+                    <div key={imageUrl} className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img src={imageUrl} alt={vehicle.title} className="h-28 w-full object-cover" />
                     </div>
-                  )}
+                  ))}
                 </div>
               ) : null}
+
+              {galleryVideos.length ? (
+                <div className="mt-6 overflow-hidden rounded-3xl border border-gray-200 bg-white p-3">
+                  <div className="grid gap-4">
+                    {galleryVideos.map((videoUrl) => (
+                      <div key={videoUrl}>
+                        {videoUrl.endsWith(".mp4") || videoUrl.endsWith(".webm") || videoUrl.endsWith(".mov") ? (
+                          <video
+                            src={videoUrl}
+                            controls
+                            className="h-auto w-full rounded-2xl bg-black"
+                          />
+                        ) : (
+                          <div className="aspect-video overflow-hidden rounded-2xl">
+                            <iframe
+                              src={videoUrl}
+                              title={`${vehicle.title} video`}
+                              className="h-full w-full"
+                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                              allowFullScreen
+                            />
+                          </div>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ) : null}
+
+              {vehicle.description ? (
+                <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-6">
+                  <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+                    Description
+                  </div>
+                  <div className="mt-3 text-sm leading-7" style={{color: "rgba(59,59,61,0.78)"}}>
+                    {vehicle.description}
+                  </div>
+                </div>
+              ) : null}
+
+              <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-6">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+                      Media
+                    </div>
+                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
+                      {galleryImages.length}
+                    </div>
+                    <div className="mt-1 text-sm" style={{color: "rgba(59,59,61,0.65)"}}>photos</div>
+                  </div>
+                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+                      Video
+                    </div>
+                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
+                      {galleryVideos.length}
+                    </div>
+                    <div className="mt-1 text-sm" style={{color: "rgba(59,59,61,0.65)"}}>assets</div>
+                  </div>
+                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
+                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+                      Status
+                    </div>
+                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
+                      {vehicle.availability === "IN_TRANSIT" ? t("statusInTransit") : t("statusOnSite")}
+                    </div>
+                  </div>
+                </div>
+              </div>
 
               <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <SpecCard icon={<Calendar size={14} />} label={t("year")} value={vehicle.year?.toString() || "—"} />

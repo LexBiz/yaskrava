@@ -337,40 +337,53 @@ export default async function DealerDashboard({
                 ))}
               </select>
             </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.uploadPhoto}</span>
-              <input
-                name="imageFile"
-                type="file"
-                accept="image/*"
-                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.uploadVideo}</span>
-              <input
-                name="videoFile"
-                type="file"
-                accept="video/*"
-                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.imageUrl}</span>
-              <input
-                name="imageUrl"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="https://..."
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.videoUrl}</span>
-              <input
-                name="videoUrl"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="https://..."
-              />
-            </label>
+            <div className="grid gap-3 lg:col-span-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-4">
+              <div className="text-sm font-semibold text-white">
+                {locale === "cs" ? "Fotky (max 10)" : "Фото (макс. 10)"}
+              </div>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">
+                  {locale === "cs" ? "Nahrát fotky (do 10)" : "Завантажити фото (до 10 файлів)"}
+                </span>
+                <input
+                  name="imageFiles"
+                  type="file"
+                  accept="image/*"
+                  multiple
+                  className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+                />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.imageUrl}</span>
+                <input
+                  name="imageUrl"
+                  className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                  placeholder="https://..."
+                />
+              </label>
+            </div>
+            <div className="grid gap-3 lg:col-span-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-4">
+              <div className="text-sm font-semibold text-white">
+                {locale === "cs" ? "Video (1 soubor)" : "Відео (1 файл)"}
+              </div>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.uploadVideo}</span>
+                <input
+                  name="videoFile"
+                  type="file"
+                  accept="video/*"
+                  className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
+                />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.videoUrl}</span>
+                <input
+                  name="videoUrl"
+                  className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                  placeholder="https://..."
+                />
+              </label>
+            </div>
             <label className="grid gap-1.5 lg:col-span-2">
               <span className="text-xs font-semibold text-white/70">{t.description}</span>
               <textarea

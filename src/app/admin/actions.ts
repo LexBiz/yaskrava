@@ -4,6 +4,7 @@ import {revalidatePath} from "next/cache";
 import {redirect} from "next/navigation";
 import {z} from "zod";
 import {hash} from "bcryptjs";
+import {Prisma} from "@/generated/prisma/client";
 
 import {clearAdminCookie, requireAdmin, setAdminCookie} from "@/lib/adminAuth";
 import {authenticateWithPassword} from "@/lib/auth";
@@ -13,7 +14,13 @@ import {assertRateLimit} from "@/lib/rateLimit";
 import {assertSameOrigin, getClientIp} from "@/lib/security";
 import {slugify, uniqueSlug} from "@/lib/slug";
 import {buildDealerHostname} from "@/lib/tenant";
-import {saveVehicleImage, saveVehicleVideo} from "@/lib/uploads";
+import {saveVehicleImages, saveVehicleVideos} from "@/lib/uploads";
+import {
+  asFiles,
+  getPrimaryAndSecondaryMedia,
+  parseTextareaLines,
+  validateMediaUrls,
+} from "@/lib/vehicleMedia";
 
 function getPlatformDealerSlug() {
   return process.env.DEFAULT_DEALER_SLUG || "yaskrava";
@@ -34,6 +41,138 @@ async function revalidateCareerPages() {
   revalidatePath("/en/career");
   revalidatePath("/cs/career");
   revalidatePath("/uk/career");
+}
+
+function revalidateFleetPages() {
+  revalidatePath("/en/fleet");
+  revalidatePath("/cs/fleet");
+  revalidatePath("/uk/fleet");
+}
+
+function redirectVehicleState(state: "created" | "updated" | "validation" | "platform") {
+  const query = new URLSearchParams({
+    view: "vehicles",
+  });
+
+  if (state === "created" || state === "updated") {
+    query.set("vehicleSaved", state);
+  } else {
+    query.set("vehicleError", state);
+  }
+
+  redirect(`/admin?${query.toString()}`);
+}
+
+function redirectVacancyState(state: "created" | "updated" | "validation") {
+  const query = new URLSearchParams({
+    view: "vacancies",
+  });
+
+  if (state === "created" || state === "updated") {
+    query.set("vacancySaved", state);
+  } else {
+    query.set("vacancyError", state);
+  }
+
+  redirect(`/admin?${query.toString()}`);
+}
+
+const vehicleFormSchema = z.object({
+  title: z.string().min(3).max(160),
+  stockNumber: z.string().max(80).optional(),
+  make: z.string().max(80).optional(),
+  model: z.string().max(80).optional(),
+  year: z.coerce.number().int().min(1950).max(2100).optional(),
+  mileageKm: z.coerce.number().int().min(0).max(2_000_000).optional(),
+  fuel: z.string().max(40).optional(),
+  transmission: z.string().max(40).optional(),
+  vinLast6: z.string().max(20).optional(),
+  priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
+  imageUrl: z.string().max(2000).optional(),
+  galleryImageUrls: z.string().max(10000).optional(),
+  videoUrl: z.string().max(2000).optional(),
+  galleryVideoUrls: z.string().max(10000).optional(),
+  description: z.string().max(5000).optional(),
+  leasingEligible: z.string().optional(),
+  availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
+  published: z.string().optional(),
+  featured: z.string().optional(),
+});
+
+function getVehicleFormInput(formData: FormData) {
+  const parsed = vehicleFormSchema.safeParse({
+    title: String(formData.get("title") ?? "").trim(),
+    stockNumber: String(formData.get("stockNumber") ?? "").trim() || undefined,
+    make: String(formData.get("make") ?? "").trim() || undefined,
+    model: String(formData.get("model") ?? "").trim() || undefined,
+    year: String(formData.get("year") ?? "").trim() || undefined,
+    mileageKm: String(formData.get("mileageKm") ?? "").trim() || undefined,
+    fuel: String(formData.get("fuel") ?? "").trim() || undefined,
+    transmission: String(formData.get("transmission") ?? "").trim() || undefined,
+    vinLast6: String(formData.get("vinLast6") ?? "").trim() || undefined,
+    priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
+    imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
+    galleryImageUrls: String(formData.get("galleryImageUrls") ?? "").trim() || undefined,
+    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
+    galleryVideoUrls: String(formData.get("galleryVideoUrls") ?? "").trim() || undefined,
+    description: String(formData.get("description") ?? "").trim() || undefined,
+    leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
+    availability: String(formData.get("availability") ?? "ON_SITE"),
+    published: formData.get("published") ? "on" : undefined,
+    featured: formData.get("featured") ? "on" : undefined,
+  });
+
+  if (!parsed.success) {
+    return null;
+  }
+
+  return parsed.data;
+}
+
+const MAX_VEHICLE_IMAGES = 10;
+
+async function collectVehicleMedia(formData: FormData, input: z.infer<typeof vehicleFormSchema>) {
+  const uploadedImages = await saveVehicleImages(
+    asFiles(
+      [...formData.getAll("imageFiles"), formData.get("imageFile")].filter(
+        (entry): entry is FormDataEntryValue => entry !== null
+      )
+    ).slice(0, MAX_VEHICLE_IMAGES)
+  );
+
+  // Only 1 video allowed: prefer uploaded file, fall back to URL
+  const uploadedVideoFile = asFiles(
+    [...formData.getAll("videoFiles"), formData.get("videoFile")].filter(
+      (entry): entry is FormDataEntryValue => entry !== null
+    )
+  ).slice(0, 1);
+  const uploadedVideos = await saveVehicleVideos(uploadedVideoFile);
+
+  const manualImageUrls = [input.imageUrl, ...parseTextareaLines(formData.get("galleryImageUrls"))].filter(
+    Boolean
+  ) as string[];
+
+  if (!validateMediaUrls(manualImageUrls)) {
+    return null;
+  }
+  if (input.videoUrl && !validateMediaUrls([input.videoUrl])) {
+    return null;
+  }
+
+  // Cap total images at MAX_VEHICLE_IMAGES
+  const allImages = [...manualImageUrls, ...uploadedImages].slice(0, MAX_VEHICLE_IMAGES);
+  const imageMedia = getPrimaryAndSecondaryMedia(allImages);
+
+  // Only 1 video total
+  const primaryVideo = uploadedVideos[0] || input.videoUrl;
+  const galleryVideos = primaryVideo ? [primaryVideo] : [];
+
+  return {
+    primaryImage: imageMedia.primary,
+    galleryImages: imageMedia.all,
+    primaryVideo,
+    galleryVideos,
+  };
 }
 
 export async function adminLoginAction(formData: FormData) {
@@ -532,51 +671,31 @@ export async function createDealerProvisionAction(formData: FormData) {
 export async function createPlatformVehicleAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
-  const platformDealer = await getPlatformDealerOrThrow();
+  let platformDealer;
+  try {
+    platformDealer = await getPlatformDealerOrThrow();
+  } catch {
+    redirectVehicleState("platform");
+  }
+  const safePlatformDealer = platformDealer!;
 
-  const schema = z.object({
-    title: z.string().min(3).max(160),
-    stockNumber: z.string().max(80).optional(),
-    make: z.string().max(80).optional(),
-    model: z.string().max(80).optional(),
-    year: z.coerce.number().int().min(1950).max(2100).optional(),
-    mileageKm: z.coerce.number().int().min(0).max(2_000_000).optional(),
-    fuel: z.string().max(40).optional(),
-    transmission: z.string().max(40).optional(),
-    vinLast6: z.string().max(20).optional(),
-    priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
-    imageUrl: z.string().url().max(2000).optional(),
-    videoUrl: z.string().url().max(2000).optional(),
-    description: z.string().max(5000).optional(),
-    leasingEligible: z.string().optional(),
-    availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
-  });
+  const parsed = getVehicleFormInput(formData);
+  if (!parsed) {
+    redirectVehicleState("validation");
+  }
+  const validParsed = parsed!;
 
-  const parsed = schema.parse({
-    title: String(formData.get("title") ?? "").trim(),
-    stockNumber: String(formData.get("stockNumber") ?? "").trim() || undefined,
-    make: String(formData.get("make") ?? "").trim() || undefined,
-    model: String(formData.get("model") ?? "").trim() || undefined,
-    year: String(formData.get("year") ?? "").trim() || undefined,
-    mileageKm: String(formData.get("mileageKm") ?? "").trim() || undefined,
-    fuel: String(formData.get("fuel") ?? "").trim() || undefined,
-    transmission: String(formData.get("transmission") ?? "").trim() || undefined,
-    vinLast6: String(formData.get("vinLast6") ?? "").trim() || undefined,
-    priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
-    imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
-    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
-    description: String(formData.get("description") ?? "").trim() || undefined,
-    leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
-    availability: String(formData.get("availability") ?? "ON_SITE"),
-  });
+  const media = await collectVehicleMedia(formData, validParsed);
+  if (!media) {
+    redirectVehicleState("validation");
+  }
+  const validMedia = media!;
 
-  const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
-  const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
-  let slug = slugify(parsed.title);
+  let slug = slugify(validParsed.title);
   if (!slug) slug = uniqueSlug("vehicle");
 
   const existing = await prisma.vehicle.findFirst({
-    where: {dealerId: platformDealer.id, slug},
+    where: {dealerId: safePlatformDealer.id, slug},
     select: {id: true},
   });
 
@@ -584,104 +703,142 @@ export async function createPlatformVehicleAction(formData: FormData) {
 
   const vehicle = await prisma.vehicle.create({
     data: {
-      dealerId: platformDealer.id,
+      dealerId: safePlatformDealer.id,
       slug,
-      title: parsed.title,
-      stockNumber: parsed.stockNumber,
-      make: parsed.make,
-      model: parsed.model,
-      year: parsed.year,
-      mileageKm: parsed.mileageKm,
-      fuel: parsed.fuel,
-      transmission: parsed.transmission,
-      vinLast6: parsed.vinLast6,
-      priceCzk: parsed.priceCzk,
-      imageUrl: uploadedImageUrl || parsed.imageUrl,
-      videoUrl: uploadedVideoUrl || parsed.videoUrl,
-      description: parsed.description,
-      leasingEligible: Boolean(parsed.leasingEligible),
-      availability: parsed.availability,
-      published: true,
+      title: validParsed.title,
+      stockNumber: validParsed.stockNumber,
+      make: validParsed.make,
+      model: validParsed.model,
+      year: validParsed.year,
+      mileageKm: validParsed.mileageKm,
+      fuel: validParsed.fuel,
+      transmission: validParsed.transmission,
+      vinLast6: validParsed.vinLast6,
+      priceCzk: validParsed.priceCzk,
+      imageUrl: validMedia.primaryImage,
+      videoUrl: validMedia.primaryVideo,
+      videoGallery: validMedia.galleryVideos.length
+        ? (validMedia.galleryVideos as unknown as Prisma.InputJsonValue)
+        : undefined,
+      description: validParsed.description,
+      leasingEligible: Boolean(validParsed.leasingEligible),
+      availability: validParsed.availability,
+      published: validParsed.availability === "SOLD" ? false : Boolean(validParsed.published),
+      featured: Boolean(validParsed.featured),
+      images: validMedia.galleryImages.length
+        ? {
+            create: validMedia.galleryImages.map((url, index) => ({
+              url,
+              alt: validParsed.title,
+              sortOrder: index,
+            })),
+          }
+        : undefined,
     },
   });
 
   await writeAuditLog({
     action: "VEHICLE_CREATED",
     actorUserId: user.id,
-    dealerId: platformDealer.id,
+    dealerId: safePlatformDealer.id,
     vehicleId: vehicle.id,
     message: `Central CRM created platform vehicle ${vehicle.title}.`,
   });
 
   revalidatePath("/admin");
+  revalidateFleetPages();
+  redirectVehicleState("created");
 }
 
 export async function updatePlatformVehicleAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
-  const platformDealer = await getPlatformDealerOrThrow();
+  let platformDealer;
+  try {
+    platformDealer = await getPlatformDealerOrThrow();
+  } catch {
+    redirectVehicleState("platform");
+  }
+  const safePlatformDealer = platformDealer!;
 
-  const schema = z.object({
-    id: z.string().min(1),
-    title: z.string().min(3).max(160),
-    priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
-    imageUrl: z.string().url().max(2000).optional(),
-    videoUrl: z.string().url().max(2000).optional(),
-    description: z.string().max(5000).optional(),
-    availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]),
-    published: z.string().optional(),
-    featured: z.string().optional(),
-  });
+  const idSchema = z.object({id: z.string().min(1)});
+  const parsedId = idSchema.safeParse({id: String(formData.get("id") ?? "")});
+  const parsed = getVehicleFormInput(formData);
+  if (!parsedId.success || !parsed) {
+    redirectVehicleState("validation");
+  }
+  const validParsedId = parsedId.data!;
+  const validParsed = parsed!;
 
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-    title: String(formData.get("title") ?? "").trim(),
-    priceCzk: String(formData.get("priceCzk") ?? "").trim() || undefined,
-    imageUrl: String(formData.get("imageUrl") ?? "").trim() || undefined,
-    videoUrl: String(formData.get("videoUrl") ?? "").trim() || undefined,
-    description: String(formData.get("description") ?? "").trim() || undefined,
-    availability: String(formData.get("availability") ?? ""),
-    published: formData.get("published") ? "on" : undefined,
-    featured: formData.get("featured") ? "on" : undefined,
-  });
-
-  const uploadedImageUrl = await saveVehicleImage(formData.get("imageFile") as File | null);
-  const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
-
-  const updated = await prisma.vehicle.updateMany({
+  const existingVehicle = await prisma.vehicle.findFirst({
     where: {
-      id: parsed.id,
-      dealerId: platformDealer.id,
+      id: validParsedId.id,
+      dealerId: safePlatformDealer.id,
       deletedAt: null,
     },
-    data: {
-      title: parsed.title,
-      priceCzk: parsed.priceCzk,
-      imageUrl: uploadedImageUrl || parsed.imageUrl,
-      videoUrl: uploadedVideoUrl || parsed.videoUrl,
-      description: parsed.description,
-      availability: parsed.availability,
-      published: Boolean(parsed.published),
-      featured: Boolean(parsed.featured),
+    include: {
+      images: {
+        orderBy: {sortOrder: "asc"},
+      },
     },
   });
 
-  if (updated.count === 0) {
-    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+  if (!existingVehicle) {
+    redirectVehicleState("platform");
   }
+  const validExistingVehicle = existingVehicle!;
+
+  const media = await collectVehicleMedia(formData, validParsed);
+  if (!media) {
+    redirectVehicleState("validation");
+  }
+  const validMedia = media!;
+
+  await prisma.vehicle.update({
+    where: {id: validExistingVehicle.id},
+    data: {
+      title: validParsed.title,
+      stockNumber: validParsed.stockNumber,
+      make: validParsed.make,
+      model: validParsed.model,
+      year: validParsed.year,
+      mileageKm: validParsed.mileageKm,
+      fuel: validParsed.fuel,
+      transmission: validParsed.transmission,
+      vinLast6: validParsed.vinLast6,
+      priceCzk: validParsed.priceCzk,
+      imageUrl: validMedia.primaryImage,
+      videoUrl: validMedia.primaryVideo,
+      videoGallery: validMedia.galleryVideos.length
+        ? (validMedia.galleryVideos as unknown as Prisma.InputJsonValue)
+        : Prisma.JsonNull,
+      description: validParsed.description,
+      availability: validParsed.availability,
+      published: validParsed.availability === "SOLD" ? false : Boolean(validParsed.published),
+      featured: Boolean(validParsed.featured),
+      leasingEligible: Boolean(validParsed.leasingEligible),
+      images: {
+        deleteMany: {},
+        create: validMedia.galleryImages.map((url, index) => ({
+          url,
+          alt: validParsed.title,
+          sortOrder: index,
+        })),
+      },
+    },
+  });
 
   await writeAuditLog({
     action: "VEHICLE_UPDATED",
     actorUserId: user.id,
-    dealerId: platformDealer.id,
-    vehicleId: parsed.id,
+    dealerId: safePlatformDealer.id,
+    vehicleId: validExistingVehicle.id,
     message: "Central CRM updated platform vehicle.",
   });
 
   revalidatePath("/admin");
-  revalidatePath("/uk/fleet");
-  revalidatePath("/cs/fleet");
-  revalidatePath("/en/fleet");
+  revalidateFleetPages();
+  redirectVehicleState("updated");
 }
 
 export async function markPlatformVehicleSoldAction(formData: FormData) {
@@ -781,28 +938,35 @@ export async function createCareerVacancyAction(formData: FormData) {
     employmentType: z.string().max(80).optional(),
     description: z.string().max(5000).optional(),
     contactEmail: z.string().email().max(200).optional(),
+    sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
     published: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     title: String(formData.get("title") ?? "").trim(),
     city: String(formData.get("city") ?? "").trim() || undefined,
     employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
+    sortOrder: String(formData.get("sortOrder") ?? "").trim() || undefined,
     published: formData.get("published") ? "on" : undefined,
   });
+
+  if (!parsed.success) {
+    redirectVacancyState("validation");
+  }
+  const validParsed = parsed.data!;
 
   const vacancy = await prisma.vacancy.create({
     data: {
       dealerId: platformDealer.id,
-      title: parsed.title,
-      city: parsed.city,
-      employmentType: parsed.employmentType,
-      description: parsed.description,
-      contactEmail: parsed.contactEmail,
-      sortOrder: 0,
-      published: Boolean(parsed.published),
+      title: validParsed.title,
+      city: validParsed.city,
+      employmentType: validParsed.employmentType,
+      description: validParsed.description,
+      contactEmail: validParsed.contactEmail,
+      sortOrder: validParsed.sortOrder ?? 0,
+      published: Boolean(validParsed.published),
     },
   });
 
@@ -815,6 +979,7 @@ export async function createCareerVacancyAction(formData: FormData) {
 
   revalidatePath("/admin");
   await revalidateCareerPages();
+  redirectVacancyState("created");
 }
 
 export async function updateCareerVacancyAction(formData: FormData) {
@@ -828,28 +993,36 @@ export async function updateCareerVacancyAction(formData: FormData) {
     employmentType: z.string().max(80).optional(),
     description: z.string().max(5000).optional(),
     contactEmail: z.string().email().max(200).optional(),
+    sortOrder: z.coerce.number().int().min(0).max(9999).optional(),
     published: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     title: String(formData.get("title") ?? "").trim(),
     city: String(formData.get("city") ?? "").trim() || undefined,
     employmentType: String(formData.get("employmentType") ?? "").trim() || undefined,
     description: String(formData.get("description") ?? "").trim() || undefined,
     contactEmail: String(formData.get("contactEmail") ?? "").trim() || undefined,
+    sortOrder: String(formData.get("sortOrder") ?? "").trim() || undefined,
     published: formData.get("published") ? "on" : undefined,
   });
 
+  if (!parsed.success) {
+    redirectVacancyState("validation");
+  }
+  const validParsed = parsed.data!;
+
   const vacancy = await prisma.vacancy.update({
-    where: {id: parsed.id},
+    where: {id: validParsed.id},
     data: {
-      title: parsed.title,
-      city: parsed.city,
-      employmentType: parsed.employmentType,
-      description: parsed.description,
-      contactEmail: parsed.contactEmail,
-      published: Boolean(parsed.published),
+      title: validParsed.title,
+      city: validParsed.city,
+      employmentType: validParsed.employmentType,
+      description: validParsed.description,
+      contactEmail: validParsed.contactEmail,
+      sortOrder: validParsed.sortOrder ?? 0,
+      published: Boolean(validParsed.published),
     },
   });
 
@@ -862,6 +1035,7 @@ export async function updateCareerVacancyAction(formData: FormData) {
 
   revalidatePath("/admin");
   await revalidateCareerPages();
+  redirectVacancyState("updated");
 }
 
 export async function archiveCareerVacancyAction(formData: FormData) {

@@ -37,3 +37,13 @@ export async function saveVehicleImage(file: File | null | undefined) {
 export async function saveVehicleVideo(file: File | null | undefined) {
   return saveUploadedFile(file, "vehicle-video");
 }
+
+export async function saveVehicleImages(files: Array<File | null | undefined>) {
+  const uploaded = await Promise.all(files.map((file) => saveVehicleImage(file)));
+  return uploaded.filter((value): value is string => Boolean(value));
+}
+
+export async function saveVehicleVideos(files: Array<File | null | undefined>) {
+  const uploaded = await Promise.all(files.map((file) => saveVehicleVideo(file)));
+  return uploaded.filter((value): value is string => Boolean(value));
+}

@@ -14,7 +14,7 @@ export default async function CareerPage() {
       deletedAt: null,
       published: true,
     },
-    orderBy: {createdAt: "desc"},
+    orderBy: [{sortOrder: "asc"}, {createdAt: "desc"}],
     take: 30,
   });
 
@@ -48,10 +48,20 @@ export default async function CareerPage() {
               <h2 className="text-xl font-extrabold" style={{color: "#3B3B3D"}}>{t("vacanciesTitle")}</h2>
               <div className="mt-4 grid gap-4 md:grid-cols-2">
                 {vacancies.map((vacancy) => (
-                  <article key={vacancy.id} className="yask-card-on-white rounded-2xl p-6">
-                    <div className="text-base font-black" style={{color: "#3B3B3D"}}>{vacancy.title}</div>
-                    <div className="mt-2 text-xs font-semibold" style={{color: "rgba(59,59,61,0.52)"}}>
-                      {[vacancy.city, vacancy.employmentType].filter(Boolean).join(" • ") || t("vacancyDefaultMeta")}
+                  <article key={vacancy.id} className="yask-card-on-white rounded-2xl p-6 shadow-[0_22px_60px_-36px_rgba(0,0,0,0.18)]">
+                    <div className="flex flex-wrap items-start justify-between gap-3">
+                      <div>
+                        <div className="text-base font-black" style={{color: "#3B3B3D"}}>{vacancy.title}</div>
+                        <div className="mt-2 text-xs font-semibold" style={{color: "rgba(59,59,61,0.52)"}}>
+                          {[vacancy.city, vacancy.employmentType].filter(Boolean).join(" • ") || t("vacancyDefaultMeta")}
+                        </div>
+                      </div>
+                      <span
+                        className="inline-flex rounded-full px-3 py-1 text-[11px] font-bold"
+                        style={{background: "rgba(255,121,24,0.10)", color: "#FF7918", border: "1px solid rgba(255,121,24,0.16)"}}
+                      >
+                        #{vacancy.sortOrder}
+                      </span>
                     </div>
                     {vacancy.description ? (
                       <p className="mt-3 text-sm leading-7" style={{color: "rgba(59,59,61,0.70)"}}>
@@ -59,13 +69,18 @@ export default async function CareerPage() {
                       </p>
                     ) : null}
                     {vacancy.contactEmail ? (
-                      <a
-                        href={`mailto:${vacancy.contactEmail}`}
-                        className="mt-4 inline-flex rounded-full px-4 py-2 text-xs font-bold no-underline"
-                        style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", color: "#fff"}}
-                      >
-                        {t("vacancyApply")} • {vacancy.contactEmail}
-                      </a>
+                      <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
+                        <div className="text-xs font-semibold" style={{color: "rgba(59,59,61,0.52)"}}>
+                          {vacancy.contactEmail}
+                        </div>
+                        <a
+                          href={`mailto:${vacancy.contactEmail}`}
+                          className="inline-flex rounded-full px-4 py-2 text-xs font-bold no-underline"
+                          style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", color: "#fff"}}
+                        >
+                          {t("vacancyApply")}
+                        </a>
+                      </div>
                     ) : null}
                   </article>
                 ))}

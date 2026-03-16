@@ -304,6 +304,7 @@ model Vehicle {
   description   String?
   imageUrl      String?
   videoUrl      String?
+  videoGallery  Json?
 
   vinLast6      String?
   dealerId      String

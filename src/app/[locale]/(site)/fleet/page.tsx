@@ -20,6 +20,10 @@ type VehicleCardData = {
   transmission?: string | null;
   priceCzk?: number | null;
   imageUrl?: string | null;
+  description?: string | null;
+  featured?: boolean;
+  images?: Array<{url: string}>;
+  videoGallery?: unknown;
 };
 
 function formatCzk(value: number | null | undefined, locale: string) {
@@ -79,14 +83,19 @@ function VehicleCard({
   onRequestLabel: string;
   noImageLabel: string;
 }) {
+  const galleryImage = v.images?.[0]?.url;
+  const heroImage = v.imageUrl || galleryImage;
+  const videoCount = Array.isArray(v.videoGallery) ? v.videoGallery.length : 0;
+  const photoCount = v.images?.length || (heroImage ? 1 : 0);
+
   return (
     <Link href={v.slug ? `/fleet/${v.slug}` : "/fleet"} className="block no-underline">
     <article className="yask-card rounded-2xl overflow-hidden group">
       <div className="relative h-44 w-full bg-[rgba(40,25,8,0.70)]">
-        {v.imageUrl ? (
+        {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
-            src={v.imageUrl}
+            src={heroImage}
             alt={v.title}
             className="h-full w-full object-cover"
             loading="lazy"
@@ -100,6 +109,18 @@ function VehicleCard({
           <span className={`rounded-full px-3 py-1 text-[11px] font-bold ${statusClass}`}>
             {status}
           </span>
+        </div>
+        <div className="absolute right-3 top-3 flex flex-wrap gap-2">
+          {v.featured ? (
+            <span className="rounded-full border border-[var(--color-accent)]/40 bg-black/35 px-3 py-1 text-[11px] font-bold text-[var(--color-accent)]">
+              Featured
+            </span>
+          ) : null}
+          {(photoCount > 1 || videoCount > 0) ? (
+            <span className="rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] font-bold text-white/85">
+              {photoCount} фото • {videoCount} відео
+            </span>
+          ) : null}
         </div>
         <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent opacity-70" />
       </div>
@@ -145,6 +166,9 @@ function VehicleCard({
             {formatCzk(v.priceCzk, locale) || onRequestLabel}
           </span>
         </div>
+        {v.description ? (
+          <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/65">{v.description}</p>
+        ) : null}
         <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity">
           {openLabel}
         </div>
@@ -171,8 +195,13 @@ export default async function FleetPage() {
           published: true,
           availability: "IN_TRANSIT",
         },
-        orderBy: {createdAt: "desc"},
-        take: 6,
+        orderBy: [{featured: "desc"}, {createdAt: "desc"}],
+        include: {
+          images: {
+            orderBy: {sortOrder: "asc"},
+          },
+        },
+        take: 12,
       }),
       prisma.vehicle.findMany({
         where: {
@@ -181,8 +210,13 @@ export default async function FleetPage() {
           published: true,
           availability: "ON_SITE",
         },
-        orderBy: {createdAt: "desc"},
-        take: 6,
+        orderBy: [{featured: "desc"}, {createdAt: "desc"}],
+        include: {
+          images: {
+            orderBy: {sortOrder: "asc"},
+          },
+        },
+        take: 12,
       }),
     ]);
   } catch {

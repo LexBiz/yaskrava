@@ -109,6 +109,10 @@ export default async function AdminDashboard({
     dealerError?: string | string[];
     ownerEmail?: string | string[];
     ownerPassword?: string | string[];
+    vehicleSaved?: string | string[];
+    vehicleError?: string | string[];
+    vacancySaved?: string | string[];
+    vacancyError?: string | string[];
     view?: string | string[];
     period?: string | string[];
     sort?: string | string[];
@@ -131,6 +135,10 @@ export default async function AdminDashboard({
     : params.dealerError;
   const ownerEmail = Array.isArray(params.ownerEmail) ? params.ownerEmail[0] : params.ownerEmail;
   const ownerPassword = Array.isArray(params.ownerPassword) ? params.ownerPassword[0] : params.ownerPassword;
+  const vehicleSaved = Array.isArray(params.vehicleSaved) ? params.vehicleSaved[0] : params.vehicleSaved;
+  const vehicleError = Array.isArray(params.vehicleError) ? params.vehicleError[0] : params.vehicleError;
+  const vacancySaved = Array.isArray(params.vacancySaved) ? params.vacancySaved[0] : params.vacancySaved;
+  const vacancyError = Array.isArray(params.vacancyError) ? params.vacancyError[0] : params.vacancyError;
   const activeView = normalizeAdminView(Array.isArray(params.view) ? params.view[0] : params.view);
   const financingPeriod = normalizeFinancingPeriod(Array.isArray(params.period) ? params.period[0] : params.period);
   const financingSort = normalizeFinancingSort(Array.isArray(params.sort) ? params.sort[0] : params.sort);
@@ -202,7 +210,7 @@ export default async function AdminDashboard({
             dealerId: platformDealer.id,
             deletedAt: null,
           },
-          orderBy: {createdAt: "desc"},
+          orderBy: [{sortOrder: "asc"}, {createdAt: "desc"}],
           take: 100,
         }),
         prisma.vehicle.findMany({
@@ -210,7 +218,12 @@ export default async function AdminDashboard({
             dealerId: platformDealer.id,
             deletedAt: null,
           },
-          orderBy: {createdAt: "desc"},
+          orderBy: [{featured: "desc"}, {createdAt: "desc"}],
+          include: {
+            images: {
+              orderBy: {sortOrder: "asc"},
+            },
+          },
           take: 100,
         }),
       ])
@@ -705,338 +718,529 @@ export default async function AdminDashboard({
 
         {activeView === "vehicles" ? (
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
-          <h2 className="text-lg font-semibold text-white">{t.uploadVehicle}</h2>
-          <p className="mt-1 text-sm text-white/60">
-            {t.uploadVehicleText}
-          </p>
-          <p className="mt-1 text-xs text-white/45">
-            {t.platformDealerLabel}: {platformDealer?.name || platformDealerSlug}
-          </p>
-          <div className="mt-4 flex flex-wrap gap-2">
-            {[
-              {key: "all", label: "Усі"},
-              {key: "on_site", label: t.availabilityOnSite},
-              {key: "in_transit", label: t.availabilityTransit},
-              {key: "sold", label: t.availabilitySold},
-            ].map((item) => (
-              <a
-                key={item.key}
-                href={`/admin?view=vehicles&vehicleStatus=${item.key}`}
-                className={`inline-flex h-9 items-center rounded-full border px-3 text-xs font-semibold ${
-                  vehicleStatusFilter === item.key
-                    ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white"
-                    : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
-                }`}
-              >
-                {item.label}
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">{t.uploadVehicle}</h2>
+              <p className="mt-1 text-sm text-white/60">{t.uploadVehicleText}</p>
+              <p className="mt-1 text-xs text-white/45">
+                {t.platformDealerLabel}: {platformDealer?.name || platformDealerSlug}
+              </p>
+            </div>
+            <div className="flex flex-wrap gap-2 text-xs font-semibold">
+              <a href="#vehicle-create" className="inline-flex h-9 items-center rounded-full border border-white/10 bg-white/5 px-3 text-white/75 hover:bg-white/10 hover:text-white">
+                Додати авто
               </a>
-            ))}
+              <a href="#vehicle-inventory" className="inline-flex h-9 items-center rounded-full border border-white/10 bg-white/5 px-3 text-white/75 hover:bg-white/10 hover:text-white">
+                Склад і публікація
+              </a>
+            </div>
           </div>
 
-          <details className="mt-5 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-4">
-            <summary className="cursor-pointer list-none text-sm font-semibold text-white [&::-webkit-details-marker]:hidden">
-              {t.uploadVehicleButton}
-            </summary>
-            <form action={createPlatformVehicleAction} className="mt-4 grid gap-4 lg:grid-cols-2 [&_input]:min-w-0 [&_input]:w-full [&_select]:min-w-0 [&_select]:w-full [&_textarea]:min-w-0 [&_textarea]:w-full">
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.titleField}</span>
-              <input
-                name="title"
-                required
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="BMW 320d Touring • 2021"
-              />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.stockNumber}</span>
-              <input
-                name="stockNumber"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-              />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.availability}</span>
-              <select
-                name="availability"
-                defaultValue="ON_SITE"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-              >
-                <option value="ON_SITE">{t.availabilityOnSite}</option>
-                <option value="IN_TRANSIT">{t.availabilityTransit}</option>
-                <option value="SOLD">{t.availabilitySold}</option>
-              </select>
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.priceCzk}</span>
-              <input
-                name="priceCzk"
-                type="number"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.uploadPhoto}</span>
-              <input
-                name="imageFile"
-                type="file"
-                accept="image/*"
-                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.imageUrl}</span>
-              <input
-                name="imageUrl"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="https://..."
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.uploadVideo}</span>
-              <input
-                name="videoFile"
-                type="file"
-                accept="video/*"
-                className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black"
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.videoUrl}</span>
-              <input
-                name="videoUrl"
-                className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                placeholder="https://..."
-              />
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.description}</span>
-              <textarea
-                name="description"
-                className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-              />
-            </label>
-            <div className="lg:col-span-2 flex justify-end">
-              <button
-                type="submit"
-                className="h-11 rounded-2xl bg-[var(--color-accent)] px-5 text-sm font-semibold text-black hover:brightness-95"
-              >
-                {t.uploadVehicleButton}
-              </button>
+          {vehicleSaved ? (
+            <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-100">
+              {vehicleSaved === "created"
+                ? "Авто додано й одразу підготовлено до показу на сайті."
+                : "Картку авто оновлено, а публічний каталог перевалідовано."}
             </div>
-            </form>
-          </details>
+          ) : null}
 
-          <div className="mt-6 grid gap-4 xl:grid-cols-3">
-            {filteredYaskravaVehicles.length ? (
-              pagedVehicles.map((vehicle) => (
-                <article
-                  key={vehicle.id}
-                  className={`rounded-[26px] border p-4 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.55)] ${
-                    vehicle.availability === "SOLD"
-                      ? "border-emerald-500/20 bg-emerald-500/5"
-                      : "border-white/10 bg-white/[0.03]"
+          {vehicleError ? (
+            <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
+              {vehicleError === "platform"
+                ? "Не знайдено платформеного дилера для головного сайту."
+                : "Не вдалося зберегти авто. Перевірте URL медіа, обов'язкові поля та спробуйте ще раз."}
+            </div>
+          ) : null}
+
+          <div className="mt-5 grid gap-4 md:grid-cols-4">
+            <MetricCard label="Усього авто" value={String(yaskravaVehicles.length)} />
+            <MetricCard label="Рекомендовані" value={String(yaskravaVehicles.filter((vehicle) => vehicle.featured).length)} />
+            <MetricCard label="Опубліковані" value={String(yaskravaVehicles.filter((vehicle) => vehicle.published).length)} />
+            <MetricCard
+              label="З медіа"
+              value={String(
+                yaskravaVehicles.filter(
+                  (vehicle) =>
+                    getVehicleGalleryImages(vehicle).length > 0 ||
+                    getVehicleGalleryVideos(vehicle.videoGallery).length > 0
+                ).length
+              )}
+            />
+          </div>
+
+          <div id="vehicle-create" className="mt-6 rounded-[28px] border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-5">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <h3 className="text-base font-semibold text-white">Нове авто</h3>
+                <p className="mt-1 text-sm text-white/55">
+                  Заповнюйте картку одразу повноцінно: характеристики, медіа, преміальна подача та статус публікації.
+                </p>
+              </div>
+              <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-[11px] font-semibold text-white/70">
+                Premium inventory flow
+              </span>
+            </div>
+
+            <form action={createPlatformVehicleAction} className="mt-5 grid gap-5">
+              <div className="grid gap-4 lg:grid-cols-2">
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">{t.titleField}</span>
+                  <input name="title" required className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="BMW 320d Touring • 2021 • Luxury Line" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">{t.stockNumber}</span>
+                  <input name="stockNumber" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="YA-320D-001" />
+                </label>
+              </div>
+
+              <div className="grid gap-4 lg:grid-cols-3">
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Марка</span>
+                  <input name="make" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="BMW" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Модель</span>
+                  <input name="model" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="320d Touring" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">VIN останні 6</span>
+                  <input name="vinLast6" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="123ABC" />
+                </label>
+              </div>
+
+              <div className="grid gap-4 lg:grid-cols-4">
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Рік</span>
+                  <input name="year" type="number" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="2021" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Пробіг, км</span>
+                  <input name="mileageKm" type="number" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="74000" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Паливо</span>
+                  <input name="fuel" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Diesel" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">Коробка</span>
+                  <input name="transmission" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Automatic" />
+                </label>
+              </div>
+
+              <div className="grid gap-4 lg:grid-cols-3">
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">{t.priceCzk}</span>
+                  <input name="priceCzk" type="number" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="649000" />
+                </label>
+                <label className="grid gap-1.5">
+                  <span className="text-xs font-semibold text-white/70">{t.availability}</span>
+                  <select name="availability" defaultValue="ON_SITE" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]">
+                    <option value="ON_SITE">{t.availabilityOnSite}</option>
+                    <option value="IN_TRANSIT">{t.availabilityTransit}</option>
+                    <option value="SOLD">{t.availabilitySold}</option>
+                  </select>
+                </label>
+                <div className="grid gap-2">
+                  <span className="text-xs font-semibold text-white/70">Публікація</span>
+                  <div className="grid gap-2 sm:grid-cols-3">
+                    <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white/75">
+                      <input type="checkbox" name="published" defaultChecked className="h-4 w-4 rounded border-white/20 bg-black/20" />
+                      {t.publishedLabel}
+                    </label>
+                    <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white/75">
+                      <input type="checkbox" name="featured" className="h-4 w-4 rounded border-white/20 bg-black/20" />
+                      {t.featuredLabel}
+                    </label>
+                    <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white/75">
+                      <input type="checkbox" name="leasingEligible" defaultChecked className="h-4 w-4 rounded border-white/20 bg-black/20" />
+                      Лізинг
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid gap-4 lg:grid-cols-2">
+                <div className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-4">
+                  <div className="text-sm font-semibold text-white">Фото та галерея</div>
+                  <div className="mt-3 grid gap-3">
+                    <label className="grid gap-1.5">
+                      <span className="text-xs font-semibold text-white/70">Головне фото URL</span>
+                      <input name="imageUrl" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="https://..." />
+                    </label>
+                    <label className="grid gap-1.5">
+                      <span className="text-xs font-semibold text-white/70">Додаткові фото URL, кожне з нового рядка</span>
+                      <textarea name="galleryImageUrls" className="min-h-28 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder={"https://...\nhttps://..."} />
+                    </label>
+                    <label className="grid gap-1.5">
+                      <span className="text-xs font-semibold text-white/70">Завантажити фото</span>
+                      <input name="imageFiles" type="file" multiple accept="image/*" className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black" />
+                    </label>
+                  </div>
+                </div>
+
+                <div className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-4">
+                  <div className="text-sm font-semibold text-white">Відео (макс. 1)</div>
+                  <div className="mt-3 grid gap-3">
+                    <label className="grid gap-1.5">
+                      <span className="text-xs font-semibold text-white/70">URL відео</span>
+                      <input name="videoUrl" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="https://..." />
+                    </label>
+                    <label className="grid gap-1.5">
+                      <span className="text-xs font-semibold text-white/70">Завантажити відео (1 файл)</span>
+                      <input name="videoFile" type="file" accept="video/*" className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white file:mr-4 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-4 file:py-2 file:text-sm file:font-semibold file:text-black" />
+                    </label>
+                  </div>
+                </div>
+              </div>
+
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.description}</span>
+                <textarea name="description" className="min-h-28 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Опишіть стан, комплектацію, сильні сторони, сервісну історію та чому авто виглядає premium для клієнта." />
+              </label>
+
+              <div className="flex justify-end">
+                <button type="submit" className="h-11 rounded-2xl bg-[var(--color-accent)] px-5 text-sm font-semibold text-black hover:brightness-95">
+                  {t.uploadVehicleButton}
+                </button>
+              </div>
+            </form>
+          </div>
+
+          <div id="vehicle-inventory" className="mt-6">
+            <div className="flex flex-wrap gap-2">
+              {[
+                {key: "all", label: "Усі"},
+                {key: "on_site", label: t.availabilityOnSite},
+                {key: "in_transit", label: t.availabilityTransit},
+                {key: "sold", label: t.availabilitySold},
+              ].map((item) => (
+                <a
+                  key={item.key}
+                  href={`/admin?view=vehicles&vehicleStatus=${item.key}`}
+                  className={`inline-flex h-9 items-center rounded-full border px-3 text-xs font-semibold ${
+                    vehicleStatusFilter === item.key
+                      ? "border-[var(--color-accent)] bg-[var(--color-accent)]/15 text-white"
+                      : "border-white/10 bg-white/5 text-white/70 hover:bg-white/10 hover:text-white"
                   }`}
                 >
-                  <div className="flex items-start justify-between gap-3">
-                    <VehicleStatusPill
-                      label={
+                  {item.label}
+                </a>
+              ))}
+            </div>
+
+            <div className="mt-6 grid gap-4 xl:grid-cols-2">
+              {filteredYaskravaVehicles.length ? (
+                pagedVehicles.map((vehicle) => {
+                  const galleryImages = getVehicleGalleryImages(vehicle);
+                  const galleryVideos = getVehicleGalleryVideos(vehicle.videoGallery);
+                  const extraGalleryImages = galleryImages.filter((url) => url !== vehicle.imageUrl);
+
+                  return (
+                    <article
+                      key={vehicle.id}
+                      className={`rounded-[26px] border p-5 shadow-[0_24px_60px_-36px_rgba(0,0,0,0.55)] ${
                         vehicle.availability === "SOLD"
-                          ? t.availabilitySold
-                          : vehicle.availability === "IN_TRANSIT"
-                            ? t.availabilityTransit
-                            : t.availabilityOnSite
-                      }
-                      tone={vehicle.availability}
-                    />
-                    <div className="text-right text-[11px] text-white/45">
-                      {vehicle.published ? t.publishedLabel : t.hiddenLabel}
-                    </div>
-                  </div>
-
-                  <div className="mt-4 flex gap-4">
-                    <div className="h-20 w-28 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
-                      {vehicle.imageUrl ? (
-                        // eslint-disable-next-line @next/next/no-img-element
-                        <img src={vehicle.imageUrl} alt={vehicle.title} className="h-full w-full object-cover" />
-                      ) : (
-                        <div className="flex h-full w-full items-center justify-center text-[10px] text-white/35">{t.noImage}</div>
-                      )}
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <div className="line-clamp-2 text-base font-black leading-tight text-white">{vehicle.title}</div>
-                      <div className="mt-2 text-sm font-semibold text-[var(--color-accent)]">
-                        {vehicle.priceCzk ? `${vehicle.priceCzk.toLocaleString()} CZK` : t.priceOnRequest}
-                      </div>
-                      <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-white/55">
-                        {vehicle.make ? <span>{vehicle.make}</span> : null}
-                        {vehicle.model ? <span>{vehicle.model}</span> : null}
-                        {vehicle.year ? <span>{vehicle.year}</span> : null}
-                        {vehicle.videoUrl ? <span>{t.videoAttached}</span> : <span>{t.noVideo}</span>}
-                      </div>
-                    </div>
-                  </div>
-
-                  {vehicle.description ? (
-                    <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/65">
-                      {vehicle.description}
-                    </p>
-                  ) : null}
-
-                  <div className="mt-4 flex flex-wrap gap-2">
-                    {vehicle.availability !== "SOLD" ? (
-                      <form action={markPlatformVehicleSoldAction}>
-                        <input type="hidden" name="id" value={vehicle.id} />
-                        <button type="submit" className="h-10 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-500/15">
-                          {t.markSold}
-                        </button>
-                      </form>
-                    ) : (
-                      <div className="inline-flex h-10 items-center rounded-2xl border border-emerald-500/25 bg-emerald-500/10 px-4 text-xs font-semibold text-emerald-200">
-                        {t.availabilitySold}
-                      </div>
-                    )}
-                    <details className="group flex-1 min-w-[180px]">
-                      <summary className="flex h-10 cursor-pointer list-none items-center justify-center rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white transition hover:bg-white/10 [&::-webkit-details-marker]:hidden">
-                        Виправити
-                      </summary>
-                      <form action={updatePlatformVehicleAction} className="mt-3 grid gap-2 sm:grid-cols-2">
-                        <input type="hidden" name="id" value={vehicle.id} />
-                        <input
-                          name="title"
-                          defaultValue={vehicle.title}
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)] sm:col-span-2"
-                        />
-                        <input
-                          name="priceCzk"
-                          type="number"
-                          defaultValue={vehicle.priceCzk ?? undefined}
-                          placeholder="0"
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                        />
-                        <select
-                          name="availability"
-                          defaultValue={vehicle.availability}
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                        >
-                          <option value="ON_SITE">{t.availabilityOnSite}</option>
-                          <option value="IN_TRANSIT">{t.availabilityTransit}</option>
-                          <option value="SOLD">{t.availabilitySold}</option>
-                        </select>
-                        <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
-                          <input type="checkbox" name="published" defaultChecked={vehicle.published} className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]" />
-                          {t.publishedLabel}
-                        </label>
-                        <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
-                          <input type="checkbox" name="featured" defaultChecked={vehicle.featured} className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]" />
-                          {t.featuredLabel}
-                        </label>
-                        <input
-                          name="imageUrl"
-                          defaultValue={vehicle.imageUrl ?? ""}
-                          placeholder="https://image"
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)] sm:col-span-2"
-                        />
-                        <input
-                          name="videoUrl"
-                          defaultValue={vehicle.videoUrl ?? ""}
-                          placeholder="https://video"
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)] sm:col-span-2"
-                        />
-                        <input
-                          name="imageFile"
-                          type="file"
-                          accept="image/*"
-                          className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black sm:col-span-2"
-                        />
-                        <input
-                          name="videoFile"
-                          type="file"
-                          accept="video/*"
-                          className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black sm:col-span-2"
-                        />
-                        <textarea
-                          name="description"
-                          defaultValue={vehicle.description ?? ""}
-                          placeholder={t.description}
-                          className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)] sm:col-span-2"
-                        />
-                        <div className="sm:col-span-2 flex justify-end">
-                          <button type="submit" className="h-10 rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10">
-                            Виправити
-                          </button>
+                          ? "border-emerald-500/20 bg-emerald-500/5"
+                          : "border-white/10 bg-white/[0.03]"
+                      }`}
+                    >
+                      <div className="flex flex-wrap items-start justify-between gap-3">
+                        <div className="flex flex-wrap gap-2">
+                          <VehicleStatusPill
+                            label={
+                              vehicle.availability === "SOLD"
+                                ? t.availabilitySold
+                                : vehicle.availability === "IN_TRANSIT"
+                                  ? t.availabilityTransit
+                                  : t.availabilityOnSite
+                            }
+                            tone={vehicle.availability}
+                          />
+                          {vehicle.featured ? (
+                            <span className="inline-flex h-8 items-center rounded-full border border-[var(--color-accent)]/30 bg-[var(--color-accent)]/12 px-3 text-[11px] font-bold text-[var(--color-accent)]">
+                              {t.featuredLabel}
+                            </span>
+                          ) : null}
                         </div>
-                      </form>
-                    </details>
-                    <form action={deletePlatformVehicleAction}>
-                      <input type="hidden" name="id" value={vehicle.id} />
-                      <button type="submit" className="h-10 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 text-xs font-semibold text-red-200 transition hover:bg-red-500/15">
-                        {t.delete}
-                      </button>
-                    </form>
-                  </div>
-                </article>
-              ))
-            ) : (
-              <div className="py-4 text-sm text-white/60 xl:col-span-3">{t.noPlatformVehicles}</div>
-            )}
+                        <div className="text-right text-[11px] text-white/45">
+                          {vehicle.published ? t.publishedLabel : t.hiddenLabel}
+                        </div>
+                      </div>
+
+                      <div className="mt-4 flex gap-4">
+                        <div className="h-24 w-32 shrink-0 overflow-hidden rounded-2xl border border-white/10 bg-white/5">
+                          {vehicle.imageUrl ? (
+                            // eslint-disable-next-line @next/next/no-img-element
+                            <img src={vehicle.imageUrl} alt={vehicle.title} className="h-full w-full object-cover" />
+                          ) : (
+                            <div className="flex h-full w-full items-center justify-center text-[10px] text-white/35">{t.noImage}</div>
+                          )}
+                        </div>
+                        <div className="min-w-0 flex-1">
+                          <div className="line-clamp-2 text-lg font-black leading-tight text-white">{vehicle.title}</div>
+                          <div className="mt-2 text-sm font-semibold text-[var(--color-accent)]">
+                            {vehicle.priceCzk ? `${vehicle.priceCzk.toLocaleString()} CZK` : t.priceOnRequest}
+                          </div>
+                          <div className="mt-2 flex flex-wrap gap-2 text-[11px] text-white/55">
+                            {vehicle.make ? <span>{vehicle.make}</span> : null}
+                            {vehicle.model ? <span>{vehicle.model}</span> : null}
+                            {vehicle.year ? <span>{vehicle.year}</span> : null}
+                            {vehicle.mileageKm ? <span>{vehicle.mileageKm.toLocaleString()} km</span> : null}
+                          </div>
+                          <div className="mt-3 flex flex-wrap gap-2 text-[11px] font-semibold">
+                            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                              Фото: {galleryImages.length}
+                            </span>
+                            <span className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                              Відео: {galleryVideos.length}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {vehicle.description ? (
+                        <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/65">
+                          {vehicle.description}
+                        </p>
+                      ) : null}
+
+                      <div className="mt-4 flex flex-wrap gap-2">
+                        {vehicle.slug ? (
+                          <a
+                            href={`/uk/fleet/${vehicle.slug}`}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="inline-flex h-10 items-center rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10"
+                          >
+                            Відкрити на сайті
+                          </a>
+                        ) : null}
+                        {vehicle.availability !== "SOLD" ? (
+                          <form action={markPlatformVehicleSoldAction}>
+                            <input type="hidden" name="id" value={vehicle.id} />
+                            <button type="submit" className="h-10 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 text-xs font-semibold text-emerald-200 transition hover:bg-emerald-500/15">
+                              {t.markSold}
+                            </button>
+                          </form>
+                        ) : null}
+                        <form action={deletePlatformVehicleAction}>
+                          <input type="hidden" name="id" value={vehicle.id} />
+                          <button type="submit" className="h-10 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 text-xs font-semibold text-red-200 transition hover:bg-red-500/15">
+                            {t.delete}
+                          </button>
+                        </form>
+                      </div>
+
+                      <details className="mt-4 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.18)] p-4">
+                        <summary className="cursor-pointer list-none text-sm font-semibold text-white [&::-webkit-details-marker]:hidden">
+                          Редагувати картку
+                        </summary>
+                        <form action={updatePlatformVehicleAction} className="mt-4 grid gap-4 lg:grid-cols-2">
+                          <input type="hidden" name="id" value={vehicle.id} />
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">{t.titleField}</span>
+                            <input name="title" defaultValue={vehicle.title} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">{t.stockNumber}</span>
+                            <input name="stockNumber" defaultValue={vehicle.stockNumber ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">{t.priceCzk}</span>
+                            <input name="priceCzk" type="number" defaultValue={vehicle.priceCzk ?? undefined} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Марка</span>
+                            <input name="make" defaultValue={vehicle.make ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Модель</span>
+                            <input name="model" defaultValue={vehicle.model ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Рік</span>
+                            <input name="year" type="number" defaultValue={vehicle.year ?? undefined} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Пробіг, км</span>
+                            <input name="mileageKm" type="number" defaultValue={vehicle.mileageKm ?? undefined} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Паливо</span>
+                            <input name="fuel" defaultValue={vehicle.fuel ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">Коробка</span>
+                            <input name="transmission" defaultValue={vehicle.transmission ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">VIN останні 6</span>
+                            <input name="vinLast6" defaultValue={vehicle.vinLast6 ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5">
+                            <span className="text-xs font-semibold text-white/70">{t.availability}</span>
+                            <select name="availability" defaultValue={vehicle.availability} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]">
+                              <option value="ON_SITE">{t.availabilityOnSite}</option>
+                              <option value="IN_TRANSIT">{t.availabilityTransit}</option>
+                              <option value="SOLD">{t.availabilitySold}</option>
+                            </select>
+                          </label>
+                          <div className="lg:col-span-2 grid gap-2 sm:grid-cols-3">
+                            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white/70">
+                              <input type="checkbox" name="published" defaultChecked={vehicle.published} className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]" />
+                              {t.publishedLabel}
+                            </label>
+                            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white/70">
+                              <input type="checkbox" name="featured" defaultChecked={vehicle.featured} className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]" />
+                              {t.featuredLabel}
+                            </label>
+                            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white/70">
+                              <input type="checkbox" name="leasingEligible" defaultChecked={vehicle.leasingEligible} className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]" />
+                              Лізинг
+                            </label>
+                          </div>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">Головне фото URL</span>
+                            <input name="imageUrl" defaultValue={vehicle.imageUrl ?? ""} placeholder="https://image" className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">Додаткові фото URL</span>
+                            <textarea name="galleryImageUrls" defaultValue={extraGalleryImages.join("\n")} className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">Завантажити фото</span>
+                            <input name="imageFiles" type="file" multiple accept="image/*" className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black" />
+                          </label>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">URL відео (макс. 1)</span>
+                            <input name="videoUrl" defaultValue={vehicle.videoUrl ?? ""} placeholder="https://video" className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">Завантажити відео (1 файл)</span>
+                            <input name="videoFile" type="file" accept="video/*" className="rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white file:mr-3 file:rounded-xl file:border-0 file:bg-[var(--color-accent)] file:px-3 file:py-1.5 file:text-xs file:font-semibold file:text-black" />
+                          </label>
+                          <label className="grid gap-1.5 lg:col-span-2">
+                            <span className="text-xs font-semibold text-white/70">{t.description}</span>
+                            <textarea name="description" defaultValue={vehicle.description ?? ""} placeholder={t.description} className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-3 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                          </label>
+                          <div className="lg:col-span-2 flex justify-end">
+                            <button type="submit" className="h-10 rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10">
+                              Зберегти картку
+                            </button>
+                          </div>
+                        </form>
+                      </details>
+                    </article>
+                  );
+                })
+              ) : (
+                <div className="py-4 text-sm text-white/60 xl:col-span-2">{t.noPlatformVehicles}</div>
+              )}
+            </div>
+            {vehiclePages > 1 ? (
+              <PaginationRow
+                currentPage={vehiclePage}
+                totalPages={vehiclePages}
+                hrefForPage={(page) => `/admin?view=vehicles&vehicleStatus=${vehicleStatusFilter}&vehiclePage=${page}`}
+              />
+            ) : null}
           </div>
-          {vehiclePages > 1 ? (
-            <PaginationRow
-              currentPage={vehiclePage}
-              totalPages={vehiclePages}
-              hrefForPage={(page) => `/admin?view=vehicles&vehicleStatus=${vehicleStatusFilter}&vehiclePage=${page}`}
-            />
-          ) : null}
         </section>
         ) : null}
 
         {activeView === "vacancies" ? (
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
-          <h2 className="text-lg font-semibold text-white">{t.vacanciesHeading}</h2>
-          <p className="mt-1 text-sm text-white/60">{t.vacanciesText}</p>
-
-          <form action={createCareerVacancyAction} className="mt-5 grid gap-4 lg:grid-cols-2 [&_input]:min-w-0 [&_input]:w-full [&_select]:min-w-0 [&_select]:w-full [&_textarea]:min-w-0 [&_textarea]:w-full">
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.vacancyTitle}</span>
-              <input name="title" required className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.vacancyCity}</span>
-              <input name="city" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.vacancyType}</span>
-              <input name="employmentType" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
-            </label>
-            <label className="grid gap-1.5">
-              <span className="text-xs font-semibold text-white/70">{t.supportEmail}</span>
-              <input name="contactEmail" type="email" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
-            </label>
-            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/75">
-              <input type="checkbox" name="published" defaultChecked className="h-4 w-4 rounded border-white/20 bg-black/20" />
-              {t.publishedLabel}
-            </label>
-            <label className="grid gap-1.5 lg:col-span-2">
-              <span className="text-xs font-semibold text-white/70">{t.description}</span>
-              <textarea name="description" className="min-h-24 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
-            </label>
-            <div className="lg:col-span-2 flex justify-end">
-              <button type="submit" className="h-11 rounded-2xl bg-[var(--color-accent)] px-5 text-sm font-semibold text-black hover:brightness-95">
-                {t.createVacancyButton}
-              </button>
+          <div className="flex flex-wrap items-start justify-between gap-4">
+            <div>
+              <h2 className="text-lg font-semibold text-white">{t.vacanciesHeading}</h2>
+              <p className="mt-1 text-sm text-white/60">{t.vacanciesText}</p>
             </div>
-          </form>
+            <a href="#vacancy-create" className="inline-flex h-9 items-center rounded-full border border-white/10 bg-white/5 px-3 text-xs font-semibold text-white/75 hover:bg-white/10 hover:text-white">
+              Нова вакансія
+            </a>
+          </div>
+
+          {vacancySaved ? (
+            <div className="mt-4 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 p-4 text-sm text-emerald-100">
+              {vacancySaved === "created"
+                ? "Вакансію додано й підготовлено до показу на сайті."
+                : "Вакансію оновлено та синхронізовано з career сторінкою."}
+            </div>
+          ) : null}
+
+          {vacancyError ? (
+            <div className="mt-4 rounded-2xl border border-red-500/30 bg-red-500/10 p-4 text-sm text-red-200">
+              Не вдалося зберегти вакансію. Перевірте email, назву та порядок сортування.
+            </div>
+          ) : null}
+
+          <div id="vacancy-create" className="mt-5 rounded-[28px] border border-[rgba(255,180,80,0.14)] bg-white/[0.03] p-5">
+            <div className="text-base font-semibold text-white">Нова вакансія</div>
+            <form action={createCareerVacancyAction} className="mt-4 grid gap-4 lg:grid-cols-2 [&_input]:min-w-0 [&_input]:w-full [&_textarea]:min-w-0 [&_textarea]:w-full">
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.vacancyTitle}</span>
+                <input name="title" required className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Senior Sales Manager" />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.vacancyCity}</span>
+                <input name="city" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Prague" />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.vacancyType}</span>
+                <input name="employmentType" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Full-time" />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.supportEmail}</span>
+                <input name="contactEmail" type="email" className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="career@yaskrava.eu" />
+              </label>
+              <label className="grid gap-1.5">
+                <span className="text-xs font-semibold text-white/70">{t.sortOrder}</span>
+                <input name="sortOrder" type="number" defaultValue={0} className="h-11 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+              </label>
+              <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/75">
+                <input type="checkbox" name="published" defaultChecked className="h-4 w-4 rounded border-white/20 bg-black/20" />
+                {t.publishedLabel}
+              </label>
+              <label className="grid gap-1.5 lg:col-span-2">
+                <span className="text-xs font-semibold text-white/70">{t.description}</span>
+                <textarea name="description" className="min-h-28 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]" placeholder="Коротко, сильно і по суті: що за роль, чому це преміальна можливість і яка цінність для кандидата." />
+              </label>
+              <div className="lg:col-span-2 flex justify-end">
+                <button type="submit" className="h-11 rounded-2xl bg-[var(--color-accent)] px-5 text-sm font-semibold text-black hover:brightness-95">
+                  {t.createVacancyButton}
+                </button>
+              </div>
+            </form>
+          </div>
 
           <div className="mt-5 divide-y divide-white/10">
             {vacancies.length ? (
               vacancies.map((vacancy) => (
-                <div key={vacancy.id} className="py-4">
+                <div key={vacancy.id} className="py-5">
+                  <div className="mb-4 flex flex-wrap items-start justify-between gap-3">
+                    <div>
+                      <div className="text-base font-semibold text-white">{vacancy.title}</div>
+                      <div className="mt-1 text-xs text-white/45">
+                        {[vacancy.city, vacancy.employmentType].filter(Boolean).join(" • ") || "Без додаткової meta"}
+                      </div>
+                    </div>
+                    <div className="flex flex-wrap gap-2 text-[11px] font-semibold">
+                      <span className="inline-flex rounded-full border border-white/10 bg-white/5 px-3 py-1 text-white/70">
+                        Sort: {vacancy.sortOrder}
+                      </span>
+                      <span className={`inline-flex rounded-full border px-3 py-1 ${vacancy.published ? "border-emerald-500/30 bg-emerald-500/10 text-emerald-200" : "border-white/10 bg-white/5 text-white/70"}`}>
+                        {vacancy.published ? t.publishedLabel : t.hiddenLabel}
+                      </span>
+                    </div>
+                  </div>
+
                   <form action={updateCareerVacancyAction} className="grid gap-3 lg:grid-cols-2">
                     <input type="hidden" name="id" value={vacancy.id} />
                     <input name="title" defaultValue={vacancy.title} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
                     <input name="city" defaultValue={vacancy.city ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
                     <input name="employmentType" defaultValue={vacancy.employmentType ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
                     <input name="contactEmail" defaultValue={vacancy.contactEmail ?? ""} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
+                    <input name="sortOrder" type="number" defaultValue={vacancy.sortOrder} className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 text-xs text-white outline-none focus:border-[rgba(255,180,80,0.28)]" />
                     <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-2 text-xs text-white/75">
                       <input type="checkbox" name="published" defaultChecked={vacancy.published} className="h-4 w-4 rounded border-white/20 bg-black/20" />
                       {t.publishedLabel}
@@ -1360,5 +1564,17 @@ function PaginationRow({
       ) : null}
     </div>
   );
+}
+
+function getVehicleGalleryImages(vehicle: {
+  imageUrl?: string | null;
+  images: Array<{url: string}>;
+}) {
+  return Array.from(new Set(vehicle.images.map((image) => image.url).filter(Boolean)));
+}
+
+function getVehicleGalleryVideos(value: unknown) {
+  if (!Array.isArray(value)) return [];
+  return value.filter((item): item is string => typeof item === "string" && item.length > 0);
 }
 

@@ -1581,6 +1581,7 @@ export const VehicleScalarFieldEnum = {
   description: 'description',
   imageUrl: 'imageUrl',
   videoUrl: 'videoUrl',
+  videoGallery: 'videoGallery',
   vinLast6: 'vinLast6',
   dealerId: 'dealerId'
 } as const

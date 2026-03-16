@@ -1017,10 +1017,6 @@ export type ApplicationUncheckedUpdateManyWithoutAssignedYaskravaUserNestedInput
   deleteMany?: Prisma.ApplicationScalarWhereInput | Prisma.ApplicationScalarWhereInput[]
 }
 
-export type NullableDateTimeFieldUpdateOperationsInput = {
-  set?: Date | string | null
-}
-
 export type EnumApplicationTopicFieldUpdateOperationsInput = {
   set?: $Enums.ApplicationTopic
 }

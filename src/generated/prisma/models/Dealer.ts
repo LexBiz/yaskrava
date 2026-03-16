@@ -44,6 +44,7 @@ export type DealerMinAggregateOutputType = {
   footerDisclaimer: string | null
   appStoreUrl: string | null
   playStoreUrl: string | null
+  deletedAt: Date | null
 }
 
 export type DealerMaxAggregateOutputType = {
@@ -66,6 +67,7 @@ export type DealerMaxAggregateOutputType = {
   footerDisclaimer: string | null
   appStoreUrl: string | null
   playStoreUrl: string | null
+  deletedAt: Date | null
 }
 
 export type DealerCountAggregateOutputType = {
@@ -88,6 +90,7 @@ export type DealerCountAggregateOutputType = {
   footerDisclaimer: number
   appStoreUrl: number
   playStoreUrl: number
+  deletedAt: number
   _all: number
 }
 
@@ -112,6 +115,7 @@ export type DealerMinAggregateInputType = {
   footerDisclaimer?: true
   appStoreUrl?: true
   playStoreUrl?: true
+  deletedAt?: true
 }
 
 export type DealerMaxAggregateInputType = {
@@ -134,6 +138,7 @@ export type DealerMaxAggregateInputType = {
   footerDisclaimer?: true
   appStoreUrl?: true
   playStoreUrl?: true
+  deletedAt?: true
 }
 
 export type DealerCountAggregateInputType = {
@@ -156,6 +161,7 @@ export type DealerCountAggregateInputType = {
   footerDisclaimer?: true
   appStoreUrl?: true
   playStoreUrl?: true
+  deletedAt?: true
   _all?: true
 }
 
@@ -251,6 +257,7 @@ export type DealerGroupByOutputType = {
   footerDisclaimer: string | null
   appStoreUrl: string | null
   playStoreUrl: string | null
+  deletedAt: Date | null
   _count: DealerCountAggregateOutputType | null
   _min: DealerMinAggregateOutputType | null
   _max: DealerMaxAggregateOutputType | null
@@ -294,6 +301,7 @@ export type DealerWhereInput = {
   footerDisclaimer?: Prisma.StringNullableFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
   playStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Dealer"> | Date | string | null
   domains?: Prisma.DealerDomainListRelationFilter
   memberships?: Prisma.DealerMembershipListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
@@ -324,6 +332,7 @@ export type DealerOrderByWithRelationInput = {
   footerDisclaimer?: Prisma.SortOrderInput | Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   playStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   domains?: Prisma.DealerDomainOrderByRelationAggregateInput
   memberships?: Prisma.DealerMembershipOrderByRelationAggregateInput
   applications?: Prisma.ApplicationOrderByRelationAggregateInput
@@ -357,6 +366,7 @@ export type DealerWhereUniqueInput = Prisma.AtLeast<{
   footerDisclaimer?: Prisma.StringNullableFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
   playStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
+  deletedAt?: Prisma.DateTimeNullableFilter<"Dealer"> | Date | string | null
   domains?: Prisma.DealerDomainListRelationFilter
   memberships?: Prisma.DealerMembershipListRelationFilter
   applications?: Prisma.ApplicationListRelationFilter
@@ -387,6 +397,7 @@ export type DealerOrderByWithAggregationInput = {
   footerDisclaimer?: Prisma.SortOrderInput | Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
   playStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
+  deletedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   _count?: Prisma.DealerCountOrderByAggregateInput
   _max?: Prisma.DealerMaxOrderByAggregateInput
   _min?: Prisma.DealerMinOrderByAggregateInput
@@ -415,6 +426,7 @@ export type DealerScalarWhereWithAggregatesInput = {
   footerDisclaimer?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   playStoreUrl?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
+  deletedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Dealer"> | Date | string | null
 }
 
 export type DealerCreateInput = {
@@ -437,6 +449,7 @@ export type DealerCreateInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -467,6 +480,7 @@ export type DealerUncheckedCreateInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -497,6 +511,7 @@ export type DealerUpdateInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -527,6 +542,7 @@ export type DealerUncheckedUpdateInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -557,6 +573,7 @@ export type DealerCreateManyInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
 }
 
 export type DealerUpdateManyMutationInput = {
@@ -579,6 +596,7 @@ export type DealerUpdateManyMutationInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealerUncheckedUpdateManyInput = {
@@ -601,6 +619,7 @@ export type DealerUncheckedUpdateManyInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
 }
 
 export type DealerCountOrderByAggregateInput = {
@@ -623,6 +642,7 @@ export type DealerCountOrderByAggregateInput = {
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
   playStoreUrl?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealerMaxOrderByAggregateInput = {
@@ -645,6 +665,7 @@ export type DealerMaxOrderByAggregateInput = {
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
   playStoreUrl?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealerMinOrderByAggregateInput = {
@@ -667,6 +688,7 @@ export type DealerMinOrderByAggregateInput = {
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
   playStoreUrl?: Prisma.SortOrder
+  deletedAt?: Prisma.SortOrder
 }
 
 export type DealerScalarRelationFilter = {
@@ -693,6 +715,10 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumDealerStatusFieldUpdateOperationsInput = {
   set?: $Enums.DealerStatus
+}
+
+export type NullableDateTimeFieldUpdateOperationsInput = {
+  set?: Date | string | null
 }
 
 export type DealerCreateNestedOneWithoutDomainsInput = {
@@ -831,6 +857,7 @@ export type DealerCreateWithoutDomainsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
@@ -860,6 +887,7 @@ export type DealerUncheckedCreateWithoutDomainsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
@@ -905,6 +933,7 @@ export type DealerUpdateWithoutDomainsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
@@ -934,6 +963,7 @@ export type DealerUncheckedUpdateWithoutDomainsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
@@ -963,6 +993,7 @@ export type DealerCreateWithoutMembershipsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
@@ -992,6 +1023,7 @@ export type DealerUncheckedCreateWithoutMembershipsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
@@ -1037,6 +1069,7 @@ export type DealerUpdateWithoutMembershipsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
@@ -1066,6 +1099,7 @@ export type DealerUncheckedUpdateWithoutMembershipsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
@@ -1095,6 +1129,7 @@ export type DealerCreateWithoutApplicationsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadCreateNestedManyWithoutConvertedDealerInput
@@ -1124,6 +1159,7 @@ export type DealerUncheckedCreateWithoutApplicationsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedCreateNestedManyWithoutConvertedDealerInput
@@ -1169,6 +1205,7 @@ export type DealerUpdateWithoutApplicationsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUpdateManyWithoutConvertedDealerNestedInput
@@ -1198,6 +1235,7 @@ export type DealerUncheckedUpdateWithoutApplicationsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   convertedPartnerLeads?: Prisma.PartnerLeadUncheckedUpdateManyWithoutConvertedDealerNestedInput
@@ -1227,6 +1265,7 @@ export type DealerCreateWithoutConvertedPartnerLeadsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -1256,6 +1295,7 @@ export type DealerUncheckedCreateWithoutConvertedPartnerLeadsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -1301,6 +1341,7 @@ export type DealerUpdateWithoutConvertedPartnerLeadsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -1330,6 +1371,7 @@ export type DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -1359,6 +1401,7 @@ export type DealerCreateWithoutVehiclesInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -1388,6 +1431,7 @@ export type DealerUncheckedCreateWithoutVehiclesInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -1433,6 +1477,7 @@ export type DealerUpdateWithoutVehiclesInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -1462,6 +1507,7 @@ export type DealerUncheckedUpdateWithoutVehiclesInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -1491,6 +1537,7 @@ export type DealerCreateWithoutVacanciesInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -1520,6 +1567,7 @@ export type DealerUncheckedCreateWithoutVacanciesInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -1565,6 +1613,7 @@ export type DealerUpdateWithoutVacanciesInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -1594,6 +1643,7 @@ export type DealerUncheckedUpdateWithoutVacanciesInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -1623,6 +1673,7 @@ export type DealerCreateWithoutDailyMetricsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -1652,6 +1703,7 @@ export type DealerUncheckedCreateWithoutDailyMetricsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -1697,6 +1749,7 @@ export type DealerUpdateWithoutDailyMetricsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -1726,6 +1779,7 @@ export type DealerUncheckedUpdateWithoutDailyMetricsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -1755,6 +1809,7 @@ export type DealerCreateWithoutAuditLogsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationCreateNestedManyWithoutDealerInput
@@ -1784,6 +1839,7 @@ export type DealerUncheckedCreateWithoutAuditLogsInput = {
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
   playStoreUrl?: string | null
+  deletedAt?: Date | string | null
   domains?: Prisma.DealerDomainUncheckedCreateNestedManyWithoutDealerInput
   memberships?: Prisma.DealerMembershipUncheckedCreateNestedManyWithoutDealerInput
   applications?: Prisma.ApplicationUncheckedCreateNestedManyWithoutDealerInput
@@ -1829,6 +1885,7 @@ export type DealerUpdateWithoutAuditLogsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUpdateManyWithoutDealerNestedInput
@@ -1858,6 +1915,7 @@ export type DealerUncheckedUpdateWithoutAuditLogsInput = {
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   playStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  deletedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   domains?: Prisma.DealerDomainUncheckedUpdateManyWithoutDealerNestedInput
   memberships?: Prisma.DealerMembershipUncheckedUpdateManyWithoutDealerNestedInput
   applications?: Prisma.ApplicationUncheckedUpdateManyWithoutDealerNestedInput
@@ -1981,6 +2039,7 @@ export type DealerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
   playStoreUrl?: boolean
+  deletedAt?: boolean
   domains?: boolean | Prisma.Dealer$domainsArgs<ExtArgs>
   memberships?: boolean | Prisma.Dealer$membershipsArgs<ExtArgs>
   applications?: boolean | Prisma.Dealer$applicationsArgs<ExtArgs>
@@ -2012,6 +2071,7 @@ export type DealerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
   playStoreUrl?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["dealer"]>
 
 export type DealerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -2034,6 +2094,7 @@ export type DealerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
   playStoreUrl?: boolean
+  deletedAt?: boolean
 }, ExtArgs["result"]["dealer"]>
 
 export type DealerSelectScalar = {
@@ -2056,9 +2117,10 @@ export type DealerSelectScalar = {
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
   playStoreUrl?: boolean
+  deletedAt?: boolean
 }
 
-export type DealerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "slug" | "name" | "legalName" | "status" | "defaultLocale" | "accentColor" | "brandPrimary" | "brandSecondary" | "supportEmail" | "supportPhone" | "city" | "country" | "websiteTitle" | "footerDisclaimer" | "appStoreUrl" | "playStoreUrl", ExtArgs["result"]["dealer"]>
+export type DealerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "slug" | "name" | "legalName" | "status" | "defaultLocale" | "accentColor" | "brandPrimary" | "brandSecondary" | "supportEmail" | "supportPhone" | "city" | "country" | "websiteTitle" | "footerDisclaimer" | "appStoreUrl" | "playStoreUrl" | "deletedAt", ExtArgs["result"]["dealer"]>
 export type DealerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   domains?: boolean | Prisma.Dealer$domainsArgs<ExtArgs>
   memberships?: boolean | Prisma.Dealer$membershipsArgs<ExtArgs>
@@ -2105,6 +2167,7 @@ export type $DealerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     footerDisclaimer: string | null
     appStoreUrl: string | null
     playStoreUrl: string | null
+    deletedAt: Date | null
   }, ExtArgs["result"]["dealer"]>
   composites: {}
 }
@@ -2555,6 +2618,7 @@ export interface DealerFieldRefs {
   readonly footerDisclaimer: Prisma.FieldRef<"Dealer", 'String'>
   readonly appStoreUrl: Prisma.FieldRef<"Dealer", 'String'>
   readonly playStoreUrl: Prisma.FieldRef<"Dealer", 'String'>
+  readonly deletedAt: Prisma.FieldRef<"Dealer", 'DateTime'>
 }
     
 

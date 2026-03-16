@@ -1436,7 +1436,8 @@ export const DealerScalarFieldEnum = {
   websiteTitle: 'websiteTitle',
   footerDisclaimer: 'footerDisclaimer',
   appStoreUrl: 'appStoreUrl',
-  playStoreUrl: 'playStoreUrl'
+  playStoreUrl: 'playStoreUrl',
+  deletedAt: 'deletedAt'
 } as const
 
 export type DealerScalarFieldEnum = (typeof DealerScalarFieldEnum)[keyof typeof DealerScalarFieldEnum]

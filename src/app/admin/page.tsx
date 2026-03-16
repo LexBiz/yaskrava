@@ -18,6 +18,7 @@ import {
   deactivateDealerAction,
   reactivateDealerAction,
   resetDealerPasswordAction,
+  deleteDealerAction,
 } from "@/app/admin/actions";
 import {ConfirmForm} from "@/app/admin/ConfirmForm";
 import {requireAdmin} from "@/lib/adminAuth";
@@ -143,6 +144,7 @@ export default async function AdminDashboard({
     vehiclePage?: string | string[];
     newPwdDealerId?: string | string[];
     newPwd?: string | string[];
+    dealerDeleted?: string | string[];
   }>;
 }) {
   const t = adminCrmUk;
@@ -160,6 +162,7 @@ export default async function AdminDashboard({
   const ownerPassword = sp("ownerPassword");
   const newPwdDealerId = sp("newPwdDealerId");
   const newPwd = sp("newPwd");
+  const dealerDeleted = sp("dealerDeleted");
   const vehicleSaved = sp("vehicleSaved");
   const vehicleError = sp("vehicleError");
   const vacancySaved = sp("vacancySaved");
@@ -193,7 +196,7 @@ export default async function AdminDashboard({
       prisma.dealer.count({where: {status: "ACTIVE", slug: {not: platformDealerSlug}}}),
       prisma.adminUser.count({where: {isActive: true, platformRole: {not: null}}}),
       prisma.dealer.findMany({
-        where: {slug: {not: platformDealerSlug}},
+        where: {slug: {not: platformDealerSlug}, deletedAt: null},
         orderBy: {createdAt: "desc"},
         include: {memberships: {where: {isActive: true}, include: {user: true}}},
         take: 50,
@@ -865,6 +868,7 @@ export default async function AdminDashboard({
             <div className="mx-auto max-w-4xl">
               <PageHeader title="Дилери та партнери" subtitle="Підключення нових дилерів і мережа партнерів" />
 
+              {dealerDeleted ? <Toast tone="success" text="Дилера видалено." /> : null}
               {dealerCreated ? (
                 <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/8 p-4">
                   <div className="text-sm font-bold text-emerald-300">✓ Дилера підключено!</div>
@@ -1077,7 +1081,7 @@ export default async function AdminDashboard({
                         </div>
 
                         {/* Danger zone */}
-                        <div className="border-t border-white/8 px-5 py-2.5 flex items-center gap-3">
+                        <div className="border-t border-white/8 px-5 py-2.5 flex items-center gap-4 flex-wrap">
                           {isActive ? (
                             <ConfirmForm
                               action={deactivateDealerAction}
@@ -1086,7 +1090,7 @@ export default async function AdminDashboard({
                               <input type="hidden" name="id" value={dealer.id} />
                               <button type="submit"
                                 className="text-[11px] font-semibold text-red-400 hover:text-red-300 transition">
-                                ⏸ Деактивувати дилера
+                                ⏸ Деактивувати
                               </button>
                             </ConfirmForm>
                           ) : (
@@ -1094,10 +1098,20 @@ export default async function AdminDashboard({
                               <input type="hidden" name="id" value={dealer.id} />
                               <button type="submit"
                                 className="text-[11px] font-semibold text-emerald-400 hover:text-emerald-300 transition">
-                                ▶ Активувати дилера
+                                ▶ Активувати
                               </button>
                             </form>
                           )}
+                          <ConfirmForm
+                            action={deleteDealerAction}
+                            confirmMessage={`ВИДАЛИТИ дилера «${dealer.name}» НАЗАВЖДИ? Це незворотна дія — всі дані збережуться в БД, але дилер зникне з CRM і його сайт перестане працювати.`}
+                          >
+                            <input type="hidden" name="id" value={dealer.id} />
+                            <button type="submit"
+                              className="text-[11px] font-semibold text-red-500/70 hover:text-red-400 transition ml-auto">
+                              🗑 Видалити повністю
+                            </button>
+                          </ConfirmForm>
                         </div>
                       </article>
                     );

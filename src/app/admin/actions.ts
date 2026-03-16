@@ -523,7 +523,7 @@ export async function createDealerProvisionAction(formData: FormData) {
     ownerEmail: z.string().email().max(200),
     ownerFirstName: z.string().max(80).optional(),
     ownerLastName: z.string().max(80).optional(),
-    ownerPassword: z.string().min(8).max(120),
+    ownerPassword: z.string().max(120).optional(),
   });
 
   const parsed = schema.safeParse({
@@ -536,17 +536,30 @@ export async function createDealerProvisionAction(formData: FormData) {
     ownerEmail: String(formData.get("ownerEmail") ?? "").trim().toLowerCase(),
     ownerFirstName: String(formData.get("ownerFirstName") ?? "").trim() || undefined,
     ownerLastName: String(formData.get("ownerLastName") ?? "").trim() || undefined,
-    ownerPassword: String(formData.get("ownerPassword") ?? ""),
+    ownerPassword: String(formData.get("ownerPassword") ?? "").trim() || undefined,
   });
 
   if (!parsed.success) {
     redirect("/admin?view=dealers&dealerError=validation");
   }
 
+  // Auto-generate a secure password if not provided
+  const {randomBytes} = await import("node:crypto");
+  const chars = "ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#";
+  let finalPassword = parsed.data.ownerPassword || "";
+  if (!finalPassword || finalPassword.length < 8) {
+    const buf = randomBytes(18);
+    finalPassword = "";
+    for (const byte of buf) {
+      finalPassword += chars[byte % chars.length];
+      if (finalPassword.length === 14) break;
+    }
+  }
+
   const slugBase = parsed.data.slug ? slugify(parsed.data.slug) : slugify(parsed.data.name);
   const finalSlug = slugBase || uniqueSlug(parsed.data.name);
   const hostname = buildDealerHostname(finalSlug);
-  const passwordHash = await hash(parsed.data.ownerPassword, 12);
+  const passwordHash = await hash(finalPassword, 12);
 
   const [existingDealer, existingDomain, existingOwner] = await Promise.all([
     prisma.dealer.findUnique({
@@ -664,7 +677,7 @@ export async function createDealerProvisionAction(formData: FormData) {
     view: "dealers",
     dealerCreated: finalSlug,
     ownerEmail: parsed.data.ownerEmail,
-    ownerPassword: parsed.data.ownerPassword,
+    ownerPassword: finalPassword,
   });
   redirect(`/admin?${query.toString()}`);
 }
@@ -1130,6 +1143,43 @@ export async function reactivateDealerAction(formData: FormData) {
   });
 
   revalidatePath("/admin");
+}
+
+export async function deleteDealerAction(formData: FormData) {
+  const user = await requireAdmin();
+  await assertSameOrigin();
+
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+
+  const dealer = await prisma.dealer.findFirst({where: {id: parsed.id}});
+  if (!dealer || dealer.slug === getPlatformDealerSlug()) {
+    redirect("/admin?view=dealers");
+  }
+
+  await prisma.$transaction(async (tx) => {
+    await tx.dealerMembership.updateMany({
+      where: {dealerId: parsed.id},
+      data: {isActive: false},
+    });
+    await tx.dealer.update({
+      where: {id: parsed.id},
+      data: {status: "INACTIVE", deletedAt: new Date()},
+    });
+    await tx.auditLog.create({
+      data: {
+        action: "DEALER_PROVISIONED",
+        actorType: "SYSTEM",
+        actorUserId: user.id,
+        dealerId: parsed.id,
+        targetId: parsed.id,
+        message: `Central CRM deleted dealer ${dealer.name}.`,
+        metadata: {} as never,
+      },
+    });
+  });
+
+  redirect("/admin?view=dealers&dealerDeleted=1");
 }
 
 export async function resetDealerPasswordAction(formData: FormData) {

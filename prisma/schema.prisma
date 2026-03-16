@@ -113,6 +113,8 @@ model Dealer {
   appStoreUrl      String?
   playStoreUrl     String?
 
+  deletedAt        DateTime?
+
   domains          DealerDomain[]
   memberships      DealerMembership[]
   applications     Application[]

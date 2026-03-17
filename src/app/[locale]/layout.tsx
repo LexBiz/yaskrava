@@ -37,11 +37,17 @@ export async function generateMetadata({
     applicationName: name,
     icons: {
       icon: [
-        {url: "/icon.png?v=3", type: "image/png", sizes: "512x512"},
+        {url: "/icon.png", type: "image/png", sizes: "any"},
       ],
-      shortcut: ["/icon.png?v=3"],
-      apple: ["/apple-icon.png?v=3"],
+      shortcut: "/icon.png",
+      apple: [
+        {url: "/apple-touch-icon.png", sizes: "1188x1188", type: "image/png"},
+      ],
+      other: [
+        {rel: "apple-touch-icon-precomposed", url: "/apple-touch-icon-precomposed.png"},
+      ],
     },
+    manifest: "/manifest.webmanifest",
     openGraph: {
       type: "website",
       url: baseUrl,

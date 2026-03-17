@@ -280,15 +280,6 @@ async function main() {
 
     // 7. Submit financing applications via public API
     let appsSubmitted = 0;
-    const calcSnapshot = {
-      vehiclePriceCzk: 700000,
-      downPaymentCzk: 140000,
-      termMonths: 48,
-      monthlyTotalCzk: 13500,
-      residualCzk: 70000,
-      interestRate: 0.059,
-      totalCostCzk: 718000,
-    };
 
     for (const applicant of d.applicants) {
       try {
@@ -301,7 +292,7 @@ async function main() {
           },
           body: JSON.stringify({
             locale: "cs",
-            sourcePath: `/fleet`,
+            sourcePath: "/fleet",
             topic: "LEASING",
             fullName: applicant.name,
             phone: applicant.phone,
@@ -309,15 +300,14 @@ async function main() {
             city: applicant.city,
             message: applicant.message,
             consent: true,
-            calculator: calcSnapshot,
           }),
         });
-        const json = await res.json() as {id?: string; error?: string};
+        const json = await res.json() as {id?: string; error?: string; details?: unknown};
         if (json.id) {
           appsSubmitted++;
           console.log(`  ✓ Application submitted: ${applicant.name} → ID ${json.id}`);
         } else {
-          console.log(`  ✗ Application failed: ${applicant.name} — ${json.error || res.status}`);
+          console.log(`  ✗ Application failed: ${applicant.name} — HTTP ${res.status}: ${json.error}${json.details ? " " + JSON.stringify(json.details) : ""}`);
         }
       } catch (err) {
         console.log(`  ✗ Application error: ${applicant.name} — ${err}`);

@@ -564,7 +564,7 @@ export async function createDealerProvisionAction(formData: FormData) {
   const [existingDealer, existingDomain, existingOwner] = await Promise.all([
     prisma.dealer.findUnique({
       where: {slug: finalSlug},
-      select: {id: true},
+      select: {id: true, name: true},
     }),
     prisma.dealerDomain.findUnique({
       where: {hostname},
@@ -575,20 +575,38 @@ export async function createDealerProvisionAction(formData: FormData) {
       include: {
         memberships: {
           where: {isActive: true},
-          select: {dealerId: true},
+          include: {dealer: {select: {name: true, deletedAt: true}}},
         },
       },
     }),
   ]);
 
-  if (
-    existingDealer ||
-    existingDomain ||
-    existingOwner?.platformRole ||
-    (existingOwner?.memberships.length ?? 0) > 0
-  ) {
-    redirect("/admin?view=dealers&dealerError=duplicate");
+  // Slug/domain already taken
+  if (existingDealer || existingDomain) {
+    const q = new URLSearchParams({view: "dealers", dealerError: "slug_taken", conflictSlug: finalSlug});
+    redirect(`/admin?${q.toString()}`);
   }
+
+  // Email belongs to an admin/platform user — cannot reuse
+  if (existingOwner?.platformRole) {
+    const q = new URLSearchParams({view: "dealers", dealerError: "email_admin", conflictEmail: parsed.data.ownerEmail});
+    redirect(`/admin?${q.toString()}`);
+  }
+
+  // Email already used by an ACTIVE (non-deleted) dealer
+  const activeConflictMembership = existingOwner?.memberships.find((m) => !m.dealer.deletedAt);
+  if (activeConflictMembership) {
+    const q = new URLSearchParams({
+      view: "dealers",
+      dealerError: "email_taken",
+      conflictEmail: parsed.data.ownerEmail,
+      conflictDealer: activeConflictMembership.dealer.name,
+    });
+    redirect(`/admin?${q.toString()}`);
+  }
+
+  // Email exists but user's dealer was deleted — safe to reuse the account
+  const reuseExistingUser = Boolean(existingOwner);
 
   try {
     await prisma.$transaction(async (tx) => {
@@ -611,15 +629,31 @@ export async function createDealerProvisionAction(formData: FormData) {
         },
       });
 
-      const owner = await tx.adminUser.create({
-        data: {
-          email: parsed.data.ownerEmail,
-          passwordHash,
-          firstName: parsed.data.ownerFirstName,
-          lastName: parsed.data.ownerLastName,
-          isActive: true,
-        },
-      });
+      // Reuse existing user (previous dealer was deleted) or create fresh
+      let owner: {id: string};
+      if (reuseExistingUser && existingOwner) {
+        owner = await tx.adminUser.update({
+          where: {id: existingOwner.id},
+          data: {
+            passwordHash,
+            firstName: parsed.data.ownerFirstName ?? existingOwner.firstName,
+            lastName: parsed.data.ownerLastName ?? existingOwner.lastName,
+            isActive: true,
+          },
+          select: {id: true},
+        });
+      } else {
+        owner = await tx.adminUser.create({
+          data: {
+            email: parsed.data.ownerEmail,
+            passwordHash,
+            firstName: parsed.data.ownerFirstName,
+            lastName: parsed.data.ownerLastName,
+            isActive: true,
+          },
+          select: {id: true},
+        });
+      }
 
       await tx.dealerMembership.upsert({
         where: {
@@ -650,6 +684,7 @@ export async function createDealerProvisionAction(formData: FormData) {
           metadata: {
             hostname,
             ownerEmail: parsed.data.ownerEmail,
+            reusedAccount: reuseExistingUser,
           } as never,
         },
       });
@@ -669,8 +704,9 @@ export async function createDealerProvisionAction(formData: FormData) {
         });
       }
     });
-  } catch {
-    redirect("/admin?view=dealers&dealerError=duplicate");
+  } catch (err) {
+    console.error("[createDealerProvisionAction] transaction failed:", err);
+    redirect("/admin?view=dealers&dealerError=unknown");
   }
 
   const query = new URLSearchParams({

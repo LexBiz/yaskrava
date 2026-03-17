@@ -127,6 +127,9 @@ export default async function AdminDashboard({
   searchParams: Promise<{
     dealerCreated?: string | string[];
     dealerError?: string | string[];
+    conflictSlug?: string | string[];
+    conflictEmail?: string | string[];
+    conflictDealer?: string | string[];
     ownerEmail?: string | string[];
     ownerPassword?: string | string[];
     vehicleSaved?: string | string[];
@@ -158,6 +161,9 @@ export default async function AdminDashboard({
 
   const dealerCreated = sp("dealerCreated");
   const dealerError = sp("dealerError");
+  const conflictSlug = sp("conflictSlug");
+  const conflictEmail = sp("conflictEmail");
+  const conflictDealer = sp("conflictDealer");
   const ownerEmail = sp("ownerEmail");
   const ownerPassword = sp("ownerPassword");
   const newPwdDealerId = sp("newPwdDealerId");
@@ -881,7 +887,17 @@ export default async function AdminDashboard({
                   </div>
                 </div>
               ) : null}
-              {dealerError ? <Toast tone="error" text="Помилка: дилер або email вже існує, або поля заповнені невірно." /> : null}
+              {dealerError === "slug_taken" ? (
+                <Toast tone="error" text={`Субдомен «${conflictSlug}» вже зайнятий. Введіть інший slug.`} />
+              ) : dealerError === "email_taken" ? (
+                <Toast tone="error" text={`Email «${conflictEmail}» вже використовується активним дилером «${conflictDealer}». Використайте інший email власника.`} />
+              ) : dealerError === "email_admin" ? (
+                <Toast tone="error" text={`Email «${conflictEmail}» належить адміністратору платформи — не можна використовувати як дилерський.`} />
+              ) : dealerError === "validation" ? (
+                <Toast tone="error" text="Перевірте обов'язкові поля: назва дилера, email підтримки, email власника мають бути заповнені коректно." />
+              ) : dealerError ? (
+                <Toast tone="error" text="Невідома помилка при підключенні дилера. Спробуйте ще раз або зверніться до розробника." />
+              ) : null}
 
               {/* Incoming partner leads */}
               {pendingPartnerLeads.length > 0 ? (

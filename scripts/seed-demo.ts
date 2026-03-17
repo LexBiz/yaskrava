@@ -3,7 +3,7 @@
  * Run: DATABASE_URL="..." npx tsx scripts/seed-demo.ts
  */
 
-import {PrismaClient} from "../src/generated/prisma/client/index.js";
+import {PrismaClient} from "../src/generated/prisma/client";
 import {randomBytes} from "node:crypto";
 import {createHash} from "node:crypto";
 

@@ -102,7 +102,7 @@ function VehicleCard({
   return (
     <Link href={v.slug ? `/fleet/${v.slug}` : "/fleet"} className="block no-underline">
     <article className="yask-card rounded-2xl overflow-hidden group">
-      <div className="relative aspect-video w-full overflow-hidden bg-[rgba(40,25,8,0.70)]">
+      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[rgba(40,25,8,0.70)]">
         {heroImage ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img

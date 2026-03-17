@@ -234,7 +234,7 @@ async function main() {
       const existingDomain = await prisma.dealerDomain.findFirst({where: {hostname}});
       if (!existingDomain) {
         await prisma.dealerDomain.create({
-          data: {dealerId: dealer.id, hostname, isPrimary: true},
+          data: {dealerId: existingDealer.id, hostname, isPrimary: true},
         });
         console.log(`  ✓ Domain registered: ${hostname}`);
       }

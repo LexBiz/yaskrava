@@ -49,6 +49,23 @@ function revalidateFleetPages() {
   revalidatePath("/uk/fleet");
 }
 
+const VALID_FINANCING_PERIODS = ["today", "7d", "30d", "all"] as const;
+const VALID_FINANCING_SORTS = ["newest", "oldest", "dealer", "status"] as const;
+
+function buildFinancingReturnUrl(formData: FormData, forceShowArchived?: boolean): string {
+  const rawPeriod = String(formData.get("_period") ?? "");
+  const rawSort = String(formData.get("_sort") ?? "");
+  const rawArchived = formData.get("_archived") === "1";
+
+  const period = (VALID_FINANCING_PERIODS as readonly string[]).includes(rawPeriod) ? rawPeriod : "all";
+  const sort = (VALID_FINANCING_SORTS as readonly string[]).includes(rawSort) ? rawSort : "newest";
+  const showArchived = forceShowArchived !== undefined ? forceShowArchived : rawArchived;
+
+  const params = new URLSearchParams({view: "financing", period, sort});
+  if (showArchived) params.set("archived", "1");
+  return `/admin?${params.toString()}`;
+}
+
 function redirectVehicleState(state: "created" | "updated" | "validation" | "platform") {
   const query = new URLSearchParams({
     view: "vehicles",
@@ -261,7 +278,9 @@ export async function setApplicationStatusAction(formData: FormData) {
     message: `Central CRM updated application status to ${parsed.data.status}.`,
   });
 
+  const returnUrl = buildFinancingReturnUrl(formData);
   revalidatePath("/admin");
+  redirect(returnUrl);
 }
 
 export async function toggleArchivedAction(formData: FormData) {
@@ -291,7 +310,11 @@ export async function toggleArchivedAction(formData: FormData) {
     message: `Central CRM changed archived=${Boolean(parsed.data.archived)}.`,
   });
 
+  const isArchiving = Boolean(parsed.data.archived);
+  // After archiving → return to regular view (item disappears); after unarchiving → stay in archive view
+  const returnUrl = buildFinancingReturnUrl(formData, isArchiving ? false : true);
   revalidatePath("/admin");
+  redirect(returnUrl);
 }
 
 export async function deleteApplicationAction(formData: FormData) {
@@ -315,6 +338,7 @@ export async function deleteApplicationAction(formData: FormData) {
   });
 
   revalidatePath("/admin");
+  redirect(buildFinancingReturnUrl(formData, false));
 }
 
 export async function setAdminNoteAction(formData: FormData) {
@@ -344,7 +368,9 @@ export async function setAdminNoteAction(formData: FormData) {
     message: "Central CRM updated application note.",
   });
 
+  const returnUrl = buildFinancingReturnUrl(formData);
   revalidatePath("/admin");
+  redirect(returnUrl);
 }
 
 export async function setFinancingStatusAction(formData: FormData) {
@@ -405,7 +431,9 @@ export async function setFinancingStatusAction(formData: FormData) {
     message: `Central CRM updated financing status to ${parsed.data.status}.`,
   });
 
+  const returnUrl = buildFinancingReturnUrl(formData);
   revalidatePath("/admin");
+  redirect(returnUrl);
 }
 
 export async function setPartnerLeadStatusAction(formData: FormData) {

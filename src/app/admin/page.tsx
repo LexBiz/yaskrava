@@ -460,7 +460,10 @@ export default async function AdminDashboard({
                               <div className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-white/30">Статус заявки</div>
                               <form action={setApplicationStatusAction} className="flex gap-2">
                                 <input type="hidden" name="id" value={a.id} />
-                                <select name="status" defaultValue={a.status} className={SEL_SM}>
+                                <input type="hidden" name="_period" value={financingPeriod} />
+                                <input type="hidden" name="_sort" value={financingSort} />
+                                {showArchivedApplications ? <input type="hidden" name="_archived" value="1" /> : null}
+                                <select name="status" defaultValue={a.status} className={`${SEL_SM} flex-1`}>
                                   {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{applicationStatusLabels.uk[s]}</option>)}
                                 </select>
                                 <button type="submit" className={BTN_GHOST_SM}>Зберегти</button>
@@ -470,7 +473,10 @@ export default async function AdminDashboard({
                               <div className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-white/30">Фінансування</div>
                               <form action={setFinancingStatusAction} className="flex gap-2">
                                 <input type="hidden" name="id" value={a.id} />
-                                <select name="status" defaultValue={a.financingStatus} className={SEL_SM}>
+                                <input type="hidden" name="_period" value={financingPeriod} />
+                                <input type="hidden" name="_sort" value={financingSort} />
+                                {showArchivedApplications ? <input type="hidden" name="_archived" value="1" /> : null}
+                                <select name="status" defaultValue={a.financingStatus} className={`${SEL_SM} flex-1`}>
                                   {FINANCING_STATUS_OPTIONS.map((s) => <option key={s} value={s}>{financingStatusLabels.uk[s]}</option>)}
                                 </select>
                                 <button type="submit" className={BTN_GHOST_SM}>Зберегти</button>
@@ -484,6 +490,9 @@ export default async function AdminDashboard({
                           <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-white/30">Нотатка адміна</div>
                           <form action={setAdminNoteAction} className="flex gap-2">
                             <input type="hidden" name="id" value={a.id} />
+                            <input type="hidden" name="_period" value={financingPeriod} />
+                            <input type="hidden" name="_sort" value={financingSort} />
+                            {showArchivedApplications ? <input type="hidden" name="_archived" value="1" /> : null}
                             <input
                               name="adminNote"
                               defaultValue={a.adminNote ?? ""}
@@ -503,6 +512,9 @@ export default async function AdminDashboard({
                             {a.archived ? (
                               <form action={toggleArchivedAction}>
                                 <input type="hidden" name="id" value={a.id} />
+                                <input type="hidden" name="_period" value={financingPeriod} />
+                                <input type="hidden" name="_sort" value={financingSort} />
+                                <input type="hidden" name="_archived" value="1" />
                                 <button type="submit"
                                   className="inline-flex h-8 items-center rounded-lg border border-white/10 bg-white/5 px-3 text-[11px] font-semibold text-white/50 transition hover:bg-white/10 hover:text-white">
                                   ↩ Відновити
@@ -515,6 +527,8 @@ export default async function AdminDashboard({
                               >
                                 <input type="hidden" name="id" value={a.id} />
                                 <input type="hidden" name="archived" value="on" />
+                                <input type="hidden" name="_period" value={financingPeriod} />
+                                <input type="hidden" name="_sort" value={financingSort} />
                                 <button type="submit"
                                   className="inline-flex h-8 items-center rounded-lg border border-white/10 bg-white/5 px-3 text-[11px] font-semibold text-white/40 transition hover:border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-300">
                                   📦 В архів
@@ -526,6 +540,9 @@ export default async function AdminDashboard({
                               confirmMessage={`Видалити заявку від «${a.fullName}» НАЗАВЖДИ? Це незворотна дія.`}
                             >
                               <input type="hidden" name="id" value={a.id} />
+                              <input type="hidden" name="_period" value={financingPeriod} />
+                              <input type="hidden" name="_sort" value={financingSort} />
+                              {showArchivedApplications ? <input type="hidden" name="_archived" value="1" /> : null}
                               <button type="submit"
                                 className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-500/20 bg-red-500/8 text-sm text-red-400/60 transition hover:border-red-500/40 hover:bg-red-500/15 hover:text-red-300">
                                 🗑

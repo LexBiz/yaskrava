@@ -392,14 +392,14 @@ export default async function DealerDashboard({
                 placeholder={t.descriptionPlaceholder}
               />
             </label>
-            <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white/75 lg:col-span-2">
+            <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white lg:col-span-2 cursor-pointer">
+              <span className="font-medium">{t.leasingEligible}</span>
               <input
                 type="checkbox"
                 name="leasingEligible"
                 defaultChecked
-                className="h-4 w-4 rounded border-white/20 bg-black/20"
+                className="h-5 w-5 rounded border-white/30 accent-[var(--color-accent)]"
               />
-              {t.leasingEligible}
             </label>
             <div className="lg:col-span-2 flex justify-end">
               <button
@@ -476,23 +476,23 @@ export default async function DealerDashboard({
                             </option>
                           ))}
                         </select>
-                        <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
+                        <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
+                          <span className="font-medium">{t.published}</span>
                           <input
                             type="checkbox"
                             name="published"
                             defaultChecked={vehicle.published}
-                            className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
+                            className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
                           />
-                          {t.published}
                         </label>
-                        <label className="flex items-center gap-2 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs text-white/70">
+                        <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
+                          <span className="font-medium">{t.featured}</span>
                           <input
                             type="checkbox"
                             name="featured"
                             defaultChecked={vehicle.featured}
-                            className="h-4 w-4 rounded border-white/20 bg-[rgba(50,32,8,0.70)]"
+                            className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
                           />
-                          {t.featured}
                         </label>
                         <button
                           type="submit"

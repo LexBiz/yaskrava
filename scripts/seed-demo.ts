@@ -3,11 +3,14 @@
  * Run: DATABASE_URL="..." npx tsx scripts/seed-demo.ts
  */
 
+import "dotenv/config";
+import {PrismaPg} from "@prisma/adapter-pg";
 import {PrismaClient} from "../src/generated/prisma/client";
 import {randomBytes} from "node:crypto";
-import {createHash} from "node:crypto";
 
-const prisma = new PrismaClient();
+const connectionString = process.env.DATABASE_URL;
+if (!connectionString) throw new Error("DATABASE_URL is not set");
+const prisma = new PrismaClient({adapter: new PrismaPg({connectionString})});
 const API_BASE = "http://127.0.0.1:3024";
 
 // ─── helpers ────────────────────────────────────────────────────────────────
@@ -171,7 +174,8 @@ async function main() {
           data: {
             email: d.ownerEmail,
             passwordHash: hashedPwd,
-            fullName: `Owner ${d.name}`,
+            firstName: d.name,
+            lastName: "Owner",
             isActive: true,
           },
         });
@@ -194,14 +198,24 @@ async function main() {
           data: {
             dealerId: dealer.id,
             userId: owner.id,
-            role: "OWNER",
+            role: "DEALER_OWNER",
             isActive: true,
           },
         });
         console.log(`  ✓ Membership created`);
       }
 
-      // 5. Audit log
+      // 5. Register subdomain in DealerDomain
+      const hostname = `${d.slug}.yaskrava.eu`;
+      const existingDomain = await prisma.dealerDomain.findFirst({where: {hostname}});
+      if (!existingDomain) {
+        await prisma.dealerDomain.create({
+          data: {dealerId: dealer.id, hostname, isPrimary: true},
+        });
+        console.log(`  ✓ Domain registered: ${hostname}`);
+      }
+
+      // 6. Audit log
       await prisma.auditLog.create({
         data: {
           action: "DEALER_PROVISIONED",
@@ -214,8 +228,16 @@ async function main() {
       });
     } else {
       console.log(`  ~ Dealer already exists, adding data...`);
-      // Get password from audit log note if possible, or generate new one
       password = "(existing — check CRM)";
+      // Ensure domain exists for existing dealers too
+      const hostname = `${d.slug}.yaskrava.eu`;
+      const existingDomain = await prisma.dealerDomain.findFirst({where: {hostname}});
+      if (!existingDomain) {
+        await prisma.dealerDomain.create({
+          data: {dealerId: dealer.id, hostname, isPrimary: true},
+        });
+        console.log(`  ✓ Domain registered: ${hostname}`);
+      }
     }
 
     if (!dealer) continue;

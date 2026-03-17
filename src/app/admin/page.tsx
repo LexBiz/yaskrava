@@ -362,98 +362,180 @@ export default async function AdminDashboard({
               <PageHeader title="Фінансування та заявки" subtitle="Всі заявки на лізинг і фінансування по всіх дилерах" />
 
               {/* Filters */}
-              <div className="mt-5 flex flex-wrap items-center gap-2">
-                <span className="text-xs text-white/40">Період:</span>
-                {([["today","Сьогодні"],["7d","7 днів"],["30d","30 днів"],["all","Весь час"]] as const).map(([k,l]) => (
-                  <a key={k} href={`/admin?view=financing&period=${k}&sort=${financingSort}${showArchivedApplications ? "&archived=1" : ""}`}
-                    className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
-                      financingPeriod === k ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
-                    }`}>{l}</a>
-                ))}
-                <span className="ml-2 text-xs text-white/40">Сорт:</span>
-                {([["newest","Нові↓"],["oldest","Старі↑"],["dealer","По дилеру"],["status","По статусу"]] as const).map(([k,l]) => (
-                  <a key={k} href={`/admin?view=financing&period=${financingPeriod}&sort=${k}${showArchivedApplications ? "&archived=1" : ""}`}
-                    className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
-                      financingSort === k ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
-                    }`}>{l}</a>
-                ))}
-                <a href={`/admin?view=financing&period=${financingPeriod}&sort=${financingSort}${showArchivedApplications ? "" : "&archived=1"}`}
-                  className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
-                    showArchivedApplications ? "border-amber-500/40 bg-amber-500/15 text-amber-300" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
-                  }`}>
-                  {showArchivedApplications ? "✓ Архів" : "Архів"}
-                </a>
+              <div className="mt-5 space-y-2">
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="w-14 shrink-0 text-xs text-white/35">Період</span>
+                  {([["today","Сьогодні"],["7d","7 днів"],["30d","30 днів"],["all","Весь час"]] as const).map(([k,l]) => (
+                    <a key={k} href={`/admin?view=financing&period=${k}&sort=${financingSort}${showArchivedApplications ? "&archived=1" : ""}`}
+                      className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
+                        financingPeriod === k ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
+                      }`}>{l}</a>
+                  ))}
+                </div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="w-14 shrink-0 text-xs text-white/35">Сортування</span>
+                  {([["newest","Нові спочатку"],["oldest","Старі спочатку"],["dealer","По дилеру"],["status","По статусу"]] as const).map(([k,l]) => (
+                    <a key={k} href={`/admin?view=financing&period=${financingPeriod}&sort=${k}${showArchivedApplications ? "&archived=1" : ""}`}
+                      className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
+                        financingSort === k ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
+                      }`}>{l}</a>
+                  ))}
+                  <a href={`/admin?view=financing&period=${financingPeriod}&sort=${financingSort}${showArchivedApplications ? "" : "&archived=1"}`}
+                    className={`ml-auto inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
+                      showArchivedApplications ? "border-amber-500/40 bg-amber-500/15 text-amber-300" : "border-white/10 bg-white/5 text-white/40 hover:text-white"
+                    }`}>
+                    {showArchivedApplications ? "↩ Сховати архів" : "Показати архів"}
+                  </a>
+                </div>
               </div>
 
-              <div className="mt-4 text-xs text-white/30">{financingApplications.length} заявок</div>
+              {/* Legend */}
+              <div className="mt-4 flex flex-wrap items-center gap-4 text-[11px] text-white/30">
+                <span>{financingApplications.length} заявок</span>
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-3 w-1 rounded-full bg-[var(--color-accent)]" />
+                  Платформа (yaskrava.eu)
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <span className="inline-block h-3 w-1 rounded-full bg-sky-500" />
+                  Дилерський сайт
+                </span>
+              </div>
 
               <div className="mt-3 grid gap-3">
                 {financingApplications.length ? (
-                  pagedFinancing.map((a) => (
-                    <article key={a.id} className={`${CARD} p-4`}>
-                      <div className="flex flex-wrap items-start justify-between gap-3">
-                        <div className="min-w-0">
-                          <div className="text-sm font-bold text-white">{a.fullName}</div>
-                          <div className="mt-0.5 text-xs text-white/40">
-                            {new Date(a.createdAt).toLocaleString("uk")} · {topicLabels.uk[a.topic]} · {a.dealer.name}
+                  pagedFinancing.map((a) => {
+                    const isPlatform = a.dealer.slug === platformDealerSlug;
+                    const borderAccent = isPlatform
+                      ? "border-l-[3px] border-l-[var(--color-accent)]"
+                      : "border-l-[3px] border-l-sky-500/70";
+
+                    return (
+                      <article key={a.id} className={`${CARD} overflow-hidden ${borderAccent}`}>
+                        {/* ── Card header ── */}
+                        <div className="flex flex-wrap items-start justify-between gap-3 p-4 pb-3">
+                          <div className="min-w-0 flex-1">
+                            <div className="flex flex-wrap items-center gap-2">
+                              <span className="text-sm font-bold text-white">{a.fullName}</span>
+                              {a.archived ? (
+                                <span className="rounded-md bg-white/8 px-2 py-0.5 text-[10px] font-semibold text-white/35">
+                                  В архіві
+                                </span>
+                              ) : null}
+                            </div>
+                            <div className="mt-1 flex flex-wrap items-center gap-x-3 gap-y-0.5 text-xs text-white/40">
+                              <span>{new Date(a.createdAt).toLocaleString("uk")}</span>
+                              <span className="text-white/20">·</span>
+                              <span>{topicLabels.uk[a.topic]}</span>
+                              <span className="text-white/20">·</span>
+                              <span className={isPlatform ? "font-semibold text-[var(--color-accent)]/80" : "font-semibold text-sky-400/80"}>
+                                {isPlatform ? "🏠 YASKRAVA" : `🏢 ${a.dealer.name}`}
+                              </span>
+                            </div>
+                            {(a.phone || a.email || a.city) ? (
+                              <div className="mt-1 flex flex-wrap gap-x-3 gap-y-0.5 text-xs text-white/30">
+                                {a.phone && <span>📞 {a.phone}</span>}
+                                {a.email && <span>✉ {a.email}</span>}
+                                {a.city && <span>📍 {a.city}</span>}
+                              </div>
+                            ) : null}
                           </div>
-                          <div className="mt-0.5 text-xs text-white/30">{a.phone || "—"} · {a.email || "—"} · {a.city || "—"}</div>
-                        </div>
-                        <div className="flex flex-wrap gap-1.5">
-                          <StatusBadge label={applicationStatusLabels.uk[a.status]} tone="neutral" />
-                          <StatusBadge label={financingStatusLabels.uk[a.financingStatus]} tone="accent" />
-                          {a.archived ? <StatusBadge label="Архів" tone="muted" /> : null}
-                        </div>
-                      </div>
-
-                      {a.message ? <p className="mt-3 line-clamp-3 text-xs leading-5 text-white/50">{a.message}</p> : null}
-
-                      <div className="mt-4 grid gap-2 sm:grid-cols-2 xl:grid-cols-[1fr_1fr_auto]">
-                        <form action={setApplicationStatusAction} className="flex gap-2">
-                          <input type="hidden" name="id" value={a.id} />
-                          <select name="status" defaultValue={a.status} className={SEL_SM}>
-                            {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{applicationStatusLabels.uk[s]}</option>)}
-                          </select>
-                          <button type="submit" className={BTN_GHOST_SM}>OK</button>
-                        </form>
-
-                        <form action={setFinancingStatusAction} className="flex gap-2">
-                          <input type="hidden" name="id" value={a.id} />
-                          <select name="status" defaultValue={a.financingStatus} className={SEL_SM}>
-                            {FINANCING_STATUS_OPTIONS.map((s) => <option key={s} value={s}>{financingStatusLabels.uk[s]}</option>)}
-                          </select>
-                          <button type="submit" className={BTN_GHOST_SM}>OK</button>
-                        </form>
-
-                        <div className="flex gap-2">
-                          <form action={toggleArchivedAction} className="flex items-center gap-1.5">
-                            <input type="hidden" name="id" value={a.id} />
-                            <label className="flex cursor-pointer items-center gap-1.5 rounded-lg border border-white/10 bg-white/5 px-3 h-9 text-xs text-white/60">
-                              <input type="checkbox" name="archived" defaultChecked={a.archived} className="h-3.5 w-3.5" />
-                              Архів
-                            </label>
-                            <button type="submit" className={BTN_GHOST_SM}>OK</button>
-                          </form>
-                          <form action={deleteApplicationAction}>
-                            <input type="hidden" name="id" value={a.id} />
-                            <button type="submit" className={BTN_DANGER_SM}>✕</button>
-                          </form>
-                        </div>
-                      </div>
-
-                      <details className="mt-3">
-                        <summary className="cursor-pointer text-xs text-white/30 hover:text-white/60">Нотатка адміна ▸</summary>
-                        <form action={setAdminNoteAction} className="mt-2 flex flex-col gap-2">
-                          <input type="hidden" name="id" value={a.id} />
-                          <textarea name="adminNote" defaultValue={a.adminNote ?? ""} rows={3}
-                            placeholder="Внутрішня нотатка…" className={AREA} />
-                          <div className="flex justify-end">
-                            <button type="submit" className={BTN_GHOST_SM}>{t.saveNote}</button>
+                          <div className="flex shrink-0 flex-col items-end gap-1.5">
+                            <StatusBadge label={applicationStatusLabels.uk[a.status]} tone="neutral" />
+                            <StatusBadge label={financingStatusLabels.uk[a.financingStatus]} tone="accent" />
                           </div>
-                        </form>
-                      </details>
-                    </article>
-                  ))
+                        </div>
+
+                        {/* Message */}
+                        {a.message ? (
+                          <div className="mx-4 mb-3 rounded-xl bg-white/[0.03] px-3 py-2.5 text-xs leading-5 text-white/50">
+                            {a.message}
+                          </div>
+                        ) : null}
+
+                        {/* ── Status controls ── */}
+                        <div className="border-t border-white/8 px-4 py-3">
+                          <div className="grid gap-2 sm:grid-cols-2">
+                            <div>
+                              <div className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-white/30">Статус заявки</div>
+                              <form action={setApplicationStatusAction} className="flex gap-2">
+                                <input type="hidden" name="id" value={a.id} />
+                                <select name="status" defaultValue={a.status} className={SEL_SM}>
+                                  {STATUS_OPTIONS.map((s) => <option key={s} value={s}>{applicationStatusLabels.uk[s]}</option>)}
+                                </select>
+                                <button type="submit" className={BTN_GHOST_SM}>Зберегти</button>
+                              </form>
+                            </div>
+                            <div>
+                              <div className="mb-1 text-[10px] font-semibold uppercase tracking-wide text-white/30">Фінансування</div>
+                              <form action={setFinancingStatusAction} className="flex gap-2">
+                                <input type="hidden" name="id" value={a.id} />
+                                <select name="status" defaultValue={a.financingStatus} className={SEL_SM}>
+                                  {FINANCING_STATUS_OPTIONS.map((s) => <option key={s} value={s}>{financingStatusLabels.uk[s]}</option>)}
+                                </select>
+                                <button type="submit" className={BTN_GHOST_SM}>Зберегти</button>
+                              </form>
+                            </div>
+                          </div>
+                        </div>
+
+                        {/* ── Note ── */}
+                        <div className="border-t border-white/8 px-4 py-3">
+                          <div className="mb-1.5 text-[10px] font-semibold uppercase tracking-wide text-white/30">Нотатка адміна</div>
+                          <form action={setAdminNoteAction} className="flex gap-2">
+                            <input type="hidden" name="id" value={a.id} />
+                            <input
+                              name="adminNote"
+                              defaultValue={a.adminNote ?? ""}
+                              placeholder="Внутрішня нотатка…"
+                              className={`${INP_SM} flex-1`}
+                            />
+                            <button type="submit" className={BTN_GHOST_SM}>Зберегти</button>
+                          </form>
+                        </div>
+
+                        {/* ── Footer: archive + delete ── */}
+                        <div className="flex items-center justify-between border-t border-white/8 px-4 py-2.5">
+                          <div className="text-[11px] text-white/25">
+                            ID: <span className="font-mono text-white/35">{a.id.slice(0, 8)}…</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            {a.archived ? (
+                              <form action={toggleArchivedAction}>
+                                <input type="hidden" name="id" value={a.id} />
+                                <button type="submit"
+                                  className="inline-flex h-8 items-center rounded-lg border border-white/10 bg-white/5 px-3 text-[11px] font-semibold text-white/50 transition hover:bg-white/10 hover:text-white">
+                                  ↩ Відновити
+                                </button>
+                              </form>
+                            ) : (
+                              <ConfirmForm
+                                action={toggleArchivedAction}
+                                confirmMessage={`Архівувати заявку від «${a.fullName}»? Вона зникне зі звичайного перегляду. Завжди можна відновити.`}
+                              >
+                                <input type="hidden" name="id" value={a.id} />
+                                <input type="hidden" name="archived" value="on" />
+                                <button type="submit"
+                                  className="inline-flex h-8 items-center rounded-lg border border-white/10 bg-white/5 px-3 text-[11px] font-semibold text-white/40 transition hover:border-amber-500/30 hover:bg-amber-500/10 hover:text-amber-300">
+                                  📦 В архів
+                                </button>
+                              </ConfirmForm>
+                            )}
+                            <ConfirmForm
+                              action={deleteApplicationAction}
+                              confirmMessage={`Видалити заявку від «${a.fullName}» НАЗАВЖДИ? Це незворотна дія.`}
+                            >
+                              <input type="hidden" name="id" value={a.id} />
+                              <button type="submit"
+                                className="inline-flex h-8 w-8 items-center justify-center rounded-lg border border-red-500/20 bg-red-500/8 text-sm text-red-400/60 transition hover:border-red-500/40 hover:bg-red-500/15 hover:text-red-300">
+                                🗑
+                              </button>
+                            </ConfirmForm>
+                          </div>
+                        </div>
+                      </article>
+                    );
+                  })
                 ) : (
                   <EmptyState text={t.noApplications} />
                 )}

@@ -5,6 +5,7 @@ import {notFound} from "next/navigation";
 
 import {LeasingCalculator} from "@/components/calculator/LeasingCalculator";
 import {ApplicationForm} from "@/components/forms/ApplicationForm";
+import {PhotoGallery} from "@/components/site/PhotoGallery";
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {Container} from "@/components/site/Container";
 import {PageHero} from "@/components/site/PageHero";
@@ -70,20 +71,25 @@ export default async function VehicleDetailPage({
   const galleryImages = Array.from(
     new Set([vehicle.imageUrl, ...vehicle.images.map((image) => image.url)].filter(Boolean))
   ) as string[];
+
   const galleryVideos = Array.isArray(vehicle.videoGallery)
     ? vehicle.videoGallery.filter((item): item is string => typeof item === "string" && item.length > 0)
     : vehicle.videoUrl
       ? [vehicle.videoUrl]
       : [];
-  const primaryImage = galleryImages[0];
+
+  const statusLabel =
+    vehicle.availability === "IN_TRANSIT" ? t("statusInTransit") : t("statusOnSite");
+  const statusText =
+    vehicle.availability === "IN_TRANSIT" ? t("statusInTransitText") : t("statusOnSiteText");
 
   return (
     <div>
       <PageHero
         variant="gradient"
-        eyebrow={vehicle.availability === "IN_TRANSIT" ? t("statusInTransit") : t("statusOnSite")}
+        eyebrow={statusLabel}
         title={vehicle.title}
-        subtitle={vehicle.availability === "IN_TRANSIT" ? t("statusInTransitText") : t("statusOnSiteText")}
+        subtitle={statusText}
       >
         <div className="flex flex-wrap gap-3">
           <Link href="/fleet" className="btn-white">
@@ -96,35 +102,22 @@ export default async function VehicleDetailPage({
       <section className="section-white py-14 sm:py-20">
         <Container>
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr]">
-            <div>
-              <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white">
-                {primaryImage ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={primaryImage}
-                    alt={vehicle.title}
-                    className="h-[380px] w-full object-cover"
-                  />
-                ) : (
-                  <div className="flex h-[380px] items-center justify-center bg-gray-100 text-gray-400">
-                    {t("noImage")}
-                  </div>
-                )}
-              </div>
 
-              {galleryImages.length > 1 ? (
-                <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
-                  {galleryImages.slice(1).map((imageUrl) => (
-                    <div key={imageUrl} className="overflow-hidden rounded-2xl border border-gray-200 bg-white">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img src={imageUrl} alt={vehicle.title} className="h-28 w-full object-cover" />
-                    </div>
-                  ))}
+            {/* ── Left column: media + specs ── */}
+            <div className="space-y-6">
+
+              {/* Photo gallery with lightbox */}
+              {galleryImages.length > 0 ? (
+                <PhotoGallery images={galleryImages} vehicleTitle={vehicle.title} />
+              ) : (
+                <div className="flex h-[380px] items-center justify-center rounded-3xl border border-gray-200 bg-gray-100 text-gray-400">
+                  {t("noImage")}
                 </div>
-              ) : null}
+              )}
 
-              {galleryVideos.length ? (
-                <div className="mt-6 overflow-hidden rounded-3xl border border-gray-200 bg-white p-3">
+              {/* Videos */}
+              {galleryVideos.length > 0 && (
+                <div className="overflow-hidden rounded-3xl border border-gray-200 bg-white p-3">
                   <div className="grid gap-4">
                     {galleryVideos.map((videoUrl) => (
                       <div key={videoUrl}>
@@ -149,59 +142,40 @@ export default async function VehicleDetailPage({
                     ))}
                   </div>
                 </div>
-              ) : null}
+              )}
 
-              {vehicle.description ? (
-                <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-6">
-                  <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+              {/* Description */}
+              {vehicle.description && (
+                <div className="rounded-3xl border border-gray-200 bg-white p-6">
+                  <div
+                    className="text-[11px] font-bold uppercase tracking-[0.14em]"
+                    style={{color: "rgba(59,59,61,0.45)"}}
+                  >
                     Description
                   </div>
-                  <div className="mt-3 text-sm leading-7" style={{color: "rgba(59,59,61,0.78)"}}>
+                  <div
+                    className="mt-3 text-sm leading-7"
+                    style={{color: "rgba(59,59,61,0.78)"}}
+                  >
                     {vehicle.description}
                   </div>
                 </div>
-              ) : null}
+              )}
 
-              <div className="mt-6 rounded-3xl border border-gray-200 bg-white p-6">
-                <div className="grid gap-3 sm:grid-cols-3">
-                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
-                      Media
-                    </div>
-                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
-                      {galleryImages.length}
-                    </div>
-                    <div className="mt-1 text-sm" style={{color: "rgba(59,59,61,0.65)"}}>photos</div>
-                  </div>
-                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
-                      Video
-                    </div>
-                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
-                      {galleryVideos.length}
-                    </div>
-                    <div className="mt-1 text-sm" style={{color: "rgba(59,59,61,0.65)"}}>assets</div>
-                  </div>
-                  <div className="rounded-2xl bg-[#F8F8F8] p-4">
-                    <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
-                      Status
-                    </div>
-                    <div className="mt-2 text-xl font-black" style={{color: "#3B3B3D"}}>
-                      {vehicle.availability === "IN_TRANSIT" ? t("statusInTransit") : t("statusOnSite")}
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-6 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+              {/* Specs grid */}
+              <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
                 <SpecCard icon={<Calendar size={14} />} label={t("year")} value={vehicle.year?.toString() || "—"} />
                 <SpecCard icon={<Gauge size={14} />} label={t("mileage")} value={vehicle.mileageKm ? `${vehicle.mileageKm.toLocaleString()} km` : "—"} />
                 <SpecCard icon={<Fuel size={14} />} label={t("fuel")} value={mapFuel(vehicle.fuel, tFleet)} />
                 <SpecCard icon={<Settings2 size={14} />} label={t("gearbox")} value={mapTransmission(vehicle.transmission, tFleet)} />
               </div>
 
-              <div className="mt-8 rounded-3xl border border-gray-200 bg-white p-6">
-                <div className="text-[11px] font-bold uppercase tracking-[0.14em]" style={{color: "rgba(59,59,61,0.45)"}}>
+              {/* Price block */}
+              <div className="rounded-3xl border border-gray-200 bg-white p-6">
+                <div
+                  className="text-[11px] font-bold uppercase tracking-[0.14em]"
+                  style={{color: "rgba(59,59,61,0.45)"}}
+                >
                   {t("financingTitle")}
                 </div>
                 <div className="mt-3 text-3xl font-black" style={{color: "#FF7918"}}>
@@ -213,19 +187,41 @@ export default async function VehicleDetailPage({
               </div>
             </div>
 
-            <div className="space-y-8">
-              <div
-                className="section-charcoal overflow-hidden rounded-[28px] shadow-[0_28px_80px_-40px_rgba(0,0,0,0.55)]"
-                style={{border: "1px solid rgba(255,121,24,0.18)"}}
-              >
-                <LeasingCalculator
-                  initialPrice={vehicle.priceCzk || 600_000}
-                  lockPrice={Boolean(vehicle.priceCzk)}
-                  vehicleTitle={vehicle.title}
-                  compact
-                />
+            {/* ── Right column: form first, calculator second ── */}
+            <div className="space-y-6">
+
+              {/* Inquiry form — NO calculator required */}
+              <div className="rounded-3xl border border-gray-200 bg-white px-6 pb-4 pt-5">
+                <div className="mb-1 text-[11px] font-bold uppercase tracking-[0.13em]" style={{color: "#FF7918"}}>
+                  Запит на авто
+                </div>
+                <p className="mb-4 text-xs leading-5" style={{color: "rgba(59,59,61,0.55)"}}>
+                  Заповніть форму — ми зв'яжемось з вами. Розрахунок лізингу не обов'язковий.
+                </p>
               </div>
-              <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
+              <div className="-mt-10">
+                <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
+              </div>
+
+              {/* Leasing calculator — optional */}
+              <div>
+                <div className="mb-3 flex items-center gap-3">
+                  <div className="h-px flex-1 bg-gray-200" />
+                  <span className="text-xs font-semibold text-gray-400">Або розрахуйте лізинг</span>
+                  <div className="h-px flex-1 bg-gray-200" />
+                </div>
+                <div
+                  className="section-charcoal overflow-hidden rounded-[28px] shadow-[0_28px_80px_-40px_rgba(0,0,0,0.55)]"
+                  style={{border: "1px solid rgba(255,121,24,0.18)"}}
+                >
+                  <LeasingCalculator
+                    initialPrice={vehicle.priceCzk || 600_000}
+                    lockPrice={Boolean(vehicle.priceCzk)}
+                    vehicleTitle={vehicle.title}
+                    compact
+                  />
+                </div>
+              </div>
             </div>
           </div>
         </Container>

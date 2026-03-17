@@ -920,17 +920,12 @@ export async function markPlatformVehicleSoldAction(formData: FormData) {
   await assertSameOrigin();
   const platformDealer = await getPlatformDealerOrThrow();
 
-  const schema = z.object({
-    id: z.string().min(1),
-  });
-
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
+  const vehicleId = String(formData.get("id") ?? "").trim();
+  if (!vehicleId) redirectVehicleState("platform");
 
   const updated = await prisma.vehicle.updateMany({
     where: {
-      id: parsed.id,
+      id: vehicleId,
       dealerId: platformDealer.id,
       deletedAt: null,
     },
@@ -952,10 +947,8 @@ export async function markPlatformVehicleSoldAction(formData: FormData) {
     message: "Central CRM marked platform vehicle as sold.",
   });
 
-  revalidatePath("/admin");
-  revalidatePath("/uk/fleet");
-  revalidatePath("/cs/fleet");
-  revalidatePath("/en/fleet");
+  revalidateFleetPages();
+  redirectVehicleState("updated");
 }
 
 export async function deletePlatformVehicleAction(formData: FormData) {
@@ -963,24 +956,12 @@ export async function deletePlatformVehicleAction(formData: FormData) {
   await assertSameOrigin();
   const platformDealer = await getPlatformDealerOrThrow();
 
-  const schema = z.object({
-    id: z.string().min(1),
-  });
-
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
+  const vehicleId = String(formData.get("id") ?? "").trim();
+  if (!vehicleId) redirectVehicleState("platform");
 
   const updated = await prisma.vehicle.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: platformDealer.id,
-      deletedAt: null,
-    },
-    data: {
-      deletedAt: new Date(),
-      published: false,
-    },
+    where: {id: vehicleId, dealerId: platformDealer.id, deletedAt: null},
+    data: {deletedAt: new Date(), published: false},
   });
 
   if (updated.count === 0) {
@@ -991,14 +972,12 @@ export async function deletePlatformVehicleAction(formData: FormData) {
     action: "VEHICLE_ARCHIVED",
     actorUserId: user.id,
     dealerId: platformDealer.id,
-    vehicleId: parsed.id,
+    vehicleId: vehicleId,
     message: "Central CRM deleted platform vehicle listing.",
   });
 
-  revalidatePath("/admin");
-  revalidatePath("/uk/fleet");
-  revalidatePath("/cs/fleet");
-  revalidatePath("/en/fleet");
+  revalidateFleetPages();
+  redirectVehicleState("updated");
 }
 
 export async function createCareerVacancyAction(formData: FormData) {
@@ -1146,6 +1125,7 @@ export async function archiveCareerVacancyAction(formData: FormData) {
 
   revalidatePath("/admin");
   await revalidateCareerPages();
+  redirectVacancyState("updated");
 }
 
 export async function deactivateDealerAction(formData: FormData) {
@@ -1177,6 +1157,7 @@ export async function deactivateDealerAction(formData: FormData) {
   });
 
   revalidatePath("/admin");
+  redirect("/admin?view=dealers&dealerAction=deactivated");
 }
 
 export async function reactivateDealerAction(formData: FormData) {
@@ -1212,6 +1193,7 @@ export async function reactivateDealerAction(formData: FormData) {
   });
 
   revalidatePath("/admin");
+  redirect("/admin?view=dealers&dealerAction=reactivated");
 }
 
 export async function deleteDealerAction(formData: FormData) {

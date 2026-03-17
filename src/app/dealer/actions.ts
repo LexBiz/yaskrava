@@ -17,6 +17,13 @@ import {asFiles} from "@/lib/vehicleMedia";
 
 const MAX_VEHICLE_IMAGES = 10;
 
+function dealerReturnUrl(formData: FormData): string {
+  const lang = resolveDealerCrmLocale(String(formData.get("_lang") ?? ""));
+  const inv = String(formData.get("_inventory") ?? "");
+  const validInv = ["all", "on_site", "in_transit", "sold"].includes(inv) ? inv : "all";
+  return `/dealer?lang=${lang}&inventory=${validInv}`;
+}
+
 export async function dealerLoginAction(formData: FormData) {
   await assertSameOrigin();
   const dealer = await getCurrentDealerOrThrow();
@@ -93,40 +100,37 @@ export async function setDealerApplicationStatusAction(formData: FormData) {
     status: z.enum(["NEW", "IN_REVIEW", "NEED_INFO", "CONTACTED", "APPROVED", "REJECTED"]),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     status: String(formData.get("status") ?? ""),
   });
 
-  const updated = await prisma.application.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: dealer.id,
-      deletedAt: null,
-    },
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
+  }
+
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, dealerId: dealer.id, deletedAt: null},
     data: {
-      status: parsed.status,
-      contactedAt: parsed.status === "CONTACTED" ? new Date() : undefined,
+      status: parsed.data.status,
+      contactedAt: parsed.data.status === "CONTACTED" ? new Date() : undefined,
       decisionAt:
-        parsed.status === "APPROVED" || parsed.status === "REJECTED"
+        parsed.data.status === "APPROVED" || parsed.data.status === "REJECTED"
           ? new Date()
           : undefined,
     },
   });
 
-  if (updated.count === 0) {
-    throw new Error("APPLICATION_NOT_FOUND");
-  }
-
   await writeAuditLog({
     action: "APPLICATION_STATUS_UPDATED",
     actorUserId: user.id,
     dealerId: dealer.id,
-    applicationId: parsed.id,
-    message: `Dealer CRM updated lead status to ${parsed.status}.`,
+    applicationId: parsed.data.id,
+    message: `Dealer CRM updated lead status to ${parsed.data.status}.`,
   });
 
   revalidatePath("/dealer");
+  redirect(dealerReturnUrl(formData));
 }
 
 export async function setDealerApplicationNoteAction(formData: FormData) {
@@ -139,35 +143,30 @@ export async function setDealerApplicationNoteAction(formData: FormData) {
     dealerNote: z.string().max(5000).optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     dealerNote: String(formData.get("dealerNote") ?? "").trim() || undefined,
   });
 
-  const updated = await prisma.application.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: dealer.id,
-      deletedAt: null,
-    },
-    data: {
-      dealerNote: parsed.dealerNote,
-    },
-  });
-
-  if (updated.count === 0) {
-    throw new Error("APPLICATION_NOT_FOUND");
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
   }
+
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, dealerId: dealer.id, deletedAt: null},
+    data: {dealerNote: parsed.data.dealerNote},
+  });
 
   await writeAuditLog({
     action: "APPLICATION_NOTE_UPDATED",
     actorUserId: user.id,
     dealerId: dealer.id,
-    applicationId: parsed.id,
+    applicationId: parsed.data.id,
     message: "Dealer CRM updated dealer note.",
   });
 
   revalidatePath("/dealer");
+  redirect(dealerReturnUrl(formData));
 }
 
 export async function updateDealerVehicleAction(formData: FormData) {
@@ -182,39 +181,36 @@ export async function updateDealerVehicleAction(formData: FormData) {
     featured: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     availability: String(formData.get("availability") ?? ""),
     published: formData.get("published") ? "on" : undefined,
     featured: formData.get("featured") ? "on" : undefined,
   });
 
-  const updated = await prisma.vehicle.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: dealer.id,
-      deletedAt: null,
-    },
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
+  }
+
+  await prisma.vehicle.updateMany({
+    where: {id: parsed.data.id, dealerId: dealer.id, deletedAt: null},
     data: {
-      availability: parsed.availability,
-      published: parsed.availability === "SOLD" ? false : Boolean(parsed.published),
-      featured: Boolean(parsed.featured),
+      availability: parsed.data.availability,
+      published: parsed.data.availability === "SOLD" ? false : Boolean(parsed.data.published),
+      featured: Boolean(parsed.data.featured),
     },
   });
-
-  if (updated.count === 0) {
-    throw new Error("VEHICLE_NOT_FOUND");
-  }
 
   await writeAuditLog({
     action: "VEHICLE_UPDATED",
     actorUserId: user.id,
     dealerId: dealer.id,
-    vehicleId: parsed.id,
+    vehicleId: parsed.data.id,
     message: "Dealer CRM updated vehicle visibility or availability.",
   });
 
   revalidatePath("/dealer");
+  redirect(dealerReturnUrl(formData));
 }
 
 export async function createDealerVehicleAction(formData: FormData) {
@@ -233,14 +229,16 @@ export async function createDealerVehicleAction(formData: FormData) {
     transmission: z.string().max(40).optional(),
     vinLast6: z.string().max(20).optional(),
     priceCzk: z.coerce.number().int().min(0).max(100_000_000).optional(),
-    imageUrl: z.string().url().max(2000).optional(),
-    videoUrl: z.string().url().max(2000).optional(),
+    // Accept any non-empty string (URL or path); don't enforce .url() to avoid false rejects
+    imageUrl: z.string().max(2000).optional(),
+    videoUrl: z.string().max(2000).optional(),
     description: z.string().max(5000).optional(),
     leasingEligible: z.string().optional(),
     availability: z.enum(["IN_TRANSIT", "ON_SITE", "SOLD"]).default("ON_SITE"),
+    published: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     title: String(formData.get("title") ?? "").trim(),
     stockNumber: String(formData.get("stockNumber") ?? "").trim() || undefined,
     make: String(formData.get("make") ?? "").trim() || undefined,
@@ -256,9 +254,13 @@ export async function createDealerVehicleAction(formData: FormData) {
     description: String(formData.get("description") ?? "").trim() || undefined,
     leasingEligible: formData.get("leasingEligible") ? "on" : undefined,
     availability: String(formData.get("availability") ?? "ON_SITE"),
+    published: formData.get("published") ? "on" : undefined,
   });
 
-  // Collect up to MAX_VEHICLE_IMAGES uploaded images
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
+  }
+
   const imageFileEntries = [
     ...formData.getAll("imageFiles"),
     formData.get("imageFile"),
@@ -267,57 +269,51 @@ export async function createDealerVehicleAction(formData: FormData) {
     asFiles(imageFileEntries).slice(0, MAX_VEHICLE_IMAGES)
   );
 
-  // Only 1 video allowed
   const uploadedVideoUrl = await saveVehicleVideo(formData.get("videoFile") as File | null);
 
-  // Combine manual URL + uploaded images (max 10 total)
   const allImageUrls = [
-    ...(parsed.imageUrl ? [parsed.imageUrl] : []),
+    ...(parsed.data.imageUrl ? [parsed.data.imageUrl] : []),
     ...uploadedImages,
   ].slice(0, MAX_VEHICLE_IMAGES);
 
   const primaryImageUrl = allImageUrls[0];
-  const primaryVideoUrl = uploadedVideoUrl || parsed.videoUrl;
+  const primaryVideoUrl = uploadedVideoUrl || parsed.data.videoUrl;
 
-  let slug = slugify(parsed.title);
-  if (!slug) {
-    slug = uniqueSlug("vehicle");
-  }
+  let slug = slugify(parsed.data.title);
+  if (!slug) slug = uniqueSlug("vehicle");
 
   const existing = await prisma.vehicle.findFirst({
     where: {dealerId: dealer.id, slug, deletedAt: null},
     select: {id: true},
   });
-
-  if (existing) {
-    slug = uniqueSlug(slug);
-  }
+  if (existing) slug = uniqueSlug(slug);
 
   const vehicle = await prisma.vehicle.create({
     data: {
       dealerId: dealer.id,
       slug,
-      title: parsed.title,
-      stockNumber: parsed.stockNumber,
-      make: parsed.make,
-      model: parsed.model,
-      year: parsed.year,
-      mileageKm: parsed.mileageKm,
-      fuel: parsed.fuel,
-      transmission: parsed.transmission,
-      vinLast6: parsed.vinLast6,
-      priceCzk: parsed.priceCzk,
+      title: parsed.data.title,
+      stockNumber: parsed.data.stockNumber,
+      make: parsed.data.make,
+      model: parsed.data.model,
+      year: parsed.data.year,
+      mileageKm: parsed.data.mileageKm,
+      fuel: parsed.data.fuel,
+      transmission: parsed.data.transmission,
+      vinLast6: parsed.data.vinLast6,
+      priceCzk: parsed.data.priceCzk,
       imageUrl: primaryImageUrl,
       videoUrl: primaryVideoUrl,
-      description: parsed.description,
-      leasingEligible: Boolean(parsed.leasingEligible),
-      availability: parsed.availability,
-      published: true,
+      description: parsed.data.description,
+      leasingEligible: Boolean(parsed.data.leasingEligible),
+      availability: parsed.data.availability,
+      // default published=true unless user unchecked it
+      published: parsed.data.published === undefined ? true : Boolean(parsed.data.published),
       images: allImageUrls.length
         ? {
             create: allImageUrls.map((url, index) => ({
               url,
-              alt: parsed.title,
+              alt: parsed.data.title,
               sortOrder: index,
             })),
           }
@@ -333,7 +329,9 @@ export async function createDealerVehicleAction(formData: FormData) {
     message: `Dealer CRM created vehicle ${vehicle.title}.`,
   });
 
+  const lang = resolveDealerCrmLocale(String(formData.get("_lang") ?? ""));
   revalidatePath("/dealer");
+  redirect(`/dealer?lang=${lang}&vehicleAdded=1`);
 }
 
 export async function deleteDealerVehicleAction(formData: FormData) {
@@ -341,39 +339,28 @@ export async function deleteDealerVehicleAction(formData: FormData) {
   const {user} = await requireDealerUser(dealer.id);
   await assertSameOrigin();
 
-  const schema = z.object({
-    id: z.string().min(1),
-  });
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
 
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
-
-  const updated = await prisma.vehicle.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: dealer.id,
-      deletedAt: null,
-    },
-    data: {
-      deletedAt: new Date(),
-      published: false,
-    },
-  });
-
-  if (updated.count === 0) {
-    throw new Error("VEHICLE_NOT_FOUND");
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
   }
+
+  await prisma.vehicle.updateMany({
+    where: {id: parsed.data.id, dealerId: dealer.id, deletedAt: null},
+    data: {deletedAt: new Date(), published: false},
+  });
 
   await writeAuditLog({
     action: "VEHICLE_ARCHIVED",
     actorUserId: user.id,
     dealerId: dealer.id,
-    vehicleId: parsed.id,
+    vehicleId: parsed.data.id,
     message: "Dealer CRM deleted vehicle listing.",
   });
 
   revalidatePath("/dealer");
+  redirect(dealerReturnUrl(formData));
 }
 
 export async function markDealerVehicleSoldAction(formData: FormData) {
@@ -381,37 +368,26 @@ export async function markDealerVehicleSoldAction(formData: FormData) {
   const {user} = await requireDealerUser(dealer.id);
   await assertSameOrigin();
 
-  const schema = z.object({
-    id: z.string().min(1),
-  });
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
 
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
-
-  const updated = await prisma.vehicle.updateMany({
-    where: {
-      id: parsed.id,
-      dealerId: dealer.id,
-      deletedAt: null,
-    },
-    data: {
-      availability: "SOLD",
-      published: false,
-    },
-  });
-
-  if (updated.count === 0) {
-    throw new Error("VEHICLE_NOT_FOUND");
+  if (!parsed.success) {
+    redirect(dealerReturnUrl(formData));
   }
+
+  await prisma.vehicle.updateMany({
+    where: {id: parsed.data.id, dealerId: dealer.id, deletedAt: null},
+    data: {availability: "SOLD", published: false},
+  });
 
   await writeAuditLog({
     action: "VEHICLE_UPDATED",
     actorUserId: user.id,
     dealerId: dealer.id,
-    vehicleId: parsed.id,
+    vehicleId: parsed.data.id,
     message: "Dealer CRM marked vehicle as sold.",
   });
 
   revalidatePath("/dealer");
+  redirect(dealerReturnUrl(formData));
 }

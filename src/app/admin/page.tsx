@@ -148,6 +148,7 @@ export default async function AdminDashboard({
     newPwdDealerId?: string | string[];
     newPwd?: string | string[];
     dealerDeleted?: string | string[];
+    dealerAction?: string | string[];
   }>;
 }) {
   const t = adminCrmUk;
@@ -169,6 +170,7 @@ export default async function AdminDashboard({
   const newPwdDealerId = sp("newPwdDealerId");
   const newPwd = sp("newPwd");
   const dealerDeleted = sp("dealerDeleted");
+  const dealerAction = sp("dealerAction");
   const vehicleSaved = sp("vehicleSaved");
   const vehicleError = sp("vehicleError");
   const vacancySaved = sp("vacancySaved");
@@ -364,7 +366,7 @@ export default async function AdminDashboard({
               {/* Filters */}
               <div className="mt-5 space-y-2">
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="w-14 shrink-0 text-xs text-white/35">Період</span>
+                  <span className="shrink-0 whitespace-nowrap text-xs text-white/35 min-w-[60px]">Період:</span>
                   {([["today","Сьогодні"],["7d","7 днів"],["30d","30 днів"],["all","Весь час"]] as const).map(([k,l]) => (
                     <a key={k} href={`/admin?view=financing&period=${k}&sort=${financingSort}${showArchivedApplications ? "&archived=1" : ""}`}
                       className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
@@ -373,8 +375,8 @@ export default async function AdminDashboard({
                   ))}
                 </div>
                 <div className="flex flex-wrap items-center gap-2">
-                  <span className="w-14 shrink-0 text-xs text-white/35">Сортування</span>
-                  {([["newest","Нові спочатку"],["oldest","Старі спочатку"],["dealer","По дилеру"],["status","По статусу"]] as const).map(([k,l]) => (
+                  <span className="shrink-0 whitespace-nowrap text-xs text-white/35 min-w-[60px]">Сорт:</span>
+                  {([["newest","Нові ↓"],["oldest","Старі ↑"],["dealer","По дилеру"],["status","По статусу"]] as const).map(([k,l]) => (
                     <a key={k} href={`/admin?view=financing&period=${financingPeriod}&sort=${k}${showArchivedApplications ? "&archived=1" : ""}`}
                       className={`inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
                         financingSort === k ? "border-[var(--color-accent)]/40 bg-[var(--color-accent)]/15 text-[var(--color-accent)]" : "border-white/10 bg-white/5 text-white/55 hover:text-white"
@@ -384,7 +386,7 @@ export default async function AdminDashboard({
                     className={`ml-auto inline-flex h-8 items-center rounded-lg border px-3 text-xs font-semibold transition ${
                       showArchivedApplications ? "border-amber-500/40 bg-amber-500/15 text-amber-300" : "border-white/10 bg-white/5 text-white/40 hover:text-white"
                     }`}>
-                    {showArchivedApplications ? "↩ Сховати архів" : "Показати архів"}
+                    {showArchivedApplications ? "↩ Сховати архів" : "📦 Показати архів"}
                   </a>
                 </div>
               </div>
@@ -974,6 +976,8 @@ export default async function AdminDashboard({
               <PageHeader title="Дилери та партнери" subtitle="Підключення нових дилерів і мережа партнерів" />
 
               {dealerDeleted ? <Toast tone="success" text="Дилера видалено." /> : null}
+              {dealerAction === "deactivated" ? <Toast tone="success" text="Дилера деактивовано — його сайт не працює до реактивації." /> : null}
+              {dealerAction === "reactivated" ? <Toast tone="success" text="Дилера реактивовано — сайт і CRM знову доступні." /> : null}
               {dealerCreated ? (
                 <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/8 p-4">
                   <div className="text-sm font-bold text-emerald-300">✓ Дилера підключено!</div>

@@ -7,6 +7,7 @@ import {
   setDealerApplicationStatusAction,
   updateDealerVehicleAction,
 } from "@/app/dealer/actions";
+import {ConfirmForm} from "@/app/admin/ConfirmForm";
 import {
   applicationStatusLabels,
   availabilityLabels,
@@ -46,11 +47,12 @@ export const dynamic = "force-dynamic";
 export default async function DealerDashboard({
   searchParams,
 }: {
-  searchParams: Promise<{lang?: string | string[]; inventory?: string | string[]}>;
+  searchParams: Promise<{lang?: string | string[]; inventory?: string | string[]; vehicleAdded?: string | string[]}>;
 }) {
   const params = await searchParams;
   const locale = resolveDealerCrmLocale(Array.isArray(params.lang) ? params.lang[0] : params.lang);
   const inventoryFilter = normalizeDealerVehicleFilter(Array.isArray(params.inventory) ? params.inventory[0] : params.inventory);
+  const vehicleAdded = (Array.isArray(params.vehicleAdded) ? params.vehicleAdded[0] : params.vehicleAdded) === "1";
   const t = dealerCrmCopy[locale];
   const dealer = await getCurrentDealerOrThrow();
   const {user, membership} = await requireDealerUser(dealer.id);
@@ -112,14 +114,20 @@ export default async function DealerDashboard({
 
         <div className="mt-4 flex flex-wrap items-center justify-start gap-3 text-xs font-semibold md:justify-end">
           <span className="text-white/50">{t.language}</span>
-          <Link href="/dealer?lang=uk" className={locale === "uk" ? "text-white" : "text-white/45"}>UKR</Link>
-          <Link href="/dealer?lang=cs" className={locale === "cs" ? "text-white" : "text-white/45"}>CS</Link>
+          <Link href={`/dealer?lang=uk&inventory=${inventoryFilter}`} className={locale === "uk" ? "text-white" : "text-white/45"}>UKR</Link>
+          <Link href={`/dealer?lang=cs&inventory=${inventoryFilter}`} className={locale === "cs" ? "text-white" : "text-white/45"}>CS</Link>
         </div>
+
+        {vehicleAdded ? (
+          <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 py-3 text-sm font-semibold text-emerald-300">
+            ✓ {locale === "cs" ? "Vozidlo bylo přidáno a zveřejněno." : "Авто додано і опубліковано на сайті."}
+          </div>
+        ) : null}
 
         <div className="mt-8 grid gap-4 md:grid-cols-4">
           <MetricCard label={t.vehicles} value={String(metrics.vehicleCount)} />
           <MetricCard label={t.leads} value={String(metrics.applicationsTotal)} />
-          <MetricCard label={locale === "cs" ? "Schváleno" : "Схвалено"} value={String(metrics.applicationsApproved)} />
+          <MetricCard label={t.openFinancing} value={String(metrics.applicationsApproved)} />
           <MetricCard label={locale === "cs" ? "Zamítnuto" : "Відхилено"} value={String(metrics.applicationsRejected)} />
         </div>
 
@@ -162,10 +170,12 @@ export default async function DealerDashboard({
                     <div className="grid gap-3">
                       <form action={setDealerApplicationStatusAction} className="flex gap-2">
                         <input type="hidden" name="id" value={lead.id} />
+                        <input type="hidden" name="_lang" value={locale} />
+                        <input type="hidden" name="_inventory" value={inventoryFilter} />
                         <select
                           name="status"
                           defaultValue={lead.status}
-                          className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                          className="h-10 flex-1 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
                         >
                           {STATUS_OPTIONS.map((status) => (
                             <option key={status} value={status}>
@@ -175,7 +185,7 @@ export default async function DealerDashboard({
                         </select>
                         <button
                           type="submit"
-                          className="h-10 rounded-2xl border border-white/15 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10"
+                          className="h-10 shrink-0 rounded-2xl border border-white/15 bg-white/5 px-3 text-xs font-semibold text-white hover:bg-white/10"
                         >
                           {t.save}
                         </button>
@@ -183,6 +193,8 @@ export default async function DealerDashboard({
 
                       <form action={setDealerApplicationNoteAction} className="grid gap-2">
                         <input type="hidden" name="id" value={lead.id} />
+                        <input type="hidden" name="_lang" value={locale} />
+                        <input type="hidden" name="_inventory" value={inventoryFilter} />
                         <textarea
                           name="dealerNote"
                           defaultValue={lead.dealerNote ?? ""}
@@ -239,6 +251,8 @@ export default async function DealerDashboard({
               {t.addVehicleButton}
             </summary>
             <form action={createDealerVehicleAction} className="mt-4 grid gap-4 lg:grid-cols-2 [&_input]:min-w-0 [&_input]:w-full [&_select]:min-w-0 [&_select]:w-full [&_textarea]:min-w-0 [&_textarea]:w-full">
+            <input type="hidden" name="_lang" value={locale} />
+            <input type="hidden" name="_inventory" value={inventoryFilter} />
             <label className="grid gap-1.5 lg:col-span-2">
               <span className="text-xs font-semibold text-white/70">{t.titleField}</span>
               <input
@@ -401,6 +415,15 @@ export default async function DealerDashboard({
                 className="h-5 w-5 rounded border-white/30 accent-[var(--color-accent)]"
               />
             </label>
+            <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-4 py-3 text-sm text-white lg:col-span-2 cursor-pointer">
+              <span className="font-medium">{t.published}</span>
+              <input
+                type="checkbox"
+                name="published"
+                defaultChecked
+                className="h-5 w-5 rounded border-white/30 accent-[var(--color-accent)]"
+              />
+            </label>
             <div className="lg:col-span-2 flex justify-end">
               <button
                 type="submit"
@@ -447,71 +470,91 @@ export default async function DealerDashboard({
                     </div>
                   </div>
 
+                  {/* Action row */}
                   <div className="mt-4 flex flex-wrap gap-2">
                     {vehicle.availability !== "SOLD" ? (
-                      <form action={markDealerVehicleSoldAction}>
+                      <ConfirmForm
+                        action={markDealerVehicleSoldAction}
+                        confirmMessage={locale === "cs"
+                          ? `Označit vozidlo «${vehicle.title}» jako prodané? Inzerát se skryje ze stránek.`
+                          : `Позначити «${vehicle.title}» як продане? Оголошення зникне з сайту.`}
+                      >
                         <input type="hidden" name="id" value={vehicle.id} />
+                        <input type="hidden" name="_lang" value={locale} />
+                        <input type="hidden" name="_inventory" value={inventoryFilter} />
                         <button
                           type="submit"
                           className="h-10 rounded-2xl border border-emerald-500/30 bg-emerald-500/10 px-4 text-xs font-semibold text-emerald-200 hover:bg-emerald-500/15"
                         >
                           {availabilityLabels[locale].SOLD}
                         </button>
-                      </form>
+                      </ConfirmForm>
                     ) : null}
-                    <details className="flex-1 min-w-[180px] rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-3">
-                      <summary className="cursor-pointer list-none text-center text-xs font-semibold text-white [&::-webkit-details-marker]:hidden">
-                        {locale === "cs" ? "Opravit" : "Виправити"}
-                      </summary>
-                      <form action={updateDealerVehicleAction} className="mt-3 grid gap-2">
-                        <input type="hidden" name="id" value={vehicle.id} />
-                        <select
-                          name="availability"
-                          defaultValue={vehicle.availability}
-                          className="h-10 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
-                        >
-                          {AVAILABILITY_OPTIONS.map((status) => (
-                            <option key={status} value={status}>
-                              {availabilityLabels[locale][status]}
-                            </option>
-                          ))}
-                        </select>
-                        <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
-                          <span className="font-medium">{t.published}</span>
-                          <input
-                            type="checkbox"
-                            name="published"
-                            defaultChecked={vehicle.published}
-                            className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
-                          />
-                        </label>
-                        <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
-                          <span className="font-medium">{t.featured}</span>
-                          <input
-                            type="checkbox"
-                            name="featured"
-                            defaultChecked={vehicle.featured}
-                            className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
-                          />
-                        </label>
-                        <button
-                          type="submit"
-                          className="h-10 rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10"
-                        >
-                          {locale === "cs" ? "Opravit" : "Виправити"}
-                        </button>
-                      </form>
-                    </details>
-                    <form action={deleteDealerVehicleAction}>
+
+                    <ConfirmForm
+                      action={deleteDealerVehicleAction}
+                      confirmMessage={locale === "cs"
+                        ? `Smazat inzerát «${vehicle.title}» TRVALE?`
+                        : `Видалити оголошення «${vehicle.title}» НАЗАВЖДИ?`}
+                    >
                       <input type="hidden" name="id" value={vehicle.id} />
+                      <input type="hidden" name="_lang" value={locale} />
+                      <input type="hidden" name="_inventory" value={inventoryFilter} />
                       <button
                         type="submit"
                         className="h-10 rounded-2xl border border-red-500/30 bg-red-500/10 px-4 text-xs font-semibold text-red-200 hover:bg-red-500/15"
                       >
                         {t.delete}
                       </button>
-                    </form>
+                    </ConfirmForm>
                   </div>
+
+                  {/* Edit panel — below action row so it doesn't break flex layout */}
+                  <details className="mt-3 rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.22)] p-3">
+                    <summary className="cursor-pointer list-none text-center text-xs font-semibold text-white [&::-webkit-details-marker]:hidden">
+                      ✏️ {locale === "cs" ? "Upravit" : "Редагувати"}
+                    </summary>
+                    <form action={updateDealerVehicleAction} className="mt-3 grid gap-2">
+                      <input type="hidden" name="id" value={vehicle.id} />
+                      <input type="hidden" name="_lang" value={locale} />
+                      <input type="hidden" name="_inventory" value={inventoryFilter} />
+                      <select
+                        name="availability"
+                        defaultValue={vehicle.availability}
+                        className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-xs font-semibold text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+                      >
+                        {AVAILABILITY_OPTIONS.map((status) => (
+                          <option key={status} value={status}>
+                            {availabilityLabels[locale][status]}
+                          </option>
+                        ))}
+                      </select>
+                      <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
+                        <span className="font-medium">{t.published}</span>
+                        <input
+                          type="checkbox"
+                          name="published"
+                          defaultChecked={vehicle.published}
+                          className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
+                        />
+                      </label>
+                      <label className="flex items-center justify-between rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 py-2 text-xs text-white cursor-pointer">
+                        <span className="font-medium">{t.featured}</span>
+                        <input
+                          type="checkbox"
+                          name="featured"
+                          defaultChecked={vehicle.featured}
+                          className="h-4 w-4 rounded border-white/30 accent-[var(--color-accent)]"
+                        />
+                      </label>
+                      <button
+                        type="submit"
+                        className="h-10 w-full rounded-2xl bg-[var(--color-accent)] px-4 text-xs font-semibold text-black hover:brightness-95"
+                      >
+                        {locale === "cs" ? "Uložit" : "Зберегти"}
+                      </button>
+                    </form>
+                  </details>
                 </article>
               ))
             ) : (

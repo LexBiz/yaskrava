@@ -943,7 +943,7 @@ export async function markPlatformVehicleSoldAction(formData: FormData) {
     action: "VEHICLE_UPDATED",
     actorUserId: user.id,
     dealerId: platformDealer.id,
-    vehicleId: parsed.id,
+    vehicleId: vehicleId,
     message: "Central CRM marked platform vehicle as sold.",
   });
 

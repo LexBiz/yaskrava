@@ -197,7 +197,7 @@ export async function updateDealerVehicleAction(formData: FormData) {
     },
     data: {
       availability: parsed.availability,
-      published: Boolean(parsed.published),
+      published: parsed.availability === "SOLD" ? false : Boolean(parsed.published),
       featured: Boolean(parsed.featured),
     },
   });
@@ -285,10 +285,7 @@ export async function createDealerVehicleAction(formData: FormData) {
   }
 
   const existing = await prisma.vehicle.findFirst({
-    where: {
-      dealerId: dealer.id,
-      slug,
-    },
+    where: {dealerId: dealer.id, slug, deletedAt: null},
     select: {id: true},
   });
 

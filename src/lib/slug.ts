@@ -11,6 +11,7 @@ export function slugify(input: string) {
 
 export function uniqueSlug(base: string) {
   const normalized = slugify(base) || "dealer";
-  const suffix = Math.random().toString(36).slice(2, 6);
+  const {randomBytes} = require("node:crypto") as typeof import("node:crypto");
+  const suffix = randomBytes(3).toString("hex");
   return `${normalized}-${suffix}`;
 }

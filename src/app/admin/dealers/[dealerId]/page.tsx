@@ -48,8 +48,8 @@ export default async function AdminDealerDetailPage({
   const user = await requireAdmin();
   const {dealerId} = await params;
 
-  const dealer = await prisma.dealer.findUnique({
-    where: {id: dealerId},
+  const dealer = await prisma.dealer.findFirst({
+    where: {id: dealerId, deletedAt: null},
     include: {
       domains: {
         orderBy: [{isPrimary: "desc"}, {hostname: "asc"}],

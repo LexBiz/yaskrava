@@ -236,18 +236,19 @@ export async function setApplicationStatusAction(formData: FormData) {
     status: z.enum(["NEW", "IN_REVIEW", "NEED_INFO", "CONTACTED", "APPROVED", "REJECTED"]),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     status: String(formData.get("status") ?? ""),
   });
+  if (!parsed.success) return;
 
-  await prisma.application.update({
-    where: {id: parsed.id},
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
     data: {
-      status: parsed.status,
-      contactedAt: parsed.status === "CONTACTED" ? new Date() : undefined,
+      status: parsed.data.status,
+      contactedAt: parsed.data.status === "CONTACTED" ? new Date() : undefined,
       decisionAt:
-        parsed.status === "APPROVED" || parsed.status === "REJECTED"
+        parsed.data.status === "APPROVED" || parsed.data.status === "REJECTED"
           ? new Date()
           : undefined,
     },
@@ -256,8 +257,8 @@ export async function setApplicationStatusAction(formData: FormData) {
   await writeAuditLog({
     action: "APPLICATION_STATUS_UPDATED",
     actorUserId: user.id,
-    applicationId: parsed.id,
-    message: `Central CRM updated application status to ${parsed.status}.`,
+    applicationId: parsed.data.id,
+    message: `Central CRM updated application status to ${parsed.data.status}.`,
   });
 
   revalidatePath("/admin");
@@ -272,21 +273,22 @@ export async function toggleArchivedAction(formData: FormData) {
     archived: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     archived: formData.get("archived") ? "on" : undefined,
   });
+  if (!parsed.success) return;
 
-  await prisma.application.update({
-    where: {id: parsed.id},
-    data: {archived: Boolean(parsed.archived)},
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
+    data: {archived: Boolean(parsed.data.archived)},
   });
 
   await writeAuditLog({
     action: "APPLICATION_ARCHIVED",
     actorUserId: user.id,
-    applicationId: parsed.id,
-    message: `Central CRM changed archived=${Boolean(parsed.archived)}.`,
+    applicationId: parsed.data.id,
+    message: `Central CRM changed archived=${Boolean(parsed.data.archived)}.`,
   });
 
   revalidatePath("/admin");
@@ -296,26 +298,19 @@ export async function deleteApplicationAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
 
-  const schema = z.object({
-    id: z.string().min(1),
-  });
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
+  if (!parsed.success) return;
 
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
-
-  await prisma.application.update({
-    where: {id: parsed.id},
-    data: {
-      deletedAt: new Date(),
-      archived: true,
-    },
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
+    data: {deletedAt: new Date(), archived: true},
   });
 
   await writeAuditLog({
     action: "APPLICATION_SOFT_DELETED",
     actorUserId: user.id,
-    applicationId: parsed.id,
+    applicationId: parsed.data.id,
     message: "Central CRM soft-deleted an application.",
   });
 
@@ -331,20 +326,21 @@ export async function setAdminNoteAction(formData: FormData) {
     adminNote: z.string().max(5000).optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     adminNote: String(formData.get("adminNote") ?? "").trim() || undefined,
   });
+  if (!parsed.success) return;
 
-  await prisma.application.update({
-    where: {id: parsed.id},
-    data: {adminNote: parsed.adminNote},
+  await prisma.application.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
+    data: {adminNote: parsed.data.adminNote},
   });
 
   await writeAuditLog({
     action: "APPLICATION_NOTE_UPDATED",
     actorUserId: user.id,
-    applicationId: parsed.id,
+    applicationId: parsed.data.id,
     message: "Central CRM updated application note.",
   });
 
@@ -368,34 +364,35 @@ export async function setFinancingStatusAction(formData: FormData) {
     ]),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     status: String(formData.get("status") ?? ""),
   });
+  if (!parsed.success) return;
 
   await prisma.$transaction(async (tx) => {
-    await tx.application.update({
-      where: {id: parsed.id},
+    await tx.application.updateMany({
+      where: {id: parsed.data.id, deletedAt: null},
       data: {
-        financingStatus: parsed.status,
+        financingStatus: parsed.data.status,
         decisionAt:
-          parsed.status === "APPROVED" ||
-          parsed.status === "REJECTED" ||
-          parsed.status === "FUNDED"
+          parsed.data.status === "APPROVED" ||
+          parsed.data.status === "REJECTED" ||
+          parsed.data.status === "FUNDED"
             ? new Date()
             : undefined,
       },
     });
 
     await tx.financingCase.upsert({
-      where: {applicationId: parsed.id},
+      where: {applicationId: parsed.data.id},
       update: {
-        status: parsed.status,
+        status: parsed.data.status,
         assignedYaskravaUserId: user.id,
       },
       create: {
-        applicationId: parsed.id,
-        status: parsed.status,
+        applicationId: parsed.data.id,
+        status: parsed.data.status,
         assignedYaskravaUserId: user.id,
       },
     });
@@ -404,8 +401,8 @@ export async function setFinancingStatusAction(formData: FormData) {
   await writeAuditLog({
     action: "FINANCING_STATUS_UPDATED",
     actorUserId: user.id,
-    applicationId: parsed.id,
-    message: `Central CRM updated financing status to ${parsed.status}.`,
+    applicationId: parsed.data.id,
+    message: `Central CRM updated financing status to ${parsed.data.status}.`,
   });
 
   revalidatePath("/admin");
@@ -420,18 +417,19 @@ export async function setPartnerLeadStatusAction(formData: FormData) {
     status: z.enum(["NEW", "IN_REVIEW", "CONTACTED", "APPROVED", "REJECTED"]),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     status: String(formData.get("status") ?? ""),
   });
+  if (!parsed.success) return;
 
-  await prisma.partnerLead.update({
-    where: {id: parsed.id},
+  await prisma.partnerLead.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
     data: {
-      status: parsed.status,
-      contactedAt: parsed.status === "CONTACTED" ? new Date() : undefined,
+      status: parsed.data.status,
+      contactedAt: parsed.data.status === "CONTACTED" ? new Date() : undefined,
       decisionAt:
-        parsed.status === "APPROVED" || parsed.status === "REJECTED"
+        parsed.data.status === "APPROVED" || parsed.data.status === "REJECTED"
           ? new Date()
           : undefined,
     },
@@ -440,8 +438,8 @@ export async function setPartnerLeadStatusAction(formData: FormData) {
   await writeAuditLog({
     action: "PARTNER_LEAD_STATUS_UPDATED",
     actorUserId: user.id,
-    partnerLeadId: parsed.id,
-    message: `Central CRM updated partner lead status to ${parsed.status}.`,
+    partnerLeadId: parsed.data.id,
+    message: `Central CRM updated partner lead status to ${parsed.data.status}.`,
   });
 
   revalidatePath("/admin");
@@ -456,23 +454,22 @@ export async function togglePartnerLeadArchivedAction(formData: FormData) {
     archived: z.string().optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     archived: formData.get("archived") ? "on" : undefined,
   });
+  if (!parsed.success) return;
 
-  await prisma.partnerLead.update({
-    where: {id: parsed.id},
-    data: {
-      archived: Boolean(parsed.archived),
-    },
+  await prisma.partnerLead.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
+    data: {archived: Boolean(parsed.data.archived)},
   });
 
   await writeAuditLog({
     action: "PARTNER_LEAD_ARCHIVED",
     actorUserId: user.id,
-    partnerLeadId: parsed.id,
-    message: `Central CRM changed partner archived=${Boolean(parsed.archived)}.`,
+    partnerLeadId: parsed.data.id,
+    message: `Central CRM changed partner archived=${Boolean(parsed.data.archived)}.`,
   });
 
   revalidatePath("/admin");
@@ -487,22 +484,21 @@ export async function setPartnerLeadNoteAction(formData: FormData) {
     adminNote: z.string().max(5000).optional(),
   });
 
-  const parsed = schema.parse({
+  const parsed = schema.safeParse({
     id: String(formData.get("id") ?? ""),
     adminNote: String(formData.get("adminNote") ?? "").trim() || undefined,
   });
+  if (!parsed.success) return;
 
-  await prisma.partnerLead.update({
-    where: {id: parsed.id},
-    data: {
-      adminNote: parsed.adminNote,
-    },
+  await prisma.partnerLead.updateMany({
+    where: {id: parsed.data.id, deletedAt: null},
+    data: {adminNote: parsed.data.adminNote},
   });
 
   await writeAuditLog({
     action: "PARTNER_LEAD_NOTE_UPDATED",
     actorUserId: user.id,
-    partnerLeadId: parsed.id,
+    partnerLeadId: parsed.data.id,
     message: "Central CRM updated partner lead note.",
   });
 
@@ -745,7 +741,7 @@ export async function createPlatformVehicleAction(formData: FormData) {
   if (!slug) slug = uniqueSlug("vehicle");
 
   const existing = await prisma.vehicle.findFirst({
-    where: {dealerId: safePlatformDealer.id, slug},
+    where: {dealerId: safePlatformDealer.id, slug, deletedAt: null},
     select: {id: true},
   });
 
@@ -917,7 +913,7 @@ export async function markPlatformVehicleSoldAction(formData: FormData) {
   });
 
   if (updated.count === 0) {
-    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+    redirectVehicleState("platform");
   }
 
   await writeAuditLog({
@@ -960,7 +956,7 @@ export async function deletePlatformVehicleAction(formData: FormData) {
   });
 
   if (updated.count === 0) {
-    throw new Error("PLATFORM_VEHICLE_NOT_FOUND");
+    redirectVehicleState("platform");
   }
 
   await writeAuditLog({
@@ -1099,27 +1095,25 @@ export async function archiveCareerVacancyAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();
 
-  const schema = z.object({
-    id: z.string().min(1),
+  const schema = z.object({id: z.string().min(1)});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
+  if (!parsed.success) return;
+
+  const platformDealer = await getPlatformDealerOrThrow();
+  const updated = await prisma.vacancy.updateMany({
+    where: {id: parsed.data.id, dealerId: platformDealer.id, deletedAt: null},
+    data: {deletedAt: new Date(), published: false},
   });
 
-  const parsed = schema.parse({
-    id: String(formData.get("id") ?? ""),
-  });
-
-  const vacancy = await prisma.vacancy.update({
-    where: {id: parsed.id},
-    data: {
-      deletedAt: new Date(),
-      published: false,
-    },
-  });
+  if (updated.count === 0) {
+    redirectVacancyState("validation");
+  }
 
   await writeAuditLog({
     action: "VACANCY_ARCHIVED",
     actorUserId: user.id,
-    dealerId: vacancy.dealerId,
-    message: `Central CRM archived vacancy ${vacancy.title}.`,
+    dealerId: platformDealer.id,
+    message: `Central CRM archived vacancy ${parsed.data.id}.`,
   });
 
   revalidatePath("/admin");
@@ -1131,10 +1125,11 @@ export async function deactivateDealerAction(formData: FormData) {
   await assertSameOrigin();
 
   const schema = z.object({id: z.string().min(1)});
-  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
+  if (!parsed.success) return;
 
   const dealer = await prisma.dealer.findFirst({
-    where: {id: parsed.id},
+    where: {id: parsed.data.id, deletedAt: null},
   });
   if (!dealer || dealer.slug === getPlatformDealerSlug()) {
     revalidatePath("/admin");
@@ -1142,14 +1137,14 @@ export async function deactivateDealerAction(formData: FormData) {
   }
 
   await prisma.dealer.update({
-    where: {id: parsed.id},
+    where: {id: parsed.data.id},
     data: {status: "INACTIVE"},
   });
 
   await writeAuditLog({
-    action: "DEALER_PROVISIONED",
+    action: "DEALER_DEACTIVATED",
     actorUserId: user.id,
-    dealerId: parsed.id,
+    dealerId: parsed.data.id,
     message: "Central CRM deactivated dealer account.",
   });
 
@@ -1161,21 +1156,31 @@ export async function reactivateDealerAction(formData: FormData) {
   await assertSameOrigin();
 
   const schema = z.object({id: z.string().min(1)});
-  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
+  if (!parsed.success) return;
 
-  const dealer = await prisma.dealer.findFirst({where: {id: parsed.id}});
-  if (!dealer) throw new Error("DEALER_NOT_FOUND");
+  const dealer = await prisma.dealer.findFirst({
+    where: {id: parsed.data.id, deletedAt: null},
+  });
+  if (!dealer) return;
 
-  await prisma.dealer.update({
-    where: {id: parsed.id},
-    data: {status: "ACTIVE"},
+  await prisma.$transaction(async (tx) => {
+    await tx.dealer.update({
+      where: {id: parsed.data.id},
+      data: {status: "ACTIVE"},
+    });
+    // Restore memberships that were deactivated when dealer was deleted
+    await tx.dealerMembership.updateMany({
+      where: {dealerId: parsed.data.id},
+      data: {isActive: true},
+    });
   });
 
   await writeAuditLog({
-    action: "DEALER_PROVISIONED",
+    action: "DEALER_REACTIVATED",
     actorUserId: user.id,
-    dealerId: parsed.id,
-    message: "Central CRM reactivated dealer account.",
+    dealerId: parsed.data.id,
+    message: "Central CRM reactivated dealer account and restored memberships.",
   });
 
   revalidatePath("/admin");
@@ -1186,29 +1191,32 @@ export async function deleteDealerAction(formData: FormData) {
   await assertSameOrigin();
 
   const schema = z.object({id: z.string().min(1)});
-  const parsed = schema.parse({id: String(formData.get("id") ?? "")});
+  const parsed = schema.safeParse({id: String(formData.get("id") ?? "")});
+  if (!parsed.success) redirect("/admin?view=dealers");
 
-  const dealer = await prisma.dealer.findFirst({where: {id: parsed.id}});
+  const dealer = await prisma.dealer.findFirst({
+    where: {id: parsed.data.id, deletedAt: null},
+  });
   if (!dealer || dealer.slug === getPlatformDealerSlug()) {
     redirect("/admin?view=dealers");
   }
 
   await prisma.$transaction(async (tx) => {
     await tx.dealerMembership.updateMany({
-      where: {dealerId: parsed.id},
+      where: {dealerId: parsed.data.id},
       data: {isActive: false},
     });
     await tx.dealer.update({
-      where: {id: parsed.id},
+      where: {id: parsed.data.id},
       data: {status: "INACTIVE", deletedAt: new Date()},
     });
     await tx.auditLog.create({
       data: {
-        action: "DEALER_PROVISIONED",
+        action: "DEALER_DELETED",
         actorType: "SYSTEM",
         actorUserId: user.id,
-        dealerId: parsed.id,
-        targetId: parsed.id,
+        dealerId: parsed.data.id,
+        targetId: parsed.data.id,
         message: `Central CRM deleted dealer ${dealer.name}.`,
         metadata: {} as never,
       },
@@ -1246,7 +1254,7 @@ export async function resetDealerPasswordAction(formData: FormData) {
   });
 
   await writeAuditLog({
-    action: "DEALER_PROVISIONED",
+    action: "DEALER_PASSWORD_RESET",
     actorUserId: adminUser.id,
     dealerId: id,
     message: "Admin reset dealer owner password.",

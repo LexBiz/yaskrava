@@ -32,12 +32,15 @@ function getSlugFromPlatformHost(hostname: string) {
     return getFallbackDealerSlug();
   }
 
-  if (hostname === rootDomain) {
+  if (hostname === rootDomain || hostname === `www.${rootDomain}`) {
     return getFallbackDealerSlug();
   }
 
   if (hostname.endsWith(`.${rootDomain}`)) {
-    return hostname.slice(0, -(rootDomain.length + 1));
+    const sub = hostname.slice(0, -(rootDomain.length + 1));
+    // Treat www as the platform root, not a dealer subdomain
+    if (sub === "www") return getFallbackDealerSlug();
+    return sub;
   }
 
   return null;

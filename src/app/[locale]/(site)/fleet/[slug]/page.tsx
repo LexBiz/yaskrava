@@ -191,17 +191,7 @@ export default async function VehicleDetailPage({
             <div className="space-y-6">
 
               {/* Inquiry form — NO calculator required */}
-              <div className="rounded-3xl border border-gray-200 bg-white px-6 pb-4 pt-5">
-                <div className="mb-1 text-[11px] font-bold uppercase tracking-[0.13em]" style={{color: "#FF7918"}}>
-                  Запит на авто
-                </div>
-                <p className="mb-4 text-xs leading-5" style={{color: "rgba(59,59,61,0.55)"}}>
-                  Заповніть форму — ми зв'яжемось з вами. Розрахунок лізингу не обов'язковий.
-                </p>
-              </div>
-              <div className="-mt-10">
-                <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
-              </div>
+              <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
 
               {/* Leasing calculator — optional */}
               <div>

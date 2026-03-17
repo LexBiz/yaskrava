@@ -56,7 +56,7 @@ export function PhotoGallery({
       <button
         type="button"
         onClick={() => setLightboxIndex(0)}
-        className="group relative block w-full overflow-hidden rounded-3xl border border-gray-200 bg-white"
+        className="group relative block h-[380px] w-full overflow-hidden rounded-3xl border border-gray-200 bg-white"
         aria-label={`${vehicleTitle} — відкрити фото`}
       >
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -85,7 +85,7 @@ export function PhotoGallery({
               key={url}
               type="button"
               onClick={() => setLightboxIndex(idx + 1)}
-              className="group relative overflow-hidden rounded-xl border border-gray-200 bg-white"
+              className="group relative h-16 overflow-hidden rounded-xl border border-gray-200 bg-white"
               aria-label={`Фото ${idx + 2}`}
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}

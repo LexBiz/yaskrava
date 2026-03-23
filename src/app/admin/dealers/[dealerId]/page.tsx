@@ -42,12 +42,16 @@ export const dynamic = "force-dynamic";
 
 export default async function AdminDealerDetailPage({
   params,
+  searchParams,
 }: {
   params: Promise<{dealerId: string}>;
+  searchParams: Promise<Record<string, string>>;
 }) {
   const t = adminCrmUk;
   const user = await requireAdmin();
   const {dealerId} = await params;
+  const sp = await searchParams;
+  const savedOk = sp.updated === "1";
 
   const dealer = await prisma.dealer.findFirst({
     where: {id: dealerId, deletedAt: null},
@@ -193,6 +197,12 @@ export default async function AdminDealerDetailPage({
             </div>
           </div>
         </section>
+
+        {savedOk && (
+          <div className="mt-6 rounded-xl border border-emerald-500/30 bg-emerald-500/8 p-3 text-sm font-semibold text-emerald-300">
+            ✓ Налаштування збережено успішно
+          </div>
+        )}
 
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
           <h2 className="text-lg font-semibold text-white mb-5">Регіон і доставка</h2>

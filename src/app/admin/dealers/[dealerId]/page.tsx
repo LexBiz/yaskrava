@@ -4,6 +4,7 @@ import {
   setApplicationStatusAction,
   setFinancingStatusAction,
   toggleArchivedAction,
+  updateDealerSettingsAction,
 } from "@/app/admin/actions";
 import {requireAdmin} from "@/lib/adminAuth";
 import {
@@ -191,6 +192,60 @@ export default async function AdminDealerDetailPage({
               )}
             </div>
           </div>
+        </section>
+
+        <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">
+          <h2 className="text-lg font-semibold text-white mb-5">Регіон і доставка</h2>
+          <form action={updateDealerSettingsAction} className="grid gap-4 sm:grid-cols-2">
+            <input type="hidden" name="id" value={dealer.id} />
+            <div>
+              <label className="block text-xs font-semibold text-white/60 mb-2 uppercase tracking-wide">
+                Регіон Чехії
+              </label>
+              <select
+                name="region"
+                defaultValue={dealer.region ?? ""}
+                className="h-10 w-full rounded-2xl border border-[rgba(255,180,80,0.14)] bg-[rgba(50,32,8,0.70)] px-3 text-sm text-white outline-none focus:border-[rgba(255,180,80,0.28)]"
+              >
+                <option value="">— не вказано —</option>
+                {[
+                  ["Praha", "Praha"],
+                  ["STREDOCESKY", "Středočeský kraj"],
+                  ["JIHOCESKY", "Jihočeský kraj"],
+                  ["PLZENSKY", "Plzeňský kraj"],
+                  ["KARLOVARSKY", "Karlovarský kraj"],
+                  ["USTECKY", "Ústecký kraj"],
+                  ["LIBERECKY", "Liberecký kraj"],
+                  ["KRALOVEHRADECKY", "Královéhradecký kraj"],
+                  ["PARDUBICKY", "Pardubický kraj"],
+                  ["VYSOCINA", "Kraj Vysočina"],
+                  ["JIHOMORAVSKY", "Jihomoravský kraj"],
+                  ["OLOMOUCKY", "Olomoucký kraj"],
+                  ["ZLINSKY", "Zlínský kraj"],
+                  ["MORAVSKOSLEZSKY", "Moravskoslezský kraj"],
+                ].map(([val, label]) => (
+                  <option key={val} value={val}>{label}</option>
+                ))}
+              </select>
+            </div>
+            <div className="flex flex-col justify-end gap-3">
+              <label className="flex items-center gap-3 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="homeDelivery"
+                  defaultChecked={dealer.homeDelivery}
+                  className="h-5 w-5 rounded border-white/20 bg-[rgba(50,32,8,0.70)] accent-[var(--color-accent)]"
+                />
+                <span className="text-sm text-white font-semibold">🏠 Доставка авто додому</span>
+              </label>
+              <button
+                type="submit"
+                className="h-10 rounded-2xl border border-white/15 bg-white/5 px-4 text-xs font-semibold text-white hover:bg-white/10 w-fit"
+              >
+                Зберегти налаштування
+              </button>
+            </div>
+          </form>
         </section>
 
         <section className="mt-8 rounded-3xl border border-[rgba(255,180,80,0.14)] p-5">

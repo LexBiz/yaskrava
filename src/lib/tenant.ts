@@ -61,6 +61,8 @@ function getFallbackDealer() {
     supportPhone: "+420 000 000 000",
     city: "Prague",
     country: "CZ",
+    region: null,
+    homeDelivery: false,
     websiteTitle: "Yaskrava",
     footerDisclaimer:
       "Leasing and financing offers are subject to partner approval and legal review.",

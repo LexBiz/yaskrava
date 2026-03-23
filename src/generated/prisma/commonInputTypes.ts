@@ -62,6 +62,18 @@ export type EnumDealerStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDealerStatusFilter<$PrismaModel> | $Enums.DealerStatus
 }
 
+export type EnumCzechRegionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CzechRegion | Prisma.EnumCzechRegionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel> | $Enums.CzechRegion | null
+}
+
+export type BoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type DateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -138,6 +150,24 @@ export type EnumDealerStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumDealerStatusFilter<$PrismaModel>
 }
 
+export type EnumCzechRegionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CzechRegion | Prisma.EnumCzechRegionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCzechRegionNullableWithAggregatesFilter<$PrismaModel> | $Enums.CzechRegion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel>
+}
+
+export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -152,24 +182,11 @@ export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type BoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type EnumDomainStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.DomainStatus | Prisma.EnumDomainStatusFieldRefInput<$PrismaModel>
   in?: $Enums.DomainStatus[] | Prisma.ListEnumDomainStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.DomainStatus[] | Prisma.ListEnumDomainStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumDomainStatusFilter<$PrismaModel> | $Enums.DomainStatus
-}
-
-export type BoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type EnumDomainStatusWithAggregatesFilter<$PrismaModel = never> = {
@@ -486,6 +503,18 @@ export type NestedEnumDealerStatusFilter<$PrismaModel = never> = {
   not?: Prisma.NestedEnumDealerStatusFilter<$PrismaModel> | $Enums.DealerStatus
 }
 
+export type NestedEnumCzechRegionNullableFilter<$PrismaModel = never> = {
+  equals?: $Enums.CzechRegion | Prisma.EnumCzechRegionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel> | $Enums.CzechRegion | null
+}
+
+export type NestedBoolFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
+}
+
 export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -577,6 +606,24 @@ export type NestedEnumDealerStatusWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedEnumDealerStatusFilter<$PrismaModel>
 }
 
+export type NestedEnumCzechRegionNullableWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: $Enums.CzechRegion | Prisma.EnumCzechRegionFieldRefInput<$PrismaModel> | null
+  in?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  notIn?: $Enums.CzechRegion[] | Prisma.ListEnumCzechRegionFieldRefInput<$PrismaModel> | null
+  not?: Prisma.NestedEnumCzechRegionNullableWithAggregatesFilter<$PrismaModel> | $Enums.CzechRegion | null
+  _count?: Prisma.NestedIntNullableFilter<$PrismaModel>
+  _min?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel>
+  _max?: Prisma.NestedEnumCzechRegionNullableFilter<$PrismaModel>
+}
+
+export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
+  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+  _count?: Prisma.NestedIntFilter<$PrismaModel>
+  _min?: Prisma.NestedBoolFilter<$PrismaModel>
+  _max?: Prisma.NestedBoolFilter<$PrismaModel>
+}
+
 export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   equals?: Date | string | Prisma.DateTimeFieldRefInput<$PrismaModel> | null
   in?: Date[] | string[] | Prisma.ListDateTimeFieldRefInput<$PrismaModel> | null
@@ -591,24 +638,11 @@ export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
   _max?: Prisma.NestedDateTimeNullableFilter<$PrismaModel>
 }
 
-export type NestedBoolFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolFilter<$PrismaModel> | boolean
-}
-
 export type NestedEnumDomainStatusFilter<$PrismaModel = never> = {
   equals?: $Enums.DomainStatus | Prisma.EnumDomainStatusFieldRefInput<$PrismaModel>
   in?: $Enums.DomainStatus[] | Prisma.ListEnumDomainStatusFieldRefInput<$PrismaModel>
   notIn?: $Enums.DomainStatus[] | Prisma.ListEnumDomainStatusFieldRefInput<$PrismaModel>
   not?: Prisma.NestedEnumDomainStatusFilter<$PrismaModel> | $Enums.DomainStatus
-}
-
-export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
-  equals?: boolean | Prisma.BooleanFieldRefInput<$PrismaModel>
-  not?: Prisma.NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
-  _count?: Prisma.NestedIntFilter<$PrismaModel>
-  _min?: Prisma.NestedBoolFilter<$PrismaModel>
-  _max?: Prisma.NestedBoolFilter<$PrismaModel>
 }
 
 export type NestedEnumDomainStatusWithAggregatesFilter<$PrismaModel = never> = {

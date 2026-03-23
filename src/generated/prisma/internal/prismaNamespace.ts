@@ -1433,6 +1433,8 @@ export const DealerScalarFieldEnum = {
   supportPhone: 'supportPhone',
   city: 'city',
   country: 'country',
+  region: 'region',
+  homeDelivery: 'homeDelivery',
   websiteTitle: 'websiteTitle',
   footerDisclaimer: 'footerDisclaimer',
   appStoreUrl: 'appStoreUrl',
@@ -1757,6 +1759,20 @@ export type EnumDealerStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$Pri
  * Reference to a field of type 'DealerStatus[]'
  */
 export type ListEnumDealerStatusFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DealerStatus[]'>
+    
+
+
+/**
+ * Reference to a field of type 'CzechRegion'
+ */
+export type EnumCzechRegionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CzechRegion'>
+    
+
+
+/**
+ * Reference to a field of type 'CzechRegion[]'
+ */
+export type ListEnumCzechRegionFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'CzechRegion[]'>
     
 
 

@@ -65,6 +65,26 @@ export const DealerStatus = {
 export type DealerStatus = (typeof DealerStatus)[keyof typeof DealerStatus]
 
 
+export const CzechRegion = {
+  Praha: 'Praha',
+  STREDOCESKY: 'STREDOCESKY',
+  JIHOCESKY: 'JIHOCESKY',
+  PLZENSKY: 'PLZENSKY',
+  KARLOVARSKY: 'KARLOVARSKY',
+  USTECKY: 'USTECKY',
+  LIBERECKY: 'LIBERECKY',
+  KRALOVEHRADECKY: 'KRALOVEHRADECKY',
+  PARDUBICKY: 'PARDUBICKY',
+  VYSOCINA: 'VYSOCINA',
+  JIHOMORAVSKY: 'JIHOMORAVSKY',
+  OLOMOUCKY: 'OLOMOUCKY',
+  ZLINSKY: 'ZLINSKY',
+  MORAVSKOSLEZSKY: 'MORAVSKOSLEZSKY'
+} as const
+
+export type CzechRegion = (typeof CzechRegion)[keyof typeof CzechRegion]
+
+
 export const DomainStatus = {
   ACTIVE: 'ACTIVE',
   DISABLED: 'DISABLED'

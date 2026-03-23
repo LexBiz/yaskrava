@@ -98,6 +98,8 @@ export const DealerScalarFieldEnum = {
   supportPhone: 'supportPhone',
   city: 'city',
   country: 'country',
+  region: 'region',
+  homeDelivery: 'homeDelivery',
   websiteTitle: 'websiteTitle',
   footerDisclaimer: 'footerDisclaimer',
   appStoreUrl: 'appStoreUrl',

@@ -40,6 +40,8 @@ export type DealerMinAggregateOutputType = {
   supportPhone: string | null
   city: string | null
   country: string | null
+  region: $Enums.CzechRegion | null
+  homeDelivery: boolean | null
   websiteTitle: string | null
   footerDisclaimer: string | null
   appStoreUrl: string | null
@@ -63,6 +65,8 @@ export type DealerMaxAggregateOutputType = {
   supportPhone: string | null
   city: string | null
   country: string | null
+  region: $Enums.CzechRegion | null
+  homeDelivery: boolean | null
   websiteTitle: string | null
   footerDisclaimer: string | null
   appStoreUrl: string | null
@@ -86,6 +90,8 @@ export type DealerCountAggregateOutputType = {
   supportPhone: number
   city: number
   country: number
+  region: number
+  homeDelivery: number
   websiteTitle: number
   footerDisclaimer: number
   appStoreUrl: number
@@ -111,6 +117,8 @@ export type DealerMinAggregateInputType = {
   supportPhone?: true
   city?: true
   country?: true
+  region?: true
+  homeDelivery?: true
   websiteTitle?: true
   footerDisclaimer?: true
   appStoreUrl?: true
@@ -134,6 +142,8 @@ export type DealerMaxAggregateInputType = {
   supportPhone?: true
   city?: true
   country?: true
+  region?: true
+  homeDelivery?: true
   websiteTitle?: true
   footerDisclaimer?: true
   appStoreUrl?: true
@@ -157,6 +167,8 @@ export type DealerCountAggregateInputType = {
   supportPhone?: true
   city?: true
   country?: true
+  region?: true
+  homeDelivery?: true
   websiteTitle?: true
   footerDisclaimer?: true
   appStoreUrl?: true
@@ -253,6 +265,8 @@ export type DealerGroupByOutputType = {
   supportPhone: string | null
   city: string | null
   country: string | null
+  region: $Enums.CzechRegion | null
+  homeDelivery: boolean
   websiteTitle: string | null
   footerDisclaimer: string | null
   appStoreUrl: string | null
@@ -297,6 +311,8 @@ export type DealerWhereInput = {
   supportPhone?: Prisma.StringNullableFilter<"Dealer"> | string | null
   city?: Prisma.StringNullableFilter<"Dealer"> | string | null
   country?: Prisma.StringNullableFilter<"Dealer"> | string | null
+  region?: Prisma.EnumCzechRegionNullableFilter<"Dealer"> | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFilter<"Dealer"> | boolean
   websiteTitle?: Prisma.StringNullableFilter<"Dealer"> | string | null
   footerDisclaimer?: Prisma.StringNullableFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
@@ -328,6 +344,8 @@ export type DealerOrderByWithRelationInput = {
   supportPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeDelivery?: Prisma.SortOrder
   websiteTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   footerDisclaimer?: Prisma.SortOrderInput | Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -362,6 +380,8 @@ export type DealerWhereUniqueInput = Prisma.AtLeast<{
   supportPhone?: Prisma.StringNullableFilter<"Dealer"> | string | null
   city?: Prisma.StringNullableFilter<"Dealer"> | string | null
   country?: Prisma.StringNullableFilter<"Dealer"> | string | null
+  region?: Prisma.EnumCzechRegionNullableFilter<"Dealer"> | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFilter<"Dealer"> | boolean
   websiteTitle?: Prisma.StringNullableFilter<"Dealer"> | string | null
   footerDisclaimer?: Prisma.StringNullableFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableFilter<"Dealer"> | string | null
@@ -393,6 +413,8 @@ export type DealerOrderByWithAggregationInput = {
   supportPhone?: Prisma.SortOrderInput | Prisma.SortOrder
   city?: Prisma.SortOrderInput | Prisma.SortOrder
   country?: Prisma.SortOrderInput | Prisma.SortOrder
+  region?: Prisma.SortOrderInput | Prisma.SortOrder
+  homeDelivery?: Prisma.SortOrder
   websiteTitle?: Prisma.SortOrderInput | Prisma.SortOrder
   footerDisclaimer?: Prisma.SortOrderInput | Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrderInput | Prisma.SortOrder
@@ -422,6 +444,8 @@ export type DealerScalarWhereWithAggregatesInput = {
   supportPhone?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   city?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   country?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
+  region?: Prisma.EnumCzechRegionNullableWithAggregatesFilter<"Dealer"> | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolWithAggregatesFilter<"Dealer"> | boolean
   websiteTitle?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   footerDisclaimer?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
   appStoreUrl?: Prisma.StringNullableWithAggregatesFilter<"Dealer"> | string | null
@@ -445,6 +469,8 @@ export type DealerCreateInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -476,6 +502,8 @@ export type DealerUncheckedCreateInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -507,6 +535,8 @@ export type DealerUpdateInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -538,6 +568,8 @@ export type DealerUncheckedUpdateInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -569,6 +601,8 @@ export type DealerCreateManyInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -592,6 +626,8 @@ export type DealerUpdateManyMutationInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -615,6 +651,8 @@ export type DealerUncheckedUpdateManyInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -638,6 +676,8 @@ export type DealerCountOrderByAggregateInput = {
   supportPhone?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  homeDelivery?: Prisma.SortOrder
   websiteTitle?: Prisma.SortOrder
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
@@ -661,6 +701,8 @@ export type DealerMaxOrderByAggregateInput = {
   supportPhone?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  homeDelivery?: Prisma.SortOrder
   websiteTitle?: Prisma.SortOrder
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
@@ -684,6 +726,8 @@ export type DealerMinOrderByAggregateInput = {
   supportPhone?: Prisma.SortOrder
   city?: Prisma.SortOrder
   country?: Prisma.SortOrder
+  region?: Prisma.SortOrder
+  homeDelivery?: Prisma.SortOrder
   websiteTitle?: Prisma.SortOrder
   footerDisclaimer?: Prisma.SortOrder
   appStoreUrl?: Prisma.SortOrder
@@ -715,6 +759,14 @@ export type NullableStringFieldUpdateOperationsInput = {
 
 export type EnumDealerStatusFieldUpdateOperationsInput = {
   set?: $Enums.DealerStatus
+}
+
+export type NullableEnumCzechRegionFieldUpdateOperationsInput = {
+  set?: $Enums.CzechRegion | null
+}
+
+export type BoolFieldUpdateOperationsInput = {
+  set?: boolean
 }
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
@@ -853,6 +905,8 @@ export type DealerCreateWithoutDomainsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -883,6 +937,8 @@ export type DealerUncheckedCreateWithoutDomainsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -929,6 +985,8 @@ export type DealerUpdateWithoutDomainsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -959,6 +1017,8 @@ export type DealerUncheckedUpdateWithoutDomainsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -989,6 +1049,8 @@ export type DealerCreateWithoutMembershipsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1019,6 +1081,8 @@ export type DealerUncheckedCreateWithoutMembershipsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1065,6 +1129,8 @@ export type DealerUpdateWithoutMembershipsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1095,6 +1161,8 @@ export type DealerUncheckedUpdateWithoutMembershipsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1125,6 +1193,8 @@ export type DealerCreateWithoutApplicationsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1155,6 +1225,8 @@ export type DealerUncheckedCreateWithoutApplicationsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1201,6 +1273,8 @@ export type DealerUpdateWithoutApplicationsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1231,6 +1305,8 @@ export type DealerUncheckedUpdateWithoutApplicationsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1261,6 +1337,8 @@ export type DealerCreateWithoutConvertedPartnerLeadsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1291,6 +1369,8 @@ export type DealerUncheckedCreateWithoutConvertedPartnerLeadsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1337,6 +1417,8 @@ export type DealerUpdateWithoutConvertedPartnerLeadsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1367,6 +1449,8 @@ export type DealerUncheckedUpdateWithoutConvertedPartnerLeadsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1397,6 +1481,8 @@ export type DealerCreateWithoutVehiclesInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1427,6 +1513,8 @@ export type DealerUncheckedCreateWithoutVehiclesInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1473,6 +1561,8 @@ export type DealerUpdateWithoutVehiclesInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1503,6 +1593,8 @@ export type DealerUncheckedUpdateWithoutVehiclesInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1533,6 +1625,8 @@ export type DealerCreateWithoutVacanciesInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1563,6 +1657,8 @@ export type DealerUncheckedCreateWithoutVacanciesInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1609,6 +1705,8 @@ export type DealerUpdateWithoutVacanciesInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1639,6 +1737,8 @@ export type DealerUncheckedUpdateWithoutVacanciesInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1669,6 +1769,8 @@ export type DealerCreateWithoutDailyMetricsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1699,6 +1801,8 @@ export type DealerUncheckedCreateWithoutDailyMetricsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1745,6 +1849,8 @@ export type DealerUpdateWithoutDailyMetricsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1775,6 +1881,8 @@ export type DealerUncheckedUpdateWithoutDailyMetricsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1805,6 +1913,8 @@ export type DealerCreateWithoutAuditLogsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1835,6 +1945,8 @@ export type DealerUncheckedCreateWithoutAuditLogsInput = {
   supportPhone?: string | null
   city?: string | null
   country?: string | null
+  region?: $Enums.CzechRegion | null
+  homeDelivery?: boolean
   websiteTitle?: string | null
   footerDisclaimer?: string | null
   appStoreUrl?: string | null
@@ -1881,6 +1993,8 @@ export type DealerUpdateWithoutAuditLogsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -1911,6 +2025,8 @@ export type DealerUncheckedUpdateWithoutAuditLogsInput = {
   supportPhone?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   city?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   country?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  region?: Prisma.NullableEnumCzechRegionFieldUpdateOperationsInput | $Enums.CzechRegion | null
+  homeDelivery?: Prisma.BoolFieldUpdateOperationsInput | boolean
   websiteTitle?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   footerDisclaimer?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   appStoreUrl?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
@@ -2035,6 +2151,8 @@ export type DealerSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs =
   supportPhone?: boolean
   city?: boolean
   country?: boolean
+  region?: boolean
+  homeDelivery?: boolean
   websiteTitle?: boolean
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
@@ -2067,6 +2185,8 @@ export type DealerSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Extens
   supportPhone?: boolean
   city?: boolean
   country?: boolean
+  region?: boolean
+  homeDelivery?: boolean
   websiteTitle?: boolean
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
@@ -2090,6 +2210,8 @@ export type DealerSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extens
   supportPhone?: boolean
   city?: boolean
   country?: boolean
+  region?: boolean
+  homeDelivery?: boolean
   websiteTitle?: boolean
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
@@ -2113,6 +2235,8 @@ export type DealerSelectScalar = {
   supportPhone?: boolean
   city?: boolean
   country?: boolean
+  region?: boolean
+  homeDelivery?: boolean
   websiteTitle?: boolean
   footerDisclaimer?: boolean
   appStoreUrl?: boolean
@@ -2120,7 +2244,7 @@ export type DealerSelectScalar = {
   deletedAt?: boolean
 }
 
-export type DealerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "slug" | "name" | "legalName" | "status" | "defaultLocale" | "accentColor" | "brandPrimary" | "brandSecondary" | "supportEmail" | "supportPhone" | "city" | "country" | "websiteTitle" | "footerDisclaimer" | "appStoreUrl" | "playStoreUrl" | "deletedAt", ExtArgs["result"]["dealer"]>
+export type DealerOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "createdAt" | "updatedAt" | "slug" | "name" | "legalName" | "status" | "defaultLocale" | "accentColor" | "brandPrimary" | "brandSecondary" | "supportEmail" | "supportPhone" | "city" | "country" | "region" | "homeDelivery" | "websiteTitle" | "footerDisclaimer" | "appStoreUrl" | "playStoreUrl" | "deletedAt", ExtArgs["result"]["dealer"]>
 export type DealerInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   domains?: boolean | Prisma.Dealer$domainsArgs<ExtArgs>
   memberships?: boolean | Prisma.Dealer$membershipsArgs<ExtArgs>
@@ -2163,6 +2287,8 @@ export type $DealerPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs
     supportPhone: string | null
     city: string | null
     country: string | null
+    region: $Enums.CzechRegion | null
+    homeDelivery: boolean
     websiteTitle: string | null
     footerDisclaimer: string | null
     appStoreUrl: string | null
@@ -2614,6 +2740,8 @@ export interface DealerFieldRefs {
   readonly supportPhone: Prisma.FieldRef<"Dealer", 'String'>
   readonly city: Prisma.FieldRef<"Dealer", 'String'>
   readonly country: Prisma.FieldRef<"Dealer", 'String'>
+  readonly region: Prisma.FieldRef<"Dealer", 'CzechRegion'>
+  readonly homeDelivery: Prisma.FieldRef<"Dealer", 'Boolean'>
   readonly websiteTitle: Prisma.FieldRef<"Dealer", 'String'>
   readonly footerDisclaimer: Prisma.FieldRef<"Dealer", 'String'>
   readonly appStoreUrl: Prisma.FieldRef<"Dealer", 'String'>

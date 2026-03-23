@@ -403,10 +403,6 @@ export type DealerDomainUncheckedUpdateManyWithoutDealerNestedInput = {
   deleteMany?: Prisma.DealerDomainScalarWhereInput | Prisma.DealerDomainScalarWhereInput[]
 }
 
-export type BoolFieldUpdateOperationsInput = {
-  set?: boolean
-}
-
 export type EnumDomainStatusFieldUpdateOperationsInput = {
   set?: $Enums.DomainStatus
 }

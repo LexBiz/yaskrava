@@ -255,6 +255,15 @@ export default async function FleetPage() {
         />
       </PageHero>
 
+      {"homeDelivery" in dealer && dealer.homeDelivery && (
+        <div className="bg-[var(--color-accent)] py-2.5">
+          <div className="mx-auto max-w-7xl px-5 sm:px-8 flex items-center justify-center gap-2 text-sm font-bold text-[#1a0d00]">
+            <span>🏠</span>
+            <span>Цей дилер пропонує доставку автомобіля додому — без поїздки в салон</span>
+          </div>
+        </div>
+      )}
+
       <section className="section-charcoal py-14 sm:py-20">
         <Container>
           {!hasVehicles ? (

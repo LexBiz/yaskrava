@@ -48,6 +48,23 @@ enum DealerStatus {
   SUSPENDED
 }
 
+enum CzechRegion {
+  Praha
+  STREDOCESKY
+  JIHOCESKY
+  PLZENSKY
+  KARLOVARSKY
+  USTECKY
+  LIBERECKY
+  KRALOVEHRADECKY
+  PARDUBICKY
+  VYSOCINA
+  JIHOMORAVSKY
+  OLOMOUCKY
+  ZLINSKY
+  MORAVSKOSLEZSKY
+}
+
 enum DomainStatus {
   ACTIVE
   DISABLED
@@ -112,6 +129,8 @@ model Dealer {
   supportPhone     String?
   city             String?
   country          String?     @default("CZ")
+  region           CzechRegion?
+  homeDelivery     Boolean     @default(false)
   websiteTitle     String?
   footerDisclaimer String?
   appStoreUrl      String?

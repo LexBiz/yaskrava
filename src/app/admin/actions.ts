@@ -1128,6 +1128,42 @@ export async function archiveCareerVacancyAction(formData: FormData) {
   redirectVacancyState("updated");
 }
 
+export async function updateDealerSettingsAction(formData: FormData) {
+  await requireAdmin();
+  await assertSameOrigin();
+
+  const VALID_REGIONS = [
+    "Praha", "STREDOCESKY", "JIHOCESKY", "PLZENSKY", "KARLOVARSKY",
+    "USTECKY", "LIBERECKY", "KRALOVEHRADECKY", "PARDUBICKY", "VYSOCINA",
+    "JIHOMORAVSKY", "OLOMOUCKY", "ZLINSKY", "MORAVSKOSLEZSKY",
+  ] as const;
+
+  const schema = z.object({
+    id: z.string().min(1),
+    region: z.enum(VALID_REGIONS).nullable().optional(),
+    homeDelivery: z.string().optional(),
+  });
+  const parsed = schema.safeParse({
+    id: String(formData.get("id") ?? ""),
+    region: (formData.get("region") as string) || null,
+    homeDelivery: formData.get("homeDelivery") as string | undefined,
+  });
+  if (!parsed.success) {
+    redirect(`/admin/dealers/${String(formData.get("id") ?? "")}`);
+  }
+
+  await prisma.dealer.update({
+    where: {id: parsed.data.id},
+    data: {
+      region: parsed.data.region ?? null,
+      homeDelivery: parsed.data.homeDelivery === "on" || parsed.data.homeDelivery === "true",
+    },
+  });
+
+  revalidatePath("/admin");
+  redirect(`/admin/dealers/${parsed.data.id}?updated=1`);
+}
+
 export async function deactivateDealerAction(formData: FormData) {
   const user = await requireAdmin();
   await assertSameOrigin();

@@ -43,6 +43,7 @@ export function SiteHeader({}: Props) {
     {href: "/about",    label: tNav("about")},
     {href: "/services", label: tNav("services")},
     {href: "/fleet",    label: tNav("fleet")},
+    {href: "/dealers",  label: tNav("dealers")},
     {href: "/fuel",     label: tNav("fuel")},
     {href: "/career",   label: tNav("career")},
   ], [tNav]);

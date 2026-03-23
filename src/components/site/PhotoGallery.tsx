@@ -69,20 +69,12 @@ export function PhotoGallery({
           className="group relative block w-full"
           aria-label={`${vehicleTitle} — відкрити у повному розмірі`}
         >
-          {/* Blurred bg fill so no dark bars */}
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img
-            src={heroSrc}
-            alt=""
-            aria-hidden
-            className="absolute inset-0 h-full w-full scale-110 object-cover blur-2xl brightness-[0.3]"
-          />
-          {/* Main photo — always full car visible */}
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroSrc}
             alt={vehicleTitle}
-            className="relative h-[220px] w-full object-contain transition duration-500 group-hover:scale-[1.02] sm:h-[300px] lg:h-[380px]"
+            className="h-[200px] w-full object-cover transition duration-500 group-hover:scale-[1.02] sm:h-[280px] lg:h-[340px]"
+            style={{objectPosition: "50% 60%"}}
           />
           {/* Zoom hint */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/20">

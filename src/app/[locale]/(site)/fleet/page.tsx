@@ -116,24 +116,31 @@ function VehicleCard({
         style={{background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)"}}
       >
         {/* ── Photo block ── */}
-        <div className="relative overflow-hidden" style={{background: "#0d0d0f"}}>
+        <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0d0f]">
           {heroImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={heroImage}
               alt={v.title}
-              className="h-[200px] w-full object-contain transition duration-500 group-hover:scale-[1.04] sm:h-[220px]"
+              className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
               loading="lazy"
             />
           ) : (
-            <div className="h-[200px] w-full flex items-center justify-center text-white/25 text-sm sm:h-[220px]">
+            <div className="h-full w-full flex items-center justify-center text-white/25 text-sm">
               {noImageLabel}
             </div>
           )}
 
           {/* Status badge — top left */}
           <div className="absolute left-3 top-3">
-            <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-sm ${statusClass}`}>
+            <span
+              className="inline-flex items-center gap-1.5 rounded-full px-2.5 py-[5px] text-[11px] font-bold"
+              style={
+                statusClass.includes("emerald")
+                  ? {background: "rgba(16,185,129,0.85)", color: "#fff"}
+                  : {background: "rgba(251,191,36,0.85)", color: "#1a0d00"}
+              }
+            >
               {status}
             </span>
           </div>
@@ -142,16 +149,16 @@ function VehicleCard({
           <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
             {v.featured && (
               <span
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold backdrop-blur-sm"
-                style={{background: "rgba(255,121,24,0.25)", border: "1px solid rgba(255,121,24,0.45)", color: "#FF7918"}}
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-[5px] text-[11px] font-bold"
+                style={{background: "rgba(255,121,24,0.90)", color: "#fff"}}
               >
                 ★ {featuredLabel}
               </span>
             )}
             {(photoCount > 1 || videoCount > 0) && (
               <span
-                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold backdrop-blur-sm"
-                style={{background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.8)"}}
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-[5px] text-[11px] font-semibold"
+                style={{background: "rgba(0,0,0,0.72)", color: "#fff"}}
               >
                 📷 {photoCount}{videoCount > 0 ? ` · 🎥 ${videoCount}` : ""}
               </span>
@@ -159,7 +166,7 @@ function VehicleCard({
           </div>
 
           {/* Bottom gradient overlay */}
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-12 bg-gradient-to-t from-black/50 to-transparent" />
         </div>
 
         {/* ── Info block ── */}

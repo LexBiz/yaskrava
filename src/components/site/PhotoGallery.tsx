@@ -170,7 +170,7 @@ export function PhotoGallery({
 
           {/* Main image area */}
           <div
-            className="relative flex flex-1 items-center justify-center px-12 sm:px-16"
+            className="relative min-h-0 flex flex-1 items-center justify-center overflow-hidden px-12 sm:px-16"
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -178,7 +178,8 @@ export function PhotoGallery({
               key={lightboxIndex}
               src={images[lightboxIndex]}
               alt={`${vehicleTitle} ${lightboxIndex + 1}`}
-              className="max-h-full max-w-full rounded-xl object-contain"
+              className="rounded-xl object-contain"
+              style={{maxHeight: "100%", maxWidth: "100%", width: "auto", height: "auto"}}
               draggable={false}
             />
 

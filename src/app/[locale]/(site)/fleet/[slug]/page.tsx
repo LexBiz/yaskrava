@@ -161,8 +161,10 @@ export default async function VehicleDetailPage({
 
       {/* ── Main content ── */}
       <Container>
-        <div className="py-8 lg:py-12">
-          <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_420px] xl:grid-cols-[1fr_460px]">
+        <div className="py-8 lg:py-12 space-y-8">
+
+          {/* ── Two-column grid: photo/info + form ── */}
+          <div className="grid gap-6 lg:gap-8 lg:grid-cols-[1fr_400px] xl:grid-cols-[1fr_440px]">
 
             {/* ── Left column: media + specs + description ── */}
             <div className="min-w-0 space-y-5">
@@ -184,7 +186,7 @@ export default async function VehicleDetailPage({
                 <PhotoGallery images={galleryImages} vehicleTitle={vehicle.title} />
               ) : (
                 <div
-                  className="flex h-[340px] items-center justify-center rounded-2xl text-sm"
+                  className="flex h-[280px] items-center justify-center rounded-2xl text-sm"
                   style={{background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.25)"}}
                 >
                   {t("noImage")}
@@ -213,43 +215,6 @@ export default async function VehicleDetailPage({
                 </div>
               )}
 
-              {/* Videos */}
-              {galleryVideos.length > 0 && (
-                <div
-                  className="overflow-hidden rounded-2xl p-4"
-                  style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)"}}
-                >
-                  <div className="mb-3 text-[11px] font-bold uppercase tracking-widest" style={{color: "rgba(255,255,255,0.35)"}}>
-                    {t("videoSection")}
-                  </div>
-                  <div className="grid gap-3">
-                    {galleryVideos.map((videoUrl) => (
-                      <div key={videoUrl} className="overflow-hidden rounded-xl">
-                        {videoUrl.endsWith(".mp4") ||
-                        videoUrl.endsWith(".webm") ||
-                        videoUrl.endsWith(".mov") ? (
-                          <video
-                            src={videoUrl}
-                            controls
-                            className="h-auto w-full rounded-xl bg-black"
-                          />
-                        ) : (
-                          <div className="aspect-video overflow-hidden rounded-xl">
-                            <iframe
-                              src={videoUrl}
-                              title={`${vehicle.title} video`}
-                              className="h-full w-full"
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
-
               {/* AI Model history */}
               <ModelHistoryCard
                 make={vehicle.make}
@@ -257,17 +222,9 @@ export default async function VehicleDetailPage({
                 year={vehicle.year ?? null}
                 locale={locale}
               />
-
-              {/* App download */}
-              <div
-                className="rounded-2xl p-4"
-                style={{background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.06)"}}
-              >
-                <DownloadButtons />
-              </div>
             </div>
 
-            {/* ── Right column: title + form + calculator ── */}
+            {/* ── Right column: title + form ── */}
             <div className="min-w-0 space-y-5">
 
               {/* Title block (desktop) */}
@@ -285,29 +242,68 @@ export default async function VehicleDetailPage({
               {/* Inquiry form */}
               <ApplicationForm vehicleId={vehicle.id} defaultTopic="VEHICLE" lockTopic />
 
-              {/* Leasing calculator */}
-              <div>
-                <div className="mb-3 flex items-center gap-3">
-                  <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
-                  <span className="text-xs font-semibold" style={{color: "rgba(255,255,255,0.35)"}}>
-                    {t("orCalculateLeasing")}
-                  </span>
-                  <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
-                </div>
-                <div
-                  className="overflow-hidden rounded-[24px] shadow-[0_24px_60px_-30px_rgba(0,0,0,0.7)]"
-                  style={{border: "1px solid rgba(255,121,24,0.18)"}}
-                >
-                  <LeasingCalculator
-                    initialPrice={vehicle.priceCzk || 600_000}
-                    lockPrice={Boolean(vehicle.priceCzk)}
-                    vehicleTitle={vehicle.title}
-                    compact
-                  />
-                </div>
+              {/* App download — compact */}
+              <div
+                className="rounded-2xl p-3"
+                style={{background: "rgba(255,255,255,0.02)", border: "1px solid rgba(255,255,255,0.05)"}}
+              >
+                <DownloadButtons />
               </div>
             </div>
           </div>
+
+          {/* ── Full-width: videos (if any) ── */}
+          {galleryVideos.length > 0 && (
+            <div
+              className="overflow-hidden rounded-2xl p-5"
+              style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)"}}
+            >
+              <div className="mb-3 text-[11px] font-bold uppercase tracking-widest" style={{color: "rgba(255,255,255,0.35)"}}>
+                {t("videoSection")}
+              </div>
+              <div className="grid gap-4 md:grid-cols-2">
+                {galleryVideos.map((videoUrl) => (
+                  <div key={videoUrl} className="overflow-hidden rounded-xl">
+                    {videoUrl.endsWith(".mp4") || videoUrl.endsWith(".webm") || videoUrl.endsWith(".mov") ? (
+                      <video src={videoUrl} controls className="h-auto w-full rounded-xl bg-black" />
+                    ) : (
+                      <div className="aspect-video overflow-hidden rounded-xl">
+                        <iframe
+                          src={videoUrl}
+                          title={`${vehicle.title} video`}
+                          className="h-full w-full"
+                          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                          allowFullScreen
+                        />
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* ── Full-width leasing calculator ── */}
+          <div>
+            <div className="mb-4 flex items-center gap-4">
+              <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{color: "rgba(255,121,24,0.7)"}}>
+                {t("orCalculateLeasing")}
+              </span>
+              <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
+            </div>
+            <div
+              className="overflow-hidden rounded-[28px] shadow-[0_32px_80px_-30px_rgba(0,0,0,0.8)]"
+              style={{border: "1px solid rgba(255,121,24,0.2)"}}
+            >
+              <LeasingCalculator
+                initialPrice={vehicle.priceCzk || 600_000}
+                lockPrice={Boolean(vehicle.priceCzk)}
+                vehicleTitle={vehicle.title}
+              />
+            </div>
+          </div>
+
         </div>
       </Container>
     </div>

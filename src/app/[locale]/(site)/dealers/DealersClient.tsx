@@ -32,7 +32,7 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
   return (
     <div>
       {/* Region map */}
-      <div className="mx-auto max-w-2xl mb-10">
+      <div className="mb-10">
         <CzechRegionMap
           selected={selectedRegion}
           onSelect={setSelectedRegion}

@@ -176,14 +176,13 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                     style={{transition: "fill 0.15s, stroke 0.15s"}}
                   />
 
-                  {/* Лейбли: ховаються на мобільному через CSS */}
+                  {/* Лейбли — завжди видимі, SVG масштабується автоматично */}
                   <text
                     x={cx} y={cy + fs * 0.4}
                     textAnchor="middle"
                     fontSize={fs}
                     fontWeight={isSel || isHov ? "700" : "500"}
                     fill={labelColor}
-                    className="hidden sm:block"
                     style={{pointerEvents: "none", transition: "fill 0.15s"}}
                   >
                     {SHORT[id]}
@@ -216,6 +215,42 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
               );
             })}
           </svg>
+        </div>
+
+        {/* Mobile region tag list — horizontal scroll, hidden on sm+ */}
+        <div
+          className="sm:hidden flex gap-2 overflow-x-auto px-3 py-2.5 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+          style={{borderTop: "1px solid rgba(255,255,255,0.06)"}}
+        >
+          {REGIONS.map(({id}) => {
+            const count = dealerCounts[id] ?? 0;
+            const isSel = selected === id;
+            return (
+              <button
+                key={id}
+                type="button"
+                onClick={() => onSelect(selected === id ? null : id)}
+                className="shrink-0 flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-bold transition-all"
+                style={
+                  isSel
+                    ? {background: "#FF7918", color: "#fff"}
+                    : count > 0
+                      ? {background: "rgba(255,121,24,0.15)", color: "#FF9902", border: "1px solid rgba(255,121,24,0.35)"}
+                      : {background: "rgba(255,255,255,0.05)", color: "rgba(255,255,255,0.40)", border: "1px solid rgba(255,255,255,0.10)"}
+                }
+              >
+                {SHORT[id]}
+                {count > 0 && (
+                  <span
+                    className="ml-0.5 flex h-4 min-w-[16px] items-center justify-center rounded-full px-1 text-[9px] font-black"
+                    style={isSel ? {background: "rgba(255,255,255,0.25)"} : {background: "rgba(255,121,24,0.35)"}}
+                  >
+                    {count}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Info bar */}

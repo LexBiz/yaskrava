@@ -65,7 +65,7 @@ export function PhotoGallery({
         <button
           type="button"
           onClick={() => setLightboxIndex(activeThumb)}
-          className="group relative block w-full aspect-[16/10]"
+          className="group relative block w-full aspect-[4/3] sm:aspect-[16/10]"
           aria-label="Open fullscreen gallery"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -101,7 +101,7 @@ export function PhotoGallery({
                 if (i === activeThumb) setLightboxIndex(i);
                 else setActiveThumb(i);
               }}
-              className={`relative aspect-[3/2] w-20 shrink-0 overflow-hidden rounded-lg border-2 transition duration-200 ${
+              className={`relative aspect-[3/2] w-16 shrink-0 overflow-hidden rounded-lg border-2 transition duration-200 sm:w-20 ${
                 i === activeThumb
                   ? "border-[var(--color-accent)] opacity-100"
                   : "border-transparent opacity-60 hover:opacity-90"
@@ -159,7 +159,7 @@ export function PhotoGallery({
 
           {/* Image area — takes remaining space, NEVER overflows */}
           <div
-            className="relative flex items-center justify-center px-10 sm:px-16"
+            className="relative flex items-center justify-center px-8 sm:px-14"
             style={{height: "calc(100dvh - 48px - 72px)", overflow: "hidden"}}
             onClick={(e) => e.stopPropagation()}
           >

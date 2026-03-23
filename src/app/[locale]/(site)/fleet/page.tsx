@@ -171,7 +171,7 @@ function VehicleCard({
         </div>
 
         {/* ── Info block ── */}
-        <div className="flex flex-1 flex-col p-4">
+        <div className="flex flex-1 flex-col p-3 sm:p-4">
 
           {/* Title */}
           <h3 className="line-clamp-2 text-[15px] font-black leading-snug text-white">
@@ -325,10 +325,10 @@ export default async function FleetPage() {
           ) : (
           <div className="grid gap-12">
             <div>
-              <h2 className="text-2xl font-black text-white">{t("inTransitTitle")}</h2>
+              <h2 className="text-xl font-black text-white sm:text-2xl">{t("inTransitTitle")}</h2>
               <p className="mt-2 text-sm text-white/70">{t("inTransitText")}</p>
               {inTransit.length ? (
-                <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="mt-6 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
                   {inTransit.map((v) => (
                     <VehicleCard
                       key={v.id}
@@ -354,10 +354,10 @@ export default async function FleetPage() {
             </div>
 
             <div>
-              <h2 className="text-2xl font-black text-white">{t("onSiteTitle")}</h2>
+              <h2 className="text-xl font-black text-white sm:text-2xl">{t("onSiteTitle")}</h2>
               <p className="mt-2 text-sm text-white/70">{t("onSiteText")}</p>
               {onSite.length ? (
-                <div className="mt-6 grid gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
+                <div className="mt-6 grid gap-3 sm:gap-4 grid-cols-1 sm:grid-cols-2 xl:grid-cols-3">
                   {onSite.map((v) => (
                     <VehicleCard
                       key={v.id}

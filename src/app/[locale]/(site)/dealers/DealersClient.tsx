@@ -124,7 +124,7 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
                   </div>
 
                   <div className="mt-auto pt-4">
-                    <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity" style={{color: "var(--color-accent)"}}>
+                    <span className="text-xs font-bold opacity-60 group-hover:opacity-100 transition-opacity" style={{color: "var(--color-accent)"}}>
                       {t("openSite")} →
                     </span>
                   </div>

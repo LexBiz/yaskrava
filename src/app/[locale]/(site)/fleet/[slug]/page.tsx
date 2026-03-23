@@ -186,7 +186,7 @@ export default async function VehicleDetailPage({
                 <PhotoGallery images={galleryImages} vehicleTitle={vehicle.title} />
               ) : (
                 <div
-                  className="flex h-[280px] items-center justify-center rounded-2xl text-sm"
+                  className="flex h-[180px] items-center justify-center rounded-2xl text-sm sm:h-[280px]"
                   style={{background: "rgba(255,255,255,0.04)", color: "rgba(255,255,255,0.25)"}}
                 >
                   {t("noImage")}
@@ -287,7 +287,7 @@ export default async function VehicleDetailPage({
           <div>
             <div className="mb-4 flex items-center gap-4">
               <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
-              <span className="text-xs font-bold uppercase tracking-widest" style={{color: "rgba(255,121,24,0.7)"}}>
+              <span className="text-[10px] font-bold uppercase tracking-widest sm:text-xs" style={{color: "rgba(255,121,24,0.7)"}}>
                 {t("orCalculateLeasing")}
               </span>
               <div className="h-px flex-1" style={{background: "rgba(255,255,255,0.07)"}} />
@@ -355,18 +355,18 @@ function VehicleTitleBlock({
       </div>
 
       {/* Title */}
-      <h1 className="text-xl font-black leading-tight text-white sm:text-2xl break-words">
+      <h1 className="text-lg font-black leading-tight text-white break-words sm:text-xl lg:text-2xl">
         {title}
       </h1>
 
       {/* Price */}
-      <div className="mt-4">
+      <div className="mt-3">
         {price ? (
-          <div className="text-3xl font-black" style={{color: "#FF7918"}}>
+          <div className="text-2xl font-black sm:text-3xl" style={{color: "#FF7918"}}>
             {price}
           </div>
         ) : (
-          <div className="text-lg font-semibold" style={{color: "rgba(255,255,255,0.4)"}}>
+          <div className="text-base font-semibold" style={{color: "rgba(255,255,255,0.4)"}}>
             {priceOnRequest}
           </div>
         )}
@@ -386,15 +386,15 @@ function SpecCard({
 }) {
   return (
     <div
-      className="rounded-xl p-3.5"
+      className="rounded-xl p-3"
       style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.07)"}}
     >
       <div
-        className="mb-1.5 flex items-center gap-1.5 text-[11px]"
+        className="mb-1 flex items-center gap-1 text-[10px] sm:gap-1.5 sm:text-[11px]"
         style={{color: "rgba(255,255,255,0.38)"}}
       >
         {icon}
-        {label}
+        <span className="truncate">{label}</span>
       </div>
       <div className="text-sm font-bold text-white">{value}</div>
     </div>

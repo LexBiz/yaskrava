@@ -241,7 +241,7 @@ export function LeasingCalculator({
     >
 
       {/* ══ LEFT: Inputs ══════════════════════════════════════ */}
-      <div className="yask-calc-inputs p-7 sm:p-9 space-y-6">
+      <div className="yask-calc-inputs p-5 sm:p-7 lg:p-9 space-y-6">
         <div>
           <div className="section-accent-line mb-4" />
           <p className="text-[10px] font-bold uppercase tracking-[0.16em]" style={{ color: "var(--text-3)" }}>
@@ -362,7 +362,7 @@ export function LeasingCalculator({
       </div>
 
       {/* ══ RIGHT: Results ════════════════════════════════════ */}
-      <div className="yask-calc-results p-7 sm:p-9 flex flex-col gap-6">
+      <div className="yask-calc-results p-5 sm:p-7 lg:p-9 flex flex-col gap-6">
 
         {/* Preliminary payment */}
         <div>
@@ -376,7 +376,7 @@ export function LeasingCalculator({
           <p
             key={Math.round(r.monthlyTotal / 500)}
             className="amount-pop text-gradient-accent font-black leading-none tabular-nums"
-            style={{ fontSize: "clamp(2.8rem, 5vw, 3.8rem)" }}
+            style={{ fontSize: "clamp(2rem, 6vw, 3.5rem)" }}
           >
             {czk.format(r.monthlyTotal)}
           </p>

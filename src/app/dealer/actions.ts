@@ -15,7 +15,7 @@ import {getCurrentDealerOrThrow} from "@/lib/tenant";
 import {saveVehicleImages, saveVehicleVideo} from "@/lib/uploads";
 import {asFiles} from "@/lib/vehicleMedia";
 
-const MAX_VEHICLE_IMAGES = 10;
+const MAX_VEHICLE_IMAGES = 30;
 
 function dealerReturnUrl(formData: FormData): string {
   const lang = resolveDealerCrmLocale(String(formData.get("_lang") ?? ""));

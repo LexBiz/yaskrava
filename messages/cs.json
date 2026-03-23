@@ -63,7 +63,28 @@
     "vehiclesSaleBullet1": "Fotky, nájezd, převodovka a palivo",
     "vehiclesSaleBullet2": "Rychlý přechod do detailu vozidla",
     "vehiclesSaleBullet3": "Odděleno od leasingového bloku",
-    "downloadAppCta": "Stáhnout aplikaci"
+    "downloadAppCta": "Stáhnout aplikaci",
+    "financingSectionTitle": "Autofinancování",
+    "financingNewCarsTitle": "Nová auta",
+    "financingNewCarsText": "Financování nových vozidel od oficiálních prodejců.",
+    "financingUsedCarsTitle": "Ojetá auta",
+    "financingUsedCarsText": "Prověření a financování ojetých vozidel.",
+    "financingLeasingTitle": "Leasing",
+    "financingLeasingText": "Flexibilní leasing s nízkými počátečními náklady.",
+    "financingInsuranceTitle": "Pojištění",
+    "financingInsuranceText": "Komplexní pojištění v kombinaci s financováním.",
+    "dealersEyebrow": "Prodejci po celé ČR",
+    "dealersTitle": "Najděte prodejce ve vašem regionu",
+    "dealersText": "Vyberte region a prohlédněte si prodejce ve vašem okolí. Někteří nabízejí dovoz vozidla domů.",
+    "dealersCta": "Najít prodejce",
+    "dealersRegionsTitle": "14 krajů",
+    "dealersRegionsText": "Prodejci jsou přítomni ve všech hlavních regionech.",
+    "dealersHomeDeliveryTitle": "Dovoz domů",
+    "dealersHomeDeliveryText": "Někteří prodejci přivezou auto přímo k vám.",
+    "dealersChoiceTitle": "Velký výběr",
+    "dealersChoiceText": "Vozidla na cestě i dostupná na místě — vhodné pro financování.",
+    "dealersOnlineTitle": "Žádat online",
+    "dealersOnlineText": "Podejte žádost o financování bez návštěvy salonu."
   },
   "Common": {
     "learnMore": "Zjistit více",
@@ -174,12 +195,35 @@
     "demoFuelDiesel": "Diesel",
     "demoFuelPetrol": "Benzín",
     "demoFuelHybrid": "Hybrid",
+    "demoFuelElectric": "Elektro",
+    "demoFuelLpg": "Plyn (LPG)",
     "demoTransmissionAutomatic": "Automat",
     "demoTransmissionManual": "Manuál",
     "status": "Stav",
     "statusInTransit": "Na cestě",
     "statusOnSite": "Na ploše",
-    "openVehicle": "Otevřít vozidlo"
+    "openVehicle": "Otevřít vozidlo",
+    "featuredBadge": "Doporučeno",
+    "photoWord": "fotek",
+    "videoWord": "videí",
+    "homeDeliveryBanner": "Tento prodejce nabízí dovoz vozidla domů — bez návštěvy salonu"
+  },
+  "Dealers": {
+    "title": "Najděte prodejce ve vašem regionu",
+    "subtitle": "Vyberte kraj na mapě — ukážeme vám prodejce poblíž. Někteří nabízejí dovoz vozidla domů.",
+    "homeDeliveryTitle": "Dovoz auta domů",
+    "homeDeliveryText": "Někteří prodejci nabízejí dovoz vozidla přímo k vám — bez návštěvy salonu. Tito prodejci jsou označeni odznáčkem.",
+    "allDealers": "Všichni prodejci",
+    "showAll": "Zobrazit vše",
+    "showAllRegions": "Zobrazit všechny kraje",
+    "noDealers": "V tomto kraji zatím žádní prodejci nejsou",
+    "homeDeliveryBadge": "Dovoz domů",
+    "openSite": "Otevřít web",
+    "vehicles": "{count} aut",
+    "dealerCountLabel": "{count, plural, one {# prodejce} few {# prodejci} many {# prodejců} other {# prodejců}}",
+    "mapSelectHint": "Vyberte kraj na mapě",
+    "mapTapHint": "Klepněte na kraj",
+    "mapDealerShort": "prod."
   },
   "Fuel": {
     "title": "Palivo — cashback v aplikaci",
@@ -434,7 +478,11 @@
     "gearbox": "Převodovka",
     "financingTitle": "Financování pro tento vůz",
     "financingText": "Můžete zanechat žádost o financování právě tohoto vozu a předběžná kalkulačka už používá jeho aktuální cenu.",
-    "priceOnRequest": "Cena na vyžádání"
+    "priceOnRequest": "Cena na vyžádání",
+    "description": "Popis",
+    "orCalculateLeasing": "Nebo vypočítejte leasing",
+    "allPhotos": "Všechny fotky",
+    "videoSection": "Video"
   }
 }
 

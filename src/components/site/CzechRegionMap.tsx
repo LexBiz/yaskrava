@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {useTranslations} from "next-intl";
 
 export type CzechRegion =
   | "Praha"
@@ -105,164 +106,158 @@ type Props = {
 };
 
 export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
+  const t = useTranslations("Dealers");
   const [hovered, setHovered] = useState<CzechRegion | null>(null);
   const tooltip = hovered ?? selected;
 
   return (
     <div className="w-full select-none">
-
-      {/* ── Desktop map ───────────────────────────────────────── */}
-      <div className="hidden sm:block">
-        <div className="rounded-2xl overflow-hidden bg-white/[0.03] border border-white/[0.08]">
-          <div className="px-4 pt-4 pb-2">
-            <svg
-              viewBox="-10 -10 820 470"
-              className="w-full block"
-              aria-label="Interaktivní mapa krajů České republiky"
-            >
-              {REGIONS.map(({id, d, cx, cy, fs = 13}) => {
-                const isSel  = selected === id;
-                const isHov  = hovered === id;
-                const count  = dealerCounts[id] ?? 0;
-                const hasDeal = count > 0;
-
-                const fill = isSel
-                  ? "#FF7918"
-                  : isHov
-                    ? "#e8e0d8"
-                    : hasDeal
-                      ? "#d5cec6"
-                      : "#c8c2ba";
-
-                const stroke = isSel ? "#e06010" : isHov ? "#999" : "#aaa";
-
-                const labelColor = isSel ? "#fff" : "#555";
-
-                return (
-                  <g
-                    key={id}
-                    onClick={() => onSelect(selected === id ? null : id)}
-                    onMouseEnter={() => setHovered(id)}
-                    onMouseLeave={() => setHovered(null)}
-                    style={{cursor: "pointer"}}
-                  >
-                    <path
-                      d={d}
-                      fill={fill}
-                      stroke={stroke}
-                      strokeWidth={1.2}
-                      strokeLinejoin="round"
-                      style={{transition: "fill 0.15s, stroke 0.15s"}}
-                    />
-                    <text
-                      x={cx} y={cy + fs * 0.4}
-                      textAnchor="middle"
-                      fontSize={fs}
-                      fontWeight={isSel ? "700" : "500"}
-                      fill={labelColor}
-                      style={{pointerEvents: "none", transition: "fill 0.15s"}}
-                    >
-                      {SHORT[id]}
-                    </text>
-                    {hasDeal && (
-                      <>
-                        <circle
-                          cx={cx + SHORT[id].length * fs * 0.33 + 7}
-                          cy={cy - fs}
-                          r={6}
-                          fill="#FF7918"
-                        />
-                        <text
-                          x={cx + SHORT[id].length * fs * 0.33 + 7}
-                          y={cy - fs + 4}
-                          textAnchor="middle"
-                          fontSize={7}
-                          fontWeight="800"
-                          fill="#fff"
-                          style={{pointerEvents: "none"}}
-                        >
-                          {count}
-                        </text>
-                      </>
-                    )}
-                  </g>
-                );
-              })}
-            </svg>
-          </div>
-
-          {/* Info bar */}
-          <div
-            className="flex items-center justify-between gap-3 px-4 py-2.5 min-h-[40px]"
-            style={{borderTop: "1px solid rgba(255,255,255,0.06)"}}
+      <div
+        className="rounded-2xl overflow-hidden"
+        style={{
+          background: "rgba(255,255,255,0.03)",
+          border: "1px solid rgba(255,255,255,0.08)",
+        }}
+      >
+        {/* SVG map — показується на всіх екранах */}
+        <div className="px-2 pt-3 pb-1 sm:px-4 sm:pt-4 sm:pb-2">
+          <svg
+            viewBox="-10 -10 820 470"
+            className="w-full block"
+            aria-label="Interaktivní mapa krajů České republiky"
           >
-            {tooltip ? (
-              <div className="flex items-center gap-2.5 min-w-0">
-                <span className="w-2 h-2 rounded-full flex-shrink-0 bg-[#FF7918]"/>
-                <span className="text-sm font-semibold text-white truncate">
-                  {CZECH_REGION_LABELS[tooltip]}
-                </span>
-                <span className="text-xs text-white/35 flex-shrink-0">
-                  {(dealerCounts[tooltip] ?? 0) > 0
-                    ? `${dealerCounts[tooltip]} дил.`
-                    : "—"}
-                </span>
-              </div>
-            ) : (
-              <span className="text-xs text-white/25">Оберіть регіон</span>
-            )}
-            {selected && (
-              <button
-                onClick={() => onSelect(null)}
-                className="text-xs text-white/30 hover:text-white/60 transition-colors flex-shrink-0"
-              >
-                ✕
-              </button>
-            )}
-          </div>
-        </div>
-      </div>
+            {REGIONS.map(({id, d, cx, cy, fs = 13}) => {
+              const isSel   = selected === id;
+              const isHov   = hovered === id;
+              const count   = dealerCounts[id] ?? 0;
+              const hasDeal = count > 0;
 
-      {/* ── Mobile select ──────────────────────────────────────── */}
-      <div className="sm:hidden">
-        <div className="rounded-2xl overflow-hidden" style={{
-          background: "rgba(22,10,2,0.97)",
-          border: "1px solid rgba(255,121,24,0.18)",
-        }}>
-          <div className="px-4 pt-4 pb-1">
-            <label className="text-[10px] font-bold uppercase tracking-widest text-white/40">
-              Оберіть регіон
-            </label>
-          </div>
-          <div className="relative px-4 pb-4">
-            <select
-              value={selected ?? ""}
-              onChange={(e) => onSelect((e.target.value as CzechRegion) || null)}
-              className="w-full h-12 rounded-xl border border-[rgba(255,121,24,0.2)] bg-[rgba(12,6,0,0.9)] pl-4 pr-10 text-sm font-semibold text-white outline-none focus:border-[rgba(255,121,24,0.5)] appearance-none"
-            >
-              <option value="">Всі регіони</option>
-              {REGIONS.map(({id}) => (
-                <option key={id} value={id}>
-                  {CZECH_REGION_LABELS[id]}
-                  {(dealerCounts[id] ?? 0) > 0 ? ` · ${dealerCounts[id]}` : ""}
-                </option>
-              ))}
-            </select>
-            <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                <path d="M2 4.5l4 4 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
-              </svg>
+              /* ── Yaskrava brand palette ── */
+              const fill = isSel
+                ? "#FF7918"
+                : isHov
+                  ? "rgba(255,121,24,0.32)"
+                  : hasDeal
+                    ? "rgba(255,121,24,0.16)"
+                    : "rgba(255,255,255,0.07)";
+
+              const stroke = isSel
+                ? "#FF9902"
+                : isHov
+                  ? "rgba(255,121,24,0.70)"
+                  : hasDeal
+                    ? "rgba(255,121,24,0.35)"
+                    : "rgba(255,255,255,0.14)";
+
+              const strokeW = isSel ? 1.8 : 1.3;
+
+              const labelColor = isSel
+                ? "#fff"
+                : isHov
+                  ? "#fff"
+                  : hasDeal
+                    ? "rgba(255,185,90,0.95)"
+                    : "rgba(255,255,255,0.38)";
+
+              return (
+                <g
+                  key={id}
+                  onClick={() => onSelect(selected === id ? null : id)}
+                  onMouseEnter={() => setHovered(id)}
+                  onMouseLeave={() => setHovered(null)}
+                  style={{cursor: "pointer"}}
+                >
+                  <path
+                    d={d}
+                    fill={fill}
+                    stroke={stroke}
+                    strokeWidth={strokeW}
+                    strokeLinejoin="round"
+                    style={{transition: "fill 0.15s, stroke 0.15s"}}
+                  />
+
+                  {/* Лейбли: ховаються на мобільному через CSS */}
+                  <text
+                    x={cx} y={cy + fs * 0.4}
+                    textAnchor="middle"
+                    fontSize={fs}
+                    fontWeight={isSel || isHov ? "700" : "500"}
+                    fill={labelColor}
+                    className="hidden sm:block"
+                    style={{pointerEvents: "none", transition: "fill 0.15s"}}
+                  >
+                    {SHORT[id]}
+                  </text>
+
+                  {/* Бейдж з кількістю дилерів */}
+                  {hasDeal && (
+                    <>
+                      <circle
+                        cx={cx + SHORT[id].length * fs * 0.31 + 8}
+                        cy={cy - fs * 1.1}
+                        r={7}
+                        fill={isSel ? "#fff" : "#FF7918"}
+                        style={{filter: isSel ? "none" : "drop-shadow(0 0 6px rgba(255,121,24,0.65))"}}
+                      />
+                      <text
+                        x={cx + SHORT[id].length * fs * 0.31 + 8}
+                        y={cy - fs * 1.1 + 4.5}
+                        textAnchor="middle"
+                        fontSize={7.5}
+                        fontWeight="800"
+                        fill={isSel ? "#FF7918" : "#fff"}
+                        style={{pointerEvents: "none"}}
+                      >
+                        {count}
+                      </text>
+                    </>
+                  )}
+                </g>
+              );
+            })}
+          </svg>
+        </div>
+
+        {/* Info bar */}
+        <div
+          className="flex items-center justify-between gap-3 px-3 py-2.5 sm:px-4 min-h-[40px]"
+          style={{borderTop: "1px solid rgba(255,255,255,0.06)"}}
+        >
+          {tooltip ? (
+            <div className="flex items-center gap-2 min-w-0">
+              <span
+                className="w-2 h-2 rounded-full flex-shrink-0"
+                style={{background: "#FF7918", boxShadow: "0 0 8px rgba(255,121,24,0.70)"}}
+              />
+              <span className="text-xs sm:text-sm font-semibold text-white truncate">
+                {CZECH_REGION_LABELS[tooltip]}
+              </span>
+              {(dealerCounts[tooltip] ?? 0) > 0 && (
+                <span
+                  className="text-[10px] sm:text-xs font-bold flex-shrink-0 px-1.5 py-0.5 rounded-full"
+                  style={{
+                    background: "rgba(255,121,24,0.18)",
+                    border: "1px solid rgba(255,121,24,0.35)",
+                    color: "#FF9902",
+                  }}
+                >
+                  {dealerCounts[tooltip]} {t("mapDealerShort")}
+                </span>
+              )}
             </div>
-          </div>
+          ) : (
+            <span className="text-[11px] text-white/25">
+              <span className="hidden sm:inline">{t("mapSelectHint")}</span>
+              <span className="sm:hidden">{t("mapTapHint")}</span>
+            </span>
+          )}
           {selected && (
-            <div className="px-4 pb-3">
-              <button
-                onClick={() => onSelect(null)}
-                className="text-xs text-white/40 hover:text-white/70 transition-colors"
-              >
-                ✕ скинути фільтр
-              </button>
-            </div>
+            <button
+              onClick={() => onSelect(null)}
+              className="text-xs text-white/30 hover:text-white/60 transition-colors flex-shrink-0 px-2 py-1 rounded-lg hover:bg-white/5"
+            >
+              ✕
+            </button>
           )}
         </div>
       </div>

@@ -1,6 +1,7 @@
 "use client";
 
 import {useState} from "react";
+import {useTranslations} from "next-intl";
 import {CzechRegionMap, CZECH_REGION_LABELS, type CzechRegion} from "@/components/site/CzechRegionMap";
 
 type DealerCardData = {
@@ -21,6 +22,7 @@ type Props = {
 };
 
 export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
+  const t = useTranslations("Dealers");
   const [selectedRegion, setSelectedRegion] = useState<CzechRegion | null>(initialRegion);
 
   const filtered = selectedRegion
@@ -45,12 +47,12 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
             <h2 className="text-xl font-black text-white">
               {CZECH_REGION_LABELS[selectedRegion]}
               <span className="ml-3 text-base font-semibold text-white/50">
-                {filtered.length} {filtered.length === 1 ? "дилер" : filtered.length < 5 ? "дилери" : "дилерів"}
+                {t("dealerCountLabel", {count: filtered.length})}
               </span>
             </h2>
           ) : (
             <h2 className="text-xl font-black text-white">
-              Усі дилери
+              {t("allDealers")}
               <span className="ml-3 text-base font-semibold text-white/50">{filtered.length}</span>
             </h2>
           )}
@@ -60,7 +62,7 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
             onClick={() => setSelectedRegion(null)}
             className="text-sm text-white/50 hover:text-white/80 underline"
           >
-            Показати всіх
+            {t("showAll")}
           </button>
         )}
       </div>
@@ -69,12 +71,12 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
       {filtered.length === 0 ? (
         <div className="rounded-[28px] border border-white/10 bg-white/[0.03] p-10 text-center">
           <div className="section-accent-line mx-auto mb-4" />
-          <p className="text-white/60 text-sm">У цьому регіоні дилерів поки немає</p>
+          <p className="text-white/60 text-sm">{t("noDealers")}</p>
           <button
             onClick={() => setSelectedRegion(null)}
             className="mt-4 inline-flex items-center gap-2 text-sm font-semibold text-[var(--color-accent)] hover:underline"
           >
-            Показати всі регіони
+            {t("showAllRegions")}
           </button>
         </div>
       ) : (
@@ -93,7 +95,7 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
                 {dealer.homeDelivery && (
                   <div className="flex items-center gap-2 px-4 py-2 text-[11px] font-bold"
                     style={{background: "rgba(255,121,24,0.10)", borderBottom: "1px solid rgba(255,121,24,0.12)", color: "rgba(255,153,2,0.9)"}}>
-                    🏠 Доставка авто додому
+                    🏠 {t("homeDeliveryBadge")}
                   </div>
                 )}
 
@@ -116,14 +118,14 @@ export function DealersClient({dealers, initialRegion, dealerCounts}: Props) {
                     {dealer.vehicleCount > 0 && (
                       <span className="inline-flex items-center gap-1 rounded-lg px-3 py-1.5 text-[11px] font-semibold text-white/60"
                         style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.08)"}}>
-                        🚗 {dealer.vehicleCount} авто
+                        🚗 {t("vehicles", {count: dealer.vehicleCount})}
                       </span>
                     )}
                   </div>
 
                   <div className="mt-auto pt-4">
                     <span className="text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity" style={{color: "var(--color-accent)"}}>
-                      Відкрити сайт →
+                      {t("openSite")} →
                     </span>
                   </div>
                 </div>

@@ -146,7 +146,7 @@ function getVehicleFormInput(formData: FormData) {
   return parsed.data;
 }
 
-const MAX_VEHICLE_IMAGES = 10;
+const MAX_VEHICLE_IMAGES = 30;
 
 async function collectVehicleMedia(formData: FormData, input: z.infer<typeof vehicleFormSchema>) {
   const uploadedImages = await saveVehicleImages(

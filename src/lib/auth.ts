@@ -29,9 +29,11 @@ export async function createSession(userId: string) {
   const rawToken = createRawSessionToken();
   const expiresAt = new Date(Date.now() + SESSION_TTL_MS);
 
-  // Delete all old sessions for this user and create new one atomically
+  // Clean up only expired sessions for this user, then create the new one.
+  // We intentionally keep valid sessions so multiple people can be logged in
+  // simultaneously with the same account (e.g. two admins in the same CRM).
   await prisma.$transaction([
-    prisma.userSession.deleteMany({where: {userId}}),
+    prisma.userSession.deleteMany({where: {userId, expiresAt: {lt: new Date()}}}),
     prisma.userSession.create({
       data: {userId, tokenHash: sha256(rawToken), expiresAt},
     }),

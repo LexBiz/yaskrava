@@ -1,3 +1,4 @@
+import {VehicleAIQuickAdd} from "@/app/admin/VehicleAIQuickAdd";
 import {
   adminLogoutAction,
   createPlatformVehicleAction,
@@ -588,16 +589,18 @@ export default async function AdminDashboard({
                 <StatCard label="З фото" value={String(yaskravaVehicles.filter((v) => getVehicleGalleryImages(v).length > 0 || v.imageUrl).length)} />
               </div>
 
-              {/* ADD VEHICLE FORM */}
-              <section className="mt-6 rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/[0.04] p-5">
-                <div className="flex items-center justify-between gap-3">
-                  <div>
-                    <h2 className="text-base font-bold text-white">+ Додати авто</h2>
-                    <p className="mt-0.5 text-xs text-white/40">Заповніть картку і натисніть «Зберегти» — авто відразу з'явиться на сайті</p>
-                  </div>
-                </div>
+              {/* AI QUICK ADD */}
+              <div className="mt-6">
+                <VehicleAIQuickAdd submitAction={createPlatformVehicleAction} />
+              </div>
 
-                <form action={createPlatformVehicleAction} className="mt-5 grid gap-5">
+              {/* MANUAL ADD FORM (collapsed) */}
+              <details className="mt-4 rounded-2xl border border-white/10 bg-white/[0.02]">
+                <summary className="cursor-pointer px-5 py-4 text-sm font-semibold text-white/50 hover:text-white/80 transition [&::-webkit-details-marker]:hidden">
+                  ＋ Заповнити вручну (без AI)
+                </summary>
+                <section className="px-5 pb-5">
+                <form action={createPlatformVehicleAction} className="mt-4 grid gap-5">
                   {/* Block 1: Основне */}
                   <FormBlock title="Основне">
                     <div className="grid gap-4 sm:grid-cols-2">
@@ -620,8 +623,23 @@ export default async function AdminDashboard({
                     <div className="mt-4 grid gap-4 sm:grid-cols-4">
                       <LabelField label="Рік"><input name="year" type="number" className={INP} placeholder="2021" /></LabelField>
                       <LabelField label="Пробіг, км"><input name="mileageKm" type="number" className={INP} placeholder="74000" /></LabelField>
-                      <LabelField label="Паливо"><input name="fuel" className={INP} placeholder="Diesel" /></LabelField>
-                      <LabelField label="Коробка"><input name="transmission" className={INP} placeholder="Automatic" /></LabelField>
+                      <LabelField label="Паливо">
+                        <select name="fuel" defaultValue="" className={SEL}>
+                          <option value="">— не вказано —</option>
+                          <option value="Diesel">Дизель (Diesel)</option>
+                          <option value="Petrol">Бензин (Petrol)</option>
+                          <option value="Hybrid">Гібрид (Hybrid)</option>
+                          <option value="Electric">Електро (Electric)</option>
+                          <option value="LPG">Газ (LPG)</option>
+                        </select>
+                      </LabelField>
+                      <LabelField label="Коробка">
+                        <select name="transmission" defaultValue="" className={SEL}>
+                          <option value="">— не вказано —</option>
+                          <option value="Automatic">Автомат (Automatic)</option>
+                          <option value="Manual">Механіка (Manual)</option>
+                        </select>
+                      </LabelField>
                     </div>
                     <div className="mt-4 grid gap-4 sm:grid-cols-3">
                       <LabelField label="Ціна, CZK"><input name="priceCzk" type="number" className={INP} placeholder="649 000" /></LabelField>
@@ -634,10 +652,10 @@ export default async function AdminDashboard({
                       </LabelField>
                       <div className="flex flex-col gap-2">
                         <span className={LABEL}>Опції</span>
-                        <div className="grid gap-2">
-                          <CheckboxField name="published" defaultChecked label="Опублікувати" />
-                          <CheckboxField name="featured" label="Рекомендоване" />
-                          <CheckboxField name="leasingEligible" defaultChecked label="Лізинг" />
+                        <div className="grid gap-2.5">
+                          <CheckboxField name="published" defaultChecked label="Опублікувати" hint="Авто видно на сайті" />
+                          <CheckboxField name="featured" label="Рекомендоване" hint="Показується в топі / на головній" />
+                          <CheckboxField name="leasingEligible" defaultChecked label="Лізинг" hint="Доступно в лізинг" />
                         </div>
                       </div>
                     </div>
@@ -686,7 +704,8 @@ export default async function AdminDashboard({
                     <button type="submit" className={BTN_PRIMARY}>Зберегти авто →</button>
                   </div>
                 </form>
-              </section>
+                </section>
+              </details>
 
               {/* INVENTORY */}
               <div className="mt-8">
@@ -789,10 +808,21 @@ export default async function AdminDashboard({
                                 <input name="mileageKm" type="number" defaultValue={vehicle.mileageKm ?? ""} className={INP_SM} />
                               </LabelField>
                               <LabelField label="Паливо">
-                                <input name="fuel" defaultValue={vehicle.fuel ?? ""} className={INP_SM} />
+                                <select name="fuel" defaultValue={vehicle.fuel ?? ""} className={SEL_SM}>
+                                  <option value="">— не вказано —</option>
+                                  <option value="Diesel">Дизель (Diesel)</option>
+                                  <option value="Petrol">Бензин (Petrol)</option>
+                                  <option value="Hybrid">Гібрид (Hybrid)</option>
+                                  <option value="Electric">Електро (Electric)</option>
+                                  <option value="LPG">Газ (LPG)</option>
+                                </select>
                               </LabelField>
                               <LabelField label="Коробка">
-                                <input name="transmission" defaultValue={vehicle.transmission ?? ""} className={INP_SM} />
+                                <select name="transmission" defaultValue={vehicle.transmission ?? ""} className={SEL_SM}>
+                                  <option value="">— не вказано —</option>
+                                  <option value="Automatic">Автомат (Automatic)</option>
+                                  <option value="Manual">Механіка (Manual)</option>
+                                </select>
                               </LabelField>
                               <LabelField label="Ціна CZK">
                                 <input name="priceCzk" type="number" defaultValue={vehicle.priceCzk ?? ""} className={INP_SM} />
@@ -981,12 +1011,32 @@ export default async function AdminDashboard({
               {dealerCreated ? (
                 <div className="mt-5 rounded-2xl border border-emerald-500/30 bg-emerald-500/8 p-4">
                   <div className="text-sm font-bold text-emerald-300">✓ Дилера підключено!</div>
-                  <div className="mt-2 grid gap-1 text-xs text-emerald-200/70">
+                  <div className="mt-2 grid gap-1.5 text-xs text-emerald-200/70">
                     <div>Slug: <span className="font-bold text-white">{dealerCreated}</span></div>
-                    <div>Сайт: <span className="font-bold text-white">{getDealerPublicUrl(dealerCreated)}</span></div>
-                    <div>CRM: <span className="font-bold text-white">{getDealerCrmUrl(dealerCreated)}</span></div>
-                    {ownerEmail ? <div>Логін: <span className="font-bold text-white">{ownerEmail}</span></div> : null}
-                    {ownerPassword ? <div>Пароль: <span className="font-bold text-white">{ownerPassword}</span></div> : null}
+                    <div className="flex items-center gap-2">
+                      <span className="shrink-0">Сайт:</span>
+                      <a
+                        href={getDealerPublicUrl(dealerCreated)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-emerald-300 underline underline-offset-2 hover:text-white transition-colors break-all"
+                      >
+                        {getDealerPublicUrl(dealerCreated)}
+                      </a>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <span className="shrink-0">CRM:</span>
+                      <a
+                        href={getDealerCrmUrl(dealerCreated)}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="font-bold text-emerald-300 underline underline-offset-2 hover:text-white transition-colors break-all"
+                      >
+                        {getDealerCrmUrl(dealerCreated)}
+                      </a>
+                    </div>
+                    {ownerEmail ? <div>Логін: <span className="font-bold text-white select-all">{ownerEmail}</span></div> : null}
+                    {ownerPassword ? <div>Пароль: <span className="font-bold text-white select-all">{ownerPassword}</span></div> : null}
                   </div>
                 </div>
               ) : null}
@@ -1282,11 +1332,14 @@ function LabelField({label, children, hint, className}: {label: string; children
   );
 }
 
-function CheckboxField({name, defaultChecked, label}: {name: string; defaultChecked?: boolean; label: string}) {
+function CheckboxField({name, defaultChecked, label, hint}: {name: string; defaultChecked?: boolean; label: string; hint?: string}) {
   return (
-    <label className="flex cursor-pointer items-center gap-2 text-xs text-white/70 hover:text-white transition">
-      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="h-4 w-4 rounded border-white/20 accent-[var(--color-accent)]" />
-      {label}
+    <label className="flex cursor-pointer items-start gap-2 group">
+      <input type="checkbox" name={name} defaultChecked={defaultChecked} className="mt-0.5 h-4 w-4 shrink-0 rounded border-white/20 accent-[var(--color-accent)]" />
+      <span className="flex flex-col gap-0.5">
+        <span className="text-xs text-white/70 group-hover:text-white transition">{label}</span>
+        {hint && <span className="text-[10px] text-white/30">{hint}</span>}
+      </span>
     </label>
   );
 }

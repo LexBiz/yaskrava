@@ -63,7 +63,28 @@
     "vehiclesSaleBullet1": "Photos, mileage, gearbox and fuel",
     "vehiclesSaleBullet2": "Fast jump into each vehicle page",
     "vehiclesSaleBullet3": "Separated from the leasing block",
-    "downloadAppCta": "Download the app"
+    "downloadAppCta": "Download the app",
+    "financingSectionTitle": "Car Financing",
+    "financingNewCarsTitle": "New Cars",
+    "financingNewCarsText": "Financing for new vehicles from official dealers.",
+    "financingUsedCarsTitle": "Used Cars",
+    "financingUsedCarsText": "History check and financing for used vehicles.",
+    "financingLeasingTitle": "Leasing",
+    "financingLeasingText": "Flexible leasing with a low initial payment.",
+    "financingInsuranceTitle": "Insurance",
+    "financingInsuranceText": "Comprehensive insurance bundled with financing.",
+    "dealersEyebrow": "Dealers across Czech Republic",
+    "dealersTitle": "Find a dealer in your region",
+    "dealersText": "Choose a convenient region and browse dealers near you. Some offer home delivery.",
+    "dealersCta": "Find a dealer",
+    "dealersRegionsTitle": "14 regions",
+    "dealersRegionsText": "Dealers present in all major regions of the country.",
+    "dealersHomeDeliveryTitle": "Home delivery",
+    "dealersHomeDeliveryText": "Some dealers bring the car directly to you.",
+    "dealersChoiceTitle": "Wide selection",
+    "dealersChoiceText": "In-transit and on-site vehicles — convenient for financing.",
+    "dealersOnlineTitle": "Apply online",
+    "dealersOnlineText": "Submit a financing request without visiting a showroom."
   },
   "Common": {
     "learnMore": "Learn more",
@@ -174,12 +195,35 @@
     "demoFuelDiesel": "Diesel",
     "demoFuelPetrol": "Petrol",
     "demoFuelHybrid": "Hybrid",
+    "demoFuelElectric": "Electric",
+    "demoFuelLpg": "Gas (LPG)",
     "demoTransmissionAutomatic": "Automatic",
     "demoTransmissionManual": "Manual",
     "status": "Status",
     "statusInTransit": "In transit",
     "statusOnSite": "On site",
-    "openVehicle": "Open vehicle"
+    "openVehicle": "Open vehicle",
+    "featuredBadge": "Featured",
+    "photoWord": "photos",
+    "videoWord": "videos",
+    "homeDeliveryBanner": "This dealer offers home car delivery — no showroom visit needed"
+  },
+  "Dealers": {
+    "title": "Find a dealer in your region",
+    "subtitle": "Choose a region on the map — we'll show dealers near you. Some offer home delivery.",
+    "homeDeliveryTitle": "Car home delivery",
+    "homeDeliveryText": "Some dealers offer home delivery — no showroom visit needed. These dealers are marked with a badge.",
+    "allDealers": "All dealers",
+    "showAll": "Show all",
+    "showAllRegions": "Show all regions",
+    "noDealers": "No dealers in this region yet",
+    "homeDeliveryBadge": "Home delivery",
+    "openSite": "Open site",
+    "vehicles": "{count} cars",
+    "dealerCountLabel": "{count, plural, one {# dealer} other {# dealers}}",
+    "mapSelectHint": "Select a region on the map",
+    "mapTapHint": "Tap a region",
+    "mapDealerShort": "dlr."
   },
   "Fuel": {
     "title": "Fuel — cashback in the app",
@@ -434,7 +478,11 @@
     "gearbox": "Gearbox",
     "financingTitle": "Financing for this vehicle",
     "financingText": "You can leave a financing request for this exact vehicle, and the preliminary calculator already uses its current price.",
-    "priceOnRequest": "Price on request"
+    "priceOnRequest": "Price on request",
+    "description": "Description",
+    "orCalculateLeasing": "Or calculate leasing",
+    "allPhotos": "All photos",
+    "videoSection": "Video"
   }
 }
 

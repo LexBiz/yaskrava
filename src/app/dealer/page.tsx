@@ -7,6 +7,7 @@ import {
   setDealerApplicationStatusAction,
   updateDealerVehicleAction,
 } from "@/app/dealer/actions";
+import {VehicleAIQuickAdd} from "@/app/admin/VehicleAIQuickAdd";
 import {ConfirmForm} from "@/app/admin/ConfirmForm";
 import {
   applicationStatusLabels,
@@ -225,6 +226,19 @@ export default async function DealerDashboard({
           <p className="mt-1 text-sm text-white/60">
             {t.addVehicleText}
           </p>
+
+          {/* AI Quick Add */}
+          <div className="mt-4">
+            <VehicleAIQuickAdd
+              submitAction={createDealerVehicleAction}
+              extraHidden={[
+                {name: "_lang", value: locale},
+                {name: "_inventory", value: inventoryFilter},
+              ]}
+            />
+          </div>
+
+          <div className="mt-3 text-xs text-white/25 text-center">── або ──</div>
           <div className="mt-4 flex flex-wrap gap-2">
             {[
               {key: "all", label: locale === "cs" ? "Vše" : "Усі"},

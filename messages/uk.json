@@ -63,7 +63,28 @@
     "vehiclesSaleBullet1": "Фото, пробіг, коробка та паливо",
     "vehiclesSaleBullet2": "Швидкий перехід у картку авто",
     "vehiclesSaleBullet3": "Окремо від блоку лізингу",
-    "downloadAppCta": "Завантажити застосунок"
+    "downloadAppCta": "Завантажити застосунок",
+    "financingSectionTitle": "Авто фінансування",
+    "financingNewCarsTitle": "Нові автомобілі",
+    "financingNewCarsText": "Фінансування нових авто від офіційних дилерів.",
+    "financingUsedCarsTitle": "Вживані авто",
+    "financingUsedCarsText": "Перевірка та фінансування вживаних автомобілів.",
+    "financingLeasingTitle": "Лізинг",
+    "financingLeasingText": "Гнучкі умови лізингу з мінімальним першим внеском.",
+    "financingInsuranceTitle": "Страхування",
+    "financingInsuranceText": "Комплексне страхування в пакеті з фінансуванням.",
+    "dealersEyebrow": "Дилери по всій Чехії",
+    "dealersTitle": "Знайдіть дилера у вашому регіоні",
+    "dealersText": "Оберіть зручний регіон і перегляньте дилерів, які там працюють. Деякі пропонують доставку авто прямо до вашого будинку.",
+    "dealersCta": "Знайти дилера",
+    "dealersRegionsTitle": "14 регіонів Чехії",
+    "dealersRegionsText": "Дилери присутні в основних регіонах країни.",
+    "dealersHomeDeliveryTitle": "Доставка додому",
+    "dealersHomeDeliveryText": "Деякі дилери привозять авто прямо до вас.",
+    "dealersChoiceTitle": "Великий вибір авто",
+    "dealersChoiceText": "В'їзд і наявні авто — зручно для фінансування.",
+    "dealersOnlineTitle": "Заявка онлайн",
+    "dealersOnlineText": "Подайте заявку на фінансування без відвідування."
   },
   "Common": {
     "learnMore": "Детальніше",
@@ -174,12 +195,35 @@
     "demoFuelDiesel": "Дизель",
     "demoFuelPetrol": "Бензин",
     "demoFuelHybrid": "Гібрид",
+    "demoFuelElectric": "Електро",
+    "demoFuelLpg": "Газ (LPG)",
     "demoTransmissionAutomatic": "Автомат",
     "demoTransmissionManual": "Механіка",
     "status": "Статус",
     "statusInTransit": "В дорозі",
     "statusOnSite": "На майданчику",
-    "openVehicle": "Відкрити авто"
+    "openVehicle": "Відкрити авто",
+    "featuredBadge": "Рекомендоване",
+    "photoWord": "фото",
+    "videoWord": "відео",
+    "homeDeliveryBanner": "Цей дилер пропонує доставку автомобіля додому — без поїздки в салон"
+  },
+  "Dealers": {
+    "title": "Знайдіть дилера у вашому регіоні",
+    "subtitle": "Оберіть регіон на карті — і ми покажемо дилерів, які є поруч. Деякі пропонують доставку авто прямо до вашого будинку.",
+    "homeDeliveryTitle": "Доставка автомобіля додому",
+    "homeDeliveryText": "Деякі дилери пропонують доставку авто прямо до вашого будинку — без поїздки в салон. Такі дилери позначені бейджем.",
+    "allDealers": "Усі дилери",
+    "showAll": "Показати всіх",
+    "showAllRegions": "Показати всі регіони",
+    "noDealers": "У цьому регіоні дилерів поки немає",
+    "homeDeliveryBadge": "Доставка авто додому",
+    "openSite": "Відкрити сайт",
+    "vehicles": "{count} авто",
+    "dealerCountLabel": "{count, plural, one {# дилер} few {# дилери} many {# дилерів} other {# дилерів}}",
+    "mapSelectHint": "Оберіть регіон на карті",
+    "mapTapHint": "Натисніть на регіон",
+    "mapDealerShort": "дил."
   },
   "Fuel": {
     "title": "Паливо — кешбек у застосунку",
@@ -434,7 +478,11 @@
     "gearbox": "Коробка",
     "financingTitle": "Фінансування для цього авто",
     "financingText": "Ви можете залишити заявку на фінансування саме цього авто, а попередній калькулятор вже використовує його поточну ціну.",
-    "priceOnRequest": "Ціна за запитом"
+    "priceOnRequest": "Ціна за запитом",
+    "description": "Опис",
+    "orCalculateLeasing": "Або розрахуйте лізинг",
+    "allPhotos": "Всі фото",
+    "videoSection": "Відео"
   }
 }
 

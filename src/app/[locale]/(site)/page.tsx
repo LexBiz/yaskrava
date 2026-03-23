@@ -247,7 +247,7 @@ export default function HomePage() {
               </p>
               <h2 className="mt-3 font-black leading-tight text-white"
                 style={{fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)"}}>
-                Авто фінансування
+                {t("financingSectionTitle")}
               </h2>
               <p className="mt-4 text-base leading-relaxed"
                 style={{color: "rgba(255,255,255,0.60)"}}>
@@ -268,10 +268,10 @@ export default function HomePage() {
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                {icon: "🚗", title: "Нові автомобілі", text: "Фінансування нових авто від офіційних дилерів"},
-                {icon: "🔍", title: "Вживані авто", text: "Перевірка та фінансування вживаних автомобілів"},
-                {icon: "📋", title: "Лізинг", text: "Гнучкі умови лізингу з мінімальним першим внеском"},
-                {icon: "🛡️", title: "Страхування", text: "Комплексне страхування в пакеті з фінансуванням"},
+                {icon: "🚗", title: t("financingNewCarsTitle"), text: t("financingNewCarsText")},
+                {icon: "🔍", title: t("financingUsedCarsTitle"), text: t("financingUsedCarsText")},
+                {icon: "📋", title: t("financingLeasingTitle"), text: t("financingLeasingText")},
+                {icon: "🛡️", title: t("financingInsuranceTitle"), text: t("financingInsuranceText")},
               ].map(item => (
                 <div key={item.icon} className="rounded-2xl p-5"
                   style={{
@@ -297,28 +297,28 @@ export default function HomePage() {
             <div>
               <div className="section-accent-line mb-5" />
               <p className="text-[11px] font-bold uppercase tracking-[0.16em]" style={{color: "rgba(255,153,2,0.80)"}}>
-                Дилери по всій Чехії
+                {t("dealersEyebrow")}
               </p>
               <h2 className="mt-3 font-black leading-tight text-white" style={{fontSize: "clamp(1.8rem, 3.5vw, 2.8rem)"}}>
-                Знайдіть дилера у вашому регіоні
+                {t("dealersTitle")}
               </h2>
               <p className="mt-4 text-base leading-relaxed" style={{color: "rgba(255,255,255,0.60)"}}>
-                Оберіть зручний регіон і перегляньте дилерів, які там працюють. Деякі пропонують доставку авто прямо до вашого будинку.
+                {t("dealersText")}
               </p>
               <div className="mt-8 flex gap-4 flex-wrap">
                 <Link href="/dealers"
                   className="btn-primary h-12 px-8 inline-flex items-center gap-2"
                   style={{background: "linear-gradient(135deg,#FF7918,#FF9902)", boxShadow: "0 4px 28px -6px rgba(255,121,24,0.65)"}}>
-                  🗺 Знайти дилера
+                  🗺 {t("dealersCta")}
                 </Link>
               </div>
             </div>
             <div className="grid grid-cols-2 gap-4">
               {[
-                {icon: "📍", title: "14 регіонів Чехії", text: "Дилери присутні в основних регіонах країни"},
-                {icon: "🏠", title: "Доставка додому", text: "Деякі дилери привозять авто прямо до вас"},
-                {icon: "🚗", title: "Великий вибір авто", text: "В'їзд і наявні авто — зручно для фінансування"},
-                {icon: "📋", title: "Заявка онлайн", text: "Подайте заявку на фінансування без відвідування"},
+                {icon: "📍", title: t("dealersRegionsTitle"), text: t("dealersRegionsText")},
+                {icon: "🏠", title: t("dealersHomeDeliveryTitle"), text: t("dealersHomeDeliveryText")},
+                {icon: "🚗", title: t("dealersChoiceTitle"), text: t("dealersChoiceText")},
+                {icon: "📋", title: t("dealersOnlineTitle"), text: t("dealersOnlineText")},
               ].map(item => (
                 <div key={item.icon} className="rounded-2xl p-5"
                   style={{background: "rgba(255,255,255,0.04)", border: "1px solid rgba(255,255,255,0.10)"}}>

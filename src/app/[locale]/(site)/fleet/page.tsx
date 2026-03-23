@@ -40,6 +40,8 @@ function mapFuel(value: string | null | undefined, t: Awaited<ReturnType<typeof 
   if (value === "Diesel") return t("demoFuelDiesel");
   if (value === "Petrol") return t("demoFuelPetrol");
   if (value === "Hybrid") return t("demoFuelHybrid");
+  if (value === "Electric") return t("demoFuelElectric");
+  if (value === "LPG") return t("demoFuelLpg");
   return value;
 }
 
@@ -77,6 +79,9 @@ function VehicleCard({
   labels,
   onRequestLabel,
   noImageLabel,
+  featuredLabel,
+  photoWord,
+  videoWord,
 }: {
   v: VehicleCardData;
   status: string;
@@ -92,6 +97,9 @@ function VehicleCard({
   };
   onRequestLabel: string;
   noImageLabel: string;
+  featuredLabel: string;
+  photoWord: string;
+  videoWord: string;
 }) {
   const galleryImage = v.images?.find((i) => isValidMediaUrl(i.url))?.url;
   const rawHeroImage = v.imageUrl || galleryImage;
@@ -124,12 +132,12 @@ function VehicleCard({
         <div className="absolute right-3 top-3 flex flex-wrap gap-2">
           {v.featured ? (
             <span className="rounded-full border border-[var(--color-accent)]/40 bg-black/35 px-3 py-1 text-[11px] font-bold text-[var(--color-accent)]">
-              Featured
+              {featuredLabel}
             </span>
           ) : null}
           {(photoCount > 1 || videoCount > 0) ? (
             <span className="rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] font-bold text-white/85">
-              {photoCount} фото • {videoCount} відео
+              {photoCount} {photoWord}{videoCount > 0 ? ` • ${videoCount} ${videoWord}` : ""}
             </span>
           ) : null}
         </div>
@@ -259,7 +267,7 @@ export default async function FleetPage() {
         <div className="bg-[var(--color-accent)] py-2.5">
           <div className="mx-auto max-w-7xl px-5 sm:px-8 flex items-center justify-center gap-2 text-sm font-bold text-[#1a0d00]">
             <span>🏠</span>
-            <span>Цей дилер пропонує доставку автомобіля додому — без поїздки в салон</span>
+            <span>{t("homeDeliveryBanner")}</span>
           </div>
         </div>
       )}
@@ -292,6 +300,9 @@ export default async function FleetPage() {
                       labels={labels}
                       onRequestLabel={t("priceOnRequest")}
                       noImageLabel={t("noImage")}
+                      featuredLabel={t("featuredBadge")}
+                      photoWord={t("photoWord")}
+                      videoWord={t("videoWord")}
                     />
                   ))}
                 </div>
@@ -318,6 +329,9 @@ export default async function FleetPage() {
                       labels={labels}
                       onRequestLabel={t("priceOnRequest")}
                       noImageLabel={t("noImage")}
+                      featuredLabel={t("featuredBadge")}
+                      photoWord={t("photoWord")}
+                      videoWord={t("videoWord")}
                     />
                   ))}
                 </div>

@@ -1,3 +1,5 @@
+import {getTranslations} from "next-intl/server";
+
 import {Container} from "@/components/site/Container";
 import {PageHero} from "@/components/site/PageHero";
 import {type CzechRegion} from "@/components/site/CzechRegionMap";
@@ -12,6 +14,7 @@ export default async function DealersPage({
   searchParams: Promise<Record<string, string>>;
 }) {
   const sp = await searchParams;
+  const t = await getTranslations("Dealers");
   const initialRegion = (sp.region as CzechRegion) || null;
 
   const platformSlug = process.env.DEFAULT_DEALER_SLUG || "yaskrava";
@@ -58,8 +61,8 @@ export default async function DealersPage({
     <div>
       <PageHero
         variant="gradient"
-        title="Знайдіть дилера у вашому регіоні"
-        subtitle="Оберіть регіон на карті — і ми покажемо дилерів, які є поруч. Деякі пропонують доставку авто прямо до вашого будинку."
+        title={t("title")}
+        subtitle={t("subtitle")}
       />
 
       <section className="section-charcoal py-14 sm:py-20">
@@ -67,9 +70,9 @@ export default async function DealersPage({
           <div className="mb-10 flex items-center gap-4 rounded-2xl border border-[var(--color-accent)]/20 bg-[var(--color-accent)]/8 px-5 py-4">
             <span className="text-2xl flex-shrink-0">🏠</span>
             <div>
-              <p className="text-sm font-bold text-white">Доставка автомобіля додому</p>
+              <p className="text-sm font-bold text-white">{t("homeDeliveryTitle")}</p>
               <p className="text-xs text-white/60 mt-0.5">
-                Деякі дилери пропонують доставку авто прямо до вашого будинку — без поїздки в салон. Такі дилери позначені бейджем.
+                {t("homeDeliveryText")}
               </p>
             </div>
           </div>

@@ -12,7 +12,7 @@ export function PhotoGallery({
 }) {
   const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
   const [activeThumb, setActiveThumb] = useState(0);
-  const thumbsRef = useRef<HTMLDivElement>(null);
+  const lbThumbsRef = useRef<HTMLDivElement>(null);
   const touchStartX = useRef<number | null>(null);
 
   const isOpen = lightboxIndex !== null;
@@ -31,10 +31,9 @@ export function PhotoGallery({
     );
   }, [images.length]);
 
-  // Scroll active thumbnail into view
   useEffect(() => {
     if (lightboxIndex === null) return;
-    const container = thumbsRef.current;
+    const container = lbThumbsRef.current;
     if (!container) return;
     const thumb = container.children[lightboxIndex] as HTMLElement | undefined;
     thumb?.scrollIntoView({behavior: "smooth", block: "nearest", inline: "center"});
@@ -61,28 +60,26 @@ export function PhotoGallery({
 
   return (
     <>
-      {/* ── Hero image ── */}
+      {/* ── Hero preview ── */}
       <div className="w-full overflow-hidden rounded-2xl bg-[#0d0d0f]">
         <button
           type="button"
           onClick={() => setLightboxIndex(activeThumb)}
-          className="group relative block w-full"
-          aria-label={`${vehicleTitle} — відкрити у повному розмірі`}
+          className="group relative block w-full aspect-[16/10]"
+          aria-label="Open fullscreen gallery"
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={heroSrc}
             alt={vehicleTitle}
-            className="h-[200px] w-full object-cover transition duration-500 group-hover:scale-[1.02] sm:h-[280px] lg:h-[340px]"
-            style={{objectPosition: "50% 60%"}}
+            className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
+            style={{objectPosition: "center 60%"}}
           />
-          {/* Zoom hint */}
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/20">
             <div className="scale-75 rounded-full bg-white/90 p-3 opacity-0 shadow-xl backdrop-blur-sm transition duration-300 group-hover:scale-100 group-hover:opacity-100">
               <ZoomIn className="h-5 w-5 text-gray-800" />
             </div>
           </div>
-          {/* Counter badge */}
           {images.length > 1 && (
             <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
               <span>{activeThumb + 1}</span>
@@ -93,48 +90,40 @@ export function PhotoGallery({
         </button>
       </div>
 
-      {/* ── Scrollable thumbnail strip ── */}
+      {/* ── Thumbnail strip ── */}
       {images.length > 1 && (
-        <div className="relative mt-2">
-          <div
-            className="flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
-          >
-            {images.map((src, i) => (
-              <button
-                key={src + i}
-                type="button"
-                onClick={() => {
-                  if (i === activeThumb) {
-                    setLightboxIndex(i);
-                  } else {
-                    setActiveThumb(i);
-                  }
-                }}
-                className={`relative h-16 w-24 shrink-0 overflow-hidden rounded-xl border-2 transition duration-200 ${
-                  i === activeThumb
-                    ? "border-[var(--color-accent)] opacity-100"
-                    : "border-transparent opacity-60 hover:opacity-90"
-                }`}
-                aria-label={`Фото ${i + 1}`}
-              >
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img
-                  src={src}
-                  alt={`${vehicleTitle} ${i + 1}`}
-                  className="h-full w-full object-cover"
-                  loading="lazy"
-                />
-              </button>
-            ))}
-          </div>
-          {/* Hint: single click switches main image; double-click or click main opens lightbox */}
+        <div className="mt-2 flex gap-2 overflow-x-auto pb-1 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+          {images.map((src, i) => (
+            <button
+              key={src + i}
+              type="button"
+              onClick={() => {
+                if (i === activeThumb) setLightboxIndex(i);
+                else setActiveThumb(i);
+              }}
+              className={`relative aspect-[3/2] w-20 shrink-0 overflow-hidden rounded-lg border-2 transition duration-200 ${
+                i === activeThumb
+                  ? "border-[var(--color-accent)] opacity-100"
+                  : "border-transparent opacity-60 hover:opacity-90"
+              }`}
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={src}
+                alt={`${vehicleTitle} ${i + 1}`}
+                className="absolute inset-0 h-full w-full object-cover"
+                loading="lazy"
+              />
+            </button>
+          ))}
         </div>
       )}
 
-      {/* ── Lightbox ── */}
+      {/* ── Lightbox (fullscreen) ── */}
       {isOpen && lightboxIndex !== null && (
         <div
-          className="fixed inset-0 z-[999] flex flex-col bg-black/96 backdrop-blur-md"
+          className="fixed inset-0 z-[999] flex flex-col bg-black/96"
+          style={{height: "100dvh", overflow: "hidden"}}
           onClick={close}
           onTouchStart={(e) => {
             touchStartX.current = e.touches[0]?.clientX ?? null;
@@ -146,12 +135,12 @@ export function PhotoGallery({
             touchStartX.current = null;
           }}
         >
-          {/* Top bar */}
+          {/* Top bar — fixed 48px */}
           <div
-            className="flex shrink-0 items-center justify-between px-4 py-3"
+            className="flex h-12 shrink-0 items-center justify-between px-4"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="text-sm font-semibold text-white/70">
+            <span className="truncate text-sm font-semibold text-white/70">
               {vehicleTitle}
             </span>
             <div className="flex items-center gap-3">
@@ -162,16 +151,16 @@ export function PhotoGallery({
                 type="button"
                 onClick={close}
                 className="rounded-full bg-white/10 p-2 text-white transition hover:bg-white/25"
-                aria-label="Закрити"
               >
                 <X className="h-5 w-5" />
               </button>
             </div>
           </div>
 
-          {/* Main image area */}
+          {/* Image area — takes remaining space, NEVER overflows */}
           <div
-            className="relative min-h-0 flex flex-1 items-center justify-center overflow-hidden px-12 sm:px-16"
+            className="relative flex items-center justify-center px-10 sm:px-16"
+            style={{height: "calc(100dvh - 48px - 72px)", overflow: "hidden"}}
             onClick={(e) => e.stopPropagation()}
           >
             {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -180,32 +169,23 @@ export function PhotoGallery({
               src={images[lightboxIndex]}
               alt={`${vehicleTitle} ${lightboxIndex + 1}`}
               className="rounded-xl object-contain"
-              style={{maxHeight: "100%", maxWidth: "100%", width: "auto", height: "auto"}}
+              style={{maxHeight: "100%", maxWidth: "100%"}}
               draggable={false}
             />
 
-            {/* Prev / Next */}
             {images.length > 1 && (
               <>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prev();
-                  }}
+                  onClick={(e) => { e.stopPropagation(); prev(); }}
                   className="absolute left-2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:left-4"
-                  aria-label="Попереднє фото"
                 >
                   <ChevronLeft className="h-5 w-5" />
                 </button>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    next();
-                  }}
+                  onClick={(e) => { e.stopPropagation(); next(); }}
                   className="absolute right-2 rounded-full bg-white/10 p-3 text-white transition hover:bg-white/25 sm:right-4"
-                  aria-label="Наступне фото"
                 >
                   <ChevronRight className="h-5 w-5" />
                 </button>
@@ -213,34 +193,26 @@ export function PhotoGallery({
             )}
           </div>
 
-          {/* Bottom thumbnail strip */}
+          {/* Bottom thumbnails — fixed 72px */}
           {images.length > 1 && (
             <div
-              ref={thumbsRef}
-              className="flex shrink-0 gap-2 overflow-x-auto px-4 pb-4 pt-3 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+              ref={lbThumbsRef}
+              className="flex h-[72px] shrink-0 items-center gap-2 overflow-x-auto px-4 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
               onClick={(e) => e.stopPropagation()}
             >
               {images.map((src, i) => (
                 <button
                   key={src + i}
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setLightboxIndex(i);
-                  }}
-                  className={`relative h-14 w-20 shrink-0 overflow-hidden rounded-lg border-2 transition duration-150 ${
+                  onClick={(e) => { e.stopPropagation(); setLightboxIndex(i); }}
+                  className={`relative h-12 w-16 shrink-0 overflow-hidden rounded-lg border-2 transition duration-150 ${
                     i === lightboxIndex
                       ? "border-[var(--color-accent)] opacity-100"
                       : "border-white/10 opacity-45 hover:opacity-80"
                   }`}
                 >
                   {/* eslint-disable-next-line @next/next/no-img-element */}
-                  <img
-                    src={src}
-                    alt=""
-                    className="h-full w-full object-cover"
-                    loading="lazy"
-                  />
+                  <img src={src} alt="" className="h-full w-full object-cover" loading="lazy" />
                 </button>
               ))}
             </div>

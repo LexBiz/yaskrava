@@ -118,13 +118,24 @@ function VehicleCard({
         {/* ── Photo block ── */}
         <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0d0f]">
           {heroImage ? (
-            // eslint-disable-next-line @next/next/no-img-element
-            <img
-              src={heroImage}
-              alt={v.title}
-              className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-[1.04]"
-              loading="lazy"
-            />
+            <>
+              {/* Blurred bg fill — no dark bars */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={heroImage}
+                alt=""
+                aria-hidden
+                className="absolute inset-0 h-full w-full scale-110 object-cover blur-xl brightness-[0.35]"
+              />
+              {/* Full car photo on top */}
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={heroImage}
+                alt={v.title}
+                className="relative h-full w-full object-contain transition duration-500 group-hover:scale-[1.03]"
+                loading="lazy"
+              />
+            </>
           ) : (
             <div className="h-full w-full flex items-center justify-center text-white/25 text-sm">
               {noImageLabel}

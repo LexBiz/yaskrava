@@ -7,6 +7,7 @@ import {notFound} from "next/navigation";
 import {LeasingCalculator} from "@/components/calculator/LeasingCalculator";
 import {ApplicationForm} from "@/components/forms/ApplicationForm";
 import {PhotoGallery} from "@/components/site/PhotoGallery";
+import {ModelHistoryCard} from "@/components/site/ModelHistoryCard";
 import {DownloadButtons} from "@/components/shared/DownloadButtons";
 import {Container} from "@/components/site/Container";
 import {Link} from "@/i18n/navigation";
@@ -248,6 +249,14 @@ export default async function VehicleDetailPage({
                   </div>
                 </div>
               )}
+
+              {/* AI Model history */}
+              <ModelHistoryCard
+                make={vehicle.make}
+                model={vehicle.model}
+                year={vehicle.year ?? null}
+                locale={locale}
+              />
 
               {/* App download */}
               <div

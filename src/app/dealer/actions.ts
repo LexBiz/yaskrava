@@ -282,11 +282,18 @@ export async function createDealerVehicleAction(formData: FormData) {
   let slug = slugify(parsed.data.title);
   if (!slug) slug = uniqueSlug("vehicle");
 
-  const existing = await prisma.vehicle.findFirst({
-    where: {dealerId: dealer.id, slug, deletedAt: null},
+  // Check ALL vehicles (incl. soft-deleted) to avoid unique constraint errors
+  let existing = await prisma.vehicle.findFirst({
+    where: {dealerId: dealer.id, slug},
     select: {id: true},
   });
-  if (existing) slug = uniqueSlug(slug);
+  while (existing) {
+    slug = uniqueSlug(slug);
+    existing = await prisma.vehicle.findFirst({
+      where: {dealerId: dealer.id, slug},
+      select: {id: true},
+    });
+  }
 
   const vehicle = await prisma.vehicle.create({
     data: {

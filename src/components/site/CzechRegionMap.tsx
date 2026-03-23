@@ -110,117 +110,44 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
       {/* ── Desktop map ───────────────────────────────────────── */}
       <div className="hidden sm:block">
         <div
-          className="relative rounded-3xl overflow-hidden"
+          className="rounded-2xl overflow-hidden"
           style={{
-            background: "radial-gradient(ellipse 80% 60% at 35% 35%, rgba(30,14,2,0.99) 0%, rgba(6,3,0,1) 100%)",
-            border: "1px solid rgba(255,121,24,0.15)",
-            boxShadow: "0 0 0 1px rgba(255,255,255,0.025), 0 24px 80px rgba(0,0,0,0.7), inset 0 0 120px rgba(255,70,0,0.025)",
+            background: "#111113",
+            border: "1px solid rgba(255,255,255,0.08)",
           }}
         >
-          {/* dot texture */}
-          <div className="absolute inset-0 pointer-events-none opacity-40" style={{
-            backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
-            backgroundSize: "20px 20px",
-          }}/>
-
-          {/* ambient bottom glow */}
-          <div className="absolute bottom-0 inset-x-0 h-28 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 70% 100% at 50% 100%, rgba(255,80,0,0.05) 0%, transparent 70%)",
-          }}/>
-
           <svg
             viewBox="0 0 600 320"
-            className="relative w-full block py-5 px-3"
+            className="w-full block px-4 pt-5 pb-2"
             aria-label="Interaktivní mapa krajů České republiky"
           >
-            <defs>
-              {/* Extrusion depth filter */}
-              <filter id="depth" x="-10%" y="-10%" width="130%" height="130%">
-                <feDropShadow dx="0" dy="0" stdDeviation="1.2" floodColor="rgba(0,0,0,0.85)"/>
-              </filter>
-
-              {/* Strong glow — selected */}
-              <filter id="glow-sel" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="6" result="blur"/>
-                <feFlood floodColor="rgba(255,121,24,0.65)" result="c"/>
-                <feComposite in="c" in2="blur" operator="in" result="glow"/>
-                <feMerge>
-                  <feMergeNode in="glow"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-
-              {/* Soft glow — hover */}
-              <filter id="glow-hov" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                <feFlood floodColor="rgba(255,153,2,0.45)" result="c"/>
-                <feComposite in="c" in2="blur" operator="in" result="glow"/>
-                <feMerge>
-                  <feMergeNode in="glow"/>
-                  <feMergeNode in="SourceGraphic"/>
-                </feMerge>
-              </filter>
-
-              {/* Fill gradients */}
-              <linearGradient id="f-sel" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FFCE50"/>
-                <stop offset="45%" stopColor="#FF7918"/>
-                <stop offset="100%" stopColor="#E04800"/>
-              </linearGradient>
-              <linearGradient id="f-hov" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,190,70,0.50)"/>
-                <stop offset="100%" stopColor="rgba(210,80,0,0.35)"/>
-              </linearGradient>
-              <linearGradient id="f-active" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,150,30,0.30)"/>
-                <stop offset="100%" stopColor="rgba(190,70,0,0.18)"/>
-              </linearGradient>
-              <linearGradient id="f-idle" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.09)"/>
-                <stop offset="100%" stopColor="rgba(200,200,255,0.025)"/>
-              </linearGradient>
-
-              {/* Rim-light for selected */}
-              <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,230,110,0.55)"/>
-                <stop offset="35%" stopColor="rgba(255,180,60,0.0)"/>
-              </linearGradient>
-            </defs>
-
-            {/* Extrusion shadow layer (all regions, non-interactive) */}
-            {REGIONS.map(({id, d}) => (
-              <path
-                key={`sh-${id}`}
-                d={d}
-                fill="rgba(0,0,0,0.45)"
-                stroke="none"
-                transform="translate(2.5,3.5)"
-                style={{pointerEvents: "none"}}
-              />
-            ))}
-
-            {/* Region faces */}
             {REGIONS.map(({id, d, cx, cy, fs = 9.5}) => {
-              const isSel   = selected === id;
-              const isHov   = hovered === id;
-              const count   = dealerCounts[id] ?? 0;
+              const isSel  = selected === id;
+              const isHov  = hovered === id;
+              const count  = dealerCounts[id] ?? 0;
               const hasDeal = count > 0;
 
-              const fill   = isSel ? "url(#f-sel)" : isHov ? "url(#f-hov)" : hasDeal ? "url(#f-active)" : "url(#f-idle)";
-              const stroke = isSel ? "rgba(255,210,90,0.9)" : isHov ? "rgba(255,150,50,0.7)" : hasDeal ? "rgba(255,110,20,0.35)" : "rgba(255,255,255,0.10)";
-              const sw     = isSel ? 1.4 : isHov ? 1.1 : 0.7;
-              const flt    = isSel ? "url(#glow-sel)" : isHov ? "url(#glow-hov)" : "url(#depth)";
-
-              const textFill = isSel
-                ? "#1a0600"
+              const fill = isSel
+                ? "#FF7918"
                 : isHov
-                  ? "rgba(255,255,255,0.96)"
+                  ? "rgba(255,121,24,0.22)"
                   : hasDeal
-                    ? "rgba(255,175,70,0.95)"
-                    : "rgba(255,255,255,0.36)";
+                    ? "rgba(255,121,24,0.10)"
+                    : "rgba(255,255,255,0.04)";
 
-              const badgeX = cx + SHORT[id].length * (fs * 0.32) + 8;
-              const badgeY = cy - fs * 1.1;
+              const stroke = isSel
+                ? "#FF7918"
+                : isHov
+                  ? "rgba(255,121,24,0.6)"
+                  : "rgba(255,255,255,0.15)";
+
+              const labelColor = isSel
+                ? "#ffffff"
+                : isHov
+                  ? "rgba(255,255,255,0.95)"
+                  : hasDeal
+                    ? "rgba(255,150,50,0.9)"
+                    : "rgba(255,255,255,0.42)";
 
               return (
                 <g
@@ -234,51 +161,35 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                     d={d}
                     fill={fill}
                     stroke={stroke}
-                    strokeWidth={sw}
+                    strokeWidth={0.8}
                     strokeLinejoin="round"
-                    filter={flt}
-                    style={{transition: "fill 0.16s ease, stroke 0.16s ease"}}
+                    style={{transition: "fill 0.15s, stroke 0.15s"}}
                   />
-
-                  {/* Rim light on selected */}
-                  {isSel && (
-                    <path
-                      d={d}
-                      fill="url(#rim)"
-                      stroke="none"
-                      opacity={0.5}
-                      style={{pointerEvents: "none"}}
-                    />
-                  )}
-
-                  {/* Label */}
                   <text
-                    x={cx}
-                    y={cy + fs * 0.38}
+                    x={cx} y={cy + (fs ?? 9.5) * 0.4}
                     textAnchor="middle"
-                    fontSize={fs}
-                    fontWeight={isSel ? "800" : isHov ? "700" : hasDeal ? "600" : "500"}
-                    fill={textFill}
-                    style={{pointerEvents: "none", transition: "fill 0.16s ease"}}
+                    fontSize={fs ?? 9.5}
+                    fontWeight={isSel || isHov ? "700" : "500"}
+                    fill={labelColor}
+                    style={{pointerEvents: "none", transition: "fill 0.15s"}}
                   >
                     {SHORT[id]}
                   </text>
-
-                  {/* Dealer count badge */}
                   {hasDeal && (
                     <>
                       <circle
-                        cx={badgeX} cy={badgeY} r={8}
-                        fill={isSel ? "rgba(0,0,0,0.45)" : "#FF7918"}
-                        stroke={isSel ? "rgba(255,200,90,0.5)" : "rgba(255,160,60,0.4)"}
-                        strokeWidth={0.7}
+                        cx={cx + SHORT[id].length * (fs ?? 9.5) * 0.31 + 8}
+                        cy={cy - (fs ?? 9.5)}
+                        r={7.5}
+                        fill={isSel ? "rgba(255,255,255,0.25)" : "#FF7918"}
                       />
                       <text
-                        x={badgeX} y={badgeY + 3.5}
+                        x={cx + SHORT[id].length * (fs ?? 9.5) * 0.31 + 8}
+                        y={cy - (fs ?? 9.5) + 3.5}
                         textAnchor="middle"
-                        fontSize={8.5}
+                        fontSize={8}
                         fontWeight="800"
-                        fill={isSel ? "#FFDD90" : "#1a0600"}
+                        fill={isSel ? "#fff" : "#fff"}
                         style={{pointerEvents: "none"}}
                       >
                         {count}
@@ -292,40 +203,30 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
 
           {/* Info bar */}
           <div
-            className="flex items-center justify-between gap-3 px-5 py-3 min-h-[44px]"
-            style={{borderTop: "1px solid rgba(255,255,255,0.055)"}}
+            className="flex items-center justify-between gap-3 px-4 py-2.5 min-h-[40px]"
+            style={{borderTop: "1px solid rgba(255,255,255,0.06)"}}
           >
             {tooltip ? (
-              <div className="flex items-center gap-3 min-w-0">
-                <span
-                  className="w-2.5 h-2.5 rounded-full flex-shrink-0"
-                  style={{
-                    background: selected === tooltip
-                      ? "linear-gradient(135deg,#FFCE50,#FF5500)"
-                      : "rgba(255,121,24,0.4)",
-                    boxShadow: selected === tooltip ? "0 0 8px rgba(255,121,24,0.75)" : "none",
-                  }}
-                />
-                <span className="text-sm font-bold text-white truncate">
+              <div className="flex items-center gap-2.5 min-w-0">
+                <span className="w-2 h-2 rounded-full flex-shrink-0 bg-[#FF7918]"/>
+                <span className="text-sm font-semibold text-white truncate">
                   {CZECH_REGION_LABELS[tooltip]}
                 </span>
-                <span className="text-xs text-white/40 flex-shrink-0">
+                <span className="text-xs text-white/35 flex-shrink-0">
                   {(dealerCounts[tooltip] ?? 0) > 0
-                    ? `${dealerCounts[tooltip]} ${(dealerCounts[tooltip] ?? 0) === 1 ? "дилер" : "дилери"}`
-                    : "дилерів немає"}
+                    ? `${dealerCounts[tooltip]} дил.`
+                    : "—"}
                 </span>
               </div>
             ) : (
-              <span className="text-xs text-white/28">
-                Натисніть на регіон для фільтрації
-              </span>
+              <span className="text-xs text-white/25">Оберіть регіон</span>
             )}
             {selected && (
               <button
                 onClick={() => onSelect(null)}
-                className="text-xs text-white/35 hover:text-white/65 transition-colors flex-shrink-0 ml-2"
+                className="text-xs text-white/30 hover:text-white/60 transition-colors flex-shrink-0"
               >
-                ✕ скинути
+                ✕
               </button>
             )}
           </div>

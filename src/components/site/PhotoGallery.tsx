@@ -73,7 +73,7 @@ export function PhotoGallery({
             src={heroSrc}
             alt={vehicleTitle}
             className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.02]"
-            style={{objectPosition: "center 60%"}}
+            style={{objectPosition: "center center"}}
           />
           <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/20">
             <div className="scale-75 rounded-full bg-white/90 p-3 opacity-0 shadow-xl backdrop-blur-sm transition duration-300 group-hover:scale-100 group-hover:opacity-100">

@@ -116,14 +116,14 @@ function VehicleCard({
         style={{background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)"}}
       >
         {/* ── Photo block ── */}
-        <div className="relative aspect-[16/10] w-full overflow-hidden bg-[#0d0d0f]">
+        <div className="relative aspect-[4/3] w-full overflow-hidden bg-[#0d0d0f]">
           {heroImage ? (
             // eslint-disable-next-line @next/next/no-img-element
             <img
               src={heroImage}
               alt={v.title}
               className="h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-              style={{objectPosition: "50% 65%"}}
+              style={{objectPosition: "center center"}}
               loading="lazy"
             />
           ) : (

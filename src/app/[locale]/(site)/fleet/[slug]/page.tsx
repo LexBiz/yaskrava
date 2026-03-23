@@ -259,7 +259,7 @@ export default async function VehicleDetailPage({
             </div>
 
             {/* ── Right column: title + form + calculator ── */}
-            <div className="min-w-0 space-y-5 lg:sticky lg:top-6 lg:self-start">
+            <div className="min-w-0 space-y-5">
 
               {/* Title block (desktop) */}
               <div className="hidden lg:block">

@@ -113,97 +113,83 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
 
       {/* ── Desktop map ───────────────────────────────────────── */}
       <div className="hidden sm:block">
-        <div
-          className="rounded-2xl overflow-hidden"
-          style={{
-            background: "#111113",
-            border: "1px solid rgba(255,255,255,0.08)",
-          }}
-        >
-          <svg
-            viewBox="-4 -4 808 458"
-            className="w-full block"
-            aria-label="Interaktivní mapa krajů České republiky"
-          >
-            {REGIONS.map(({id, d, cx, cy, fs = 9.5}) => {
-              const isSel  = selected === id;
-              const isHov  = hovered === id;
-              const count  = dealerCounts[id] ?? 0;
-              const hasDeal = count > 0;
+        <div className="rounded-2xl overflow-hidden bg-white/[0.03] border border-white/[0.08]">
+          <div className="px-4 pt-4 pb-2">
+            <svg
+              viewBox="-10 -10 820 470"
+              className="w-full block"
+              aria-label="Interaktivní mapa krajů České republiky"
+            >
+              {REGIONS.map(({id, d, cx, cy, fs = 13}) => {
+                const isSel  = selected === id;
+                const isHov  = hovered === id;
+                const count  = dealerCounts[id] ?? 0;
+                const hasDeal = count > 0;
 
-              const fill = isSel
-                ? "#FF7918"
-                : isHov
-                  ? "rgba(255,121,24,0.22)"
-                  : hasDeal
-                    ? "rgba(255,121,24,0.10)"
-                    : "rgba(255,255,255,0.04)";
+                const fill = isSel
+                  ? "#FF7918"
+                  : isHov
+                    ? "#e8e0d8"
+                    : hasDeal
+                      ? "#d5cec6"
+                      : "#c8c2ba";
 
-              const stroke = isSel
-                ? "#FF7918"
-                : isHov
-                  ? "rgba(255,121,24,0.6)"
-                  : "rgba(255,255,255,0.15)";
+                const stroke = isSel ? "#e06010" : isHov ? "#999" : "#aaa";
 
-              const labelColor = isSel
-                ? "#ffffff"
-                : isHov
-                  ? "rgba(255,255,255,0.95)"
-                  : hasDeal
-                    ? "rgba(255,150,50,0.9)"
-                    : "rgba(255,255,255,0.42)";
+                const labelColor = isSel ? "#fff" : "#555";
 
-              return (
-                <g
-                  key={id}
-                  onClick={() => onSelect(selected === id ? null : id)}
-                  onMouseEnter={() => setHovered(id)}
-                  onMouseLeave={() => setHovered(null)}
-                  style={{cursor: "pointer"}}
-                >
-                  <path
-                    d={d}
-                    fill={fill}
-                    stroke={stroke}
-                    strokeWidth={0.8}
-                    strokeLinejoin="round"
-                    style={{transition: "fill 0.15s, stroke 0.15s"}}
-                  />
-                  <text
-                    x={cx} y={cy + (fs ?? 9.5) * 0.4}
-                    textAnchor="middle"
-                    fontSize={fs ?? 9.5}
-                    fontWeight={isSel || isHov ? "700" : "500"}
-                    fill={labelColor}
-                    style={{pointerEvents: "none", transition: "fill 0.15s"}}
+                return (
+                  <g
+                    key={id}
+                    onClick={() => onSelect(selected === id ? null : id)}
+                    onMouseEnter={() => setHovered(id)}
+                    onMouseLeave={() => setHovered(null)}
+                    style={{cursor: "pointer"}}
                   >
-                    {SHORT[id]}
-                  </text>
-                  {hasDeal && (
-                    <>
-                      <circle
-                        cx={cx + SHORT[id].length * (fs ?? 13) * 0.33 + 7}
-                        cy={cy - (fs ?? 13)}
-                        r={6}
-                        fill={isSel ? "rgba(255,255,255,0.25)" : "#FF7918"}
-                      />
-                      <text
-                        x={cx + SHORT[id].length * (fs ?? 13) * 0.33 + 7}
-                        y={cy - (fs ?? 13) + 4}
-                        textAnchor="middle"
-                        fontSize={8}
-                        fontWeight="800"
-                        fill={isSel ? "#fff" : "#fff"}
-                        style={{pointerEvents: "none"}}
-                      >
-                        {count}
-                      </text>
-                    </>
-                  )}
-                </g>
-              );
-            })}
-          </svg>
+                    <path
+                      d={d}
+                      fill={fill}
+                      stroke={stroke}
+                      strokeWidth={1.2}
+                      strokeLinejoin="round"
+                      style={{transition: "fill 0.15s, stroke 0.15s"}}
+                    />
+                    <text
+                      x={cx} y={cy + fs * 0.4}
+                      textAnchor="middle"
+                      fontSize={fs}
+                      fontWeight={isSel ? "700" : "500"}
+                      fill={labelColor}
+                      style={{pointerEvents: "none", transition: "fill 0.15s"}}
+                    >
+                      {SHORT[id]}
+                    </text>
+                    {hasDeal && (
+                      <>
+                        <circle
+                          cx={cx + SHORT[id].length * fs * 0.33 + 7}
+                          cy={cy - fs}
+                          r={6}
+                          fill="#FF7918"
+                        />
+                        <text
+                          x={cx + SHORT[id].length * fs * 0.33 + 7}
+                          y={cy - fs + 4}
+                          textAnchor="middle"
+                          fontSize={7}
+                          fontWeight="800"
+                          fill="#fff"
+                          style={{pointerEvents: "none"}}
+                        >
+                          {count}
+                        </text>
+                      </>
+                    )}
+                  </g>
+                );
+              })}
+            </svg>
+          </div>
 
           {/* Info bar */}
           <div

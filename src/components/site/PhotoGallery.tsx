@@ -62,7 +62,7 @@ export function PhotoGallery({
   return (
     <>
       {/* ── Hero image ── */}
-      <div className="w-full overflow-hidden rounded-2xl bg-black">
+      <div className="w-full overflow-hidden rounded-2xl" style={{background: "#0d0d0f"}}>
         <button
           type="button"
           onClick={() => setLightboxIndex(activeThumb)}
@@ -73,17 +73,17 @@ export function PhotoGallery({
           <img
             src={heroSrc}
             alt={vehicleTitle}
-            className="aspect-[4/3] w-full object-cover transition duration-500 group-hover:scale-[1.025] sm:aspect-[16/9]"
+            className="h-[260px] w-full object-contain transition duration-500 group-hover:scale-[1.02] sm:h-[360px] lg:h-[440px]"
           />
           {/* Zoom hint */}
-          <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/15">
+          <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition duration-300 group-hover:bg-black/20">
             <div className="scale-75 rounded-full bg-white/90 p-3 opacity-0 shadow-xl backdrop-blur-sm transition duration-300 group-hover:scale-100 group-hover:opacity-100">
               <ZoomIn className="h-5 w-5 text-gray-800" />
             </div>
           </div>
           {/* Counter badge */}
           {images.length > 1 && (
-            <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/60 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
+            <div className="absolute bottom-3 right-3 flex items-center gap-1.5 rounded-full bg-black/70 px-3 py-1.5 text-xs font-semibold text-white backdrop-blur-sm">
               <span>{activeThumb + 1}</span>
               <span className="text-white/40">/</span>
               <span>{images.length}</span>

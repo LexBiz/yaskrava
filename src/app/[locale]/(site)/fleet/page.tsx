@@ -107,92 +107,124 @@ function VehicleCard({
   const videoCount = Array.isArray(v.videoGallery) ? v.videoGallery.length : 0;
   const photoCount = v.images?.length || (heroImage ? 1 : 0);
 
+  const price = formatCzk(v.priceCzk, locale);
+
   return (
     <Link href={v.slug ? `/fleet/${v.slug}` : "/fleet"} className="block no-underline">
-    <article className="yask-card rounded-2xl overflow-hidden group">
-      <div className="relative aspect-[4/3] w-full overflow-hidden bg-[rgba(40,25,8,0.70)]">
-        {heroImage ? (
-          // eslint-disable-next-line @next/next/no-img-element
-          <img
-            src={heroImage}
-            alt={v.title}
-            className="h-full w-full object-cover"
-            loading="lazy"
-          />
-        ) : (
-          <div className="h-full w-full flex items-center justify-center text-white/40 text-sm">
-            {noImageLabel}
-          </div>
-        )}
-        <div className="absolute top-3 left-3">
-          <span className={`rounded-full px-3 py-1 text-[11px] font-bold ${statusClass}`}>
-            {status}
-          </span>
-        </div>
-        <div className="absolute right-3 top-3 flex flex-wrap gap-2">
-          {v.featured ? (
-            <span className="rounded-full border border-[var(--color-accent)]/40 bg-black/35 px-3 py-1 text-[11px] font-bold text-[var(--color-accent)]">
-              {featuredLabel}
-            </span>
-          ) : null}
-          {(photoCount > 1 || videoCount > 0) ? (
-            <span className="rounded-full border border-white/15 bg-black/35 px-3 py-1 text-[11px] font-bold text-white/85">
-              {photoCount} {photoWord}{videoCount > 0 ? ` • ${videoCount} ${videoWord}` : ""}
-            </span>
-          ) : null}
-        </div>
-        <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/45 to-transparent opacity-70" />
-      </div>
+      <article
+        className="group relative flex flex-col overflow-hidden rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_60px_-20px_rgba(255,121,24,0.25)]"
+        style={{background: "rgba(255,255,255,0.03)", border: "1px solid rgba(255,255,255,0.08)"}}
+      >
+        {/* ── Photo block ── */}
+        <div className="relative overflow-hidden" style={{background: "#0d0d0f"}}>
+          {heroImage ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={heroImage}
+              alt={v.title}
+              className="h-[200px] w-full object-contain transition duration-500 group-hover:scale-[1.04] sm:h-[220px]"
+              loading="lazy"
+            />
+          ) : (
+            <div className="h-[200px] w-full flex items-center justify-center text-white/25 text-sm sm:h-[220px]">
+              {noImageLabel}
+            </div>
+          )}
 
-      <div className="p-5">
-        <h3 className="text-base font-black text-white leading-tight">{v.title}</h3>
-        <div className="mt-4 grid grid-cols-2 gap-3 text-xs">
-          <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
-            <div className="flex items-center gap-1.5 text-white/60">
-              <Calendar size={13} />
-              {labels.year}
-            </div>
-            <div className="mt-1 text-white font-semibold">{v.year ?? "—"}</div>
+          {/* Status badge — top left */}
+          <div className="absolute left-3 top-3">
+            <span className={`inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-[10px] font-bold backdrop-blur-sm ${statusClass}`}>
+              {status}
+            </span>
           </div>
-          <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
-            <div className="flex items-center gap-1.5 text-white/60">
-              <Gauge size={13} />
-              {labels.mileage}
-            </div>
-            <div className="mt-1 text-white font-semibold">
-              {v.mileageKm ? `${v.mileageKm.toLocaleString()} km` : "—"}
-            </div>
+
+          {/* Featured + photo count — top right */}
+          <div className="absolute right-3 top-3 flex flex-col items-end gap-1.5">
+            {v.featured && (
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-bold backdrop-blur-sm"
+                style={{background: "rgba(255,121,24,0.25)", border: "1px solid rgba(255,121,24,0.45)", color: "#FF7918"}}
+              >
+                ★ {featuredLabel}
+              </span>
+            )}
+            {(photoCount > 1 || videoCount > 0) && (
+              <span
+                className="inline-flex items-center gap-1 rounded-full px-2.5 py-1 text-[10px] font-semibold backdrop-blur-sm"
+                style={{background: "rgba(0,0,0,0.55)", border: "1px solid rgba(255,255,255,0.12)", color: "rgba(255,255,255,0.8)"}}
+              >
+                📷 {photoCount}{videoCount > 0 ? ` · 🎥 ${videoCount}` : ""}
+              </span>
+            )}
           </div>
-          <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
-            <div className="flex items-center gap-1.5 text-white/60">
-              <Fuel size={13} />
-              {labels.fuel}
-            </div>
-            <div className="mt-1 text-white font-semibold">{v.fuel || "—"}</div>
-          </div>
-          <div className="rounded-lg p-2.5 bg-white/[0.03] border border-white/10">
-            <div className="flex items-center gap-1.5 text-white/60">
-              <Settings2 size={13} />
-              {labels.gearbox}
-            </div>
-            <div className="mt-1 text-white font-semibold">{v.transmission || "—"}</div>
-          </div>
+
+          {/* Bottom gradient overlay */}
+          <div className="pointer-events-none absolute inset-x-0 bottom-0 h-16 bg-gradient-to-t from-black/60 to-transparent" />
         </div>
 
-        <div className="mt-4 flex items-center justify-between">
-          <span className="text-xs text-white/55">{labels.priceFrom}</span>
-          <span className="text-sm font-black text-[var(--color-accent)]">
-            {formatCzk(v.priceCzk, locale) || onRequestLabel}
-          </span>
+        {/* ── Info block ── */}
+        <div className="flex flex-1 flex-col p-4">
+
+          {/* Title */}
+          <h3 className="line-clamp-2 text-[15px] font-black leading-snug text-white">
+            {v.title}
+          </h3>
+
+          {/* 4 specs in a 2×2 grid */}
+          <div className="mt-3 grid grid-cols-2 gap-2 text-[11px]">
+            <div className="flex items-center gap-1.5" style={{color: "rgba(255,255,255,0.55)"}}>
+              <Calendar size={11} className="shrink-0" />
+              <span>{v.year ?? "—"}</span>
+            </div>
+            <div className="flex items-center gap-1.5" style={{color: "rgba(255,255,255,0.55)"}}>
+              <Gauge size={11} className="shrink-0" />
+              <span>{v.mileageKm ? `${v.mileageKm.toLocaleString()} km` : "—"}</span>
+            </div>
+            <div className="flex items-center gap-1.5" style={{color: "rgba(255,255,255,0.55)"}}>
+              <Fuel size={11} className="shrink-0" />
+              <span>{v.fuel || "—"}</span>
+            </div>
+            <div className="flex items-center gap-1.5" style={{color: "rgba(255,255,255,0.55)"}}>
+              <Settings2 size={11} className="shrink-0" />
+              <span>{v.transmission || "—"}</span>
+            </div>
+          </div>
+
+          {/* Description */}
+          {v.description && (
+            <p className="mt-3 line-clamp-2 text-[12px] leading-5" style={{color: "rgba(255,255,255,0.45)"}}>
+              {v.description}
+            </p>
+          )}
+
+          {/* Spacer */}
+          <div className="flex-1" />
+
+          {/* Price + CTA */}
+          <div
+            className="mt-4 flex items-center justify-between border-t pt-4"
+            style={{borderColor: "rgba(255,255,255,0.07)"}}
+          >
+            <div>
+              {price ? (
+                <div className="text-lg font-black leading-none" style={{color: "#FF7918"}}>
+                  {price}
+                </div>
+              ) : (
+                <div className="text-sm font-semibold" style={{color: "rgba(255,255,255,0.45)"}}>
+                  {onRequestLabel}
+                </div>
+              )}
+            </div>
+            <div
+              className="flex items-center gap-1 rounded-full px-3 py-1.5 text-[11px] font-bold transition-all duration-200 group-hover:gap-2"
+              style={{background: "rgba(255,121,24,0.15)", border: "1px solid rgba(255,121,24,0.3)", color: "#FF7918"}}
+            >
+              {openLabel} →
+            </div>
+          </div>
         </div>
-        {v.description ? (
-          <p className="mt-4 line-clamp-3 text-sm leading-6 text-white/65">{v.description}</p>
-        ) : null}
-        <div className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[var(--color-accent)] opacity-0 group-hover:opacity-100 transition-opacity">
-          {openLabel}
-        </div>
-      </div>
-    </article>
+      </article>
     </Link>
   );
 }

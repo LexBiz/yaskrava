@@ -43,94 +43,96 @@ const SHORT: Record<CzechRegion, string> = {
   KARLOVARSKY: "Karlovarský",
   USTECKY: "Ústecký",
   LIBERECKY: "Liberecký",
-  KRALOVEHRADECKY: "Královéhradecký",
+  KRALOVEHRADECKY: "Královéhrad.",
   PARDUBICKY: "Pardubický",
   VYSOCINA: "Vysočina",
   JIHOMORAVSKY: "Jihomoravský",
   OLOMOUCKY: "Olomoucký",
   ZLINSKY: "Zlínský",
-  MORAVSKOSLEZSKY: "Moravskoslezský",
+  MORAVSKOSLEZSKY: "Moravskoslez.",
 };
 
 /*
-  Accurate Czech Republic regions — viewBox 0 0 600 315
-  Coordinates derived from WGS84:
-    x = (lon − 12.09) × 88.5
-    y = (51.06 − lat) × 123.5
-  Polygons share boundary vertices for watertight tiling.
+  Real geographic paths for Czech Republic regions.
+  Source: Natural Earth / Highcharts geo data (cz-all.geo.json)
+  Coordinate transform:
+    svg_x = (raw_x + 999) * 0.05530
+    svg_y = (9851 − raw_y) * 0.05530
+  Simplified with threshold=2.5px. ViewBox: 0 0 600 340
 */
 const REGIONS: Array<{id: CzechRegion; d: string; cx: number; cy: number; fs?: number}> = [
   {
     id: "KARLOVARSKY",
-    d: "M0,88 L65,82 L124,93 L118,130 L111,155 L67,155 L32,136 L0,118 Z",
-    cx: 60, cy: 120,
+    cx: 55.2, cy: 116.6,
+    d: "M37.6,152.6L32.3,148.8L33,143.4L28.3,141.5L13.7,132.5L12.7,127.5L8.8,124.3L8.7,115L5.1,109.3L0.8,106.4L2.7,102L2.7,98.2L0.1,94.8L6.5,95.5L8.8,101.5L13.5,103L13.4,106.7L15.6,109.7L17.5,116.5L20.3,115.9L19.7,111.5L20.6,107.8L22.7,103.4L25.5,100.7L28.4,95.8L34.8,91.9L35.4,88.6L38.6,86.1L42.2,85.2L48.8,84.9L53.4,85.9L57.6,81.9L60.2,80.4L66.5,79.7L74.5,84.9L78.2,84.4L82.6,87.9L88.3,88.7L91.5,92.6L96.4,93.3L100.1,94.8L101.9,109.3L104.8,119.4L102.5,123L106.2,126.5L104.2,129L104.7,133.1L99.5,134L100,140.5L96.7,141.1L93.6,137.5L87.5,136.1L84.2,138.8L75.9,143.1L73.7,149.9L69,148.9L65.7,150.6L62.8,148.3L56,147.9L52.6,151.3L49.3,151.5L45.8,150.7L41.8,153.5Z",
   },
   {
     id: "USTECKY",
-    d: "M0,0 L217,0 L258,62 L220,80 L170,82 L124,93 L65,82 L0,88 Z",
-    cx: 114, cy: 44,
+    cx: 162.2, cy: 69.4,
+    d: "M106.2,126.5L102.5,123L104.8,119.4L101.4,111.3L101.1,96.4L96.4,93.3L91.5,92.6L88.3,88.7L82.6,87.9L78.2,84.4L81.5,81.2L82.8,73.1L88.1,73.5L91.4,72.5L96.1,72.9L99.5,69.1L102.6,61.3L107.2,63.3L110.5,58.7L115.7,55.7L118,59.1L121.5,59.7L126,55.4L128.3,50.9L127.7,46.9L131.3,44.8L135.3,44.2L143.1,44.4L148.1,42.9L155.6,42.9L159.8,40.4L159.6,37.5L160.8,35.2L163.5,35.3L166.7,32.3L173.3,32.4L186.9,26.3L190.5,22L193.7,21.3L200.5,22L203,19.9L203.6,16.4L198.1,14.1L195.9,11.9L196.9,9.6L191.2,7.9L193.4,2.5L195.5,0.4L198.3,0L201.5,1.1L205.1,3.8L207.5,2.7L210.6,2.9L212.4,0.5L213.3,3.3L217.5,5.8L220.3,9L220.4,12.4L218.2,17.8L224,16.5L223.2,25.9L221.9,28.1L218.7,29L217,34.5L210.4,30.1L207.9,36.3L205.9,39.2L205.6,41.7L203.2,44L199.6,51.2L204.4,66.7L210.6,71.9L211.2,75L209.1,81.2L204,84.8L201.2,83.9L201.8,91.7L200,94.9L194.6,95.5L190.2,98.1L187.4,97L180.4,98.1L174.4,96.7L169,97.3L167.6,102.5L164.2,103L158.9,106.2L155.7,108.9L153,107.9L144.6,112.2L139.4,112.2L133.8,116.1L127.5,118.7L124.9,123.1L120.7,127L116.4,129.7L113.2,130.9L108.4,129.4Z",
   },
   {
     id: "LIBERECKY",
-    d: "M217,0 L314,26 L330,55 L340,82 L295,78 L258,62 Z",
-    cx: 284, cy: 40, fs: 8.5,
+    cx: 242.2, cy: 46, fs: 8.5,
+    d: "M268.7,72.4L265.6,69.6L263.9,63.9L260.4,64.1L258.2,61.7L253,60.2L249.3,60.4L245.3,64.9L242,69.3L238.1,72.1L231.3,76L223.5,78L220.1,75.2L216.1,74.7L211.2,75L210.6,71.9L204.4,66.7L199.6,51.2L203.2,44L205.6,41.7L205.9,39.2L207.9,36.3L208.9,30.7L214.9,34.9L218.7,29L221.9,28.1L223.2,25.9L231.2,31L234.4,31.7L237.7,31.4L240.8,25.2L245.8,24.4L255.6,25.1L255.9,17L256.9,11.4L253.8,6.8L256.9,4.7L263.6,5.4L266.6,8.4L268.6,5L272,8.8L276.9,8.8L279.3,10L280.6,12.2L279.2,17.5L280.3,21.9L282.2,25.7L286.9,28.8L287.9,31.4L287.7,35.4L292.1,33.4L295.7,33.1L302.7,35.5L304,39.4L306.9,45.3L306.4,50.2L307.1,55.1L308.6,57.2L308.6,64.5L311.7,71.3L311.4,74.7L303.6,74.1L300.8,71.4L297,71.9L296,77.5L294.3,79.8L291.7,78.3L287.3,73.5L283.5,72L277.9,76.7L271.4,72.4Z",
   },
   {
     id: "KRALOVEHRADECKY",
-    d: "M314,26 L376,51 L382,94 L370,140 L325,145 L308,128 L340,82 Z",
-    cx: 348, cy: 96,
+    cx: 345.4, cy: 92.5,
+    d: "M293.5,128.8L292.1,125.3L288.7,121.9L290.9,117.8L288.8,110.6L287.8,104.8L282.2,104.4L275.1,103.4L274.2,100L272.4,97.9L268,96L268.1,90.6L269.9,87.4L269.2,79.4L267.9,75.2L268.7,72.4L271.4,72.4L276.3,76.5L281.7,72.4L287.3,73.5L291.7,78.3L294.3,79.8L296,77.5L297,71.9L300.8,71.4L303.6,74.1L310.3,75.2L311.7,71.3L308.6,64.5L308.6,57.2L307.1,55.1L306.4,50.2L306.9,45.3L304,39.4L302.7,35.5L313.2,39.1L316.9,42.4L324.1,40.6L326.8,42.5L331.2,50L334.2,50L339.4,48.1L342,49.4L344,53.4L344.3,56.9L343.1,59.7L346.8,58.9L352.1,53.6L355.8,53.9L359.9,56.6L362.5,54.9L363.7,51.7L368,51.5L373.5,53.6L381.1,61.4L382,64L379.2,65.1L378.3,71.4L375.8,74.4L371.4,74L369.4,76.3L363.5,80.3L361.7,84.1L362.5,86.5L365.4,86.9L366.6,90.5L370.5,91.1L374.4,91L376.2,96.2L377.8,98.3L383.7,101L389.8,110.5L392.6,113.2L394.7,120.4L397.1,124.1L387.7,121.3L385.7,126.9L376.6,131.4L375.1,135L372.9,136.8L365.1,137.6L362.4,139.2L356.1,134L352.9,132.2L350.8,129.1L345.7,128.1L343.5,121.6L341,120.9L336.5,121.4L331,127L328.7,124.9L327,120.8L322.7,122.1L320.6,127.4L314.9,125.4L310.8,126.2L307.4,124.5L304.4,125.5L299,130.6Z",
   },
   {
     id: "PARDUBICKY",
-    d: "M376,51 L412,88 L416,167 L376,155 L370,140 L382,94 Z",
-    cx: 400, cy: 116,
+    cx: 358.7, cy: 160.3, fs: 8.5,
+    d: "M416.9,195.1L409.3,192.5L404.1,192.6L401.5,191.8L396.7,191.9L394.2,196.2L383.7,197.4L371.9,192.7L369.9,189.8L365.3,186.7L360.8,184.9L356.6,185.1L352.8,181.9L345.8,179.4L344.5,181.8L339.6,184.9L333.7,183.9L332.3,181.1L327.3,177.2L324.4,173.1L316.4,169.1L309.7,169.7L304.1,162.6L300.3,160.1L302.1,149.8L298,146.4L294.7,143.3L289,140.7L287.3,138.4L292,136.5L293.5,128.8L299,130.6L304.4,125.5L307.4,124.5L310.8,126.2L314.9,125.4L320.6,127.4L322.7,122.1L327,120.8L328.7,124.9L331,127L336.5,121.4L341,120.9L343.5,121.6L345.7,128.1L350.8,129.1L352.9,132.2L356.1,134L362.4,139.2L365.1,137.6L372.9,136.8L375.1,135L376.6,131.4L385.7,126.9L387.7,121.3L397.1,124.1L400.2,126.9L404,128.7L407.6,128.4L412.1,123.2L415.6,117.3L417.5,115.5L422.1,115L419,123.6L417,131.1L417.3,136.5L410.2,142.3L412.3,152.5L412.5,159.5L411.2,164.9L417.1,175.4L420.6,180.7L421.3,185.4L418.6,188.3L417.8,194.2Z",
   },
   {
     id: "PLZENSKY",
-    d: "M0,118 L32,136 L67,155 L111,155 L130,165 L156,173 L161,200 L161,235 L94,272 L49,231 L0,198 Z",
-    cx: 68, cy: 196,
+    cx: 94.2, cy: 199,
+    d: "M106.2,126.5L108.4,129.4L113.2,130.9L116.4,129.7L117.3,132.4L116.3,136.1L121.7,136.1L125.9,137.8L130.1,142L136.4,142.4L139.8,143.8L143.2,147.3L146.1,148.2L151.9,152.7L153.7,160.8L149.8,168.1L150,171.1L148.9,175.6L150.6,178.4L147,181.8L142.2,183.5L140.4,185.8L140.8,189.3L141.7,194.2L144.8,197.6L144.8,202.5L146.7,205.9L145.9,212.4L148.2,219.6L147.3,226.2L147.9,232.4L143.7,241.1L140.8,243.3L141.1,246.9L140,249.7L142,252.4L138.9,255L135.5,260.6L131.9,262.2L130.3,267.2L130.5,271.3L125.6,277.9L123.6,283.4L119.9,287.7L115,284.5L111.2,279.9L111.3,276L110.3,273.6L103.9,265.9L101,264.2L95.6,263.8L93.1,262.2L90.5,257.2L82.4,245.5L78.5,241.3L77.6,237.6L70.8,232.2L67.4,231.2L59.6,232.6L56.4,230.4L53.7,223.7L51.9,221.8L46.2,218.2L44.8,214L44.7,207.1L42.1,206.3L39.4,201.3L38.8,196.6L37.3,194L34.3,191.7L34.8,188.1L34.1,184.8L27.4,180.3L24.4,174.4L30.7,169.5L31.8,162.5L36.4,157.3L37.6,152.6L41.8,153.5L45.8,150.7L49.3,151.5L52.6,151.3L56,147.9L62.8,148.3L65.7,150.6L69,148.9L72.7,150.5L75.9,143.1L84.2,138.8L87.5,136.1L93.6,137.5L96.7,141.1L100,140.5L99,136.4L104.7,133.1L104.2,129Z",
   },
   {
     id: "STREDOCESKY",
-    d: "M124,93 L170,82 L220,80 L258,62 L295,78 L308,128 L325,145 L370,140 L376,155 L360,185 L340,190 L308,203 L260,200 L248,198 L210,190 L178,180 L156,173 L130,165 L111,155 Z",
-    cx: 252, cy: 152,
+    cx: 250.1, cy: 150,
+    d: "M293.5,128.8L292,136.5L287.3,138.4L289,140.7L294.7,143.3L298,146.4L301.1,148.1L300.3,160.1L299.8,163.7L297.2,166.3L296,170.7L291.3,171.4L287.6,174.6L280.9,178L278.5,177.2L275.7,181L272.9,184.4L272.8,187.3L276.8,190.3L278.5,194.3L271.2,199.4L264.7,199.1L260.4,199.8L255.6,198.3L255.2,201L250.3,205.7L246.9,202L242.2,201.2L236.8,196.2L233.7,199.2L233.3,203.6L231.5,205.5L228,206.4L224.5,209L220.5,209.1L209.4,207.8L203.2,206.7L197.4,209L193.3,204.9L188.2,204.6L184.8,206.9L179.6,207.5L173.8,206.7L168.9,206.3L167.4,209.3L160.4,212.1L151.1,209.4L145.9,212.4L146.7,205.9L144.8,202.5L144.8,197.6L141.7,194.2L142.2,190.9L142.1,187.6L142.2,183.5L147,181.8L150.6,178.4L148.9,175.6L150,171.1L149.8,168.1L151.5,161.4L151.9,152.7L147.3,150.2L143.2,147.3L139.8,143.8L136.4,142.4L130.1,142L125.9,137.8L121.7,136.1L117,137.4L117.3,132.4L116.4,129.7L120.7,127L124.9,123.1L127.5,118.7L133.8,116.1L139.4,112.2L144.6,112.2L153,107.9L155.7,108.9L158.9,106.2L164.2,103L167.6,102.5L169,97.3L174.4,96.7L180.4,98.1L187.4,97L190.2,98.1L194.6,95.5L200,94.9L201.8,91.7L201.2,83.9L204,84.8L209.1,81.2L210.1,76.5L216.1,74.7L220.1,75.2L221.1,78L231.3,76L238.1,72.1L242,69.3L245.3,64.9L249.3,60.4L253,60.2L258.2,61.7L260.4,64.1L263.9,63.9L265.6,69.6L268.7,72.4L267.9,75.2L269.2,79.4L269.9,87.4L268.1,90.6L268,96L272.4,97.9L274.2,100L275.1,103.4L282.2,104.4L287.8,104.8L288.8,110.6L290.9,117.8L288.7,121.9L292.1,125.3Z",
   },
   {
     id: "Praha",
-    d: "M199,115 L212,110 L220,118 L216,131 L203,132 Z",
-    cx: 210, cy: 124, fs: 8,
+    cx: 209.2, cy: 134.1, fs: 7.5,
+    d: "M225,127L228.3,129.3L229.1,132L225.9,135.4L226.6,141.8L220.8,143.7L215.8,143.3L212.6,145.8L208.6,147.1L202.2,148.1L198.5,149.6L196.5,144.7L194.2,141.9L192.5,137.8L190.1,134.7L187.7,129.5L189.7,127.7L193.9,126.2L197.6,127.2L199.5,123.6L211.1,120.3L215.5,119.8L221,124.8Z",
   },
   {
     id: "VYSOCINA",
-    d: "M376,155 L416,167 L416,207 L400,240 L398,258 L365,262 L350,262 L310,248 L286,240 L308,203 L340,190 L360,185 Z",
-    cx: 358, cy: 222,
+    cx: 318.8, cy: 226.3,
+    d: "M381.5,197.3L379.9,203.2L382.6,206.9L382.5,211.9L379.9,212.4L380,221.9L382,228.2L374,235.5L371.6,239.1L372.5,244.1L369.5,246.8L369.4,251.6L371.9,254.8L370.1,257.8L370.6,262.8L368,267.9L361.7,270.1L357.8,274.2L351.5,273.2L349,274.8L345.2,274.7L343.4,272.3L339.9,275.6L335.9,279.5L332.8,279.2L330.2,280.4L323.8,286.4L320,284L315.6,287.2L312.3,284.8L309.2,284.9L304.7,282.6L302.3,280.1L302.5,277.6L305.8,273.6L307,269.6L311.2,268.4L306.1,262.6L301.7,263.8L293.4,263.2L289.1,259.1L287.1,252.3L281.9,251.5L275.8,248.5L272,251.7L268.3,249.3L265.9,246.1L259.9,241.7L255.2,243.4L250.1,239.2L249.5,234.3L246.9,228.9L248.8,221.4L248.7,216.7L247.4,211.9L251.3,210.1L250.3,205.7L253.4,201.9L255.6,198.3L260.4,199.8L264.7,199.1L271.2,199.4L278.3,196L276.8,190.3L272.8,187.3L272.9,184.4L275.7,181L276.6,178.2L280.9,178L287.6,174.6L291.3,171.4L296,170.7L297.2,166.3L299.8,163.7L300.3,160.1L304.1,162.6L309.7,169.7L316.4,169.1L322.1,172.6L327.3,177.2L332.3,181.1L333.7,183.9L339.6,184.9L344.5,181.8L345.8,179.4L352.8,181.9L356.6,185.1L360.8,184.9L365.3,186.7L369.9,189.8L371.9,192.7Z",
   },
   {
     id: "JIHOCESKY",
-    d: "M156,173 L178,180 L210,190 L248,198 L260,200 L308,203 L286,240 L310,248 L350,262 L316,268 L280,272 L210,285 L141,310 L94,272 L161,235 L161,200 Z",
-    cx: 198, cy: 262,
+    cx: 202.4, cy: 265.7,
+    d: "M309.2,284.9L306.5,293.7L299.9,289.1L287.6,283.9L283.4,283.8L281,282.8L278.8,287.2L270.1,289.1L270.7,285.2L269.6,281.4L262.6,280.9L257.6,279.2L254,284.4L254.4,296.2L251.6,307.6L252.8,310.6L251.7,313.1L245.2,311.3L239.1,311.1L236.8,318.4L232,322.5L230.3,325.3L229.5,336.8L226.2,338.5L224,335L221,334.7L218.9,332.5L213.7,333.8L210.1,331.9L207.9,329.3L204.5,335.6L194.9,340.9L185.9,337.6L173,336.1L169.9,334.7L166.8,329.4L169.3,327.3L164.7,320.2L158.7,316.7L153.3,312.8L149.8,311.7L148,309.8L143.7,301.1L141.7,297.7L135.4,295.6L132.5,291.8L131.4,286.7L123.6,283.4L125.6,277.9L130.5,271.3L130.3,267.2L131.9,262.2L135.5,260.6L138.9,255L142,252.4L140,249.7L141.1,246.9L140.8,243.3L143.7,241.1L147.9,232.4L147.3,226.2L148.2,219.6L145.9,212.4L151.1,209.4L160.4,212.1L167.4,209.3L168.9,206.3L171.9,205.3L179.6,207.5L184.8,206.9L188.2,204.6L191.4,204.1L197.4,209L203.2,206.7L209.4,207.8L219.3,207.5L224.5,209L228,206.4L231.5,205.5L233.3,203.6L233.7,199.2L236.8,196.2L241.3,199L246.9,202L249,205.4L252.2,208.3L247.4,211.9L248.7,216.7L248.8,221.4L246.9,228.9L249.5,234.3L250.1,239.2L255.2,243.4L259.9,241.7L265.9,246.1L268.3,249.3L272,251.7L275.8,248.5L281.9,251.5L287.1,252.3L289.1,259.1L293.4,263.2L301.7,263.8L306.1,262.6L310.5,266.8L307,269.6L305.8,273.6L302.5,277.6L302.3,280.1L304.7,282.6Z",
   },
   {
     id: "JIHOMORAVSKY",
-    d: "M350,262 L365,262 L398,258 L416,207 L491,226 L460,262 L496,286 L448,305 L430,310 L385,298 L347,285 L316,268 Z",
-    cx: 422, cy: 276,
+    cx: 409.4, cy: 276.3,
+    d: "M497.1,298L487.1,302.3L483.8,301.9L479.6,298.5L472.5,301.9L462,297L457.7,296L453.6,297L448.9,300.6L447.6,304.5L443.3,309L441.2,312.9L436.9,326.2L434.5,330L434.4,332.6L431.1,329L429.6,320L427.4,317L420.7,318.5L414.3,315.3L410.8,315.5L408.2,314.5L406.3,309.3L394.2,305.9L389,306.4L383.1,315.4L380.6,316.8L364.2,314.4L355.8,315.1L351,313.1L339.6,304.8L337.5,301.7L333.3,300.7L331.4,297.6L327.8,297.8L323.1,300.1L319,299.6L311.9,295.7L306.5,293.7L308.8,286.9L312.3,284.8L314,287.4L318.1,284L323.8,286.4L330.2,280.4L332.8,279.2L335.9,279.5L337.7,276L343.4,272.3L345.2,274.7L349,274.8L351.5,273.2L357.8,274.2L361.7,270.1L368,267.9L370.6,262.8L370.1,257.8L371.9,254.8L369.4,251.6L369.5,246.8L372.5,244.1L371.6,239.1L374,235.5L381.7,230.6L380,221.9L379.9,212.4L382.5,211.9L382.6,206.9L379.9,203.2L381.5,197.3L394.2,196.2L396.7,191.9L401.5,191.8L404.1,192.6L409.3,192.5L416,195.3L415.2,198.5L411.5,198.6L413.2,202.5L417.1,206.2L416.2,210L418.6,215.7L417.6,221.8L422.5,225.5L424.9,224.4L427.2,221.1L426.5,216.1L424.8,213.5L424.7,210.7L427.2,209.2L430.8,210.6L432.6,212.8L434.9,219.5L439.1,223.4L440.6,229.3L445.5,231L447.4,232.8L450.2,237.7L450.3,240.3L448.8,243.3L449.6,248.1L452.1,252.1L454.5,253.4L455.6,255.9L451.5,259L447.5,264.1L450.5,267.2L456.4,265.5L457.8,271.7L462.7,275L468.3,276L469.9,280.2L473.2,281.5L475.9,284.2L480.7,282.7L485.5,283.8L487.5,288.4L493.1,290L495.3,292.5L497.1,298Z",
   },
   {
     id: "OLOMOUCKY",
-    d: "M412,88 L509,88 L535,220 L510,225 L491,226 L416,207 L416,167 Z",
-    cx: 468, cy: 164,
+    cx: 445.5, cy: 162,
+    d: "M517.1,203.1L515.8,206.7L512.9,206.8L510.2,205.5L506.6,210.6L506.7,214.8L504.4,215.9L496.4,214.6L492.5,215.9L493.5,218.8L491.6,221.1L485.2,221.2L481.1,223.7L479.8,226.2L471.2,224L468.9,222.2L465.3,221.5L464.9,226.1L466.5,229.3L461.3,236.1L454.5,236.6L452.8,240.6L450.3,240.3L450.2,237.7L447.4,232.8L445.5,231L440.6,229.3L439.1,223.4L434.9,219.5L432.6,212.8L430.8,210.6L427.2,209.2L424.7,210.7L424.8,213.5L426.5,216.1L427.2,221.1L424.9,224.4L422.5,225.5L417.6,221.8L418.6,215.7L416.2,210L417.1,206.2L413.2,202.5L411.5,198.6L415.2,198.5L416.9,195.1L418.6,188.3L421.3,185.4L420.6,180.7L417.3,177.7L411.2,164.9L412.5,159.5L412.3,152.5L410.2,142.3L417.3,136.5L417,131.1L419,123.6L422.1,115L426.4,111.2L429.6,111.5L430,109L434.3,111.9L434.6,108.9L432.2,101.6L426.6,97.1L423.9,89L421,85L423.3,81.6L429.2,83.9L440.2,85.9L443.3,88.1L448.4,88L451.6,94.1L456.9,96.4L461,96.2L462.6,99.3L462.7,102.8L464.6,105.1L465.5,102.5L469.1,110.4L466.2,113.9L461.6,116.8L454.5,121.1L452.7,124.3L451.4,129.7L452.1,135.6L447.1,143.1L446.5,146.1L449.8,151.1L447.4,154.6L446.7,161L448.6,163.1L452.5,163.5L454,166.3L461.6,169.9L466,168.6L473.1,175.7L478.9,176.5L481.9,174.5L485.3,176.6L490.7,175.5L493.3,176.7L496,179.6L496.1,185.8L501,185.6L503.9,191.2L507.4,193L510.9,196.2L511.9,200.1L514.5,200.7L517.1,203.1Z",
   },
   {
     id: "ZLINSKY",
-    d: "M491,226 L510,225 L535,220 L549,249 L530,267 L496,286 L460,262 Z",
-    cx: 506, cy: 255,
+    cx: 494, cy: 250.4,
+    d: "M560.9,221.8L561,226.7L555.8,231.2L543.9,236.4L541.3,239L539.3,242.6L536.8,251.4L537.1,262.1L536.6,265.1L534.9,268.4L532.3,271L529.3,272.5L524.5,272.2L520.5,274L519.4,276.4L518.3,282.7L516.1,286.3L510.2,286.7L505.9,293.5L497.1,298L495.3,292.5L493.1,290L487.5,288.4L485.5,283.8L480.7,282.7L477.8,284.4L473.2,281.5L469.9,280.2L468.3,276L462.7,275L458.9,273.4L457.5,265.8L450.5,267.2L447.5,264.1L451.5,259L455.6,255.9L454.5,253.4L452.1,252.1L449.6,248.1L448.8,243.3L450.3,240.3L452.8,240.6L454.5,236.6L461.3,236.1L465.5,231.4L464.9,226.1L465.3,221.5L468.9,222.2L471.2,224L477.8,226.7L481.1,223.7L485.2,221.2L491.6,221.1L493.5,218.8L492.5,215.9L496.4,214.6L504.4,215.9L506.7,214.8L506.6,210.6L510.2,205.5L512.9,206.8L515.8,206.7L517.1,203.1L521,202.9L524.7,207.4L538.6,205.4L542.8,207.7L549.6,207.3L553.7,212.2L556.5,214.4L558.9,221.3Z",
   },
   {
     id: "MORAVSKOSLEZSKY",
-    d: "M509,88 L549,88 L599,137 L599,206 L575,240 L549,249 L535,220 Z",
-    cx: 552, cy: 164,
+    cx: 526.3, cy: 167.9,
+    d: "M517.1,203.1L514.5,200.7L511.9,200.1L510.9,196.2L507.4,193L503.9,191.2L501,185.6L496.1,185.8L496,179.6L493.3,176.7L490.7,175.5L485.3,176.6L481.9,174.5L478.9,176.5L473.1,175.7L466,168.6L461.6,169.9L454,166.3L452.5,163.5L448.6,163.1L446.7,161L447.4,154.6L449.8,151.1L446.5,146.1L447.1,143.1L452.1,135.6L451.4,129.7L452.7,124.3L454.5,121.1L461.6,116.8L464.4,113.1L468.4,112.5L467.4,102.3L469.4,103.8L470.3,106.3L474.6,103.1L478.8,102.5L486.7,103.6L490.2,101.8L493.3,95.9L497.9,98.9L496.9,105.4L499.4,108.8L493.2,114.9L485.7,116.7L485.3,119.2L489.8,124.4L493.8,124.1L498.6,125.7L499.7,130.3L501.7,135.2L508.8,142L512,142.6L515.2,141.5L517.7,139L522.8,138.2L526.1,136.7L523.3,134.5L522.8,131.4L525.5,131.9L530.8,135.1L530.4,137.7L537.3,139.8L541.5,142.8L545.8,144.3L547.5,148L552.9,146.8L555.9,145.8L559.4,146.8L566.1,150.1L571.6,147.6L574,154.6L576.3,155.8L574.1,158.7L574.3,162.4L578.3,170.7L579.4,174.7L581.3,176.5L585.3,176.8L589.5,180.4L593.5,179.2L595.3,181.2L596.2,185.9L598.3,190.7L599.8,196.5L600,201.7L594.7,202.7L591.2,206.2L588.7,206.5L583.1,204.5L579.4,206L575.4,205.7L572,212.6L569.1,214.3L565.5,219.2L560.9,220.1L556.5,214.4L553.7,212.2L551.6,208.3L542.8,207.7L538.6,205.4L524.7,207.4L521,202.9L517.1,203.1Z",
   },
 ];
+
 
 type Props = {
   selected: CzechRegion | null;
@@ -145,37 +147,41 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
   return (
     <div className="w-full select-none">
 
-      {/* ── Desktop SVG map ─────────────────────────────────── */}
+      {/* ── Desktop map ───────────────────────────────────────── */}
       <div className="hidden sm:block">
         <div
           className="relative rounded-3xl overflow-hidden"
           style={{
-            background: "radial-gradient(ellipse 80% 60% at 40% 30%, rgba(35,16,2,0.98) 0%, rgba(8,4,0,1) 100%)",
-            border: "1px solid rgba(255,121,24,0.18)",
-            boxShadow: "0 0 0 1px rgba(255,255,255,0.03), 0 20px 80px rgba(0,0,0,0.7), 0 0 120px rgba(255,90,0,0.04) inset",
+            background: "radial-gradient(ellipse 80% 60% at 35% 35%, rgba(30,14,2,0.99) 0%, rgba(6,3,0,1) 100%)",
+            border: "1px solid rgba(255,121,24,0.15)",
+            boxShadow: "0 0 0 1px rgba(255,255,255,0.025), 0 24px 80px rgba(0,0,0,0.7), inset 0 0 120px rgba(255,70,0,0.025)",
           }}
         >
-          {/* dot-grid texture */}
-          <div className="absolute inset-0 pointer-events-none" style={{
-            backgroundImage: "radial-gradient(rgba(255,255,255,0.055) 1px, transparent 1px)",
-            backgroundSize: "18px 18px",
+          {/* dot texture */}
+          <div className="absolute inset-0 pointer-events-none opacity-40" style={{
+            backgroundImage: "radial-gradient(rgba(255,255,255,0.05) 1px, transparent 1px)",
+            backgroundSize: "20px 20px",
           }}/>
 
-          {/* Ambient bottom glow */}
-          <div className="absolute bottom-0 inset-x-0 h-32 pointer-events-none" style={{
-            background: "radial-gradient(ellipse 70% 100% at 50% 100%, rgba(255,90,0,0.06) 0%, transparent 70%)",
+          {/* ambient bottom glow */}
+          <div className="absolute bottom-0 inset-x-0 h-28 pointer-events-none" style={{
+            background: "radial-gradient(ellipse 70% 100% at 50% 100%, rgba(255,80,0,0.05) 0%, transparent 70%)",
           }}/>
 
-          <svg viewBox="0 0 600 315" className="relative w-full block pt-5 pb-2 px-1">
+          <svg
+            viewBox="0 0 600 341"
+            className="relative w-full block py-5 px-3"
+            aria-label="Interaktivní mapa krajů České republiky"
+          >
             <defs>
-              {/* Extrusion / depth filter */}
+              {/* Extrusion depth filter */}
               <filter id="depth" x="-10%" y="-10%" width="130%" height="130%">
-                <feDropShadow dx="0" dy="0" stdDeviation="1.5" floodColor="rgba(0,0,0,0.9)"/>
+                <feDropShadow dx="0" dy="0" stdDeviation="1.2" floodColor="rgba(0,0,0,0.85)"/>
               </filter>
 
-              {/* Outer glow — selected */}
+              {/* Strong glow — selected */}
               <filter id="glow-sel" x="-30%" y="-30%" width="160%" height="160%">
-                <feGaussianBlur stdDeviation="7" result="blur"/>
+                <feGaussianBlur stdDeviation="6" result="blur"/>
                 <feFlood floodColor="rgba(255,121,24,0.65)" result="c"/>
                 <feComposite in="c" in2="blur" operator="in" result="glow"/>
                 <feMerge>
@@ -186,7 +192,7 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
 
               {/* Soft glow — hover */}
               <filter id="glow-hov" x="-20%" y="-20%" width="140%" height="140%">
-                <feGaussianBlur stdDeviation="4" result="blur"/>
+                <feGaussianBlur stdDeviation="3.5" result="blur"/>
                 <feFlood floodColor="rgba(255,153,2,0.45)" result="c"/>
                 <feComposite in="c" in2="blur" operator="in" result="glow"/>
                 <feMerge>
@@ -195,32 +201,45 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                 </feMerge>
               </filter>
 
-              {/* Fills */}
+              {/* Fill gradients */}
               <linearGradient id="f-sel" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="#FFBA40"/>
-                <stop offset="50%" stopColor="#FF7918"/>
-                <stop offset="100%" stopColor="#E85800"/>
+                <stop offset="0%" stopColor="#FFCE50"/>
+                <stop offset="45%" stopColor="#FF7918"/>
+                <stop offset="100%" stopColor="#E04800"/>
               </linearGradient>
               <linearGradient id="f-hov" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,180,60,0.52)"/>
-                <stop offset="100%" stopColor="rgba(220,90,0,0.38)"/>
+                <stop offset="0%" stopColor="rgba(255,190,70,0.50)"/>
+                <stop offset="100%" stopColor="rgba(210,80,0,0.35)"/>
               </linearGradient>
               <linearGradient id="f-active" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,140,30,0.28)"/>
-                <stop offset="100%" stopColor="rgba(200,80,0,0.18)"/>
+                <stop offset="0%" stopColor="rgba(255,150,30,0.30)"/>
+                <stop offset="100%" stopColor="rgba(190,70,0,0.18)"/>
               </linearGradient>
               <linearGradient id="f-idle" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,255,255,0.085)"/>
-                <stop offset="100%" stopColor="rgba(255,255,255,0.028)"/>
+                <stop offset="0%" stopColor="rgba(255,255,255,0.09)"/>
+                <stop offset="100%" stopColor="rgba(200,200,255,0.025)"/>
               </linearGradient>
 
-              {/* Rim-light gradient for selected (top-left bright edge) */}
+              {/* Rim-light for selected */}
               <linearGradient id="rim" x1="0%" y1="0%" x2="100%" y2="100%">
-                <stop offset="0%" stopColor="rgba(255,220,100,0.6)"/>
-                <stop offset="40%" stopColor="rgba(255,180,60,0.0)"/>
+                <stop offset="0%" stopColor="rgba(255,230,110,0.55)"/>
+                <stop offset="35%" stopColor="rgba(255,180,60,0.0)"/>
               </linearGradient>
             </defs>
 
+            {/* Extrusion shadow layer (all regions, non-interactive) */}
+            {REGIONS.map(({id, d}) => (
+              <path
+                key={`sh-${id}`}
+                d={d}
+                fill="rgba(0,0,0,0.45)"
+                stroke="none"
+                transform="translate(2.5,3.5)"
+                style={{pointerEvents: "none"}}
+              />
+            ))}
+
+            {/* Region faces */}
             {REGIONS.map(({id, d, cx, cy, fs = 9.5}) => {
               const isSel   = selected === id;
               const isHov   = hovered === id;
@@ -228,22 +247,20 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
               const hasDeal = count > 0;
 
               const fill   = isSel ? "url(#f-sel)" : isHov ? "url(#f-hov)" : hasDeal ? "url(#f-active)" : "url(#f-idle)";
-              const stroke = isSel ? "rgba(255,200,80,0.9)" : isHov ? "rgba(255,140,40,0.7)" : hasDeal ? "rgba(255,110,20,0.3)" : "rgba(255,255,255,0.12)";
-              const sw     = isSel ? 1.5 : isHov ? 1.2 : 0.8;
+              const stroke = isSel ? "rgba(255,210,90,0.9)" : isHov ? "rgba(255,150,50,0.7)" : hasDeal ? "rgba(255,110,20,0.35)" : "rgba(255,255,255,0.10)";
+              const sw     = isSel ? 1.4 : isHov ? 1.1 : 0.7;
               const flt    = isSel ? "url(#glow-sel)" : isHov ? "url(#glow-hov)" : "url(#depth)";
 
               const textFill = isSel
-                ? "#1a0800"
+                ? "#1a0600"
                 : isHov
-                  ? "#fff"
+                  ? "rgba(255,255,255,0.96)"
                   : hasDeal
-                    ? "rgba(255,180,80,0.95)"
-                    : "rgba(255,255,255,0.38)";
+                    ? "rgba(255,175,70,0.95)"
+                    : "rgba(255,255,255,0.36)";
 
-              // Badge placement (top-right of label text)
-              const textHalf = SHORT[id].length * (fs ?? 9.5) * 0.32;
-              const bx = cx + textHalf + 9;
-              const by = cy - (fs ?? 9.5) * 1.15;
+              const badgeX = cx + SHORT[id].length * (fs * 0.32) + 8;
+              const badgeY = cy - fs * 1.1;
 
               return (
                 <g
@@ -253,16 +270,6 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                   onMouseLeave={() => setHovered(null)}
                   style={{cursor: "pointer"}}
                 >
-                  {/* 3D extrusion shadow */}
-                  <path
-                    d={d}
-                    fill="rgba(0,0,0,0.55)"
-                    stroke="none"
-                    transform="translate(3,4)"
-                    style={{pointerEvents: "none"}}
-                  />
-
-                  {/* Main face */}
                   <path
                     d={d}
                     fill={fill}
@@ -270,16 +277,16 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                     strokeWidth={sw}
                     strokeLinejoin="round"
                     filter={flt}
-                    style={{transition: "fill 0.18s ease, stroke 0.18s ease, filter 0.18s ease"}}
+                    style={{transition: "fill 0.16s ease, stroke 0.16s ease"}}
                   />
 
-                  {/* Rim-light overlay for selected */}
+                  {/* Rim light on selected */}
                   {isSel && (
                     <path
                       d={d}
                       fill="url(#rim)"
                       stroke="none"
-                      opacity={0.55}
+                      opacity={0.5}
                       style={{pointerEvents: "none"}}
                     />
                   )}
@@ -287,16 +294,12 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                   {/* Label */}
                   <text
                     x={cx}
-                    y={cy + (fs ?? 9.5) * 0.35}
+                    y={cy + fs * 0.38}
                     textAnchor="middle"
                     fontSize={fs}
                     fontWeight={isSel ? "800" : isHov ? "700" : hasDeal ? "600" : "500"}
                     fill={textFill}
-                    style={{
-                      pointerEvents: "none",
-                      transition: "fill 0.18s ease",
-                      letterSpacing: isSel ? "0.02em" : "0",
-                    }}
+                    style={{pointerEvents: "none", transition: "fill 0.16s ease"}}
                   >
                     {SHORT[id]}
                   </text>
@@ -305,17 +308,17 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                   {hasDeal && (
                     <>
                       <circle
-                        cx={bx} cy={by} r={8.5}
-                        fill={isSel ? "rgba(0,0,0,0.5)" : "#FF7918"}
-                        stroke={isSel ? "rgba(255,200,100,0.5)" : "rgba(255,180,80,0.4)"}
-                        strokeWidth={0.8}
+                        cx={badgeX} cy={badgeY} r={8}
+                        fill={isSel ? "rgba(0,0,0,0.45)" : "#FF7918"}
+                        stroke={isSel ? "rgba(255,200,90,0.5)" : "rgba(255,160,60,0.4)"}
+                        strokeWidth={0.7}
                       />
                       <text
-                        x={bx} y={by + 3.5}
+                        x={badgeX} y={badgeY + 3.5}
                         textAnchor="middle"
-                        fontSize={9}
+                        fontSize={8.5}
                         fontWeight="800"
-                        fill={isSel ? "#FFDD99" : "#1a0800"}
+                        fill={isSel ? "#FFDD90" : "#1a0600"}
                         style={{pointerEvents: "none"}}
                       >
                         {count}
@@ -329,8 +332,8 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
 
           {/* Info bar */}
           <div
-            className="flex items-center justify-between gap-3 px-5 py-3 min-h-[46px]"
-            style={{borderTop: "1px solid rgba(255,255,255,0.06)"}}
+            className="flex items-center justify-between gap-3 px-5 py-3 min-h-[44px]"
+            style={{borderTop: "1px solid rgba(255,255,255,0.055)"}}
           >
             {tooltip ? (
               <div className="flex items-center gap-3 min-w-0">
@@ -338,9 +341,9 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                   className="w-2.5 h-2.5 rounded-full flex-shrink-0"
                   style={{
                     background: selected === tooltip
-                      ? "linear-gradient(135deg,#FFBA40,#FF6010)"
+                      ? "linear-gradient(135deg,#FFCE50,#FF5500)"
                       : "rgba(255,121,24,0.4)",
-                    boxShadow: selected === tooltip ? "0 0 8px rgba(255,121,24,0.7)" : "none",
+                    boxShadow: selected === tooltip ? "0 0 8px rgba(255,121,24,0.75)" : "none",
                   }}
                 />
                 <span className="text-sm font-bold text-white truncate">
@@ -353,7 +356,7 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
                 </span>
               </div>
             ) : (
-              <span className="text-xs text-white/30">
+              <span className="text-xs text-white/28">
                 Натисніть на регіон для фільтрації
               </span>
             )}
@@ -369,10 +372,10 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
         </div>
       </div>
 
-      {/* ── Mobile: styled select ────────────────────────────── */}
+      {/* ── Mobile select ──────────────────────────────────────── */}
       <div className="sm:hidden">
         <div className="rounded-2xl overflow-hidden" style={{
-          background: "rgba(25,12,2,0.95)",
+          background: "rgba(22,10,2,0.97)",
           border: "1px solid rgba(255,121,24,0.18)",
         }}>
           <div className="px-4 pt-4 pb-1">
@@ -384,7 +387,7 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
             <select
               value={selected ?? ""}
               onChange={(e) => onSelect((e.target.value as CzechRegion) || null)}
-              className="w-full h-12 rounded-xl border border-[rgba(255,121,24,0.2)] bg-[rgba(15,7,0,0.8)] pl-4 pr-10 text-sm font-semibold text-white outline-none focus:border-[rgba(255,121,24,0.6)] appearance-none"
+              className="w-full h-12 rounded-xl border border-[rgba(255,121,24,0.2)] bg-[rgba(12,6,0,0.9)] pl-4 pr-10 text-sm font-semibold text-white outline-none focus:border-[rgba(255,121,24,0.5)] appearance-none"
             >
               <option value="">Всі регіони</option>
               {REGIONS.map(({id}) => (
@@ -395,8 +398,8 @@ export function CzechRegionMap({selected, onSelect, dealerCounts = {}}: Props) {
               ))}
             </select>
             <div className="absolute right-8 top-1/2 -translate-y-1/2 pointer-events-none text-white/40">
-              <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                <path d="M3 5.5l4 4 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round"/>
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                <path d="M2 4.5l4 4 4-4" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round"/>
               </svg>
             </div>
           </div>

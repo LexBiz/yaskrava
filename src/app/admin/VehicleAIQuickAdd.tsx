@@ -36,6 +36,54 @@ const MAX_PHOTOS = 30;
 
 type ExtraHidden = {name: string; value: string};
 
+// ─── Auto-crop portrait photos to 4:3 landscape ───────────────────────────────
+// Portrait phone photos look bad in landscape cards. This crops them to 4:3
+// at upload time so all stored photos look good in every context.
+function normalizeTo43(file: File): Promise<File> {
+  return new Promise((resolve) => {
+    const img = new Image();
+    const url = URL.createObjectURL(file);
+    img.onload = () => {
+      URL.revokeObjectURL(url);
+      const {width, height} = img;
+
+      // Already landscape or square — nothing to do
+      if (width >= height) {
+        resolve(file);
+        return;
+      }
+
+      // Portrait: crop to 4:3 landscape
+      // Target: use full width, crop height = width * (3/4)
+      const cropW = width;
+      const cropH = Math.round(width * (3 / 4));
+
+      // Start Y: bias toward 35% from top (car body is usually in middle-lower area)
+      const maxY = height - cropH;
+      const startY = Math.max(0, Math.min(maxY, Math.round(maxY * 0.35)));
+
+      const canvas = document.createElement("canvas");
+      canvas.width = cropW;
+      canvas.height = cropH;
+      const ctx = canvas.getContext("2d");
+      if (!ctx) { resolve(file); return; }
+
+      ctx.drawImage(img, 0, startY, cropW, cropH, 0, 0, cropW, cropH);
+
+      canvas.toBlob(
+        (blob) => {
+          if (!blob) { resolve(file); return; }
+          resolve(new File([blob], file.name.replace(/\.\w+$/, ".jpg"), {type: "image/jpeg"}));
+        },
+        "image/jpeg",
+        0.92,
+      );
+    };
+    img.onerror = () => { URL.revokeObjectURL(url); resolve(file); };
+    img.src = url;
+  });
+}
+
 // ─── styles ───────────────────────────────────────────────────────────────────
 
 const INP =
@@ -90,15 +138,19 @@ export function VehicleAIQuickAdd({
     setForm((s) => ({...s, [field]: value}));
   }
 
-  function pickPhotos(fileList: FileList | null) {
+  async function pickPhotos(fileList: FileList | null) {
     if (!fileList) return;
-    const picked = Array.from(fileList)
+    const raw = Array.from(fileList)
       .filter((f) => f.type.startsWith("image/"))
       .slice(0, MAX_PHOTOS);
-    if (!picked.length) return;
+    if (!raw.length) return;
+
+    // Auto-crop portrait photos to 4:3 landscape before preview & upload
+    const normalized = await Promise.all(raw.map(normalizeTo43));
+
     previews.forEach((p) => URL.revokeObjectURL(p));
-    setPreviews(picked.map((f) => URL.createObjectURL(f)));
-    setPhotoFiles(picked);
+    setPreviews(normalized.map((f) => URL.createObjectURL(f)));
+    setPhotoFiles(normalized);
     setError(null);
   }
 

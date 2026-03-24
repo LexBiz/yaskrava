@@ -209,35 +209,40 @@ export function PhotoGallery({
               key={lightboxIndex}
               src={images[lightboxIndex]}
               alt={`${vehicleTitle} ${lightboxIndex + 1}`}
-              className="rounded-lg object-contain"
+              className="object-contain"
               style={{
-                maxHeight: "100%",
-                maxWidth: "100%",
-                /* Padding via max dimensions to leave room for nav buttons */
-                padding: "0 52px",
-                boxSizing: "border-box",
+                /* True edge-to-edge: fill 100% of both dimensions */
+                width: "100%",
+                height: "100%",
+                display: "block",
               }}
               draggable={false}
             />
 
-            {/* Nav buttons — large touch targets */}
+            {/* Nav buttons — semi-transparent overlay, don't push the image */}
             {images.length > 1 && (
               <>
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); prev(); }}
-                  className="absolute left-1 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition active:bg-white/30 hover:bg-white/20 sm:left-3"
+                  className="absolute left-0 top-0 h-full flex items-center justify-start pl-2 pr-4 text-white sm:pl-3"
+                  style={{background: "linear-gradient(to right, rgba(0,0,0,0.35), transparent)"}}
                   aria-label="Previous photo"
                 >
-                  <ChevronLeft className="h-6 w-6" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm">
+                    <ChevronLeft className="h-6 w-6" />
+                  </span>
                 </button>
                 <button
                   type="button"
                   onClick={(e) => { e.stopPropagation(); next(); }}
-                  className="absolute right-1 top-1/2 -translate-y-1/2 flex h-11 w-11 items-center justify-center rounded-full bg-white/10 text-white transition active:bg-white/30 hover:bg-white/20 sm:right-3"
+                  className="absolute right-0 top-0 h-full flex items-center justify-end pr-2 pl-4 text-white sm:pr-3"
+                  style={{background: "linear-gradient(to left, rgba(0,0,0,0.35), transparent)"}}
                   aria-label="Next photo"
                 >
-                  <ChevronRight className="h-6 w-6" />
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-sm">
+                    <ChevronRight className="h-6 w-6" />
+                  </span>
                 </button>
               </>
             )}
